@@ -1,0 +1,186 @@
+{
+  "_comment": [
+    "Source of truth for the generated policy pages. Every claim here is drawn",
+    "from the app's own marketing page in this repo - nothing is invented - but",
+    "marketing copy is not a legal audit. Before publishing, check each app's",
+    "'_verify' list against what the shipped build actually does. A privacy",
+    "policy that overstates what an app does is worse than none at all.",
+    "",
+    "GlowCompare for Windows is NOT generated here: it has a longer hand-written",
+    "policy at glowcompare-windows/privacy.html which this script leaves alone."
+  ],
+
+  "glowcompare": {
+    "name": "GlowCompare Skincare Tracker",
+    "subtitle": "GlowCompare Skincare Tracker for Android",
+    "platform": "Android",
+    "store": "Google Play",
+    "store_url": "https://play.google.com/store/apps/details?id=com.dhinova.glowcompare",
+    "settings_path": "Android Settings → Apps → GlowCompare → Permissions",
+    "uninstall": "Uninstalling GlowCompare through Android removes the app's private storage directory and every photo, routine and note held in it.",
+    "intro": "GlowCompare helps you track skincare progress by taking photos over time, comparing them side by side, managing routines and products, and optionally requesting AI-powered skin analysis.",
+    "local_first": true,
+    "data": [
+      ["Progress photos", "Visual before/after comparison", "On device, in the app's private storage"],
+      ["Skincare routines and product shelf", "Reminders, PAO expiry alerts, conflict warnings", "On device, local database"],
+      ["Notes and metrics", "Your own progress records", "On device, local database"],
+      ["AI analysis requests", "Producing the 7-metric skin report you asked for", "Sent to Google Gemini for processing; see section 5"],
+      ["Purchase records", "Delivering the credits you bought", "Held by Google Play, not by us"]
+    ],
+    "permissions": [
+      ["Camera", "Taking progress photos inside the app. Frames are never streamed anywhere; a photo exists only once you save it."],
+      ["Photos / media", "Importing an existing photo you choose, and saving comparisons you export. We can only see the files you pick."],
+      ["Notifications", "Routine reminders and product expiry alerts, scheduled locally on your device."]
+    ],
+    "third_parties": [
+      ["Google Gemini", "When - and only when - you request an AI skin analysis or use the AI chat, the relevant photo and your question are sent to Google's Gemini API to generate the response. This is the one feature that leaves your device, it is never automatic, and the rest of the app works without it.", "https://policies.google.com/privacy"],
+      ["Google Play Billing", "Processes credit purchases. We receive confirmation that a purchase succeeded; we never see your payment details.", "https://policies.google.com/privacy"]
+    ],
+    "iap": true,
+    "iap_note": "GlowCompare sells one-off AI credits through Google Play Billing. There is no subscription and no auto-renewal. Refunds are handled under Google Play's refund policy.",
+    "_verify": [
+      "Does the shipped Android build send anything to Gemini other than the photo and prompt for an explicit user-initiated analysis?",
+      "Does the app request any permission not listed above (e.g. storage on older API levels)?",
+      "Confirm no crash/analytics SDK (Firebase, Crashlytics) is bundled - the policy states there is none."
+    ]
+  },
+
+  "notelock": {
+    "name": "Notelock",
+    "subtitle": "Notelock encrypted notepad for Windows",
+    "platform": "Windows",
+    "store": "Microsoft Store",
+    "store_url": "https://apps.microsoft.com/detail/9NRQLDJ9ZFCM",
+    "settings_path": "Windows Settings → Apps → Notelock",
+    "uninstall": "Uninstalling Notelock through Windows removes the app and its settings container. Documents you saved yourself stay where you put them, still encrypted.",
+    "intro": "Notelock is a plain-text notepad that encrypts documents with AES-256 before they touch the disk. It opens as fast as Windows Notepad and asks for nothing in return.",
+    "local_first": true,
+    "data": [
+      ["Document contents", "The notes you write", "Encrypted with AES-256 and stored only where you save them"],
+      ["Encryption passwords", "Unlocking your own documents", "Never stored, never transmitted, held in memory only while the document is open"],
+      ["App settings", "Remembering your preferences", "On device, in the app's local settings container"]
+    ],
+    "permissions": [
+      ["File system access", "Opening and saving the documents you choose. Notelock reads nothing you have not opened."]
+    ],
+    "third_parties": [],
+    "iap": false,
+    "_verify": [
+      "Confirm passwords are held in memory only and are zeroed on close.",
+      "Confirm the app makes no network calls at all (including update checks outside the Store)."
+    ]
+  },
+
+  "slouch-guard": {
+    "name": "Slouch Guard",
+    "subtitle": "Slouch Guard real-time AI posture corrector for Windows",
+    "platform": "Windows",
+    "store": "Microsoft Store",
+    "store_url": "https://apps.microsoft.com/detail/9NJH1LC3PQ8N",
+    "settings_path": "Windows Settings → Privacy & security → Camera",
+    "uninstall": "Uninstalling Slouch Guard through Windows removes the app, its settings and its posture history.",
+    "intro": "Slouch Guard watches your posture through your webcam and nudges you with a screen-edge glow when you slouch. The computer-vision engine runs natively on your PC.",
+    "local_first": true,
+    "camera_note": "This is the part of Slouch Guard people ask about most, so to be explicit: webcam frames are analysed in memory on your own machine and are discarded immediately. No frame is written to disk, uploaded, or sent to any server. The app needs the camera on to work at all, and turning the camera off is the reliable way to stop it watching.",
+    "data": [
+      ["Webcam frames", "Detecting your posture in real time", "Processed in memory on your PC and discarded - never written to disk or uploaded"],
+      ["Posture statistics", "Your own session history and trends", "On device, local storage"],
+      ["App settings", "Sensitivity, alert style, schedule", "On device, in the app's local settings container"]
+    ],
+    "permissions": [
+      ["Camera", "Real-time posture detection. Without it the app has nothing to analyse. Revoke it at any time in Windows Settings and Slouch Guard simply stops detecting."]
+    ],
+    "third_parties": [],
+    "iap": false,
+    "_verify": [
+      "Confirm no frame or derived image is ever persisted to disk, including in crash dumps or debug logs.",
+      "Confirm posture statistics contain no image data."
+    ]
+  },
+
+  "aes-vault": {
+    "name": "AES Vault",
+    "subtitle": "AES Vault file and folder encryption for Windows",
+    "platform": "Windows",
+    "store": "Microsoft Store",
+    "store_url": "https://apps.microsoft.com/detail/9N8XWF00VRNJ",
+    "settings_path": "Windows Settings → Apps → AES Vault",
+    "uninstall": "Uninstalling AES Vault removes the app and its shell integration. Files you encrypted stay encrypted and stay where you left them - keep your passwords.",
+    "intro": "AES Vault encrypts files and folders with AES-256-GCM straight from the File Explorer right-click menu. Keys are derived from your password with 600,000 rounds of PBKDF2.",
+    "local_first": true,
+    "data": [
+      ["File contents", "The files you choose to encrypt or decrypt", "Processed locally; output written where you choose"],
+      ["Passwords and derived keys", "Encrypting and decrypting your files", "Never stored and never transmitted; wiped from RAM after use"],
+      ["App settings", "Remembering your preferences", "On device, in the app's local settings container"]
+    ],
+    "permissions": [
+      ["File system access", "Reading the file or folder you right-clicked and writing the result. Nothing else is touched."],
+      ["Shell integration", "Adding the Encrypt / Decrypt entries to the File Explorer context menu."]
+    ],
+    "third_parties": [],
+    "iap": false,
+    "security_note": "AES Vault cannot recover your data if you forget a password. There is no backdoor, no recovery key held by us, and no way for us to help - that is the point of the design, and it is also a real risk you carry. Keep your passwords somewhere safe.",
+    "_verify": [
+      "Confirm the RAM-wiping claim matches the shipped build.",
+      "Confirm no filenames or paths are written to any log that leaves the machine."
+    ]
+  },
+
+  "mortgage-loan-emi-pro": {
+    "name": "Mortgage Loan EMI Pro Insights",
+    "subtitle": "Mortgage Loan EMI Pro Insights for Windows",
+    "platform": "Windows",
+    "store": "Microsoft Store",
+    "store_url": "https://apps.microsoft.com/detail/9PFS2J56BJXR",
+    "settings_path": "Windows Settings → Apps → Mortgage Loan EMI Pro Insights",
+    "uninstall": "Uninstalling the app through Windows removes it and any scenarios saved inside it. Spreadsheets you exported yourself are unaffected.",
+    "intro": "Mortgage Loan EMI Pro Insights is an offline calculator for loan repayment: EMI schedules, prepayment scenarios, inflation adjustment and full amortisation tables you can export to Excel.",
+    "local_first": true,
+    "data": [
+      ["Loan figures you enter", "Calculating your schedule", "On device only - they are inputs to a calculator, not an account"],
+      ["Saved scenarios", "Letting you reopen a comparison later", "On device, local storage"],
+      ["Exported spreadsheets", "Sharing figures with an advisor", "Written to the location you pick; where they go next is up to you"]
+    ],
+    "permissions": [
+      ["File system access", "Writing the .xlsx exports you ask for."]
+    ],
+    "third_parties": [],
+    "iap": false,
+    "financial_note": "The app performs arithmetic on the numbers you enter. It is not financial advice, it does not connect to any bank or lender, and its projections are estimates - check them against your lender's own figures before acting on them.",
+    "_verify": [
+      "Confirm there is no update check or telemetry call in the shipped build."
+    ]
+  },
+
+  "milk-monthly-expense-calendar": {
+    "name": "Milk Monthly Expense Calendar",
+    "subtitle": "Milk Monthly Expense Calendar for Android",
+    "platform": "Android",
+    "store": "Google Play",
+    "store_url": "https://play.google.com/store/apps/details?id=com.dhinova.milkmonthlyexpensecalendar",
+    "settings_path": "Android Settings → Apps → Milk Monthly Expense Calendar → Permissions",
+    "uninstall": "Uninstalling the app through Android removes its private database and every entry in it. Export a backup first if you want to keep your records.",
+    "intro": "Milk Monthly Expense Calendar is a daily delivery and expense diary: log what arrived, see the month at a glance, and send an invoice when the month closes.",
+    "local_first": true,
+    "data": [
+      ["Delivery and expense entries", "Your own monthly records", "On device, local SQLite database"],
+      ["Customer and rate details you enter", "Producing invoices", "On device, local SQLite database"],
+      ["Voice input", "Transcribing a spoken entry when you use the voice feature", "Sent to Google Gemini for transcription; see section 5"],
+      ["Backups you export", "Restoring or moving your data", "Written to the location you pick"]
+    ],
+    "permissions": [
+      ["Microphone", "Only while you are actively using the voice-entry feature. The app does not listen in the background."],
+      ["Notifications", "Reminders you set up yourself, scheduled locally."]
+    ],
+    "third_parties": [
+      ["Google Gemini", "When you use voice entry, the audio or its transcript is sent to Google's Gemini API to turn speech into a delivery record. Typing an entry by hand never leaves your device.", "https://policies.google.com/privacy"],
+      ["WhatsApp", "The 1-tap invoice hands a message you have reviewed to WhatsApp through Android's normal share mechanism. We do not send anything ourselves and we cannot see the conversation.", "https://www.whatsapp.com/legal/privacy-policy"]
+    ],
+    "iap": false,
+    "_verify": [
+      "Confirm the microphone is only opened during an explicit voice-entry action.",
+      "Confirm what exactly is sent to Gemini - raw audio or an on-device transcript - and correct section 5 to match.",
+      "Confirm whether the app shows ads (app-ads.txt in this repo declares an AdMob publisher ID; if any app serves ads, its policy must say so and the data table must cover it)."
+    ]
+  }
+}

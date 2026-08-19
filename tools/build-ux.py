@@ -221,6 +221,9 @@ def main():
     for p in sorted(pages):
         s = open(p, encoding='utf-8').read()
         lang = re.search(r'<html[^>]*\slang="([^"]+)"', s).group(1)
+        # Pages may declare a BCP-47 subtag (zh-Hans); UI strings are keyed by
+        # the bare language, so compare on that.
+        lang = lang.split('-')[0]
         if lang not in UI:
             missing.add(lang)
         if process(p):
