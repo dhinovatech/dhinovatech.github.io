@@ -69,6 +69,12 @@ APPS = {
     icon="/assets/images/mortgage-emi-icon.png",
     og="/assets/images/mortgage-emi-icon.png", ogw=300, ogh=300,
     ogalt="Mortgage Loan EMI Pro Insights icon", large=False),
+ 'stow': dict(
+    name="Stow", os="Windows", cat="UtilitiesApplication",
+    store="https://apps.microsoft.com/detail/9NHBR7SW2TZ0",
+    icon="/assets/images/stow-icon.png",
+    og="/assets/images/stow-icon.png", ogw=512, ogh=512,
+    ogalt="Stow photo and file organizer icon", large=False),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",
@@ -87,7 +93,8 @@ OGLOC = {'en':'en_US','es':'es_ES','fr':'fr_FR','de':'de_DE','it':'it_IT','nl':'
  'fa':'fa_IR','bn':'bn_IN','mr':'mr_IN','te':'te_IN','ta':'ta_IN','uk':'uk_UA',
  'sw':'sw_KE','th':'th_TH','ml':'ml_IN','kn':'kn_IN','gu':'gu_IN','pa':'pa_IN',
  'or':'or_IN','tl':'tl_PH','ha':'ha_NG','yo':'yo_NG','am':'am_ET','ps':'ps_AF',
- 'jv':'jv_ID'}
+ 'jv':'jv_ID','cs':'cs_CZ','da':'da_DK','fi':'fi_FI','he':'he_IL',
+ 'hu':'hu_HU','sv':'sv_SE','nb':'nb_NO'}
 
 def hl(code):
     return HREF.get(code, code)
@@ -247,6 +254,14 @@ HINTS = "\n".join([
   HINT_END,
 ])
 
+# Sections built by their own generator (tools/build-stow.py,
+# tools/build-glowcompare-windows.py) emit a complete, locale-aware SEO block
+# under this marker. Injecting on top of one would leave the page with two
+# <link rel="canonical"> tags, so those pages are left alone here; the sitemap
+# still picks them up, because it reads the canonical and hreflang tags out of
+# the file rather than regenerating them.
+OWN_SEO = "<!-- BEGIN SEO block (canonical/hreflang/social/schema) -->"
+
 SEO_RE  = re.compile(re.escape(SEO_BEGIN) + r'.*?' + re.escape(SEO_END) + r'\n?', re.S)
 HINT_RE = re.compile(re.escape(HINT_BEGIN) + r'.*?' + re.escape(HINT_END) + r'\n?', re.S)
 
@@ -254,6 +269,8 @@ def process(pages, locales):
     lazy = eager = 0
     for p in pages:
         s = open(p, encoding='utf-8').read()
+        if OWN_SEO in s:
+            continue
         s = SEO_RE.sub('', s)
         s = HINT_RE.sub('', s)
         if '</head>' not in s:

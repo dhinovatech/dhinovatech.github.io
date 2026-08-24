@@ -34,6 +34,70 @@
       revealables.forEach(function (el) { io.observe(el); });
     }
 
+    /* ---- Microsoft Store deep links ------------------------------------
+       Store CTAs ship as https://apps.microsoft.com/detail/<id> so that they
+       work on every platform and stay crawlable (the JSON-LD downloadUrl
+       points at the same web URL). On Windows we upgrade them in place to the
+       ms-windows-store:// protocol, which hands the user straight to the Store
+       app instead of a browser tab that then has to redirect.
+
+       Non-Windows visitors are left completely untouched: the protocol is not
+       registered there, so rewriting would turn a working link into a dead one. */
+    var isWindows = (function () {
+      var uad = navigator.userAgentData;
+      if (uad && uad.platform) return uad.platform === 'Windows';
+      // Windows Phone also matches "Windows" but has no desktop Store handler.
+      return /Windows NT/.test(navigator.userAgent) &&
+             !/Windows Phone/.test(navigator.userAgent);
+    })();
+
+    if (isWindows) {
+      var STORE_RE = /^https:\/\/apps\.microsoft\.com\/detail\/([A-Za-z0-9]+)/;
+      var links = document.querySelectorAll('a[href*="apps.microsoft.com/detail/"]');
+
+      Array.prototype.forEach.call(links, function (a) {
+        var web = a.getAttribute('href');
+        var m = STORE_RE.exec(web);
+        if (!m) return;
+
+        // Carry the campaign tag across so Partner Center still attributes the
+        // install to this site.
+        var ocid = /[?&]ocid=([^&#]+)/.exec(web);
+        var deep = 'ms-windows-store://pdp/?productid=' + m[1] +
+                   (ocid ? '&ocid=' + ocid[1] : '');
+
+        a.setAttribute('href', deep);
+        // A protocol handler never renders a document, so a new tab would just
+        // be left blank. Keep the navigation in this tab.
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        a.setAttribute('data-store-web', web);
+      });
+
+      /* Fallback for Windows installs with no Store app (LTSC, Server, some
+         managed images): the protocol navigation is silently dropped there.
+         If we are still here and still focused a moment later, nothing opened,
+         so fall back to the web listing. */
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest ? e.target.closest('a[data-store-web]') : null;
+        if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey) return;
+
+        var web = a.getAttribute('data-store-web');
+        var opened = false;
+        function markOpened() { opened = true; }
+        document.addEventListener('visibilitychange', markOpened, { once: true });
+        window.addEventListener('blur', markOpened, { once: true });
+
+        window.setTimeout(function () {
+          document.removeEventListener('visibilitychange', markOpened);
+          window.removeEventListener('blur', markOpened);
+          if (!opened && document.visibilityState === 'visible') {
+            window.open(web, '_blank', 'noopener');
+          }
+        }, 1200);
+      });
+    }
+
     /* ---- back to top ---------------------------------------------------- */
     var toTop = document.querySelector('.to-top');
     var installBar = document.querySelector('.install-bar');

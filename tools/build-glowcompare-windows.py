@@ -85,10 +85,10 @@ def lang_submenu(icon_colour, active=None):
     for code, label, _d, _hl, _og in LANGS:
         cls = "dropdown-item py-1 small"
         if code == active:
-            cls += " active fw-bold text-primary"
+            cls += " active fw-bold"
         out.append(
             '<li><a class="%s" href="%s"><i class="bi bi-globe %s me-2" aria-hidden="true"></i>%s</a></li>'
-            % (cls, url_for(code), icon_colour, E(label))
+            % (cls, url_for(code), "" if code == active else icon_colour, E(label))
         )
     return "".join(out)
 
@@ -98,10 +98,10 @@ def lang_selector(active):
     for code, label, _d, _hl, _og in LANGS:
         cls = "dropdown-item py-1 small"
         if code == active:
-            cls += " active fw-bold text-primary"
+            cls += " active fw-bold"
         items.append(
-            '<li><a class="%s" href="%s"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>%s</a></li>'
-            % (cls, url_for(code), E(label))
+            '<li><a class="%s" href="%s"><i class="bi bi-translate%s me-2" aria-hidden="true"></i>%s</a></li>'
+            % (cls, url_for(code), "" if code == active else " text-primary", E(label))
         )
     return "".join(items)
 
@@ -139,6 +139,7 @@ def navbar(code):
               </li>
               <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
               <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-primary me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
               <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
               <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
               <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
@@ -204,6 +205,7 @@ FOOTER = """  <footer class="footer-dhin">
           <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
             <li><a href="/glowcompare-windows/" class="footer-link text-primary fw-semibold"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
             <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink text-primary me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
             <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
             <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
             <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
@@ -690,6 +692,7 @@ def build(code):
   <script src="/assets/js/nav.js"></script>
   <script src="/assets/js/glowcompare-slider.js"></script>
 
+  <!-- BEGIN generated UX block -->
   <div class="install-bar" role="complementary" aria-label="GlowCompare for Windows">
     <img src="/assets/images/glowcompare-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
     <div class="install-bar-text">
@@ -702,6 +705,7 @@ def build(code):
     <i class="bi bi-arrow-up" aria-hidden="true"></i>
   </button>
   <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 </body>
 </html>
 """.format(

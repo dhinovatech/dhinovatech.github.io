@@ -39,6 +39,11 @@ APPS = {
  'mortgage-loan-emi-pro': dict(name="Mortgage Loan EMI Pro Insights",
     icon="/assets/images/mortgage-emi-icon.png",
     store="https://apps.microsoft.com/detail/9PFS2J56BJXR", kind='ms'),
+ 'glowcompare-windows': dict(name="GlowCompare",
+    icon="/assets/images/glowcompare-icon.png",
+    store="https://apps.microsoft.com/detail/9N4QM1FDQ1CB", kind='ms'),
+ 'stow': dict(name="Stow", icon="/assets/images/stow-icon.png",
+    store="https://apps.microsoft.com/detail/9NHBR7SW2TZ0", kind='ms'),
  'aes-vault': dict(name="AES Vault", icon="/assets/images/aes-vault-icon.png",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ", kind='ms'),
 }
@@ -89,10 +94,25 @@ UI = {
  'yo':  ("Fo si akoonu akọkọ", "Pada si oke", "Fi sori ẹrọ"),
  'am':  ("ወደ ዋናው ይዘት ዝለል", "ወደ ላይ ተመለስ", "ጫን"),
  'pcm': ("Jump go main content", "Go back to top", "Install"),
+ 'cs':  ("Přejít na hlavní obsah", "Zpět nahoru", "Instalovat"),
+ 'da':  ("Gå til hovedindhold", "Tilbage til toppen", "Installer"),
+ 'sv':  ("Hoppa till huvudinnehållet", "Till toppen", "Installera"),
+ 'nb':  ("Gå til hovedinnhold", "Til toppen", "Installer"),
+ 'fi':  ("Siirry pääsisältöön", "Takaisin ylös", "Asenna"),
+ 'hu':  ("Ugrás a fő tartalomra", "Vissza a tetejére", "Telepítés"),
+ 'he':  ("דלג לתוכן הראשי", "חזרה למעלה", "התקן"),
 }
 
 def ui(lang):
-    return UI.get(lang, UI['en'])
+    """Microcopy for a page's <html lang>.
+
+    Pages carry full BCP-47 tags (zh-Hans, pt-BR), while the table above is
+    keyed by the base language, so fall back to the subtag before English -
+    otherwise every Chinese page silently renders its skip link in English.
+    """
+    if lang in UI:
+        return UI[lang]
+    return UI.get(lang.split('-')[0], UI['en'])
 
 def relpath(p):
     return os.path.relpath(p, ROOT).replace('\\', '/')
@@ -221,7 +241,9 @@ def main():
     for p in sorted(pages):
         s = open(p, encoding='utf-8').read()
         lang = re.search(r'<html[^>]*\slang="([^"]+)"', s).group(1)
-        if lang not in UI:
+        # Mirror ui()'s subtag fallback, so a page that does resolve (zh-Hans
+        # -> zh) is not reported as untranslated.
+        if lang not in UI and lang.split('-')[0] not in UI:
             missing.add(lang)
         if process(p):
             bars += 1
