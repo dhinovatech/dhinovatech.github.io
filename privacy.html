@@ -7,10 +7,20 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Denied until the reader says otherwise. This runs before gtag.js has
-       loaded, so there is no window in which analytics_storage is granted by
-       default. wait_for_update gives a returning reader's stored answer time
-       to be applied before the first hit is sent. */
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -18,13 +28,37 @@
       'analytics_storage': 'denied',
       'functionality_storage': 'granted',
       'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
       'wait_for_update': 500
     });
-    try {
-      if (localStorage.getItem('dhin-consent') === 'granted') {
-        gtag('consent', 'update', {'analytics_storage': 'granted'});
-      }
-    } catch (e) { /* storage blocked - stay denied */ }
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+       Ad storage stays denied in every region - the site carries no ads. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
   </script>
@@ -104,14 +138,16 @@
 
     <section class="section" id="scope">
       <h2>1. What this covers</h2>
-      <p>This policy is about the website at www.dhinovatech.com &amp;mdash; the pages you are reading right now. Each app we publish has its own policy covering what that app does on your device; this page does not replace them.</p>
+      <p>This policy is about the website at www.dhinovatech.com — the pages you are reading right now. Each app we publish has its own policy covering what that app does on your device; this page does not replace them.</p>
       <p>The site is a set of static pages. There are no accounts, no logins, and no forms that submit anywhere.</p>
     </section>
 
     <section class="section" id="analytics">
       <h2>2. Analytics and cookies</h2>
       <p>We use Google Analytics 4 to see which pages people read and which languages get used. That is the only reason we measure anything.</p>
-      <p>Analytics storage starts denied on every page load. Nothing is stored and no analytics cookie is set unless you press Accept on the consent notice. If you press Decline, or ignore the notice, or have JavaScript turned off, no analytics data is collected and the site works exactly the same.</p>
+      <p>Where you are reading from decides what happens before you answer the notice. In the EU/EEA, the UK and Switzerland, analytics storage starts denied: nothing is stored and no analytics cookie is set unless you press Accept. Everywhere else it starts granted, and the notice is there so that you can turn it off — press Decline and it stops.</p>
+      <p>Google works out which of those applies from the request itself. These pages do not look up, derive or store your location in order to decide, and the notice is shown to everyone either way.</p>
+      <p>What does not change: Decline always means no analytics data is collected, and the site works exactly the same. With JavaScript turned off nothing runs at all — no notice, no analytics.</p>
       <p>Your choice is remembered in your browser's local storage under the key dhin-consent so we do not ask again. Clearing your browser storage for this site resets it and the notice returns.</p>
       <div class="callout">
         <p>To change your mind later: clear this site's local storage in your browser settings, then reload. The notice will appear again and you can answer differently.</p>
@@ -120,7 +156,7 @@
 
     <section class="section" id="what-we-see">
       <h2>3. What analytics receives</h2>
-      <p>When you have consented, Google Analytics receives the usual page measurement data: the page URL, referrer, approximate location derived from your IP address, device and browser type, and how long you stayed. We use it in aggregate.</p>
+      <p>While analytics is running, Google Analytics receives the usual page measurement data: the page URL, referrer, approximate location derived from your IP address, device and browser type, and how long you stayed. We use it in aggregate.</p>
       <p>We do not collect your name, email address or any other detail that identifies you personally, because the site never asks you for one. IP addresses are handled by Google Analytics 4, which does not log or store them in full.</p>
       <p>Google acts as our processor for this data. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a> and <a href="https://support.google.com/analytics/answer/6004245" target="_blank" rel="noopener">how Google Analytics handles data</a>.</p>
     </section>
@@ -139,7 +175,7 @@
 
     <section class="section" id="contact-email">
       <h2>6. If you email us</h2>
-      <p>Writing to dhinovatech@gmail.com means we hold your message and address for as long as it takes to answer you and keep a record of the conversation. We do not add you to a mailing list &amp;mdash; we do not have one.</p>
+      <p>Writing to dhinovatech@gmail.com means we hold your message and address for as long as it takes to answer you and keep a record of the conversation. We do not add you to a mailing list — we do not have one.</p>
     </section>
 
     <section class="section" id="rights">
@@ -153,13 +189,13 @@
       <h2>8. Policies for the apps</h2>
       <p>Each app has its own policy covering what it does on your device. Nothing on this page overrides them:</p>
       <ul>
-        <li><a href="/glowcompare/privacy.html">GlowCompare Skincare Tracker</a> &mdash; Android</li>
-        <li><a href="/notelock/privacy.html">Notelock</a> &mdash; Windows</li>
-        <li><a href="/slouch-guard/privacy.html">Slouch Guard</a> &mdash; Windows</li>
-        <li><a href="/aes-vault/privacy.html">AES Vault</a> &mdash; Windows</li>
-        <li><a href="/mortgage-loan-emi-pro/privacy.html">Mortgage Loan EMI Pro Insights</a> &mdash; Windows</li>
-        <li><a href="/milk-monthly-expense-calendar/privacy.html">Milk Monthly Expense Calendar</a> &mdash; Android</li>
-        <li><a href="/glowcompare-windows/privacy.html">GlowCompare Skincare Tracker</a> &mdash; Windows</li>
+        <li><a href="/glowcompare/privacy.html">GlowCompare Skincare Tracker</a> — Android</li>
+        <li><a href="/notelock/privacy.html">Notelock</a> — Windows</li>
+        <li><a href="/slouch-guard/privacy.html">Slouch Guard</a> — Windows</li>
+        <li><a href="/aes-vault/privacy.html">AES Vault</a> — Windows</li>
+        <li><a href="/mortgage-loan-emi-pro/privacy.html">Mortgage Loan EMI Pro Insights</a> — Windows</li>
+        <li><a href="/milk-monthly-expense-calendar/privacy.html">Milk Monthly Expense Calendar</a> — Android</li>
+        <li><a href="/glowcompare-windows/privacy.html">GlowCompare Skincare Tracker</a> — Windows</li>
       </ul>
     </section>
 
@@ -170,7 +206,7 @@
 
     <section class="section" id="reach-us">
       <h2>10. Contact</h2>
-      <p>Dhinova Tech &amp;mdash; dhinovatech@gmail.com. That address reaches a person, not a ticket queue.</p>
+      <p>Dhinova Tech — dhinovatech@gmail.com. That address reaches a person, not a ticket queue.</p>
     </section>
 
     <footer class="footer">

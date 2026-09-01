@@ -7,10 +7,20 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Denied until the reader says otherwise. This runs before gtag.js has
-       loaded, so there is no window in which analytics_storage is granted by
-       default. wait_for_update gives a returning reader's stored answer time
-       to be applied before the first hit is sent. */
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -18,13 +28,37 @@
       'analytics_storage': 'denied',
       'functionality_storage': 'granted',
       'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
       'wait_for_update': 500
     });
-    try {
-      if (localStorage.getItem('dhin-consent') === 'granted') {
-        gtag('consent', 'update', {'analytics_storage': 'granted'});
-      }
-    } catch (e) { /* storage blocked - stay denied */ }
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+       Ad storage stays denied in every region - the site carries no ads. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
   </script>
@@ -153,8 +187,8 @@
       <h2>4. Permissions</h2>
       <p>The App asks for the following, and nothing else:</p>
       <ul>
-        <li><strong>Microphone</strong> &mdash; Only while you are actively using the voice-entry feature. The app does not listen in the background.</li>
-        <li><strong>Notifications</strong> &mdash; Reminders you set up yourself, scheduled locally.</li>
+        <li><strong>Microphone</strong> — Only while you are actively using the voice-entry feature. The app does not listen in the background.</li>
+        <li><strong>Notifications</strong> — Reminders you set up yourself, scheduled locally.</li>
       </ul>
       <p>You can review or revoke these at any time in Android Settings → Apps → Milk Monthly Expense Calendar → Permissions.</p>
     </section>
@@ -162,8 +196,8 @@
     <section class="section" id="third-parties">
       <h2>5. Third-party services</h2>
       <p>These are the only third parties the App can send anything to, and each one is listed with what triggers it.</p>
-      <p><strong>Google Gemini</strong> &mdash; When you use voice entry, the audio or its transcript is sent to Google's Gemini API to turn speech into a delivery record. Typing an entry by hand never leaves your device. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Their privacy policy</a>.</p>
-      <p><strong>WhatsApp</strong> &mdash; The 1-tap invoice hands a message you have reviewed to WhatsApp through Android's normal share mechanism. We do not send anything ourselves and we cannot see the conversation. <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">Their privacy policy</a>.</p>
+      <p><strong>Google Gemini</strong> — When you use voice entry, the audio or its transcript is sent to Google's Gemini API to turn speech into a delivery record. Typing an entry by hand never leaves your device. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Their privacy policy</a>.</p>
+      <p><strong>WhatsApp</strong> — The 1-tap invoice hands a message you have reviewed to WhatsApp through Android's normal share mechanism. We do not send anything ourselves and we cannot see the conversation. <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" rel="noopener">Their privacy policy</a>.</p>
     </section>
 
     <section class="section" id="no-tracking">
@@ -181,9 +215,9 @@
       <h2>8. Your rights</h2>
       <p>Because your data never reaches us, you exercise your rights directly and immediately, without asking us first:</p>
       <ul>
-        <li><strong>Access and portability</strong> &mdash; your data is in the App on your device; export or copy it whenever you like.</li>
-        <li><strong>Erasure</strong> &mdash; delete entries in the App, or uninstall it, and it is gone.</li>
-        <li><strong>Objection and restriction</strong> &mdash; revoke a permission in your system settings and the corresponding feature stops.</li>
+        <li><strong>Access and portability</strong> — your data is in the App on your device; export or copy it whenever you like.</li>
+        <li><strong>Erasure</strong> — delete entries in the App, or uninstall it, and it is gone.</li>
+        <li><strong>Objection and restriction</strong> — revoke a permission in your system settings and the corresponding feature stops.</li>
       </ul>
       <p>If you are in the EU/EEA or UK and want to raise something under the GDPR, write to us at dhinovatech@gmail.com and we will answer.</p>
     </section>

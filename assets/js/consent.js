@@ -1,13 +1,20 @@
 /* Dhinovatech cookie-consent banner.
 
    Google Consent Mode v2 does the actual enforcing, and it is armed in the
-   <head> before gtag.js runs - analytics_storage starts at 'denied' on every
-   page load. This file only draws the banner and records the answer.
+   <head> before gtag.js runs. The default there is region-scoped: denied in
+   the EEA, UK and Switzerland, granted everywhere else. This file only draws
+   the banner and records the answer.
 
-   That ordering is deliberate: if this script fails to load, is blocked, or
-   JavaScript is off entirely, the banner never appears AND consent is never
-   granted. The failure mode is "no tracking", not "tracking without consent".
-   The banner ships with the `hidden` attribute set for the same reason. */
+   That ordering still matters. In the EEA, if this script fails to load, is
+   blocked, or JavaScript is off entirely, the banner never appears AND consent
+   is never granted - the failure mode is "no tracking", not "tracking without
+   consent". The banner ships with the `hidden` attribute set for the same
+   reason.
+
+   Outside those regions the head block has already granted analytics, so the
+   banner is an opt-out: Decline has to actively revoke rather than merely
+   withhold. Both answers therefore issue a consent update, and both are
+   stored, so the head block can re-apply either one on the next visit. */
 (function () {
   'use strict';
 
@@ -32,10 +39,11 @@
     bar.hidden = false;
 
     function answer(granted) {
-      remember(granted ? 'granted' : 'denied');
-      if (granted && typeof window.gtag === 'function') {
+      var value = granted ? 'granted' : 'denied';
+      remember(value);
+      if (typeof window.gtag === 'function') {
         window.gtag('consent', 'update', {
-          analytics_storage: 'granted'
+          analytics_storage: value
         });
       }
       bar.hidden = true;
@@ -53,8 +61,8 @@
     });
 
     // Escape is a refusal, not a dismissal: closing the banner without
-    // choosing must not leave analytics in a granted state, and it does not -
-    // 'denied' is what we store.
+    // choosing must not leave analytics running. Outside the EEA that is now
+    // a real revocation rather than a no-op, since the default was granted.
     bar.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') answer(false);
     });

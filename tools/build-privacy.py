@@ -170,7 +170,7 @@ def app_page(key, f):
         + p(f["uninstall"]))
 
     perms = "".join(
-        "        <li><strong>%s</strong> &mdash; %s</li>\n" % (e(a), e(b))
+        "        <li><strong>%s</strong> — %s</li>\n" % (e(a), e(b))
         for a, b in f["permissions"])
     inner = (p("The App asks for the following, and nothing else:")
              + "      <ul>\n" + perms + "      </ul>\n"
@@ -184,7 +184,7 @@ def app_page(key, f):
         inner = p("These are the only third parties the App can send anything to, "
                   "and each one is listed with what triggers it.")
         for name, what, url in f["third_parties"]:
-            inner += ('      <p><strong>%s</strong> &mdash; %s '
+            inner += ('      <p><strong>%s</strong> — %s '
                       '<a href="%s" target="_blank" rel="noopener">Their privacy policy</a>.</p>\n'
                       % (e(name), e(what), e(url)))
         add("third-parties", "Third-party services", inner)
@@ -214,9 +214,9 @@ def app_page(key, f):
     rights = p("Because your data never reaches us, you exercise your rights "
                "directly and immediately, without asking us first:")
     rights += ("      <ul>\n"
-               "        <li><strong>Access and portability</strong> &mdash; your data is in the App on your device; export or copy it whenever you like.</li>\n"
-               "        <li><strong>Erasure</strong> &mdash; delete entries in the App, or uninstall it, and it is gone.</li>\n"
-               "        <li><strong>Objection and restriction</strong> &mdash; revoke a permission in your system settings and the corresponding feature stops.</li>\n"
+               "        <li><strong>Access and portability</strong> — your data is in the App on your device; export or copy it whenever you like.</li>\n"
+               "        <li><strong>Erasure</strong> — delete entries in the App, or uninstall it, and it is gone.</li>\n"
+               "        <li><strong>Objection and restriction</strong> — revoke a permission in your system settings and the corresponding feature stops.</li>\n"
                "      </ul>\n")
     rights += p("If you are in the EU/EEA or UK and want to raise something "
                 "under the GDPR, write to us at %s and we will answer." % EMAIL)
@@ -268,7 +268,7 @@ def site_privacy_page():
         n += 1
 
     add("scope", "What this covers",
-        p("This policy is about the website at www.dhinovatech.com &mdash; the "
+        p("This policy is about the website at www.dhinovatech.com — the "
           "pages you are reading right now. Each app we publish has its own "
           "policy covering what that app does on your device; this page does "
           "not replace them.")
@@ -278,11 +278,18 @@ def site_privacy_page():
     add("analytics", "Analytics and cookies",
         p("We use Google Analytics 4 to see which pages people read and which "
           "languages get used. That is the only reason we measure anything.")
-        + p("Analytics storage starts denied on every page load. Nothing is "
-            "stored and no analytics cookie is set unless you press Accept on "
-            "the consent notice. If you press Decline, or ignore the notice, or "
-            "have JavaScript turned off, no analytics data is collected and the "
-            "site works exactly the same.")
+        + p("Where you are reading from decides what happens before you "
+            "answer the notice. In the EU/EEA, the UK and Switzerland, "
+            "analytics storage starts denied: nothing is stored and no "
+            "analytics cookie is set unless you press Accept. Everywhere else "
+            "it starts granted, and the notice is there so that you can turn "
+            "it off — press Decline and it stops.")
+        + p("Google works out which of those applies from the request itself. "
+            "These pages do not look up, derive or store your location in "
+            "order to decide, and the notice is shown to everyone either way.")
+        + p("What does not change: Decline always means no analytics data is "
+            "collected, and the site works exactly the same. With JavaScript "
+            "turned off nothing runs at all — no notice, no analytics.")
         + p("Your choice is remembered in your browser's local storage under "
             "the key dhin-consent so we do not ask again. Clearing your browser "
             "storage for this site resets it and the notice returns.")
@@ -291,7 +298,7 @@ def site_privacy_page():
           'appear again and you can answer differently.</p>\n      </div>\n')
 
     add("what-we-see", "What analytics receives",
-        p("When you have consented, Google Analytics receives the usual page "
+        p("While analytics is running, Google Analytics receives the usual page "
           "measurement data: the page URL, referrer, approximate location "
           "derived from your IP address, device and browser type, and how long "
           "you stayed. We use it in aggregate.")
@@ -326,7 +333,7 @@ def site_privacy_page():
     add("contact-email", "If you email us",
         p("Writing to %s means we hold your message and address for as long as "
           "it takes to answer you and keep a record of the conversation. We do "
-          "not add you to a mailing list &mdash; we do not have one." % EMAIL))
+          "not add you to a mailing list — we do not have one." % EMAIL))
 
     add("rights", "Your rights",
         p("If you are in the EU/EEA or UK, the GDPR gives you rights of access, "
@@ -348,12 +355,12 @@ def site_privacy_page():
     for k, f in F.items():
         if k.startswith("_"):
             continue
-        rows.append('        <li><a href="/%s/privacy.html">%s</a> &mdash; %s</li>'
+        rows.append('        <li><a href="/%s/privacy.html">%s</a> — %s</li>'
                     % (k, e(f["name"]), e(f["platform"])))
     # Not generated from the facts file, but it is a policy page and belongs
     # in the index a reader uses to find one.
     rows.append('        <li><a href="/glowcompare-windows/privacy.html">'
-                'GlowCompare Skincare Tracker</a> &mdash; Windows</li>')
+                'GlowCompare Skincare Tracker</a> — Windows</li>')
     links += ("      <ul>\n" + "\n".join(rows)
               + "\n      </ul>\n")
     add("app-policies", "Policies for the apps", links)
@@ -364,7 +371,7 @@ def site_privacy_page():
           "notice will be shown again."))
 
     add("reach-us", "Contact",
-        p("%s &mdash; %s. That address reaches a person, not a ticket queue."
+        p("%s — %s. That address reaches a person, not a ticket queue."
           % (COMPANY, EMAIL)))
 
     body = """<main id="main" class="page">
@@ -397,8 +404,8 @@ def terms_page():
     add("about", "These terms",
         p("These terms cover your use of www.dhinovatech.com. Using the site "
           "means you accept them. Our apps are licensed separately, under the "
-          "terms of the store you install them from &mdash; Google Play or the "
-          "Microsoft Store &mdash; not under these."))
+          "terms of the store you install them from — Google Play or the "
+          "Microsoft Store — not under these."))
 
     add("use", "Using the site",
         p("The site is informational. You may read it, link to it, and quote "

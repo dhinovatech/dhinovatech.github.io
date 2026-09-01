@@ -7,8 +7,12 @@ publishes in German, French, Italian, Dutch, Polish, Spanish and more - i.e.
 it set analytics cookies for EU readers with no legal basis. This script:
 
   * replaces the hand-written gtag snippet with a generated block that arms
-    Consent Mode v2 with analytics_storage denied BEFORE gtag.js can run, and
-    re-applies a previously stored answer
+    Consent Mode v2 BEFORE gtag.js can run, and re-applies a previously
+    stored answer
+  * scopes that default by region: denied in the EEA, UK and Switzerland,
+    where the notice is a gate; granted elsewhere, where it is an opt-out.
+    Google resolves the region from the request, so the pages never look up
+    or store a location - see DENIED_REGIONS below
   * injects the banner itself, in the page's own language where we have
     checked copy for it (tools/consent-strings.json) and in English otherwise
   * covers 404.html and glowcompare/privacy.html too, which had no analytics
@@ -16,8 +20,8 @@ it set analytics cookies for EU readers with no legal basis. This script:
     breaking
 
 Ordering is the whole point: consent defaults are set in <head>, the banner is
-drawn at the end of <body>. If the banner script never runs, consent is simply
-never granted.
+drawn at the end of <body>. If the banner script never runs, the defaults are
+what stands - which in the EEA means consent is simply never granted.
 
 Run:  python tools/build-consent.py
 Idempotent: both generated regions are delimited and replaced on each run.
@@ -43,16 +47,45 @@ BAR_END = "<!-- END generated consent banner -->"
 with io.open(STRINGS, encoding="utf-8") as _fh:
     L = json.load(_fh)
 
+# EEA + UK + Switzerland, as ISO 3166-2 codes. Consent Mode has no shorthand
+# for the bloc - 'EEA' is not a value it accepts - so the 27 member states are
+# spelled out, then IS/LI/NO to complete the EEA, then GB and CH.
+DENIED_REGIONS = [
+    "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR",
+    "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL",
+    "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+    "IS", "LI", "NO",
+    "GB", "CH",
+]
+
+
+def _region_js(codes, per_row=10, indent=" " * 8):
+    """The region array, wrapped so the generated <head> stays readable."""
+    rows = [", ".join("'%s'" % c for c in codes[i:i + per_row])
+            for i in range(0, len(codes), per_row)]
+    return (",\n" + indent).join(rows)
+
+
 HEAD_BLOCK = """%s
   <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Denied until the reader says otherwise. This runs before gtag.js has
-       loaded, so there is no window in which analytics_storage is granted by
-       default. wait_for_update gives a returning reader's stored answer time
-       to be applied before the first hit is sent. */
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -60,17 +93,38 @@ HEAD_BLOCK = """%s
       'analytics_storage': 'denied',
       'functionality_storage': 'granted',
       'security_storage': 'granted',
+      'region': [
+        %s
+      ],
       'wait_for_update': 500
     });
-    try {
-      if (localStorage.getItem('dhin-consent') === 'granted') {
-        gtag('consent', 'update', {'analytics_storage': 'granted'});
-      }
-    } catch (e) { /* storage blocked - stay denied */ }
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+       Ad storage stays denied in every region - the site carries no ads. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
     gtag('js', new Date());
     gtag('config', '%s');
   </script>
-%s""" % (HEAD_BEGIN, GA_ID, GA_ID, HEAD_END)
+%s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, HEAD_END)
 
 # The exact snippet this replaces, as it appears on all 167 pages that had one.
 OLD_GA = re.compile(
