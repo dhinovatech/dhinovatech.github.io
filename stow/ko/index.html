@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: 사진 및 파일 정리 도구 | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="PC를 정리해 주는 오프라인 AI — 묻지 않고 파일을 옮기는 일은 결코 없습니다. Stow는 지정한 폴더를 읽고, 무엇이 어디에 있어야 할지 판단한 뒤, 제안하는 모든 변경 사항의 전체 목록을 보여 줍니다. 버튼을 누르기 전까지는 아무것도 움직이지 않습니다.">
+  <title>Stow: AI 사진 및 파일 정리, 중복 파일 검색기 | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="클라우드에 단 1바이트도 업로드하지 않고 파일을 정리, 중복 제거, 클린업 및 보호하는 100% 오프라인 개인정보 보호 최우선 데스크톱 파일 관리 제품군입니다. Stow는 어수선한 다운로드 폴더, 무분별하게 불어난 사진 보관함, 정체불명의 폴더들을 말끔히 정리합니다. 온디바이스 비전, 로컬 문서 OCR, CPU 언어 모델을 탑재하여 지능형 정리 계획을 수립하고, 중복 파일과 흐릿한 사진을 찾아내며, 숨겨진 정크 파일을 완벽하게 청소합니다.">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: 사진 및 파일 정리 도구 | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="PC를 정리해 주는 오프라인 AI — 묻지 않고 파일을 옮기는 일은 결코 없습니다. Stow는 지정한 폴더를 읽고, 무엇이 어디에 있어야 할지 판단한 뒤, 제안하는 모든 변경 사항의 전체 목록을 보여 줍니다. 버튼을 누르기 전까지는 아무것도 움직이지 않습니다.">
+  <meta property="og:title" content="Stow: AI 사진 및 파일 정리, 중복 파일 검색기 | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="클라우드에 단 1바이트도 업로드하지 않고 파일을 정리, 중복 제거, 클린업 및 보호하는 100% 오프라인 개인정보 보호 최우선 데스크톱 파일 관리 제품군입니다. Stow는 어수선한 다운로드 폴더, 무분별하게 불어난 사진 보관함, 정체불명의 폴더들을 말끔히 정리합니다. 온디바이스 비전, 로컬 문서 OCR, CPU 언어 모델을 탑재하여 지능형 정리 계획을 수립하고, 중복 파일과 흐릿한 사진을 찾아내며, 숨겨진 정크 파일을 완벽하게 청소합니다.">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/ko/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="ko_KR">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: 사진 및 파일 정리 도구 | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="PC를 정리해 주는 오프라인 AI — 묻지 않고 파일을 옮기는 일은 결코 없습니다. Stow는 지정한 폴더를 읽고, 무엇이 어디에 있어야 할지 판단한 뒤, 제안하는 모든 변경 사항의 전체 목록을 보여 줍니다. 버튼을 누르기 전까지는 아무것도 움직이지 않습니다.">
+  <meta name="twitter:title" content="Stow: AI 사진 및 파일 정리, 중복 파일 검색기 | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="클라우드에 단 1바이트도 업로드하지 않고 파일을 정리, 중복 제거, 클린업 및 보호하는 100% 오프라인 개인정보 보호 최우선 데스크톱 파일 관리 제품군입니다. Stow는 어수선한 다운로드 폴더, 무분별하게 불어난 사진 보관함, 정체불명의 폴더들을 말끔히 정리합니다. 온디바이스 비전, 로컬 문서 OCR, CPU 언어 모델을 탑재하여 지능형 정리 계획을 수립하고, 중복 파일과 흐릿한 사진을 찾아내며, 숨겨진 정크 파일을 완벽하게 청소합니다.">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: 사진 및 파일 정리 도구","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"PC를 정리해 주는 오프라인 AI — 묻지 않고 파일을 옮기는 일은 결코 없습니다. Stow는 지정한 폴더를 읽고, 무엇이 어디에 있어야 할지 판단한 뒤, 제안하는 모든 변경 사항의 전체 목록을 보여 줍니다. 버튼을 누르기 전까지는 아무것도 움직이지 않습니다.","url":"https://www.dhinovatech.com/stow/ko/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (ko)","item":"https://www.dhinovatech.com/stow/ko/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI 사진 및 파일 정리, 중복 파일 검색기","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"클라우드에 단 1바이트도 업로드하지 않고 파일을 정리, 중복 제거, 클린업 및 보호하는 100% 오프라인 개인정보 보호 최우선 데스크톱 파일 관리 제품군입니다. Stow는 어수선한 다운로드 폴더, 무분별하게 불어난 사진 보관함, 정체불명의 폴더들을 말끔히 정리합니다. 온디바이스 비전, 로컬 문서 OCR, CPU 언어 모델을 탑재하여 지능형 정리 계획을 수립하고, 중복 파일과 흐릿한 사진을 찾아내며, 숨겨진 정크 파일을 완벽하게 청소합니다.","url":"https://www.dhinovatech.com/stow/ko/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (ko)","item":"https://www.dhinovatech.com/stow/ko/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/ko/#faq","inLanguage":"ko","mainEntity":[{"@type":"Question","name":"Stow는 내 파일이나 데이터가 클라우드로 업로드되지 않는다는 것을 어떻게 보증하나요?","acceptedAnswer":{"@type":"Answer","text":"Stow에는 사용자 계정 체계, 외부 서버, 텔레메트리 SDK, 백그라운드 분석 수집기가 일체 탑재되어 있지 않습니다. 사진 의미론적 검색을 위한 SigLIP-2, 얼굴 클러스터링을 위한 YuNet 및 SFace, 문서 스캔용 로컬 OCR, 자연어 규칙 합성을 위한 Phi-4-mini 등 모든 머신러닝 모델은 ONNX Runtime을 통해 오직 사용자 PC의 CPU에서만 구동됩니다. 사진, 문서, 파일명, 폴더 구조 및 검색 쿼리는 기기 밖으로 단 한 줄도 유출되지 않습니다."}},{"@type":"Question","name":"Stow를 사용하려면 고성능 외장 GPU나 전용 NPU가 반드시 필요한가요?","acceptedAnswer":{"@type":"Answer","text":"아닙니다. Stow는 Windows 10 및 11(x64 및 ARM64)에 네이티브로 최적화되어 제작되었으며, 로컬 추론 런타임은 고가의 외장 GPU나 NPU 없이도 일반적인 보급형 CPU에서 가볍게 동작하도록 정밀하게 튜닝되어 있습니다. 뿐만 아니라 기본 프리셋, 비주얼 룰, 실시간 재귀 폴더 용량 계산, 중복 파일 제거, 정크 정리, 차분 동기화, 만능 미리보기 등의 핵심 기능들은 AI 모델을 전혀 거치지 않으므로 설치 즉시 가볍고 빠르게 작동합니다."}},{"@type":"Question","name":"OneDrive, iCloud, Dropbox 등의 클라우드 폴더에서 원치 않는 대량 다운로드를 어떻게 방지하나요?","acceptedAnswer":{"@type":"Answer","text":"Stow는 클라우드 자리 표시자 인식 아키텍처로 설계되었습니다. OneDrive, Dropbox, Google Drive, iCloud 등으로 관리되는 동기화 폴더를 스캔할 때, 클라우드 가상 파일(Online-only Placeholders)을 스마트하게 감지합니다. 데이터 요금이 청구되거나 배터리가 부족한 환경에서 기가바이트 단위의 원치 않는 무차별 파일 다운로드를 스스로 거부하므로, 클라우드 상태를 안전하게 보존하면서 대역폭 낭비나 갑작스러운 디스크 용량 고갈을 완벽히 차단합니다."}},{"@type":"Question","name":"정크 잔여물을 정리하거나 중복 파일을 지우면 어떻게 되나요? 파일이 영구적으로 유실될 위험은 없나요?","acceptedAnswer":{"@type":"Answer","text":"Stow에 의해 파일이 복구 불가능하게 영구 삭제되는 일은 결코 없습니다. 잔여 정크 정리 작업(불완전한 다운로드 파일이나 오래된 인스톨러 청소 등)과 중복 파일 삭제 동작은 모두 표준 Windows 휴지통으로 안전하게 이동됩니다. 실수로 지운 파일이 있음을 깨달았다면, 휴지통에서 즉시 복원하거나 Stow의 '1클릭 실행 취소'를 눌러 이전 위치로 즉시 되돌릴 수 있습니다."}},{"@type":"Question","name":"1클릭 실행 취소 기능은 어떻게 작동하나요? 며칠이 지난 후에도 정리를 취소할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"실제 디스크에서 파일이 이동, 이름 변경, 정리되기 직전에 Stow는 모든 단일 파일의 원본 경로와 변경 후 경로를 정확하게 기록한 원자적 가역 트랜잭션 저널을 작성합니다. 작업 완료 직후 실행 취소 알림 표시줄이 나타나며, Stow의 '작업 기록(History)' 허브에 과거의 세션들이 안전하게 보존되므로 몇 시간 뒤는 물론 며칠, 몇 주가 지난 후에도 언제든지 정리 작업을 완벽하게 롤백할 수 있습니다."}},{"@type":"Question","name":"자연어 AI 프롬프트는 어떤 방식으로 로컬에서 정리 규칙을 생성하나요?","acceptedAnswer":{"@type":"Answer","text":"'모든 청구서를 Invoices 폴더로 옮기고 카메라 사진은 연도와 월별로 분류해 줘'와 같은 자연어를 입력하면, Stow의 온디바이스 로컬 언어 모델(Phi-4-mini)이 요청을 해석하여 안전하고 미리 볼 수 있는 규칙으로 합성합니다. 이때 언어 모델에는 확장자별 파일 수, 날짜 범위, 최상위 폴더 이름 등 고수준의 통계 스키마만 전달될 뿐, 개별 파일의 이름이나 실제 내용은 절대 전달되지 않습니다. 이후 검증 가능한 코드가 해당 규칙을 평가하여 사용자가 직접 검토하고 승인할 수 있는 대화형 미리보기 표를 완성합니다."}},{"@type":"Question","name":"Stow는 카메라 RAW 파일과 동반 파일들을 분리되지 않게 묶어서 관리할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"네, 완벽하게 지원합니다. Stow는 스마트 동반 파일(Companion File) 보존 엔진을 탑재하고 있습니다. 카메라 RAW 포맷(CR2, NEF, ARW, DNG 등)은 동일한 파일명의 JPEG/HEIC 미리보기 및 .xmp 사이드카 메타데이터 파일과 자동으로 결속됩니다. 마찬가지로 비디오 파일 또한 짝을 이루는 .srt 또는 .vtt 자막 파일과 단단히 연결됩니다. Stow가 원본 파일을 이동하거나 정리할 때 모든 동반 파일들이 한 몸처럼 함께 이동합니다."}},{"@type":"Question","name":"시스템 최소 요구 사양은 어떻게 되며, Stow는 어떻게 설치하나요?","acceptedAnswer":{"@type":"Answer","text":"Stow는 64비트 Intel/AMD(x64) 및 Qualcomm Snapdragon(ARM64) 아키텍처 환경의 Windows 10(버전 2004 / 빌드 19041 이상)과 Windows 11을 모두 정식 지원합니다. 샌드박스로 완벽히 격리된 최신 규격의 MSIX 패키지 형태로 Microsoft Store를 통해 직접 배포되므로, 불필요한 시스템 찌꺼기 없는 깔끔한 설치, 편리한 자동 업데이트, 백그라운드 상주 프로그램 없는 쾌적함을 보장합니다."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Microsoft Store에서 다운로드
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>최신 메이저 릴리스</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Desktop Suite</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 데스크톱 제품군: 탐색 및 미리보기, 잔여 파일 정리, 차분 동기화, 로컬 OCR 및 백업 허브</h2>
+            <p class="text-secondary small mb-0">단순한 정리를 넘어 완벽하고 안전한 프라이빗 데스크톱 파일 관리 플랫폼으로의 대도약.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> 최신 기능 살펴보기
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>듀얼 창 탐색기 및 실시간 폴더 크기</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>전용 잔여 정크 파일 스위퍼</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>방향성 폴더 대조 및 차분 동기화</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>종이 서류 OCR 및 PDF 변환</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>백업 및 비트 로트 무결성 검증</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: 사진 및 파일 정리 도구</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">PC를 정리해 주는 오프라인 AI — 묻지 않고 파일을 옮기는 일은 결코 없습니다.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow는 지정한 폴더를 읽고, 무엇이 어디에 있어야 할지 판단한 뒤, 제안하는 모든 변경 사항의 전체 목록을 보여 줍니다. 버튼을 누르기 전까지는 아무것도 움직이지 않습니다.</p>
-          <p class="text-secondary mb-4 pe-lg-4">전부 사용자의 PC 안에서만 동작합니다. 계정도, 서버도, 원격 측정도, 광고도 없습니다. AI 모델은 한 번만 내려받아 사용자의 CPU에서 실행됩니다. 어떤 파일도, 파일 이름도, 사진도, 문서도, 검색어도 기기를 떠나지 않습니다.</p>
+          <h1 class="hero-title mb-3">Stow: AI 사진 및 파일 정리, 중복 파일 검색기</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">클라우드에 단 1바이트도 업로드하지 않고 파일을 정리, 중복 제거, 클린업 및 보호하는 100% 오프라인 개인정보 보호 최우선 데스크톱 파일 관리 제품군입니다.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow는 어수선한 다운로드 폴더, 무분별하게 불어난 사진 보관함, 정체불명의 폴더들을 말끔히 정리합니다. 온디바이스 비전, 로컬 문서 OCR, CPU 언어 모델을 탑재하여 지능형 정리 계획을 수립하고, 중복 파일과 흐릿한 사진을 찾아내며, 숨겨진 정크 파일을 완벽하게 청소합니다.</p>
+          <p class="text-secondary mb-4 pe-lg-4">클라우드 서버, 원격 측정(텔레메트리), 백그라운드 추적 없이 모든 작업이 사용자의 PC에서만 엄격하게 실행됩니다. 승인된 미리보기 없이는 파일이 이동되지 않으며, 파일이 영구 삭제되지도 않습니다. 모든 작업은 단 한 번의 클릭으로 원래대로 되돌릴 수 있습니다.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> 작동 방식 보기
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> 작동 방식 보기
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% 오프라인</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> 승인된 미리보기 우선</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> 영구 삭제 절대 없음</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1클릭 실행 취소</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> 클라우드 폴더 안심 연동</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 및 ARM64 지원</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Microsoft Store에서 다운로드
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">정리 체계가 실패한 게 아닙니다. 그저 살다 보니 그렇게 된 것입니다.</h2>
-          <p class="text-secondary fs-5 mb-0">사천 개가 들어 있는 다운로드 폴더. 휴대폰 세 대, 카메라 두 대, 십 년치 스크린샷이 뒤섞인 사진 폴더. 「휴가 2019」, 「휴가 복사본」, 「휴가(최종)」이라는 이름의 폴더들이 있지만 어느 것이 어느 것인지 알 방법이 없습니다.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">손으로 해도 되지만 아무도 끝내지 못합니다. 클라우드 서비스는 대신 해 줍니다 — 개인 라이브러리 전체를 남의 컴퓨터에 올리는 방식으로. 스크립트를 쓸 수 있는 도구는 시킨 대로 정확히 해내지만, 규칙 문법을 배우고 사본으로 먼저 시험해 볼 마음이 있어야 합니다. 그리고 모두가 결정적인 순간에, 이제 곧 만 개의 파일을 훑을 작업이 당신이 의도한 그 작업이라고 믿어 달라고 요구합니다.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> 아키텍처 레벨의 보증
+        </span>
+        <h2 class="display-5 fw-bold text-white">5대 불변의 원칙</h2>
+        <p class="text-secondary fs-5">Stow의 모든 설계 계층에 내장된 타협 없는 5가지 핵심 아키텍처 보증입니다.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">불변 원칙 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100% 오프라인 및 완전한 프라이버시</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">계정 생성 불필요, 외부 클라우드 서버 통신 없음, 원격 측정 및 백그라운드 추적 제로. 모든 AI 모델(비전, OCR, 언어)은 사용자 PC의 CPU에서 로컬로 구동됩니다.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">불변 원칙 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">사전 승인된 미리보기 없이는 아무것도 이동하지 않음</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow는 사용자 몰래 파일을 이동하거나 이름을 바꾸거나 정리하지 않습니다. 모든 작업은 사전에 검토하고 승인할 수 있는 항목별 상세 미리보기 테이블을 생성합니다.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">불변 원칙 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">그 어떤 파일도 영구 삭제되지 않음</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">앱에서 파일을 복구 불가능하게 영구 삭제하지 않습니다. 정크 정리 및 중복 제거 작업은 익숙한 Windows 휴지통으로 이동되므로 언제든지 손쉽게 복구할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">불변 원칙 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">단 한 번의 클릭으로 즉각 실행 취소</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">디스크에서 실행되기 전 모든 내역이 저널에 기록됩니다. 1시간 뒤든 1주일 뒤든 마음이 바뀌면 단 한 번의 클릭으로 파일을 이전 위치로 완벽하게 되돌릴 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">불변 원칙 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">클라우드 동기화 폴더에서도 안전 작동</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">OneDrive, Dropbox, iCloud 등의 클라우드 가상 파일(자리 표시자)을 자동으로 감지하여, 종량제 네트워크 환경 등에서 기가바이트 단위의 원치 않는 백그라운드 다운로드가 일어나는 것을 방지합니다.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> 안전한 실행 워크플로
+        </span>
+        <h2 class="display-5 fw-bold text-white">작동 방식</h2>
+        <p class="text-secondary fs-5">투명하고 직관적인 3단계 프로세스. 시작부터 완료까지 사용자가 완벽하게 제어합니다.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">스캔 및 정리 방식 지정</h3>
+              <p class="text-secondary small mb-0">정리할 폴더나 드라이브를 지정합니다. 1클릭 프리셋을 선택하거나, 원하는 분류 방식을 자연어로 편하게 입력하거나, Stow가 기존의 폴더 분류 패턴을 스스로 파악하도록 할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">미리보기 및 검토</h3>
+              <p class="text-secondary small mb-0">실제 디스크 작업이 시작되기 전에 전체 제안 테이블을 검토합니다. 모든 파일마다 변경 후 경로와 적용 규칙이 명시됩니다. 변경을 원치 않는 파일은 필터링하거나 체크를 해제하여 제외할 수 있습니다.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">적용 및 1클릭 실행 취소</h3>
+              <p class="text-secondary small mb-0">안심하고 계획을 실행하세요. Stow는 모든 작업을 원자적 트랜잭션 저널에 먼저 기록합니다. 한 시간 뒤든 한 달 뒤든, 클릭 한 번으로 모든 변경 사항을 즉시 원래대로 복구할 수 있습니다.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">미리 보기가 곧 제품입니다</h2>
         <p class="text-secondary fs-5">Stow가 무엇을 결정했는지는 실행되는 모습을 지켜봐서 알게 되는 것이 아닙니다. 무엇이든 움직이기 전에 표를 읽어서 알게 됩니다. 그 표에는 모든 파일마다 한 행이 있고, 목적지가 있고, 그 파일을 맡은 규칙의 이름이 있습니다. 잘못됐다면 화면을 닫으면 됩니다 — 아무 일도 일어나지 않았습니다.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- 기둥 1: 손쉬운 파일 정리 및 자동 분류 -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> 기둥 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">손쉬운 파일 정리 및 자동 분류</h2>
+          <p class="text-secondary fs-5 mb-0">사전 설정, 자연어 AI 또는 커스텀 규칙 시스템을 활용하여 무질서한 폴더를 깔끔하고 체계적인 아카이브로 탈바꿈합니다.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">스마트 대시보드 및 라이브러리 헬스 허브</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">보관함의 관제탑 역할을 수행합니다. 색인된 파일 수, 관리 저장소 용량, 미분류 항목, 확보한 저장 공간 등 라이브러리 상태를 즉시 평가합니다. 즉각 조치 가능한 관심 카드(Attention Cards)가 새로 연결된 카메라 SD 카드 가져오기, 정리를 기다리는 다운로드 파일, 정크 파일 경고, 백업 최신 상태 알림을 선제적으로 안내합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>보관함 용량, 미분류 파일 현황, 확보된 저장 공간 즉시 확인</li><li>SD 카드 감지, 다운로드 정리 대기, 정크 경고를 알려주는 관심 카드</li><li>정리, 잔여물 청소, 드라이브 대조를 한 번에 실행하는 원클릭 단축 액션</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">다양한 요구를 만족하는 5가지 정리 방식</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">원하는 작업 방식을 자유롭게 선택하세요. 간편한 1클릭 프리셋(파일 유형별, 연/월별, 스크린샷 별도 분리, 카메라 기종별) 활용, 온디바이스 로컬 언어 모델에 자연어로 요구사항 작성, 기존 폴더 분류 체계를 Stow가 학습하여 자동으로 이어받게 하기, 비주얼 룰 빌더로 정교한 조건식 구성, 규칙 기반의 대량 이름 바꾸기(일괄 리네이머)를 모두 지원합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>원클릭 기본 프리셋: 유형, 날짜, 카메라 메타데이터 기반의 즉시 분류</li><li>자연어 AI: 일상 언어로 요청하면 온디바이스 LLM이 안전한 규칙을 자동 생성</li><li>기존 체계 자동 계승: 이미 구성된 나만의 폴더 정리 규칙을 스스로 학습 및 적용</li><li>비주얼 룰 빌더: 정밀한 조건식, 대상 경로 토큰, 파일명 충돌 방지 로직 구성</li><li>대량 일괄 이름 바꾸기: 순차 번호 부여, 날짜 태그 삽입, 패턴 문자열 치환</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">스스로 정리되는 폴더 (스마트 감시 폴더)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">다운로드나 바탕화면처럼 파일이 쌓이기 쉬운 위치에 규칙을 지정해 두세요. 새 파일이 들어오면 Stow가 백그라운드에서 정리 제안을 조용히 준비하고 미리보기 알림을 띄워줍니다. 무거운 상주 프로그램을 띄우지 않고도 단 한 번의 클릭으로 깔끔하게 적용할 수 있습니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>무거운 백그라운드 서비스 없이도 감시 대상 폴더를 가볍고 효율적으로 모니터링</li><li>감시 폴더에 새 파일이 저장되면 깔끔한 정리 계획을 자동으로 사전 준비</li><li>항상 사용자의 1클릭 승인을 요구하며, 자리를 비운 사이 파일을 임의로 이동하지 않음</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 기둥 2: 듀얼 창 라이브러리 탐색기 및 만능 통합 미리보기 창 -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> 기둥 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">듀얼 창 라이브러리 탐색기 및 만능 통합 미리보기 창</h2>
+          <p class="text-secondary fs-5 mb-0">실시간 하위 폴더 재귀 용량 계산과 즉각적인 리치 미리보기를 통해 기존 Windows 파일 탐색기의 가장 큰 한계를 완벽히 보완하는 현대적인 파일 브라우저.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">실시간 폴더 용량 표시를 지원하는 듀얼 창 라이브러리 브라우저</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">트리 구조의 디렉터리와 반응형 파일 그리드를 통해 전체 파일 시스템을 손쉽게 탐색하세요. Stow는 그리드 화면에서 하위 폴더의 실제 전체 용량과 항목 수를 실시간으로 계산해 표시하므로, Windows 탐색기의 오랜 불편을 해소하고 어느 폴더가 용량을 차지하는지 한눈에 찾아냅니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>그리드에 직접 계산되어 나타나는 실시간 폴더 재귀 크기 및 포함 항목 수</li><li>확장형 디렉터리 트리와 이동 경로(Breadcrumb)를 갖춘 듀얼 창 탐색</li><li>폴더 생성, 이름 변경, 잘라내기/복사/붙여넣기 등 직관적인 즉각 파일 제어</li><li>Windows 탐색기 및 일반 데스크톱 앱과의 완벽한 양방향 드래그 앤 드롭</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">만능 인스턴트 통합 미리보기 창</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">무거운 별도 소프트웨어를 실행하지 않고도 온갖 파일 형식을 즉석에서 확인하세요. EXIF 메타데이터가 표시되는 고해상도 사진 뷰어, 해상도 및 코덱 정보가 나오는 비디오 플레이어, PDF 및 Word 문서 뷰어, ID3 태그와 앨범 아트가 나오는 오디오 플레이어, 압축 파일 내부 미리보기를 지원합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>카메라 모델, 조리개, ISO, EXIF 상세 정보가 포함된 고해상도 사진 검사</li><li>해상도, 프레임 레이트, 비트레이트, 코덱 정보가 제공되는 통합 비디오 플레이어</li><li>PDF, Word 문서(.docx), 일반 텍스트 문서를 즉각 열람하는 통합 리더</li><li>ID3 태그 메타데이터, 앨범 아트워크, 비트레이트를 확인하는 오디오 플레이어</li><li>압축 파일 미리보기: 압축을 풀지 않고도 ZIP, TAR 파일 내부 확인</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 기둥 3: 스마트 클린업, 정크 잔여물 스위퍼 및 중복 파일 제거 -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> 기둥 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">스마트 클린업, 정크 잔여물 스위퍼 및 중복 파일 제거</h2>
+          <p class="text-secondary fs-5 mb-0">파일을 100% 안전하게 보호하면서 낭비된 수십 기가바이트의 저장 공간을 회수하고 중복된 파일들을 말끔히 정리합니다.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">전용 잔여 정크 파일 및 찌꺼기 스위퍼</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">숨어 있는 불필요한 파일들을 클릭 한 번으로 정리하여 기가바이트 단위의 공간을 확보하세요. 다운로드 중단 파일(.crdownload, .part, .download), 편집기 및 OS 임시 파일(.DS_Store, Thumbs.db 등), 다운로드 폴더에 방치된 프로그램 설치 파일(.exe, .msi), 거대한 개발자 캐시 폴더(node_modules, bin/obj, .gradle), 압축 해제 후 방치된 빈 폴더 및 0바이트 파일을 정밀 검색합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>중단된 다운로드, 임시 파일, OS 썸네일 캐시를 정리하여 기가바이트 공간 회수</li><li>다운로드 폴더에 쌓여가는 오래된 소프트웨어 설치 파일(.exe, .msi) 정리</li><li>비대해진 개발자 종속성 캐시(node_modules, gradle, bin/obj) 일괄 제거</li><li>빈 폴더와 압축 해제 후 방치된 잔여 폴더 깔끔하게 정리</li><li>모든 정리 내역은 미리보기 테이블로 검토되며 Windows 휴지통으로 안전하게 이동</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">완전 일치 중복 파일 및 폴더 검색</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">파일 이름이나 저장 위치가 달라도 내용이 100% 동일한 파일과 폴더 트리 전체를 바이트 단위로 정확하게 찾아냅니다. 4가지 결정론적 정책(최고 화질, 가장 오래된 항목, 가장 최신 항목, 선호 폴더 우선)이 유지할 원본을 추천하며, 여분의 중복 복사본은 휴지통으로 안전하게 이동됩니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>콘텐츠 해시를 기반으로 동일 파일 및 미러링된 전체 폴더 트리를 그룹화</li><li>폴더 이름이 달라도(&#x27;사진 2021&#x27; vs &#x27;백업 사진&#x27;) 중복된 폴더 구조를 정확히 감지</li><li>휴지통 안전 이동 방식을 적용하여 불필요한 복사본을 언제든 손쉽게 복원 가능</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">유사 비디오 중복 검색 및 사진 선명도 기반 선별</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">단순한 일치 검색을 뛰어넘습니다. 재인코딩된 영상, 낮은 해상도 버전(예: 1080p 대 720p), 일부 구간이 편집된 클립, 메신저 등으로 압축 전송된 동영상 복사본까지 포착합니다. 사진의 경우 연속 촬영(버스트 샷)을 그룹화하고 가장자리 선명도를 분석하여, 가장 또렷한 사진만 보관하도록 추천하고 흔들리거나 흐릿한 사진을 찾아냅니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>재인코딩, 해상도 변경, 구간 편집된 유사 비디오까지 놓침 없이 감지</li><li>카메라 연사 촬영(버스트 샷) 시퀀스를 자동으로 식별하여 그룹화</li><li>가장자리 선명도 분석을 통해 초점이 나갔거나 흔들린 사진을 스마트하게 분류</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 기둥 4: 페이퍼리스 문서화, 오디오 라이브러리 정리 및 스마트 사진 관리 -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> 기둥 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">페이퍼리스 문서화, 오디오 라이브러리 정리 및 스마트 사진 관리</h2>
+          <p class="text-secondary fs-5 mb-0">어지럽게 쌓인 영수증 서류 사진과 메타데이터가 없는 음악 컬렉션을 체계적이고 아름다운 디지털 보관함으로 변환합니다.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">종이 서류 촬영 사진을 다중 페이지 검색 가능 PDF로 변환</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">영수증, 고지서, 세무 서류, 공과금 청구서 등을 촬영한 사진을 정돈된 디지털 문서 보관함으로 탈바꿈합니다. 온디바이스 로컬 OCR이 문서를 외부 클라우드에 전송하지 않고 텍스트를 안전하게 추출합니다. 스마트 문서 분류 엔진이 문서 유형(영수증, 청구서, 세금 양식, 공과금, 은행 명세서, 계약서)과 발행 기관을 인식하여, 여러 장으로 찍힌 서류를 하나로 묶고 표준 파일명으로 정리합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>클라우드 유출 위험 제로: 100% 온디바이스 OCR이 외부 전송 없이 로컬에서 텍스트 추출</li><li>문서 종류(영수증/계약서 등)와 발행 기관을 지능형 엔진으로 자동 분류</li><li>여러 장으로 촬영된 연속 페이지들을 검색 가능한 표준 단일 PDF로 자동 병합</li><li>일관된 자동 파일명 부여(예: &#x27;2024-03-15_BankOfAmerica_Statement.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">음악 및 오디오 라이브러리 큐레이션</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">MP3, FLAC, M4A, WAV, OGG 형식의 ID3 및 오디오 메타데이터 태그를 완벽하게 판독하고 색인합니다. 트랙 아티스트와 앨범 아티스트를 명확히 구분하여 다양한 가수가 참여한 컴필레이션 및 사운드트랙 앨범이 산산조각 나지 않고 단일 폴더에 온전히 보존됩니다. 누락되거나 잘못된 정보를 손쉽게 수정하는 일괄 오디오 태그 편집기도 기본 탑재되어 있습니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>MP3, FLAC, M4A, WAV, OGG를 망라하는 강력한 ID3 및 메타데이터 색인</li><li>앨범 아티스트 기준 정렬로 다양한 아티스트 앨범 및 OST 폴더 파편화 방지</li><li>트랙 번호, 아티스트, 발매 연도, 앨범 아트를 손쉽게 보정하는 일괄 태그 편집기</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">오프라인 벡터 세계 지도 및 스마트 SD 카드 가져오기</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">외부 웹 지도 타일을 로드하거나 GPS 좌표를 외부에 공유할 필요 없이, 100% 오프라인 캔버스에 렌더링되는 인터랙티브 벡터 세계 지도에서 사진이 촬영된 위치를 탐색하세요. PC에 연결된 메모리 카드나 카메라를 즉시 감지하여 RAW+JPEG 페어링 관계를 온전히 유지하면서 원클릭으로 보관함에 가져옵니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>외부 통신 없는 100% 오프라인 캔버스에서 위치 태그 사진을 시각화하는 인터랙티브 벡터 지도</li><li>스마트 카메라 및 SD 카드 자동 감지 및 즉각적인 원클릭 가져오기 워크플로</li><li>RAW+JPEG 및 비디오+자막 동반 파일의 쌍(Pair) 관계를 철저히 유지하여 이동</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 기둥 5: 저장 공간 회수, 차분 동기화 및 Windows 완벽 통합 -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> 기둥 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">저장 공간 회수, 차분 동기화 및 Windows 완벽 통합</h2>
+          <p class="text-secondary fs-5 mb-0">기업급의 데이터 안전 보장, 드라이브 간 차분 동기화 및 대조, 그리고 Windows 운영체제와의 완벽한 시너지.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">방향성 폴더 대조 및 차분 동기화</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">&#x27;외장 백업 하드디스크에는 있는데 내 기본 보관함에는 없는 파일이 뭐지?&#x27;라는 흔한 고민을 말끔히 풀어줍니다. 두 개의 폴더 트리나 드라이브를 비교 분석하여 파일을 &#x27;대상 위치에 누락됨&#x27;, &#x27;완전 일치&#x27;, &#x27;충돌/수정됨&#x27;으로 분류합니다. 검증되지 않은 파일을 임의로 삭제하지 않고, 차이를 안전하게 채워주는 깔끔한 복사 계획을 수립합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>두 폴더 트리나 드라이브를 비교하여 누락된 파일과 차이점을 완벽하게 식별</li><li>파일을 대상 위치 누락, 동일 파일, 충돌/수정 파일로 명확하게 분류</li><li>파괴적인 미러링 삭제 없이 안전한 복사 계획만으로 데이터 공백을 해소</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">비파괴적 백업 및 비트 로트(Bit-Rot) 무결성 검증기</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">소중한 라이브러리를 외장 하드나 보조 드라이브로 원클릭 또는 정기 스케줄 백업하세요. 원본에서 삭제된 내역을 무차별 복제하여 백업본까지 날려버리는 파괴적 미러링을 하지 않습니다. 내장된 비트 로트(Bit-Rot) 검증기가 원본과 백업본의 SHA-256 체크섬을 정기적으로 재검증하여, 디스크 노후화나 불량 섹터로 인한 무음 데이터 손상을 신속하게 포착합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>삭제 명령을 미러링하지 않는 비파괴적 백업으로 새로운 파일만 안전하게 복사</li><li>SHA-256 해시를 주기적으로 재검사하여 디스크 손상과 비트 부식을 조기 발견</li><li>원래 폴더나 별도 복구 폴더로의 복원을 사전에 미리 보고 진행하는 안전한 복원 플래너</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">볼륨 전체 공간 맵 및 NTFS 정션(Junction) 안전 이전</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">드라이브 전체(C:, D:)의 디스크 사용량을 시각화하여 지정 경로 외부에 숨은 거대한 용량 차지 항목을 적발합니다(TreeSize, WizTree 유사 기능). 400GB에 달하는 거대한 사진 폴더를 용량이 넉넉한 보조 드라이브로 옮기더라도, 원래 위치에 NTFS 디렉터리 정션(Junction)을 자동 생성하므로 기존 바로가기와 프로그램들이 오류 없이 그대로 작동합니다. 시스템 임시 폴더와 업데이트 캐시 공간도 안전하게 회수합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>전체 드라이브에 걸쳐 거대한 폴더를 직관적으로 파악하는 드라이브 공간 시각화 맵</li><li>앱 연결 고리를 깨뜨리지 않고 거대 폴더를 다른 디스크로 이전하는 NTFS 정션</li><li>Windows 임시 폴더와 업데이트 다운로드 캐시를 감지하여 정리하는 시스템 공간 회수</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Windows 심층 통합 및 포터블 프로필</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Windows에 완벽히 맞춰 설계되었습니다. Windows 탐색기에서 폴더를 마우스 우클릭하여 &#x27;Stow로 정리&#x27; 또는 &#x27;중복 파일 찾기&#x27;를 바로 실행할 수 있습니다. 어디서든 Win+Shift+F를 누르면 글로벌 퀵 런처가 즉각 실행됩니다. 인터넷에서 다운로드한 문서에 붙는 Mark of the Web(Zone.Identifier) 보안 차단 일괄 해제, 파일 이동 시 바탕화면 및 시작 메뉴 바로가기 자동 복구, 규칙과 정리 레시피를 새 PC로 몇 초 만에 내보내는 포터블 JSON 프로필을 지원합니다.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Windows 파일 탐색기 마우스 우클릭 콘텍스트 메뉴 완벽 연동</li><li>어디서나 즉시 파일 및 기능을 호출하는 글로벌 단축키(Win+Shift+F)</li><li>다운로드 파일에 붙은 Mark of the Web(Zone.Identifier) 보안 차단 일괄 해제</li><li>파일 이동을 감지하여 바탕화면 및 시작 메뉴 바로가기 링크를 자동 보정</li><li>규칙과 정리 프리셋을 새 PC로 손쉽게 이전하는 포터블 JSON 프로필 내보내기</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> 타협 없는 프라이버시와 통제권
         </span>
-        <h2 class="display-5 fw-bold text-white">애플리케이션 전체를 떠받치는 다섯 가지 원칙</h2>
+        <h2 class="display-5 fw-bold text-white">Stow 비교 분석</h2>
+        <p class="text-secondary fs-5">데스크톱 사용자들이 불완전한 스크립트나 클라우드 서비스 대신 Stow를 선택하는 이유입니다.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">아무것도 PC를 벗어나지 않습니다</h3>
-              </div>
-              <p class="text-secondary small mb-0">파일도, 파일 이름도, 색인도, 임베딩도, 얼굴 데이터도, 오류 기록조차도 벗어나지 않습니다. 애플리케이션 전체에 네트워크 작업은 정확히 두 개뿐이며, 둘 다 사용자가 의도적으로 시작해야 합니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">미리 보기 없이는 아무 일도 일어나지 않습니다</h3>
-              </div>
-              <p class="text-secondary small mb-0">파일을 건드리는 모든 작업 — 한 번 클릭하는 사전 설정, 언어 모델이 작성한 규칙, 일괄 이름 변경 — 은 같은 경로를 거쳐 같은 미리 보기 화면에 도달합니다. 이를 건너뛰는 지름길은 없습니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">삭제하거나 덮어쓰지 않습니다</h3>
-              </div>
-              <p class="text-secondary small mb-0">엔진이 하는 일은 파일을 옮기고, 이름을 바꾸고, 폴더를 만드는 것뿐입니다. 제거는 정확히 한 곳 — 중복 찾기 — 에만 있으며, Stow를 제거해도 남아 있는 Windows 휴지통을 거칩니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">모든 것을 되돌릴 수 있습니다</h3>
-              </div>
-              <p class="text-secondary small mb-0">모든 작업은 실행되기 전에 기록부에 먼저 쓰입니다. 이 기록부가 실행 취소 버튼을 뒷받침하고, 작업 도중 전원이 끊겨도 앱을 복구하며, 나중에 어떤 폴더가 비었는지 알아냅니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">모델은 제안하고, 코드가 결정합니다</h3>
-              </div>
-              <p class="text-secondary small mb-0">언어 모델은 사용자의 파일 목록을 결코 보지 못하며 어떤 작업도 수행하지 않습니다. 모델이 내놓는 것은 규칙입니다. 평범하고 검증 가능한 코드가 그 규칙을 모든 파일에 적용하고, 독립된 검증기가 생성된 모든 목적지를 다시 확인합니다.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">원하는 바를 전달하는 다섯 가지 방법</h2>
-        <p class="text-secondary fs-5">모두 정확히 같은 미리 보기로 모입니다.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">미리 만들어진 사전 설정</h3>
-                  <p class="text-secondary small mb-0">한 번 클릭으로 끝나는 여섯 가지: 파일 종류별, 연도와 월별, 연도별, 종류 다음 연도별, 스크린샷 따로 모으기, 카메라별. 이 중 다섯 가지는 파일을 하나도 열지 않고 동작하므로, 모델을 하나도 내려받지 않은 상태에서도 Stow는 쓸모가 있습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">직접 말로 설명하기</h3>
-                  <p class="text-secondary small mb-0">「청구서와 관련된 건 전부 청구서 폴더로 옮겨 줘.」 로컬 언어 모델이 이 문장을 규칙으로 바꿉니다. 모델이 받는 것은 라이브러리 요약 — 개수, 확장자, 날짜 범위, 폴더 이름 — 이지 파일 목록이 아닙니다. 목록을 건네줄 코드 경로 자체가 없습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">이미 갖고 있는 체계 이어 가기</h3>
-                  <p class="text-secondary small mb-0">Stow는 폴더 구조에서 체계를 다시 읽어 내고, 그것을 이어 가는 규칙을 작성합니다. 분석은 근거에 기반합니다. 2019라는 이름의 폴더가 연도 폴더로 인정되는 것은 그 안의 파일이 실제로 2019년 것일 때뿐입니다. 모델도 내려받기도 필요 없습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">규칙을 직접 만들기</h3>
-                  <p class="text-secondary small mb-0">파일이 이런 모습이면 저 폴더에 넣어라. 규칙은 위에서 아래로 평가되며 처음 일치한 것이 적용됩니다. 조건은 확장자, 이름, 경로, 크기, 날짜, 이미지 크기, 라벨, 인물, 장소, 시각적 유사도를 아우르며, 목적지에는 {{year}}, {{month_name}}, {{camera}} 같은 치환 표기를 쓸 수 있습니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">레시피로 저장하기</h3>
-                  <p class="text-secondary small mb-0">미리 보기까지 도달한 규칙 묶음은 이름을 붙여 보관하고, 다시 실행하고, 감시 폴더에 넘길 수 있습니다. 저장한다고 해서 어떤 특권도 생기지 않습니다. 실행할 때마다 다시 컴파일되고, 다시 제한되고, 다시 검증되며 — 여전히 사용자가 승인해야 하는 미리 보기에 도달합니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">버튼 하나로 전부 되돌립니다</h2>
-          <p class="text-secondary fs-5 mb-0">기록에는 Stow가 수행한 최근 스무 건이 최신순으로 나열되며, 그 하나하나를 정확히 되돌릴 수 있습니다. 정리를 마치면 창 위쪽에 막대가 나타나 한 번의 클릭으로 되돌릴 수 있습니다 — 메뉴 깊숙이 묻히는 일은 없습니다.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">실행 취소는 실행과 의도적으로 대칭이 아닙니다. 실행은 첫 실패에서 멈추지만, 실행 취소는 모든 작업을 시도하고 문제를 한꺼번에 보고합니다. 복원 도중에 멈추면 두 상태 사이에 발이 묶이기 때문입니다. 폴더에서 파일을 빼내면 그 폴더는 비게 되고, 어떤 폴더가 그랬는지 아는 것은 Stow뿐입니다 — 그래서 나중에 정리하겠느냐고 제안하며, 제안 이상은 하지 않습니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">다시 찾아내기</h2>
-        <p class="text-secondary fs-5">여기 있는 모든 기능은 Stow가 이미 만들어 둔 색인을 읽으므로, 들여다보는 데는 거의 비용이 들지 않습니다.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">파일 검색</h3>
-              </div>
-              <p class="text-secondary small mb-0">작고 문서화된 문법이 있습니다: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:「보일러 보증」, 그리고 앞에 붙이는 빼기 기호로 제외. Stow에 파일을 열 권한을 주지 않은 상태에서도 온전히 동작합니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">사진에 담긴 것으로 사진 찾기</h3>
-              </div>
-              <p class="text-secondary small mb-0">「해변의 개」라고 입력하면 해변 사진이 나옵니다. 이름이 IMG_4821.jpg이든 전혀 다른 것이든 상관없습니다. 이미지는 읽히고, 로컬에서 벡터로 부호화된 뒤 해제됩니다. 사진 자체가 복사되거나 보관되는 일은 없습니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">무엇이 공간을 차지하는지 보기</h3>
-              </div>
-              <p class="text-secondary small mb-0">종류별 합계, 맨 아래까지 세어 올린 가장 무거운 폴더들, 그리고 단일 파일 중 가장 큰 것들. 모든 발견 항목에는 그것을 만들어 낸 검색식이 딸려 있어, 「3년간 아무도 열지 않은 동영상 18GB」가 곧바로 실행에 옮길 검색식을 손에 쥐여 줍니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">장소와 인물</h3>
-              </div>
-              <p class="text-secondary small mb-0">사진은 촬영 장소별로, 그리고 — 명시적으로 켠 경우에만 — 서로 닮은 얼굴끼리 묶입니다. 이것은 유사도에 따른 묶음이지 신원 확인이 아닙니다. 신원 데이터베이스도 없고 누구인지 판별하는 기능도 없습니다. 이름은 전부 사용자가 붙입니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">라벨</h3>
-              </div>
-              <p class="text-secondary small mb-0">「업무」, 「세금」, 「휴가」처럼 스스로 정한 단어를 추적하고 싶은 파일에 붙일 수 있습니다. 라벨은 Stow의 색인 안에 있으므로 파일의 이름이 바뀌거나 내용이 달라지는 일이 없고, 모든 개인 정보 보호 모드에서 동작합니다.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">중복, 폴더 전체까지 포함해서</h2>
-          <p class="text-secondary fs-5 mb-0">내용이 같은 파일은 어디에 있든 이름이 무엇이든 내용 기준으로 묶입니다. 같은 폴더도 마찬가지입니다. 비교에 이름은 전혀 관여하지 않으므로, 바이트가 같다면 「휴가 2019」와 「휴가 복사본」은 같은 폴더입니다. 진짜 용량이 잠들어 있는 곳은 대개 여기입니다.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">거의 같은 사진도 사진 검색과 동일한 임베딩으로 찾아냅니다. 그래서 다시 압축되거나 크기가 바뀐 사본도 바이트가 완전히 달라도 발견됩니다. 어느 사본을 남길지는 완전히 결정적인 네 가지 정책이 고릅니다 — 최고 화질, 가장 오래된 것, 가장 새것, 또는 지정한 폴더에 있는 것 — 그리고 모든 선택에는 이유가 붙습니다. 삭제는 하지 않습니다. 남는 사본은 휴지통으로 갑니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">추가로 하는 세 가지</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">일괄 이름 변경</h3>
-              </div>
-              <p class="text-secondary small mb-0">문자열 바꾸기, 연번 매기기, 접두사나 접미사 붙이기, 대소문자 정리, 일부 잘라내기. 이름 변경은 목적지가 파일 자신의 폴더일 뿐인 평범한 규칙 묶음이므로, 다른 모든 것과 똑같은 미리 보기, 똑같은 검증기, 똑같은 실행 취소가 적용됩니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">감시 폴더</h3>
-              </div>
-              <p class="text-secondary small mb-0">감시 폴더에 들어온 파일은 감지되어 검토 대기 상태로 놓이며, 원하면 저장된 레시피와 대조됩니다. 의도적으로 하지 않는 일은 「행동하는 것」입니다. 뒤에서 조용히 파일을 옮기는 정리 도구는 아무리 편해도 훨씬 덜 미더운 제품이 되고 맙니다.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">함께 있어야 할 파일 묶어 두기</h3>
-              </div>
-              <p class="text-secondary small mb-0">카메라 RAW는 짝이 되는 JPEG 없이는 의미가 없고, 자막은 영상 없이는 쓸모가 없습니다. 엔진과 검증기 사이의 처리가 딸린 파일을 함께 움직입니다 — 다만 신중하게. 이름 앞부분이 같다는 것만으로는 두 파일이 짝이라는 증명이 되지 않기 때문입니다.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">개인 정보 보호는 제품의 형태 자체이지, 나중에 덧붙인 방침이 아닙니다</h2>
-          <p class="text-secondary fs-5 mb-0">계정도, 백엔드도, 클라우드 데이터베이스도 없습니다. 따라서 유출될 것도, 영장으로 요구될 것도, 개발자가 사용자를 대신해 지울 것도 존재하지 않습니다. 개발자는 이 애플리케이션으로부터 어떤 데이터도 받지 않습니다.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Stow가 만들어 내는 모든 것은 하나의 폴더에 담기며, 파일 동기화나 Windows 백업으로 색인이 클라우드에 복사되지 않도록 그 폴더는 의도적으로 클라우드 동기화 대상 밖에 놓입니다. 색인 전체를 CSV로 내보내 읽을 수도, 얼굴 데이터만 지울 수도, 저장된 문서 텍스트만 지울 수도, 색인을 통째로 버리고 다시 만들 수도 있습니다. 그중 어느 것도 실제 파일에는 손대지 않습니다.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">기능 및 안전 보장</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">기존 유틸리티 / 스크립트</th>
+                <th scope="col">클라우드 서비스</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">개인정보 보호 및 데이터 기밀성</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100% 오프라인 • 계정, 텔레메트리, 외부 클라우드 통신 일체 없음</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>오프라인이지만 지능형 자동화 및 AI 기능 부재</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>파일과 메타데이터가 외부 기업 서버로 업로드됨</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">클라우드 업로드 필요 여부</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">0바이트 업로드 (모든 연산이 전적으로 사용자 PC에서만 수행됨)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>없음 (로컬 전용)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>필수 동기화 발생 (수 기가바이트의 인터넷 대역폭 소모)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">온디바이스 로컬 AI 탑재</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">ONNX 기반의 로컬 CPU 비전, OCR 및 Phi-4 언어 모델 구동</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>없음 (단순 정규표현식 또는 기본 셸 스크립트에 의존)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>서버 측에 종속된 독점적 블랙박스 모델</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">사전 필수 미리보기 테이블</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">파일을 건드리기 전 100% 사전 검토 및 승인 테이블 제공</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>미리보기 없는 맹목적 실행 또는 위험한 배치 스크립트 구동</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>사전 검토 절차 없는 불투명한 백그라운드 일방 동기화</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">1클릭 트랜잭션 실행 취소</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">실행 전 원자적 저널 작성을 통해 언제든 즉각 롤백 복원 가능</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>수동 복구 필요, 스크립트 실행 후 되돌리기 불가능</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>복잡한 버전 히스토리에 의존하거나 영구 유실 위험 내포</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">클라우드 자리 표시자 안전 감지</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">OneDrive/iCloud/Dropbox 감지, 대용량 강제 다운로드 차단</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>가상 파일을 인식하지 못해 무차별 대용량 다운로드 유발</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>특정 벤더에 종속된 폐쇄적 클라우드 사일로</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">중복 및 유사 중복 제거</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">바이트 단위 폴더 중복, 유사 비디오 및 사진 선명도 분석까지 통합 지원</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>단순 파일명 일치 또는 단일 파일 수준의 기본 해시 검사만 제공</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>단순 사진 중복만 지원, 비디오 및 폴더 단위 중복 제거 불가</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">비트 로트(Bit-Rot) 및 무결성 검증</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">디스크 장애 및 데이터 손상을 감지하는 내장 SHA-256 백업 무결성 검증</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>복잡한 커맨드라인 유틸리티를 수동으로 직접 조작해야 함</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>내부 상태를 알 수 없는 불투명한 독점 클라우드 인프라</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">가격 정책 및 라이선스</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Microsoft Store 1회 일회성 구매 • 평생 영구 소장</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>기능이 제각각 분편화된 무료 유틸리티 또는 파편화된 유료 툴</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>매월 또는 매년 지속적으로 결제해야 하는 값비싼 정기 구독료</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> 명쾌한 답변
+        </span>
+        <h2 class="display-5 fw-bold text-white">자주 묻는 질문 (FAQ)</h2>
+        <p class="text-secondary fs-5">Stow의 프라이버시 아키텍처, 오프라인 AI, 파일 안전성 및 시스템 호환성에 대한 명쾌한 답변입니다.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Stow는 내 파일이나 데이터가 클라우드로 업로드되지 않는다는 것을 어떻게 보증하나요?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow에는 사용자 계정 체계, 외부 서버, 텔레메트리 SDK, 백그라운드 분석 수집기가 일체 탑재되어 있지 않습니다. 사진 의미론적 검색을 위한 SigLIP-2, 얼굴 클러스터링을 위한 YuNet 및 SFace, 문서 스캔용 로컬 OCR, 자연어 규칙 합성을 위한 Phi-4-mini 등 모든 머신러닝 모델은 ONNX Runtime을 통해 오직 사용자 PC의 CPU에서만 구동됩니다. 사진, 문서, 파일명, 폴더 구조 및 검색 쿼리는 기기 밖으로 단 한 줄도 유출되지 않습니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Stow를 사용하려면 고성능 외장 GPU나 전용 NPU가 반드시 필요한가요?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  아닙니다. Stow는 Windows 10 및 11(x64 및 ARM64)에 네이티브로 최적화되어 제작되었으며, 로컬 추론 런타임은 고가의 외장 GPU나 NPU 없이도 일반적인 보급형 CPU에서 가볍게 동작하도록 정밀하게 튜닝되어 있습니다. 뿐만 아니라 기본 프리셋, 비주얼 룰, 실시간 재귀 폴더 용량 계산, 중복 파일 제거, 정크 정리, 차분 동기화, 만능 미리보기 등의 핵심 기능들은 AI 모델을 전혀 거치지 않으므로 설치 즉시 가볍고 빠르게 작동합니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: OneDrive, iCloud, Dropbox 등의 클라우드 폴더에서 원치 않는 대량 다운로드를 어떻게 방지하나요?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow는 클라우드 자리 표시자 인식 아키텍처로 설계되었습니다. OneDrive, Dropbox, Google Drive, iCloud 등으로 관리되는 동기화 폴더를 스캔할 때, 클라우드 가상 파일(Online-only Placeholders)을 스마트하게 감지합니다. 데이터 요금이 청구되거나 배터리가 부족한 환경에서 기가바이트 단위의 원치 않는 무차별 파일 다운로드를 스스로 거부하므로, 클라우드 상태를 안전하게 보존하면서 대역폭 낭비나 갑작스러운 디스크 용량 고갈을 완벽히 차단합니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: 정크 잔여물을 정리하거나 중복 파일을 지우면 어떻게 되나요? 파일이 영구적으로 유실될 위험은 없나요?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow에 의해 파일이 복구 불가능하게 영구 삭제되는 일은 결코 없습니다. 잔여 정크 정리 작업(불완전한 다운로드 파일이나 오래된 인스톨러 청소 등)과 중복 파일 삭제 동작은 모두 표준 Windows 휴지통으로 안전하게 이동됩니다. 실수로 지운 파일이 있음을 깨달았다면, 휴지통에서 즉시 복원하거나 Stow의 &#x27;1클릭 실행 취소&#x27;를 눌러 이전 위치로 즉시 되돌릴 수 있습니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: 1클릭 실행 취소 기능은 어떻게 작동하나요? 며칠이 지난 후에도 정리를 취소할 수 있나요?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  실제 디스크에서 파일이 이동, 이름 변경, 정리되기 직전에 Stow는 모든 단일 파일의 원본 경로와 변경 후 경로를 정확하게 기록한 원자적 가역 트랜잭션 저널을 작성합니다. 작업 완료 직후 실행 취소 알림 표시줄이 나타나며, Stow의 &#x27;작업 기록(History)&#x27; 허브에 과거의 세션들이 안전하게 보존되므로 몇 시간 뒤는 물론 며칠, 몇 주가 지난 후에도 언제든지 정리 작업을 완벽하게 롤백할 수 있습니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: 자연어 AI 프롬프트는 어떤 방식으로 로컬에서 정리 규칙을 생성하나요?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  &#x27;모든 청구서를 Invoices 폴더로 옮기고 카메라 사진은 연도와 월별로 분류해 줘&#x27;와 같은 자연어를 입력하면, Stow의 온디바이스 로컬 언어 모델(Phi-4-mini)이 요청을 해석하여 안전하고 미리 볼 수 있는 규칙으로 합성합니다. 이때 언어 모델에는 확장자별 파일 수, 날짜 범위, 최상위 폴더 이름 등 고수준의 통계 스키마만 전달될 뿐, 개별 파일의 이름이나 실제 내용은 절대 전달되지 않습니다. 이후 검증 가능한 코드가 해당 규칙을 평가하여 사용자가 직접 검토하고 승인할 수 있는 대화형 미리보기 표를 완성합니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Stow는 카메라 RAW 파일과 동반 파일들을 분리되지 않게 묶어서 관리할 수 있나요?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  네, 완벽하게 지원합니다. Stow는 스마트 동반 파일(Companion File) 보존 엔진을 탑재하고 있습니다. 카메라 RAW 포맷(CR2, NEF, ARW, DNG 등)은 동일한 파일명의 JPEG/HEIC 미리보기 및 .xmp 사이드카 메타데이터 파일과 자동으로 결속됩니다. 마찬가지로 비디오 파일 또한 짝을 이루는 .srt 또는 .vtt 자막 파일과 단단히 연결됩니다. Stow가 원본 파일을 이동하거나 정리할 때 모든 동반 파일들이 한 몸처럼 함께 이동합니다.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: 시스템 최소 요구 사양은 어떻게 되며, Stow는 어떻게 설치하나요?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow는 64비트 Intel/AMD(x64) 및 Qualcomm Snapdragon(ARM64) 아키텍처 환경의 Windows 10(버전 2004 / 빌드 19041 이상)과 Windows 11을 모두 정식 지원합니다. 샌드박스로 완벽히 격리된 최신 규격의 MSIX 패키지 형태로 Microsoft Store를 통해 직접 배포되므로, 불필요한 시스템 찌꺼기 없는 깔끔한 설치, 편리한 자동 업데이트, 백그라운드 상주 프로그램 없는 쾌적함을 보장합니다.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: 사진 및 파일 정리 도구</h2>
-          <p class="text-secondary fs-5 mb-4">PC를 정리해 주는 오프라인 AI — 묻지 않고 파일을 옮기는 일은 결코 없습니다.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI 사진 및 파일 정리, 중복 파일 검색기</h2>
+          <p class="text-secondary fs-5 mb-4">클라우드에 단 1바이트도 업로드하지 않고 파일을 정리, 중복 제거, 클린업 및 보호하는 100% 오프라인 개인정보 보호 최우선 데스크톱 파일 관리 제품군입니다.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">설치</a>
-</div>
-<button type="button" class="to-top" aria-label="맨 위로" title="맨 위로">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="쿠키 동의" hidden>
   <p class="consent-bar-text">이 사이트의 사용 방식을 파악하기 위해 Google Analytics를 사용합니다. 거부하면 아무것도 저장되지 않으며 사이트는 똑같이 작동합니다. <a href="/privacy.html" class="consent-bar-link">개인정보처리방침</a></p>

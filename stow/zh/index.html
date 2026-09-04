@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow：照片与文件整理工具 | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="离线 AI 帮你整理电脑——而且从不擅自移动任何文件。 Stow 读取你指定的文件夹，判断每样东西应该放在哪里，并把它建议的每一处改动完整列给你看。只有你按下按钮，才会有东西真正移动。">
+  <title>Stow: AI 照片与文件整理器、重复文件查找器 | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="100% 离线、隐私优先的桌面文件管理套件，无需向云端上传任何字节，即可全面整理、查重、清理并保护您的文件。 Stow 终结了杂乱的“下载”文件夹、庞大分散的照片库以及各类难以辨识的陈年旧夹。依托设备端视觉识别、本地文档 OCR 以及 CPU 语言模型，Stow 能够智能规划整理方案、精准揪出重复及模糊文件，并彻底扫除深层隐藏的系统垃圾。">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow：照片与文件整理工具 | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="离线 AI 帮你整理电脑——而且从不擅自移动任何文件。 Stow 读取你指定的文件夹，判断每样东西应该放在哪里，并把它建议的每一处改动完整列给你看。只有你按下按钮，才会有东西真正移动。">
+  <meta property="og:title" content="Stow: AI 照片与文件整理器、重复文件查找器 | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="100% 离线、隐私优先的桌面文件管理套件，无需向云端上传任何字节，即可全面整理、查重、清理并保护您的文件。 Stow 终结了杂乱的“下载”文件夹、庞大分散的照片库以及各类难以辨识的陈年旧夹。依托设备端视觉识别、本地文档 OCR 以及 CPU 语言模型，Stow 能够智能规划整理方案、精准揪出重复及模糊文件，并彻底扫除深层隐藏的系统垃圾。">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/zh/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow：照片与文件整理工具 | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="离线 AI 帮你整理电脑——而且从不擅自移动任何文件。 Stow 读取你指定的文件夹，判断每样东西应该放在哪里，并把它建议的每一处改动完整列给你看。只有你按下按钮，才会有东西真正移动。">
+  <meta name="twitter:title" content="Stow: AI 照片与文件整理器、重复文件查找器 | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="100% 离线、隐私优先的桌面文件管理套件，无需向云端上传任何字节，即可全面整理、查重、清理并保护您的文件。 Stow 终结了杂乱的“下载”文件夹、庞大分散的照片库以及各类难以辨识的陈年旧夹。依托设备端视觉识别、本地文档 OCR 以及 CPU 语言模型，Stow 能够智能规划整理方案、精准揪出重复及模糊文件，并彻底扫除深层隐藏的系统垃圾。">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow：照片与文件整理工具","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"离线 AI 帮你整理电脑——而且从不擅自移动任何文件。 Stow 读取你指定的文件夹，判断每样东西应该放在哪里，并把它建议的每一处改动完整列给你看。只有你按下按钮，才会有东西真正移动。","url":"https://www.dhinovatech.com/stow/zh/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (zh)","item":"https://www.dhinovatech.com/stow/zh/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI 照片与文件整理器、重复文件查找器","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"100% 离线、隐私优先的桌面文件管理套件，无需向云端上传任何字节，即可全面整理、查重、清理并保护您的文件。 Stow 终结了杂乱的“下载”文件夹、庞大分散的照片库以及各类难以辨识的陈年旧夹。依托设备端视觉识别、本地文档 OCR 以及 CPU 语言模型，Stow 能够智能规划整理方案、精准揪出重复及模糊文件，并彻底扫除深层隐藏的系统垃圾。","url":"https://www.dhinovatech.com/stow/zh/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (zh)","item":"https://www.dhinovatech.com/stow/zh/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/zh/#faq","inLanguage":"zh-Hans","mainEntity":[{"@type":"Question","name":"Stow 如何确保我的任何文件或数据绝不会被上传至云端？","acceptedAnswer":{"@type":"Answer","text":"Stow 内部完全没有账号系统、没有外部服务器通信、没有遥测 SDK，也没有任何后台行为分析模块。所有机器学习模型（用于语义照片搜索的 SigLIP-2、用于人脸聚类的 YuNet 与 SFace、用于纸质文档识别的本地 OCR，以及用于自然语言规则编译的 Phi-4-mini）均通过 ONNX Runtime 严格在您电脑的本地 CPU 上运行。您的照片、文件、文件名、目录树及搜索请求永远不会离开您的机器半分。"}},{"@type":"Question","name":"使用 Stow 是否需要昂贵的高性能显卡（GPU）或专属 NPU？","acceptedAnswer":{"@type":"Answer","text":"完全不需要。Stow 原生专为 Windows 10 与 11（支持 x64 及 ARM64 架构）打造，其本地推理运行时专门针对普通消费级 CPU 进行了极致深度优化，无需配备独立显卡或 NPU 即可流畅运算。此外，常用的一键预设、可视化规则、实时文件夹大小统计、文件查重、垃圾清扫、差异对齐及全格式预览等核心功能，甚至完全无需调用 AI 模型，安装即可秒速运行。"}},{"@type":"Question","name":"Stow 如何防止在 OneDrive、iCloud 或 Dropbox 文件夹中意外触发海量网络下载？","acceptedAnswer":{"@type":"Answer","text":"Stow 深度集成了云盘虚拟占位符感知机制。当扫描由 OneDrive、Dropbox、Google Drive 或 iCloud 托管的目录时，Stow 会智能识别“仅联机”的虚拟占位文件。它坚决拒绝在按流量计费网络或电池供电状态下偷偷触发巨量文件的后台拉取，确保您的云端资产安然无恙，既不挤占宝贵带宽，更不会意外吞噬本地宝贵的硬盘空间。"}},{"@type":"Question","name":"当 Stow 清理废弃垃圾或剔除重复项时会发生什么？会不会造成文件永久丢失？","acceptedAnswer":{"@type":"Answer","text":"Stow 绝对不会永久抹除您的任何文件。无论是清理垃圾杂物（如未下完的残余文件或老旧安装包），还是剔除多余的重复文件，所有被清理项均会被安全放入标准的 Windows 系统回收站中。如果您日后发现某份文件仍有用处，随时可以直接在回收站中将其还原，或者在 Stow 中一键点击“撤销”，瞬间恢复如初。"}},{"@type":"Question","name":"“一键撤销”功能是如何运作的？几天之后还能后悔撤销整理吗？","acceptedAnswer":{"@type":"Answer","text":"在磁盘上的任何文件被物理移动、重命名或清理之前，Stow 都会先行记录下一份完全可逆且具有原子性的事务日志，详实记录每一个文件的原始绝对路径与目标路径。每次操作完成后界面会即刻弹出撤销浮条，且 Stow 的“历史记录”中心会长期留存所有过往批次，因此无论过去数小时、数天还是数周，您都能百分之百可靠地一键全盘撤销归档。"}},{"@type":"Question","name":"自然语言 AI 提示词是如何在本地生成文件整理规则的？","acceptedAnswer":{"@type":"Answer","text":"当您输入诸如“将所有发票移入 Invoices 文件夹，并将相机照片按年和月分类”这类的通俗大白话时，Stow 内置的本地语言模型（Phi-4-mini）会将您的口语需求精准转化为透明、可供预览的安全归档规则。在此过程中，模型仅会接收高维度的文件库结构摘要（如扩展名分布统计、时间跨度范围及顶层目录名），绝不会获取您具体的个别文件名或文件真实内容。随后，经严密审计的代码逻辑会在交互式预览表中对这些规则进行匹配展示，等待您的审阅批准。"}},{"@type":"Question","name":"Stow 能否将相机的 RAW 原始格式与其伴生文件保持绑定、同步移动？","acceptedAnswer":{"@type":"Answer","text":"完全可以。Stow 拥有智能的伴生协同文件保护功能。相机拍摄的 RAW 格式文件（例如 CR2、NEF、ARW、DNG 等）会自动与其配对的 JPEG/HEIC 预览图以及 .xmp 附属元数据文件强制绑定。同样，视频文件也会与同名的 .srt 或 .vtt 字幕文件紧密相连。当 Stow 整理或挪动主文件时，所有绑定的伴生文件都会步调一致地同步归档至对应位置。"}},{"@type":"Question","name":"系统的软硬件运行要求是什么？如何下载安装 Stow？","acceptedAnswer":{"@type":"Answer","text":"Stow 官方原生支持 64 位 Intel/AMD (x64) 及高通骁龙 Qualcomm Snapdragon (ARM64) 架构的 Windows 10（版本 2004 / 内部版本号 19041 及以上）与 Windows 11 系统。软件直接通过微软官方 Microsoft Store 以高度安全的现代沙盒化 MSIX 软件包形式分发，确保纯净无毒安装、静默自动更新，绝不在系统底层制造任何垃圾与残留。"}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">跳到主要内容</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 前往 Microsoft Store 获取
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>最新重大版本发布</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Desktop Suite</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 桌面套件：浏览与预览、残留清理、差异同步、本地 OCR 与备份中心</h2>
+            <p class="text-secondary small mb-0">从单一的整理工具，飞跃升级为功能完备、隐私安全的桌面文件管理利器。</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> 探索最新功能
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>双栏资源管理器与实时容量</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>专属残留垃圾清理器</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>定向文件夹对齐与差异同步</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>纸质单据 OCR 转 PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>备份与数据静默损坏校验</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow：照片与文件整理工具</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">离线 AI 帮你整理电脑——而且从不擅自移动任何文件。</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow 读取你指定的文件夹，判断每样东西应该放在哪里，并把它建议的每一处改动完整列给你看。只有你按下按钮，才会有东西真正移动。</p>
-          <p class="text-secondary mb-4 pe-lg-4">它完全运行在你自己的电脑上。没有账号，没有服务器，没有遥测，没有广告。AI 模型只下载一次，在你自己的 CPU 上运行：任何文件、文件名、照片、文档或搜索词都不会离开这台机器。</p>
+          <h1 class="hero-title mb-3">Stow: AI 照片与文件整理器、重复文件查找器</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">100% 离线、隐私优先的桌面文件管理套件，无需向云端上传任何字节，即可全面整理、查重、清理并保护您的文件。</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow 终结了杂乱的“下载”文件夹、庞大分散的照片库以及各类难以辨识的陈年旧夹。依托设备端视觉识别、本地文档 OCR 以及 CPU 语言模型，Stow 能够智能规划整理方案、精准揪出重复及模糊文件，并彻底扫除深层隐藏的系统垃圾。</p>
+          <p class="text-secondary mb-4 pe-lg-4">所有任务均严格在您的电脑本地运行，零云端服务器依赖、零遥测收集、零后台追踪。未经确认预览绝不擅自移动任何文件，绝不永久删除文件，且任何操作均支持一键撤销。</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> 看看它怎么运作
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> 查看运作方式
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% 离线运行</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> 事前预览审批</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> 绝不永久删除</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1键撤销</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> 安全兼容云端文件夹</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> 原生支持 x64 与 ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 前往 Microsoft Store 获取
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">不是你的归档方法失败了，只是生活插了进来。</h2>
-          <p class="text-secondary fs-5 mb-0">一个塞了四千样东西的下载文件夹。一个装着三部手机、两台相机和十年截图的图片文件夹。名叫「假期 2019」「假期的副本」「假期（最终）」的文件夹并排躺着，根本分不清哪个是哪个。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">手动整理是可行的，但没人能收尾。云服务愿意替你做——代价是把你整个私人库上传到别人的电脑里。可写脚本的工具会精确执行你的指令，前提是你愿意学一套规则语法，并且先在副本上试一遍。而所有这些工具，在关键时刻都要求你相信：即将扫过一万个文件的那次操作，正是你想要的那次。</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> 底层架构严格保障
+        </span>
+        <h2 class="display-5 fw-bold text-white">五大不变法则</h2>
+        <p class="text-secondary fs-5">贯穿 Stow 每个架构层级的五条不可妥协的设计准则。</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">法则 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100% 离线与绝密隐私</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">无需注册账号，零云端服务器，零遥测，零分析数据收集，零后台跟踪。所有 AI 模型（视觉、OCR、语言）均在您电脑的 CPU 本地运算。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">法则 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">未经预览审批绝不移动任何文件</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow 绝不会背着您移动、重命名或清理任何文件。每一项操作都会生成明细预览表格，由您先审阅批准后再执行。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">法则 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">绝不永久删除任何文件</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">程序绝不执行不可逆的永久删除。清理垃圾与重复文件时，均会将文件安全移至熟悉的 Windows 回收站，以便随时轻松还原。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">法则 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">一键即时撤销</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">实际写入磁盘前，所有变动都会先行记录在事务日志中。无论是一小时还是一周后，只要您改变主意，只需轻轻一键即可将文件还原至原先的确切位置。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">法则 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">安全兼容云盘占位文件</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">自动识别 OneDrive、Dropbox、iCloud 等云盘的占位符文件，绝不在按流量计费或电池受限的网络下偷偷下载海量数据。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> 安全执行流程
+        </span>
+        <h2 class="display-5 fw-bold text-white">工作原理</h2>
+        <p class="text-secondary fs-5">清晰透明的三大步骤，从始至终一切尽在掌握。</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">扫描与指定规则</h3>
+              <p class="text-secondary small mb-0">选择 Stow 要处理的任意文件夹或磁盘驱动器。可选用一键预设、用通俗自然语言描述您的整理想法，或让 Stow 自动辨析现有的分类归档习惯。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">预览与核对</h3>
+              <p class="text-secondary small mb-0">在实际改动任何文件之前，仔细审阅完整的方案清单。每个文件均对应确切行、建议路径及匹配规则。您可以随时筛选、编辑或取消勾选不希望变动的项目。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">放心应用与一键撤销</h3>
+              <p class="text-secondary small mb-0">安心执行整理计划。Stow 会在操作前将所有记录写入不可分割的事务日志中。即使在一小时或一个月后反悔，仅需轻轻一点就能彻底恢复原状。</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">预览本身就是这个产品</h2>
         <p class="text-secondary fs-5">你永远不是通过旁观执行过程来得知 Stow 做了什么决定的。你是在任何东西移动之前，通过读一张表格知道的：表里每一个文件都有自己的一行、一个去向，以及认领它的那条规则的名字。如果不对，关掉这个界面就行——什么也没发生。</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- 核心支柱 1: 轻松整理与自动化归档 -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> 核心支柱 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">轻松整理与自动化归档</h2>
+          <p class="text-secondary fs-5 mb-0">利用现成预设、自然语言 AI 或自定义规则系统，将杂乱无章的目录一键转化为结构清晰的规范归档。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">智能仪表盘与健康中心</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">您的文件库控制中枢。即时评估文件库健康状态——包括索引文件总数、受管存储容量、未归档项目及已回收空间。交互式“关注卡片”会主动提示：新接入待导入的相机 SD 卡、待归档的下载项、残留碎片警告以及备份时效提醒。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>对受管存储、待整理文件及已释放空间一览无余</li><li>针对 SD 卡即插导入、待办下载整理及垃圾清理的主动关注卡片</li><li>一键快速执行整理、扫描碎片或比对不同驱动器</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">五种随心整理方式</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">自由选择最适合您的工作流。使用开箱即用的一键预设（按扩展名、年/月、自动分离截图、相机型号）；直接用通俗语句向本地语言模型下达整理指令；让 Stow 自动学习并延续现有的目录分类架构；使用可视化规则构建器制定严密逻辑；或执行基于规则的高效批量重命名。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>开箱即用的一键预设：按文件类型、时间日期或相机元数据极速归档</li><li>自然语言 AI 交互：用大白话输入需求，本地 LLM 为您安全编写严密规则</li><li>延续现有命名体系：自动侦测并沿用您已建立的文件夹归档习惯</li><li>可视化规则编辑器：细粒度触发条件、目标路径通配符与冲突应对逻辑</li><li>批量重命名器：序列计数器、日期标签及正则模式文本替换</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">能够自我整理的文件夹（智能监控文件夹）</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">为“下载”或桌面等极易堆积混乱的缓冲区绑定自动规则。当有新文件落入时，Stow 会在后台自动生成整齐的归档预案并通过轻量通知温馨提醒您——无需常驻沉重的后台服务，随时一键确认应用。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>无需占用系统资源的庞大常驻后台，轻量高效监控目标目录</li><li>新文件落入监控目录时，自动在幕后准备规范的整理方案</li><li>始终要求用户一键审批——绝不在您离开电脑时自作主张移动文件</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 核心支柱 2: 双栏文件库资源管理器与全能即时预览窗格 -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> 核心支柱 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">双栏文件库资源管理器与全能即时预览窗格</h2>
+          <p class="text-secondary fs-5 mb-0">彻底弥补 Windows 资源管理器的核心短板，提供实时递归文件夹大小统计与秒级富媒体预览的现代化替代方案。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">支持实时文件夹大小的双栏文件库浏览器</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">通过可展开的目录树与高响应网格畅快漫游整个文件系统。Stow 攻克了 Windows 资源管理器的最大硬伤，直接在网格中实时计算并显示真实的文件夹递归总体积与子项目数量，让庞大臃肿的文件巨兽无所遁形。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>直接在文件网格中实时统计真实的文件夹递归大小与文件总数</li><li>配有层级展开目录树与面包屑导航的双栏高效浏览</li><li>原位文件直接管理：新建目录、更名以及原地剪切/复制/粘贴</li><li>与 Windows 原生资源管理器及外部桌面应用无缝双向拖拽</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">全能即时预览窗格</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">无需打开沉重的第三方软件，即可秒速审阅几乎任何格式的文件。内置提供带有 EXIF 元数据的图片查看、包含分辨率与编码信息的视频播放器、PDF 与 Word 文档阅读器、带 ID3 标签的音频播放器以及无需解压直接查看压缩包内容的档案透视器。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>高分辨率照片查看，提供相机型号、光圈、ISO 与完整 EXIF 参数</li><li>内置视频播放器，直观展示分辨率、帧率、码率及音视频编码</li><li>秒开浏览 PDF、Word 文档（.docx）及纯文本文档</li><li>集成音频播放器，支持 ID3 标签、专辑封面及音频码率查看</li><li>压缩包透视：无需解压即可直接探查 ZIP 和 TAR 归档内部内容</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 核心支柱 3: 智能深度清理、残留清扫与重复文件剔除 -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> 核心支柱 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">智能深度清理、残留清扫与重复文件剔除</h2>
+          <p class="text-secondary fs-5 mb-0">在绝对确保数据安全的前提下，追回被侵占的海量磁盘空间，彻底扫除杂乱重复的文件。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">专属系统垃圾与顽固残留清扫器</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">轻轻一点，即可扫除深层堆积的废弃垃圾，重新夺回数十 GB 宝贵空间。能够精准扫描未完成/中断的下载文件（.crdownload、.part、.download）、编辑器与系统残留（.DS_Store、Thumbs.db、临时缓存）、在“下载”中日积月累的安装程序（.exe、.msi）、庞大的开发者依赖缓存（node_modules、bin/obj、.gradle）、解压后遗留的废弃文件夹以及零字节空文件。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>清理中断的下载碎片、临时文件与系统缩略图缓存，释放海量空间</li><li>集中清理在“下载”目录中积压的大量旧版软件安装程序包</li><li>一键清除臃肿的开发者依赖包缓存（node_modules、gradle、bin/obj）</li><li>自动清扫空文件夹以及解压后遗留的无用废弃残骸</li><li>所有清理项均在预览表格中接受复核，并安全送入系统回收站</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">完全重复查找器（支持整文件及文件夹级比对）</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">不拘泥于文件名或存放路径，从底层按字节级别逐一精确识别内容完全相同的文件甚至整个镜像文件夹树。提供四种确定性规则智能推荐保留方案（最佳画质、最早创建、最新生成或优先指定目录）。冗余副本均安全送入回收站。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>基于内容哈希精准归集完全相同的文件及整套镜像文件夹目录</li><li>即便文件夹名称各异（如“Photos 2021”与“备份照片”），也能准确揪出整夹重复</li><li>采用回收站安全策略，确保被剔除的冗余副本随时能够无损复原</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">相似视频查重与照片清晰度甄选淘汰</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">远超基础的完全一致查重。能够洞察重新编码的转码视频、低清晰度压制版本（如 1080p 对比 720p）、剪辑裁切片段以及各类即时通讯软件压缩后的视频副本。针对照片，可自动识别高速连拍序列，并通过边缘清晰度算法智能推荐对焦最锐利的最佳抓拍，精准标出虚焦与抖动废片。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>相似视频检测：捕捉重编码、缩放分辨率及局部剪辑的视频</li><li>连拍序列聚类：智能归集相机连续动作抓拍的照片组</li><li>边缘锐度分析：自动标记模糊、对焦失败或手抖废片</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 核心支柱 4: 无纸化文档整理、音乐典藏与摄影管理 -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> 核心支柱 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">无纸化文档整理、音乐典藏与摄影管理</h2>
+          <p class="text-secondary fs-5 mb-0">将纷乱堆积的纸质单据照片与标签缺失的音视频收藏，瞬间蜕变为井然有序的高品质数字化藏馆。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">纸质单据智能转换为多页 PDF</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">将手机拍摄的各类收据、账单、税表及水电缴费单照片转化为规整有序的数字文件柜。100% 本地 OCR 引擎在本地提取文字，杜绝将敏感私密单据上传云端 API 的隐私风险。智能分类系统能自动识别文件类型（收据、发票、税单、账单、银行对账单、合同）及开具机构，将多张连续拍摄的页面合成为统一的标准化检索 PDF，并规范化命名。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>100% 本地 OCR 离线提取文字，规避敏感隐私泄露至云端的隐患</li><li>智能分类算法自动归集文档种类及开立主体</li><li>多页合订：自动将连续抓拍的单据合并为规范化且可全文检索的 PDF</li><li>高度规范的自动更名（如“2024-03-15_BankOfAmerica_Statement.pdf”）</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">音乐与音频文件库精准管理</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">全面读取并索引 MP3、FLAC、M4A、WAV 及 OGG 格式的 ID3 及内嵌音频元数据。精准区分“音轨艺术家”与“专辑艺术家”，确保多歌手合辑及原声带完整收录在单一文件夹中，避免目录碎片化。内置批量音频标签编辑器，可便捷修复缺失或错乱的曲目信息。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>涵盖 MP3、FLAC、M4A、WAV、OGG 的全方位 ID3 及音频标签索引</li><li>按“专辑艺术家”归类，杜绝合辑与原声带专辑被拆分拆散</li><li>内置批量标签编辑器，轻松修复缺失的曲目序号、演唱者、年份及封面</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">离线矢量世界地图与 SD 卡智能导入</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">在 100% 本地离线渲染的交互式矢量世界地图上探寻足迹——无需加载外部网络地图瓦片，绝不上传共享您的 GPS 经纬度隐私。插入存储卡或相机时能自动感应，一键智能导入，并严格维持 RAW + JPEG 配对文件的协同关系。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>纯本地离线矢量世界地图：完全在本地画布上呈现照片地理位置</li><li>智能识别插入的相机与 SD 卡，一键触发专属导入工作流</li><li>严格伴生文件保护：将 RAW+JPEG 以及视频与字幕文件强行锁定并同步迁移</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 核心支柱 5: 存储回收、差异对齐同步与 Windows 深度集成 -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> 核心支柱 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">存储回收、差异对齐同步与 Windows 深度集成</h2>
+          <p class="text-secondary fs-5 mb-0">企业级安全防护标准、外接盘差异化智能对齐以及与 Windows 系统的深度协同。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">定向文件夹对齐比对与差异同步</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">完美解答用户的普遍困惑：“我的外接移动硬盘里究竟有哪些文件是主力电脑里还没备份的？”比对两个文件夹树或驱动器，将文件精确划分为“目标端缺失”、“完全一致”或“冲突/修改过”。生成条理分明的安全复制预案，在绝不误删未校验文件的前提下补齐差额。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>比对两组文件夹树或存储驱动器，快速揪出遗漏与差异</li><li>将比对结果划分为“目标端缺失”、“内容完全相同”与“版本冲突”</li><li>安全复制规划：通过增量补充抹平差异，杜绝镜像同步时引发的破坏性误删</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">非破坏性安全备份与静默数据损坏（Bit-Rot）校验器</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">支持将重要文件库一键或定时备份至外置硬盘或辅助磁盘。仅同步新增与变动文件，绝不镜像复制源端的误删操作（非破坏性备份）。内置静默数据损坏（Bit-Rot）校验器，反复比对源与备份文件的 SHA-256 校验和，及时预警因磁盘物理介质老化或坏道引起的文件悄然损坏。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>非破坏性备份机制：仅增量复制新改动文件，坚决不同步删除动作</li><li>Bit-Rot 校验器：周期性重新校验 SHA-256 哈希值，侦测磁介质静默损坏</li><li>安全恢复规划器：在恢复前完整预览，可选择按原路径或释放至专门恢复目录</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">全卷空间地图与软链接（Junction）无损迁移</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">全局可视化呈现驱动器（C盘、D盘）的磁盘空间分布，迅速揪出扫描根目录之外吞噬空间的巨无霸目录（类似 TreeSize 或 WizTree）。当您将庞大目录（如 400 GB 的“图片”库）迁移至次级硬盘时，Stow 会在原路径自动创建 NTFS 目录联接（Directory Junction），使原有的快捷方式和关联软件依然能无缝读写而不报错。支持一键回收系统临时文件和更新缓存。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>全盘容量可视化分布图，快速定位整块磁盘中占用惊人的巨型文件夹</li><li>利用 NTFS 目录联接无感搬移超大文件夹，软件路径与快捷方式完全不受影响</li><li>系统冗余回收：精准排查 Windows 临时文件夹及更新缓存，腾出系统盘宝贵空间</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Windows 深度融合与便携式配置方案</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">专为 Windows 深度定制。在 Windows 资源管理器中右键单击任意文件夹，即可直接选择“使用 Stow 整理”或“查找重复项”。在任意界面按下快捷键 Win+Shift+F 即可唤出全局快速启动器。支持批量解除已下载文档的“Web 标记”（Zone.Identifier）安全锁定；移动文件时自动修复桌面和“开始”菜单中的无效快捷方式；支持导出便携式 JSON 规则配置文件，几秒钟即可在新电脑上快速就绪。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>与 Windows 资源管理器右键上下文菜单深度无缝集成</li><li>全局快捷热键（Win+Shift+F）随时唤出瞬时启动台</li><li>批量解除下载文件附带的“Web 标记”（Zone.Identifier）锁定</li><li>感知移动的快捷方式自动修复，保持桌面及开始菜单链接有效</li><li>导出便携式 JSON 规则预设，数秒内轻松迁移至新电脑</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> 无懈可击的隐私与绝对掌控
         </span>
-        <h2 class="display-5 fw-bold text-white">支撑整个应用的五条准则</h2>
+        <h2 class="display-5 fw-bold text-white">对比一览：为何选择 Stow</h2>
+        <p class="text-secondary fs-5">为什么聪明的桌面用户会放弃简陋脚本与云服务，坚定选择 Stow。</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">没有任何东西离开这台电脑</h3>
-              </div>
-              <p class="text-secondary small mb-0">文件不会，文件名不会，索引不会，向量表示不会，人脸数据不会，连崩溃日志也不会。整个应用里只有恰好两次网络操作，而且两次都必须由你主动发起。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">没有预览就不会发生任何事</h3>
-              </div>
-              <p class="text-secondary small mb-0">任何触及文件的操作——一键预设、语言模型写出的规则、批量重命名——都走同一条流水线，抵达同一个预览界面。没有任何绕过它的捷径。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">从不删除，也从不覆盖</h3>
-              </div>
-              <p class="text-secondary small mb-0">引擎只做三件事：移动文件、重命名、新建文件夹。删除只存在于唯一一处——重复文件查找——并且经由 Windows 回收站，而回收站在 Stow 被卸载之后依然存在。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">一切都可撤销</h3>
-              </div>
-              <p class="text-secondary small mb-0">每一次操作在执行前都会先写入日志。这份日志支撑着撤销按钮，在机器中途断电时让应用得以恢复，并在事后知道哪些文件夹被腾空了。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">模型只提议，由代码决定</h3>
-              </div>
-              <p class="text-secondary small mb-0">语言模型从不查看你的文件清单，也从不执行任何操作。它产出的是规则。普通的、可审计的代码把这些规则套用到每个文件上，再由一个独立的校验器重新核对它生成的每一个去向。</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">描述你想要什么的五种方式</h2>
-        <p class="text-secondary fs-5">它们最终都汇入完全相同的那一个预览。</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">现成的预设</h3>
-                  <p class="text-secondary small mb-0">六个一键选项：按文件类型、按年和月、按年、先按类型再按年、把截图挪到一边、按相机。其中五个无需打开任何一个文件就能工作，所以在下载任何模型之前，Stow 就已经能派上用场。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">用你自己的话说出来</h3>
-                  <p class="text-secondary small mb-0">「把所有跟发票有关的东西挪到发票文件夹里。」本地语言模型会把这句话变成规则。它拿到的是你这个库的摘要——数量、扩展名、日期范围、文件夹名称——而绝不是文件清单。代码里根本不存在把清单交给它的那条路径。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">接着你已有的那套方法往下做</h3>
-                  <p class="text-secondary small mb-0">Stow 从你的文件夹树里把既有结构读回来，写出延续它的规则。分析基于证据：一个名叫 2019 的文件夹，只有当里面的文件确实来自 2019 年时，才算得上是年份文件夹。不需要模型，也不需要下载。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">自己动手搭规则</h3>
-                  <p class="text-secondary small mb-0">当一个文件长这样，就把它放进那个文件夹。规则自上而下执行，第一条命中的胜出。条件涵盖扩展名、名称、路径、大小、日期、图像尺寸、标签、人物、地点和视觉相似度；去向支持 {{year}}、{{month_name}}、{{camera}} 这样的占位写法。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">存成一份配方</h3>
-                  <p class="text-secondary small mb-0">任何走到过预览的规则集，都可以命名保存、再次运行，或者交给一个受监视的文件夹。保存并不会赋予它任何特权：每次运行都会重新编译、重新受限、重新校验——并且依旧会抵达一个需要你批准的预览。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">一个按钮把一切放回原处</h2>
-          <p class="text-secondary fs-5 mb-0">历史记录按时间从新到旧列出 Stow 做过的最近二十件事，其中每一件都能被精确还原。任何一次整理之后，窗口顶部都会出现一条横栏，一键即可撤销——它从不被埋在菜单深处。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">撤销与执行故意不对称。执行会在第一次失败时停下，而撤销会尝试每一个操作，并把问题汇总报告，因为在还原到一半时停下，会让你卡在两种状态之间。把文件移出某个文件夹会让它变空，而只有 Stow 知道那些是哪些文件夹——所以事后它会提议帮你清掉，也仅止于提议。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">把东西重新找出来</h2>
-        <p class="text-secondary fs-5">这里的一切读取的都是 Stow 早已建好的索引，所以看一眼几乎不花什么代价。</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">搜索你的文件</h3>
-              </div>
-              <p class="text-secondary small mb-0">一套小而有文档的语法：kind:image、ext:pdf、size:&gt;10mb、older:1y、in:Downloads、tag:work、text:「热水器 保修」，以及在前面加减号表示排除。即便你没有允许 Stow 打开你的文件，它也能完整工作。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">按照片里有什么来找照片</h3>
-              </div>
-              <p class="text-secondary small mb-0">输入「海滩上的狗」，就能得到你的海滩照片，不管它叫 IMG_4821.jpg 还是别的什么。图像被读取、在本地编码成向量，然后释放：照片本身从不会被复制或留存。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">看清到底是什么占了空间</h3>
-              </div>
-              <p class="text-secondary small mb-0">按文件种类的总量、一路数到最深处的最满文件夹，以及单个体积最大的文件。每一条发现都随身带着产生它的那句搜索，于是「三年没人打开过的 18 GB 视频」直接把可以据以行动的查询递到你手上。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">地点与人物</h3>
-              </div>
-              <p class="text-secondary small mb-0">照片会按拍摄地点归拢，并且——只有在你主动开启时——按哪些面孔彼此相像来归拢。这是按相似度分组，不是身份识别：没有任何身份数据库，也没有任何判定某人是谁的能力。所有名字都由你来填。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">标签</h3>
-              </div>
-              <p class="text-secondary small mb-0">你自己定的一个词——「工作」「税务」「假期」——贴在任何你想盯住的文件上。标签存在 Stow 的索引里，所以你的文件永远不会被改名或改动，而且在任何隐私模式下都能用。</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">重复项，连整个文件夹也算在内</h2>
-          <p class="text-secondary fs-5 mb-0">内容相同的文件会按内容归为一组，无论它们躺在哪里、叫什么名字。相同的文件夹也一样：名称完全不参与比较，所以只要字节一致，「假期 2019」和「假期的副本」就是同一个文件夹。真正的空间通常就藏在这里。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">近乎相同的照片同样会被找出来，用的是与照片搜索相同的向量表示，因此重新压缩、改过尺寸的副本即使字节完全不同也能被发现。四种完全确定性的策略决定保留哪一份——最佳画质、最旧、最新，或者位于你指定文件夹中的那一份——每个选择都附带理由。什么都不会被删除；多余的副本进回收站。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">它还会做的三件事</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">批量重命名</h3>
-              </div>
-              <p class="text-secondary small mb-0">替换文本、给一组文件编号、加前缀或后缀、统一大小写、去掉某一段。重命名不过是一套去向为文件自身所在文件夹的普通规则集——因此它享有和其他一切完全相同的预览、相同的校验器和相同的撤销。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">受监视的文件夹</h3>
-              </div>
-              <p class="text-secondary small mb-0">落进受监视文件夹的文件会被察觉并列入待审阅，必要时还会与已保存的配方比对。它刻意不做的事是「动手」：一个在后台悄悄搬动文件的整理工具，无论多方便，都会是个可信度低得多的产品。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">让该在一起的文件待在一起</h3>
-              </div>
-              <p class="text-secondary small mb-0">相机 RAW 离了配对的 JPEG 就没有意义；字幕离了视频也毫无用处。引擎与校验器之间的一道处理会让伴随文件一同移动——但很谨慎，因为仅仅共享一个文件名前缀，还不足以证明两个文件属于彼此。</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">隐私是这个产品的形状，而不是事后拧上去的一纸条款</h2>
-          <p class="text-secondary fs-5 mb-0">没有账号，没有后端，没有云端数据库——因此没有什么可以泄露，没有什么可以被依法调取，也没有什么需要开发者代你删除。开发者从这个应用收不到任何数据。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Stow 推导出的一切都存放在同一个文件夹里，并且被刻意放在云同步位置之外，以免索引被文件同步或 Windows 备份复制到云端。你可以把整个索引导出成 CSV 来阅读，可以单独抹掉人脸数据，可以单独抹掉已保存的文档文本，也可以把整个索引丢掉重建。这些操作都不会碰到你任何一个真实文件。</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">核心特性与安全保障</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">传统工具 / 脚本</th>
+                <th scope="col">云端服务</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">隐私与数据保密性</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100% 离线 • 无需注册、零遥测、无任何外部服务器通信</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>虽然处于本地，但缺乏智能自动化与 AI 能力</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>文件及敏感元数据均需上传至远程企业云端</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">是否必须上传云端</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">0 字节上传（所有运算及处理严格保留在您的本机）</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>无需（纯本地操作）</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>强制同步（消耗海量网络带宽并造成流量堵塞）</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">设备端本地 AI 能力</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">基于 ONNX Runtime 的纯本地 CPU 视觉、OCR 及 Phi-4 语言模型</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>无（仅靠死板的静态正则或简陋 Shell 脚本）</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>架设在云端的封闭黑盒专有模型</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">强制预览审批表格</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">文件触碰之前，百分之百提供逐项预览审批确认</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>盲目直接执行，或伴随极高误操作风险的批处理脚本</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>缺乏事前核对流程的黑盒后台静默同步</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">一键事务级完整撤销</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">执行前原子级日志留痕，随时可瞬时安全回滚原状</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>全靠人工痛苦恢复；脚本操作几乎全为不可逆行为</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>依赖繁杂晦涩的网盘版本历史，甚至面临永久丢失风险</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">云盘占位符安全识别</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">敏锐识别 OneDrive/iCloud/Dropbox 虚拟占位文件，绝不擅自拉取下载</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>无法感知虚拟文件，极易意外触发数十 GB 的海量连环下载</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>厂商绑定的封闭孤岛</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">去重与相似查重深度</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">支持按字节级文件夹查重、相似压缩视频辨别及照片清晰度甄别</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>仅限基础的文件名比对或单文件静态哈希查重</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>仅支持粗糙的照片查重；缺乏视频及整套文件夹去重机制</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">静默损坏（Bit-Rot）及完整性校验</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">内置 SHA-256 备份一致性复核，防范硬盘静默介质故障</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>必须依赖门槛极高且繁琐的手工命令行工具</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>全凭服务商不透明的黑盒云端存储保障</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">定价模式与软件授权</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Microsoft Store 一次性买断 • 终身使用所有权</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>功能碎片化的简易免费工具，或互不相通的多套零散付费软件</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>按月或按年持续扣费的昂贵订阅陷阱</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> 答疑解惑
+        </span>
+        <h2 class="display-5 fw-bold text-white">常见问题解答 (FAQ)</h2>
+        <p class="text-secondary fs-5">有关 Stow 隐私架构、离线 AI、文件安全机制及兼容性的权威解答。</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Stow 如何确保我的任何文件或数据绝不会被上传至云端？
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow 内部完全没有账号系统、没有外部服务器通信、没有遥测 SDK，也没有任何后台行为分析模块。所有机器学习模型（用于语义照片搜索的 SigLIP-2、用于人脸聚类的 YuNet 与 SFace、用于纸质文档识别的本地 OCR，以及用于自然语言规则编译的 Phi-4-mini）均通过 ONNX Runtime 严格在您电脑的本地 CPU 上运行。您的照片、文件、文件名、目录树及搜索请求永远不会离开您的机器半分。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: 使用 Stow 是否需要昂贵的高性能显卡（GPU）或专属 NPU？
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  完全不需要。Stow 原生专为 Windows 10 与 11（支持 x64 及 ARM64 架构）打造，其本地推理运行时专门针对普通消费级 CPU 进行了极致深度优化，无需配备独立显卡或 NPU 即可流畅运算。此外，常用的一键预设、可视化规则、实时文件夹大小统计、文件查重、垃圾清扫、差异对齐及全格式预览等核心功能，甚至完全无需调用 AI 模型，安装即可秒速运行。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Stow 如何防止在 OneDrive、iCloud 或 Dropbox 文件夹中意外触发海量网络下载？
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow 深度集成了云盘虚拟占位符感知机制。当扫描由 OneDrive、Dropbox、Google Drive 或 iCloud 托管的目录时，Stow 会智能识别“仅联机”的虚拟占位文件。它坚决拒绝在按流量计费网络或电池供电状态下偷偷触发巨量文件的后台拉取，确保您的云端资产安然无恙，既不挤占宝贵带宽，更不会意外吞噬本地宝贵的硬盘空间。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: 当 Stow 清理废弃垃圾或剔除重复项时会发生什么？会不会造成文件永久丢失？
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow 绝对不会永久抹除您的任何文件。无论是清理垃圾杂物（如未下完的残余文件或老旧安装包），还是剔除多余的重复文件，所有被清理项均会被安全放入标准的 Windows 系统回收站中。如果您日后发现某份文件仍有用处，随时可以直接在回收站中将其还原，或者在 Stow 中一键点击“撤销”，瞬间恢复如初。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: “一键撤销”功能是如何运作的？几天之后还能后悔撤销整理吗？
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  在磁盘上的任何文件被物理移动、重命名或清理之前，Stow 都会先行记录下一份完全可逆且具有原子性的事务日志，详实记录每一个文件的原始绝对路径与目标路径。每次操作完成后界面会即刻弹出撤销浮条，且 Stow 的“历史记录”中心会长期留存所有过往批次，因此无论过去数小时、数天还是数周，您都能百分之百可靠地一键全盘撤销归档。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: 自然语言 AI 提示词是如何在本地生成文件整理规则的？
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  当您输入诸如“将所有发票移入 Invoices 文件夹，并将相机照片按年和月分类”这类的通俗大白话时，Stow 内置的本地语言模型（Phi-4-mini）会将您的口语需求精准转化为透明、可供预览的安全归档规则。在此过程中，模型仅会接收高维度的文件库结构摘要（如扩展名分布统计、时间跨度范围及顶层目录名），绝不会获取您具体的个别文件名或文件真实内容。随后，经严密审计的代码逻辑会在交互式预览表中对这些规则进行匹配展示，等待您的审阅批准。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Stow 能否将相机的 RAW 原始格式与其伴生文件保持绑定、同步移动？
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  完全可以。Stow 拥有智能的伴生协同文件保护功能。相机拍摄的 RAW 格式文件（例如 CR2、NEF、ARW、DNG 等）会自动与其配对的 JPEG/HEIC 预览图以及 .xmp 附属元数据文件强制绑定。同样，视频文件也会与同名的 .srt 或 .vtt 字幕文件紧密相连。当 Stow 整理或挪动主文件时，所有绑定的伴生文件都会步调一致地同步归档至对应位置。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: 系统的软硬件运行要求是什么？如何下载安装 Stow？
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow 官方原生支持 64 位 Intel/AMD (x64) 及高通骁龙 Qualcomm Snapdragon (ARM64) 架构的 Windows 10（版本 2004 / 内部版本号 19041 及以上）与 Windows 11 系统。软件直接通过微软官方 Microsoft Store 以高度安全的现代沙盒化 MSIX 软件包形式分发，确保纯净无毒安装、静默自动更新，绝不在系统底层制造任何垃圾与残留。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow：照片与文件整理工具</h2>
-          <p class="text-secondary fs-5 mb-4">离线 AI 帮你整理电脑——而且从不擅自移动任何文件。</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI 照片与文件整理器、重复文件查找器</h2>
+          <p class="text-secondary fs-5 mb-4">100% 离线、隐私优先的桌面文件管理套件，无需向云端上传任何字节，即可全面整理、查重、清理并保护您的文件。</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">安装</a>
-</div>
-<button type="button" class="to-top" aria-label="返回顶部" title="返回顶部">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie 同意" hidden>
   <p class="consent-bar-text">我们使用 Google Analytics 了解本站的使用情况。拒绝后不会存储任何内容 — 网站功能完全相同。 <a href="/privacy.html" class="consent-bar-link">隐私政策</a></p>

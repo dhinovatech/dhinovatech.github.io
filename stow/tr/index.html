@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: Fotoğraf ve Dosya Düzenleyici | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Bilgisayarınızı toparlayan çevrimdışı yapay zekâ — ve hiçbir dosyayı sormadan taşımaz. Stow gösterdiğiniz klasörleri okur, her şeyin nereye ait olduğunu hesaplar ve önerdiği tüm değişikliklerin eksiksiz listesini size gösterir. Siz düğmeye basana kadar hiçbir şey kımıldamaz.">
+  <title>Stow: Yapay Zeka Destekli Fotoğraf ve Dosya Düzenleyici, Yinelenen Dosya Bulucu | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="Buluta tek bir bayt bile yüklemeden dosyalarınızı düzenleyen, kopyaları temizleyen, gereksiz verileri süpüren ve verilerinizi koruyan, %100 çevrimdışı ve gizlilik odaklı masaüstü dosya yönetim paketi. Stow; karmaşık İndirilenler klasörlerine, dağınık fotoğraf arşivlerine ve ne olduğu belirsiz klasör">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: Fotoğraf ve Dosya Düzenleyici | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Bilgisayarınızı toparlayan çevrimdışı yapay zekâ — ve hiçbir dosyayı sormadan taşımaz. Stow gösterdiğiniz klasörleri okur, her şeyin nereye ait olduğunu hesaplar ve önerdiği tüm değişikliklerin eksiksiz listesini size gösterir. Siz düğmeye basana kadar hiçbir şey kımıldamaz.">
+  <meta property="og:title" content="Stow: Yapay Zeka Destekli Fotoğraf ve Dosya Düzenleyici, Yinelenen Dosya Bulucu | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="Buluta tek bir bayt bile yüklemeden dosyalarınızı düzenleyen, kopyaları temizleyen, gereksiz verileri süpüren ve verilerinizi koruyan, %100 çevrimdışı ve gizlilik odaklı masaüstü dosya yönetim paketi. Stow; karmaşık İndirilenler klasörlerine, dağınık fotoğraf arşivlerine ve ne olduğu belirsiz klasör">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/tr/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="tr_TR">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: Fotoğraf ve Dosya Düzenleyici | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Bilgisayarınızı toparlayan çevrimdışı yapay zekâ — ve hiçbir dosyayı sormadan taşımaz. Stow gösterdiğiniz klasörleri okur, her şeyin nereye ait olduğunu hesaplar ve önerdiği tüm değişikliklerin eksiksiz listesini size gösterir. Siz düğmeye basana kadar hiçbir şey kımıldamaz.">
+  <meta name="twitter:title" content="Stow: Yapay Zeka Destekli Fotoğraf ve Dosya Düzenleyici, Yinelenen Dosya Bulucu | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="Buluta tek bir bayt bile yüklemeden dosyalarınızı düzenleyen, kopyaları temizleyen, gereksiz verileri süpüren ve verilerinizi koruyan, %100 çevrimdışı ve gizlilik odaklı masaüstü dosya yönetim paketi. Stow; karmaşık İndirilenler klasörlerine, dağınık fotoğraf arşivlerine ve ne olduğu belirsiz klasör">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: Fotoğraf ve Dosya Düzenleyici","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Bilgisayarınızı toparlayan çevrimdışı yapay zekâ — ve hiçbir dosyayı sormadan taşımaz. Stow gösterdiğiniz klasörleri okur, her şeyin nereye ait olduğunu hesaplar ve önerdiği tüm değişikliklerin eksiksiz listesini size gösterir. Siz düğmeye basana kadar hiçbir şey kımıldamaz.","url":"https://www.dhinovatech.com/stow/tr/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (tr)","item":"https://www.dhinovatech.com/stow/tr/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: Yapay Zeka Destekli Fotoğraf ve Dosya Düzenleyici, Yinelenen Dosya Bulucu","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Buluta tek bir bayt bile yüklemeden dosyalarınızı düzenleyen, kopyaları temizleyen, gereksiz verileri süpüren ve verilerinizi koruyan, %100 çevrimdışı ve gizlilik odaklı masaüstü dosya yönetim paketi. Stow; karmaşık İndirilenler klasörlerine, dağınık fotoğraf arşivlerine ve ne olduğu belirsiz klasör","url":"https://www.dhinovatech.com/stow/tr/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (tr)","item":"https://www.dhinovatech.com/stow/tr/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/tr/#faq","inLanguage":"tr","mainEntity":[{"@type":"Question","name":"Stow, dosyalarımın veya verilerimin hiçbirinin buluta yüklenmeyeceğini nasıl garanti ediyor?","acceptedAnswer":{"@type":"Answer","text":"Stow bünyesinde hesap sistemi, harici sunucu, telemetri SDK'sı veya arka plan analitiği barındırmaz. Tüm makine öğrenimi modelleri (semantik fotoğraf araması için SigLIP-2, yüz kümeleme için YuNet ve SFace, taranan belgeler için yerel OCR ve doğal dil kuralları için Phi-4-mini) ONNX Runtime aracılığıyla yalnızca bilgisayarınızın işlemcisinde çalışır. Fotoğraflarınız, belgeleriniz, dosya adlarınız, dizin ağaçlarınız ve arama sorgularınız bilgisayarınızdan asla ayrılmaz."}},{"@type":"Question","name":"Stow'u kullanmak için güçlü bir ekran kartına (GPU) veya özel bir NPU'ya ihtiyacım var mı?","acceptedAnswer":{"@type":"Answer","text":"Hayır. Stow yerel olarak Windows 10 ve 11 için (hem x64 hem de ARM64 mimarilerinde) geliştirilmiştir ve yerel çıkarım altyapısı, harici GPU veya NPU gerektirmeden standart tüketici işlemcileri için özel olarak optimize edilmiştir. Dahası; hazır profiller, görsel kurallar, canlı klasör boyutları, dosya kopyalarını bulma, kalıntı temizliği, diferansiyel eşitleme ve evrensel önizleme gibi temel özellikler hiçbir yapay zeka modeli gerektirmez ve kurulur kurulmaz anında çalışır."}},{"@type":"Question","name":"Stow, OneDrive, iCloud veya Dropbox klasörlerinde istenmeyen devasa indirmeleri nasıl önler?","acceptedAnswer":{"@type":"Answer","text":"Stow, bulut yer tutucu dosyalarının (cloud placeholders) bilincinde olarak tasarlanmıştır. OneDrive, Dropbox, Google Drive veya iCloud tarafından yönetilen klasörleri tararken yalnızca bulutta bulunan sanal yer tutucuları tespit eder. Kotalı veya pille çalışan bağlantılarda sessiz ve devasa dosya indirmeleri başlatmayı reddederek, bant genişliğini tüketmeden veya yerel diski beklenmedik şekilde doldurmadan bulut dosyalarınızın güvende kalmasını sağlar."}},{"@type":"Question","name":"Stow kalıntıları temizlediğinde veya kopyaları sildiğinde ne olur? Dosyalar kalıcı olarak kaybolabilir mi?","acceptedAnswer":{"@type":"Answer","text":"Stow tarafından hiçbir dosya asla kalıcı olarak silinmez. Kalıntı temizleme işlemleri (yarım kalmış indirmeleri veya eski yükleyicileri silmek gibi) ve kopya kaldırma eylemleri, öğeleri güvenli bir şekilde standart Windows Geri Dönüşüm Kutusu'na taşır. Bir dosyayı yanlışlıkla kaldırdığınızı fark ederseniz, onu doğrudan Geri Dönüşüm Kutusu'ndan kolayca geri yükleyebilir veya Stow'un tek tıkla Geri Alma özelliğini kullanabilirsiniz."}},{"@type":"Question","name":"Tek tıkla Geri Alma özelliği nasıl çalışır? Bir düzenleme işlemini günler sonra geri alabilir miyim?","acceptedAnswer":{"@type":"Answer","text":"Diskteki herhangi bir dosya taşınmadan, yeniden adlandırılmadan veya temizlenmeden önce Stow, her bir öğenin tam kaynak ve hedef yollarını belgeleyen atomik ve tersine çevrilebilir bir işlem günlüğü kaydeder. Her işlemden hemen sonra bir Geri Alma bildirim çubuğu görüntülenir ve Stow'un Geçmiş merkezi önceki işlemleri saklar; böylece saatler, günler hatta haftalar sonra bile düzenleme oturumlarını güvenle geri alabilirsiniz."}},{"@type":"Question","name":"Doğal Dil Yapay Zekası komutları yerel olarak nasıl düzenleme kurallarına dönüştürüyor?","acceptedAnswer":{"@type":"Answer","text":"'Tüm faturaları Faturalar klasörüne taşı ve fotoğraf makinesi fotoğraflarını yıl ve aya göre sırala' gibi bir komut yazdığınızda, Stow'un yerel dil modeli (Phi-4-mini) isteğinizi güvenli ve önizlenebilir düzenleme kurallarına dönüştürür. Model yalnızca üst düzey bir kütüphane şeması alır (uzantı sayıları, tarih aralıkları ve üst klasör adları) — dosyalarınızın adlarını veya içeriklerini asla görmez. Ardından denetlenebilir kod, bu kuralları inceleyip onaylayabileceğiniz etkileşimli bir önizleme tablosunda değerlendirir."}},{"@type":"Question","name":"Stow, fotoğraf makinesi RAW dosyalarını ve eşlikçi dosyaları bir arada tutabilir mi?","acceptedAnswer":{"@type":"Answer","text":"Evet. Stow akıllı eşlikçi dosya koruma özelliğine sahiptir. Kamera RAW biçimleri (CR2, NEF, ARW, DNG gibi) eşleşen JPEG/HEIC önizlemelerine ve .xmp sepeti (sidecar) meta veri dosyalarına otomatik olarak bağlanır. Benzer şekilde video dosyaları da .srt veya .vtt altyazılarıyla birlikte tutulur. Stow birincil dosyayı düzenlediğinde veya taşıdığında, tüm eşlikçi dosyalar da onunla birlikte taşınır."}},{"@type":"Question","name":"Sistem gereksinimleri nelerdir ve Stow nasıl yüklenir?","acceptedAnswer":{"@type":"Answer","text":"Stow; hem 64-bit Intel/AMD (x64) hem de Qualcomm Snapdragon (ARM64) mimarilerinde Windows 10 (sürüm 2004 / yapı 19041 ve üzeri) ve Windows 11'i destekler. Doğrudan Microsoft Store üzerinden yalıtılmış (sandbox), modern paketli bir MSIX uygulaması olarak dağıtılır; temiz kurulum, otomatik güncellemeler ve sıfır arka plan yükü garanti eder."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Ana içeriğe geç</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Microsoft Store&#x27;dan Edin
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>En Son Ana Sürüm</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Masaüstü Paketi</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 Masaüstü Paketi: Göz Atma ve Önizleme, Kalıntı Temizleyici, Diferansiyel Eşitleme, Yerel OCR ve Yedekleme Merkezi</h2>
+            <p class="text-secondary small mb-0">Basit bir dosya düzenleyiciden eksiksiz, gizlilik odaklı bir masaüstü dosya yönetimi merkezine devasa bir evrim.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> En Son Özellikleri Keşfedin
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Çift Panelli Gezgin ve Canlı Boyutlar</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Özel Kalıntı Temizleyici</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Yönlendirilmiş Klasör Eşitleme</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>Belge OCR ile PDF Oluşturma</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Yedekleme ve Bit Bozulması Doğrulayıcı</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: Fotoğraf ve Dosya Düzenleyici</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Bilgisayarınızı toparlayan çevrimdışı yapay zekâ — ve hiçbir dosyayı sormadan taşımaz.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow gösterdiğiniz klasörleri okur, her şeyin nereye ait olduğunu hesaplar ve önerdiği tüm değişikliklerin eksiksiz listesini size gösterir. Siz düğmeye basana kadar hiçbir şey kımıldamaz.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Tamamen kendi bilgisayarınızda çalışır. Hesap yok, sunucu yok, telemetri yok, reklam yok. Yapay zekâ modelleri bir kez indirilir ve kendi işlemcinizde çalışır: hiçbir dosya, dosya adı, fotoğraf, belge ya da arama ifadesi makineden asla çıkmaz.</p>
+          <h1 class="hero-title mb-3">Stow: Yapay Zeka Destekli Fotoğraf ve Dosya Düzenleyici, Yinelenen Dosya Bulucu</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">Buluta tek bir bayt bile yüklemeden dosyalarınızı düzenleyen, kopyaları temizleyen, gereksiz verileri süpüren ve verilerinizi koruyan, %100 çevrimdışı ve gizlilik odaklı masaüstü dosya yönetim paketi.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow; karmaşık İndirilenler klasörlerine, dağınık fotoğraf arşivlerine ve ne olduğu belirsiz klasörlere son verir. Cihaz üzerinde çalışan yerel bilgisayarlı görü, yerel belge OCR&#x27;ı ve işlemci (CPU) üzerinde çalışan dil modelleriyle desteklenen Stow; akıllı düzenleme planları hesaplar, yinelenen ve bulanık dosyaları tespit eder ve gizli sistem kalıntılarını süpürür.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Her şey bulut sunucuları, telemetri veya arka plan takibi olmaksızın tamamen kendi bilgisayarınızda çalışır. Onaylanmış bir önizleme olmadan hiçbir dosya taşınmaz, hiçbir şey kalıcı olarak silinmez ve gerçekleştirilen her işlem tek tıkla geri alınabilir.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Nasıl çalıştığını görün
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Nasıl çalıştığını görün
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> %100 Çevrimdışı</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Önce Onaylı Önizleme</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Asla Kalıcı Olarak Silmez</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> Tek Tıkla Geri Alma</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Bulut Klasörleriyle Güvenli</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 ve ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Microsoft Store&#x27;dan Edin
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Dosyalama sisteminiz başarısız olmadı. Araya hayat girdi.</h2>
-          <p class="text-secondary fs-5 mb-0">İçinde dört bin şey olan bir İndirilenler klasörü. Üç telefon, iki fotoğraf makinesi ve on yıllık ekran görüntüsü barındıran bir Resimler klasörü. «Tatil 2019», «Tatilin kopyası» ve «tatil (son)» adlı klasörler ve hangisinin hangisi olduğunu anlamanın hiçbir yolu yok.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Elle yapmak işe yarar ama kimse bitiremez. Bulut hizmetleri sizin yerinize yapar — tüm kişisel arşivinizi bir başkasının bilgisayarına yükleyerek. Betik yazılabilen araçlar tam olarak söylediğinizi yapar, yeter ki bir kural sözdizimi öğrenmeye ve önce bir kopyada denemeye gönüllü olun. Ve hepsi, o kritik anda, on bin dosyanın üzerinden geçmek üzere olan işlemin kastettiğiniz işlem olduğuna güvenmenizi ister.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Mimari Güvence Altında
+        </span>
+        <h2 class="display-5 fw-bold text-white">Beş Değişmez İlke</h2>
+        <p class="text-secondary fs-5">Stow&#x27;un her katmanına entegre edilmiş ödün verilmeyen beş mimari güvence.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">1. İlke</span>
+                  <h3 class="h6 text-white fw-bold mb-0">%100 Çevrimdışı ve Gizli</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Kullanıcı hesabı yok, bulut sunucusu yok, telemetri yok, analitik yok, arka plan takibi yok. Tüm yapay zeka modelleri (görü, OCR, dil modelleri) yerel olarak bilgisayarınızın işlemcisinde çalışır.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">2. İlke</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Onaylı Önizleme Olmadan Hiçbir Şey Taşınmaz</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow bilginiz dışında asla bir dosyayı taşımaz, yeniden adlandırmaz veya temizlemez. Gerçekleştirilen her işlem, önce inceleyip onayladığınız ayrıntılı bir önizleme tablosu oluşturur.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">3. İlke</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Hiçbir Şey Asla Kalıcı Olarak Silinmez</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Uygulama hiçbir zaman geri döndürülemez dosya silme işlemi gerçekleştirmez. Temizleme ve yinelenen dosya kaldırma işlemleri, öğeleri kolayca kurtarılabilecekleri tanıdık Windows Geri Dönüşüm Kutusu&#x27;na taşır.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">4. İlke</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Tek Tıkla Anında Geri Alma</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Diskteki her işlem öncesinde günlüğe kaydedilir. Bir saat veya bir hafta sonra fikrinizi değiştirirseniz, tek bir tıkla dosyalarınızı tam olarak önceki konumlarına geri döndürebilirsiniz.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">5. İlke</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Bulut Klasörleriyle Tamamen Güvenli</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Bulut yer tutucu dosyalarını (OneDrive, Dropbox, iCloud) otomatik olarak tanır ve kotalı bağlantılarda gigabaytlarca veriyi sessizce indirmeyi kesinlikle reddeder.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Güvenli İşlem Akışı
+        </span>
+        <h2 class="display-5 fw-bold text-white">Nasıl Çalışır?</h2>
+        <p class="text-secondary fs-5">Üç basit ve şeffaf adım. Baştan sona tam denetim.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Tara ve Tanımla</h3>
+              <p class="text-secondary small mb-0">Stow&#x27;u herhangi bir klasöre veya sürücüye yönlendirin. Tek tıkla hazır bir profil seçin, istediğiniz düzeni doğal bir dille ifade edin veya Stow&#x27;un mevcut dosyalama alışkanlıklarınızı otomatik olarak öğrenmesine izin verin.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Önizle ve Doğrula</h3>
+              <p class="text-secondary small mb-0">Diskte tek bir bayt bile taşınmadan önce önerilen işlem tablosunun tamamını inceleyin. Her dosyanın tam bir satırı, önerilen hedef yolu ve geçerli kuralı bulunur. Dokunulmamasını istediğiniz öğeleri filtreleyin, düzenleyin veya işaretini kaldırın.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Tek Tıkla Geri Alma Güvencesiyle Uygula</h3>
+              <p class="text-secondary small mb-0">Planı gönül rahatlığıyla uygulayın. Stow her işlemi önce atomik bir işlem günlüğüne kaydeder. Fikrinizi değiştirirseniz — ister bir saat, ister bir ay sonra — tek bir tıklama her şeyi eski haline getirir.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">Asıl ürün, önizlemenin kendisi</h2>
         <p class="text-secondary fs-5">Stow&#x27;un ne karar verdiğini onu izleyerek asla öğrenmezsiniz. Bir tabloyu okuyarak öğrenirsiniz — hiçbir şey kımıldamadan önce — ve o tabloda her bir dosyanın bir satırı, bir hedefi ve onu sahiplenen kuralın adı vardır. Yanlışsa ekranı kapatırsınız — ve hiçbir şey olmamıştır.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- 1. Sütun: Zahmetsiz Düzenleme ve Otomatik Dosyalama -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> 1. Sütun
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Zahmetsiz Düzenleme ve Otomatik Dosyalama</h2>
+          <p class="text-secondary fs-5 mb-0">Hazır profiller, doğal dil destekli yapay zeka veya özel kural sistemleri kullanarak dağınık dizinleri temiz ve yapılandırılmış arşivlere dönüştürün.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Akıllı Kontrol Paneli ve Sağlık Merkezi</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Arşivinizin komuta merkezi. İndekslenen toplam dosya sayısı, yönetilen depolama boyutu, dosyalanmamış öğeler ve geri kazanılan alan gibi kütüphane sağlığına dair anında değerlendirme alın. Eyleme geçirilebilir Dikkat Kartları; içe aktarılmaya hazır yeni takılan kamera SD kartlarını, işlenmeyi bekleyen İndirilenler dosyalarını, çöp uyarılarını ve yedekleme hatırlatıcılarını proaktif olarak gösterir.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Kütüphane depolaması, ayrılmamış dosyalar ve kazanılan gigabaytlar hakkında anlık genel bakış</li><li>SD kartlar, bekleyen indirmeler ve çöp uyarıları için eyleme geçirilebilir Dikkat Kartları</li><li>Düzenleme, kalıntı süpürme veya sürücü eşitleme için tek tıkla hızlı işlem kısayolları</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Düzenlemenin Beş Farklı Yolu</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Nasıl çalışmak istediğinizi siz seçin. Tek tıkla hazır profilleri kullanın (dosya türüne, yıl/aya göre, ekran görüntülerini ayırma, kamera modeline göre); cihaz üzerinde çalışan yerel dil modeline ne istediğinizi doğal dille yazın; Stow&#x27;un mevcut klasör düzeninizi otomatik olarak öğrenip devam ettirmesini sağlayın; Görsel Kural Oluşturucu ile hassas koşullar belirleyin veya kural tabanlı toplu yeniden adlandırma gerçekleştirin.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Hazır Tek Tıkla Profiller: Dosya türü, tarih veya kamera meta verilerine göre anında dosyalama</li><li>Doğal Dil Destekli Yapay Zeka: İsteğinizi doğrudan yazın; yerel LLM güvenli kurallar oluştursun</li><li>Mevcut Düzeni Devam Ettirme: Oluşturduğunuz klasör kurallarını otomatik algılar ve sürdürür</li><li>Görsel Kural Oluşturucu: Hassas koşullar, hedef değişkenleri ve çakışma önleme mantığı</li><li>Toplu Yeniden Adlandırıcı: Sıralı sayaçlar, tarih etiketleri ve desen tabanlı metin değiştirme</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Kendini Düzenleyen Klasörler (Akıllı İzlenen Klasörler)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">İndirilenler veya Masaüstü gibi hızla dağılan alanlara kurallar atayın. Yeni dosyalar geldiğinde Stow, arka planda düzenli bir taslak hazırlar ve rahatsız edici arka plan servisleri çalıştırmadan sizi önizleme bildirimiyle nazikçe bilgilendirir — tek tıkla uygulamaya hazır.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Ağır arka plan servisleri çalıştırmadan hedef klasörleri yüksek verimlilikle izler</li><li>İzlenen klasörlere yeni dosyalar eklendiğinde otomatik olarak düzenleme taslakları oluşturur</li><li>Her zaman tek tıkla kullanıcı onayı gerektirir; siz başında yokken asla dosyaları taşımaz</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 2. Sütun: Çift Panelli Kütüphane Gezgini ve Evrensel Önizleme Paneli -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> 2. Sütun
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Çift Panelli Kütüphane Gezgini ve Evrensel Önizleme Paneli</h2>
+          <p class="text-secondary fs-5 mb-0">Canlı özyinelemeli klasör boyutları ve anında zengin önizlemelerle Windows&#x27;un en büyük eksikliklerini gideren modern bir Windows Gezgini alternatifi.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Canlı Klasör Boyutlarıyla Çift Panelli Kütüphane Gezgini</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Genişletilebilir dizin ağacı ve duyarlı dosya ızgarası ile tüm dosya sisteminizde gezinin. Stow, doğrudan ızgara üzerinde gerçek özyinelemeli klasör boyutlarını ve öğe sayılarını hesaplayıp görüntüleyerek Windows Gezgini&#x27;nin en büyük sınırlamasını çözer ve depolama alanının nerede yoğunlaştığını anında gösterir.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Doğrudan görünüm üzerinde hesaplanan canlı özyinelemeli klasör boyutları ve öğe sayıları</li><li>Genişletilebilir dizin ağacı ve içerik haritası (breadcrumbs) ile çift panelli gezinti</li><li>Doğrudan dosya yönetimi: klasör oluşturma, yeniden adlandırma ve yerinde kes/kopyala/yapıştır</li><li>Windows Gezgini ve masaüstü uygulamalarıyla sorunsuz çift yönlü sürükle-bırak desteği</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Evrensel Anında Önizleme Paneli</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Ağır harici uygulamaları başlatmaya gerek kalmadan herhangi bir dosya biçimini anında inceleyin. EXIF meta verileriyle fotoğraf inceleme, çözünürlük ve kodek bilgilerini sunan video oynatıcı, PDF ve Word belgeleri için belge okuyucu, ID3 etiketli ses oynatıcı ve arşiv inceleme özelliklerini içerir.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Kamera modeli, diyafram, ISO ve EXIF bilgileriyle yüksek çözünürlüklü fotoğraf inceleme</li><li>Çözünürlük, kare hızı, bit hızı ve kodek bilgilerini gösteren entegre video oynatıcı</li><li>PDF, Word belgeleri (.docx) ve metin dosyaları için anında belge görüntüleyici</li><li>ID3 etiket meta verileri, albüm kapağı ve bit hızı incelemesi sunan ses oynatıcı</li><li>Arşiv denetleyici: ZIP ve TAR arşivlerinin içeriğine çıkartmaya gerek kalmadan göz atma</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 3. Sütun: Akıllı Temizlik, Kalıntı Süpürücü ve Kopyaları Ayıklama -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> 3. Sütun
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Akıllı Temizlik, Kalıntı Süpürücü ve Kopyaları Ayıklama</h2>
+          <p class="text-secondary fs-5 mb-0">Dosyalarınızı %100 güvende tutarken boşa harcanan gigabaytları geri kazanın ve yinelenen dosya kalabalığını ortadan kaldırın.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Özel Kalıntı ve Çöp Süpürücü</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Gizli sistem çöplerinden gigabaytlarca alanı tek bir tıkla geri kazanın. Yarım kalan indirmeleri (.crdownload, .part, .download), editör ve işletim sistemi kalıntılarını (.DS_Store, Thumbs.db, geçici dosyalar), birikmiş eski yazılım yükleyicilerini (.exe, .msi), ağır geliştirici önbelleklerini (node_modules, bin/obj, .gradle), sahipsiz açılmış klasörleri ve sıfır baytlık dosyaları tarar.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Yarım kalan indirmelerden, geçici dosyalardan ve küçük resim önbelleklerinden gigabaytlar kazanın</li><li>İndirilenler klasöründe biriken eski yazılım yükleyici dosyalarını temizler</li><li>Geliştirici bağımlılık önbelleklerini (node_modules, gradle, bin/obj) arındırır</li><li>Boş klasörleri ve açılmış arşivlerden kalan artıkları süpürür</li><li>Her temizlik önizleme tablosunda incelenir ve güvenle Geri Dönüşüm Kutusu&#x27;na gönderilir</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Birebir Yinelenen Dosya Bulucu (Dosyalar ve Klasörler)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Dosya adları veya konumları ne olursa olsun, birebir aynı dosyaları ve klasör ağaçlarını bayt bayt tespit eder. Dört kararlı politika hangi kopyanın saklanacağını önerir (en iyi kalite, en eski, en yeni veya tercih edilen klasör). Fazlalık kopyalar güvenle Geri Dönüşüm Kutusu&#x27;na taşınır.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>İçerik karma (hash) koduna göre birebir aynı dosyaları ve yansıtılmış klasörleri gruplar</li><li>Farklı adlara sahip olsa bile yinelenen klasörleri yakalar (&#x27;Fotoğraflar 2021&#x27; ile &#x27;Yedek Fotolar&#x27;)</li><li>Geri Dönüşüm Kutusu güvenliği, yedek kopyaların her zaman geri yüklenebilmesini sağlar</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Benzer Video Bulucu ve Fotoğraf Netliği Ayıklayıcısı</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Birebir kopyaların ötesine geçer. Yeniden kodlanmış videoları, düşük çözünürlüklü sürümleri (örn. 1080p ile 720p), kırpılmış klipleri ve WhatsApp gibi mesajlaşma uygulamalarında sıkıştırılmış videoları bulur. Fotoğraflar için seri çekim dizilerini algılar, kenar netliğini analiz ederek en keskin fotoğrafın saklanmasını önerir ve bulanık olanları işaretler.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Benzer video tespiti; yeniden kodlanmış, boyutlandırılmış ve kırpılmış videoları yakalar</li><li>Seri çekim gruplaması, fotoğraf makinesinin kesintisiz aksiyon karelerini tanımlar</li><li>Kenar ve netlik analizi; bulanık, odak dışı veya titremiş fotoğrafları işaretler</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 4. Sütun: Kağıtsız Belgeler, Müzik Koleksiyonu ve Fotoğrafçılık -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> 4. Sütun
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Kağıtsız Belgeler, Müzik Koleksiyonu ve Fotoğrafçılık</h2>
+          <p class="text-secondary fs-5 mb-0">Kaotik kağıt yığınlarını ve etiketlenmemiş medya arşivlerini kusursuz bir şekilde yapılandırılmış kütüphanelere dönüştürün.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Taranan Belgelerden Çok Sayfalı PDF Oluşturma</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Fişlerin, hesap özetlerinin, vergi evraklarının ve faturaların kamera fotoğraflarını düzenli bir dijital dosya dolabına dönüştürür. Cihaz üzerindeki yerel OCR, belgeleri bulut API&#x27;lerine göndermeden metinleri ayıklar. Akıllı sınıflandırma; belge türünü (Fiş, Fatura, Vergi Formu, Abonelik Faturası, Banka Dekontu, Sözleşme) ve kurumu tespit eder, çoklu çekimleri birleştirir ve dosya adlarını standartlaştırır.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>%100 cihaz üzerinde çalışan yerel OCR, bulut gizlilik riski olmadan metinleri ayıklar</li><li>Akıllı sınıflandırma, belge türlerini ve düzenleyen kurumları kategorize eder</li><li>Çoklu çekim birleştirme, sıralı sayfaları aranabilir standart bir PDF belgesine dönüştürür</li><li>Tutarlı otomatik adlandırma (örn. &#x27;2024-03-15_GarantiBankasi_Ekstre.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Müzik ve Ses Kütüphanesi Yönetimi</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">MP3, FLAC, M4A, WAV ve OGG biçimlerinde ID3 ve ses etiketlerini okur ve dizine ekler. Parça Sanatçısı ile Albüm Sanatçısı ayrımını yaparak karma sanatçılı derleme albümlerin dağılmasını önler ve tek bir klasörde kalmasını sağlar. Eksik veya hatalı meta verileri düzeltmek için yerleşik bir etiket düzenleyici içerir.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>MP3, FLAC, M4A, WAV ve OGG formatlarında kapsamlı ID3 ve etiket dizini oluşturma</li><li>Albüm Sanatçısı gruplaması, derleme ve film müzikleri albümlerinin parçalanmasını engeller</li><li>Yerleşik toplu etiket düzenleyici; eksik parçaları, sanatçıları, yılları ve albüm kapaklarını onarır</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Çevrimdışı Vektör Dünya Haritası ve SD Kart İçe Aktarma</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Fotoğraflarınızın nerede çekildiğini harici web harita karoları yüklemeden ve GPS koordinatlarını paylaşmadan tamamen çevrimdışı oluşturulan etkileşimli bir vektör dünya haritası üzerinde keşfedin. RAW + JPEG eşlikçi koruması ile tek tıkla içe aktarma için takılı bellek kartlarını veya kameraları otomatik olarak algılar.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Etkileşimli vektör dünya haritası, konum etiketli fotoğrafları %100 çevrimdışı haritada gösterir</li><li>Tek tıkla içe aktarma iş akışlarıyla akıllı kamera ve SD kart algılama</li><li>Sıkı eşlikçi dosya koruması, RAW+JPEG ve video+altyazı ikililerini her zaman bir arada tutar</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 5. Sütun: Alan Kazanımı, Diferansiyel Eşitleme ve Windows Entegrasyonu -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> 5. Sütun
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Alan Kazanımı, Diferansiyel Eşitleme ve Windows Entegrasyonu</h2>
+          <p class="text-secondary fs-5 mb-0">Kurumsal düzeyde güvenlik, diferansiyel sürücü eşitlemesi ve Windows işletim sistemiyle derin uyum.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Yönlendirilmiş Klasör Eşitleme ve Diferansiyel Senkronizasyon</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">&#x27;Harici yedekleme sürücümde olup da birincil kütüphanemde henüz bulunmayan ne var?&#x27; sorusuna yanıt verir. İki klasör ağacını veya sürücüyü karşılaştırarak dosyaları Hedefte Eksik, Birebir Aynı veya Çakışan/Değiştirilmiş olarak sınıflandırır. Doğrulanmamış dosyaları silmeden aradaki farkı kapatan güvenli bir kopyalama planı hazırlar.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Boşlukları ve tutarsızlıkları belirlemek için iki klasör ağacını veya sürücüyü karşılaştırır</li><li>Dosyaları Hedefte Eksik, Aynı ve Çakışmalı olarak kategorilere ayırır</li><li>Güvenli kopyalama planı, yıkıcı ayna silmeleri uygulamadan eksikleri tamamlar</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Tahribatsız Yedekleme ve Veri Bozulması (Bit-Rot) Doğrulayıcı</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Önemli kütüphanelerin harici sürücülere veya ikincil disklere tek tıkla ya da zamanlanmış yedeklemesini ayarlayın. Kaynaktaki silme işlemlerini kopyalamadan yalnızca yeni ve güncellenmiş dosyaları kopyalar. Yerleşik veri bozulması (bit-rot) doğrulayıcı, disk bozulmalarını veya arızalı sektörleri tespit etmek için kaynak ile yedek arasındaki SHA-256 sağlama toplamlarını yeniden doğrular.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Tahribatsız yedekleme görevleri, silmeleri yansıtmadan yeni dosyaları kopyalar</li><li>Veri bütünlüğü doğrulayıcı, disk arızalarını tespit etmek için SHA-256 kodlarını kontrol eder</li><li>Güvenli geri yükleme planlayıcı, dosyaları orijinal veya yeni klasörlere önizleyerek geri yükler</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Bütün Sürücü Alan Haritası ve Kavşak (Junction) ile Taşıma</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Tarama köklerinizin dışındaki devasa alan kaplayan klasörleri bulmak için tüm sürücülerdeki (C:, D:) disk alanını görselleştirir (TreeSize veya WizTree benzeri). Büyük klasörleri (ör. 400 GB&#x27;lık Resimler arşivi) ikincil bir sürücüye taşıyın; Stow, orijinal konumda otomatik olarak bir NTFS Dizin Kavşağı (Directory Junction) oluşturur, böylece kısayollar ve uygulamalar bozulmadan çalışmaya devam eder. Sistem geçici dosyalarını ve güncelleme önbelleklerini temizleyin.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Sürücü genelinde görsel alan haritası, tüm diskteki devasa klasörleri anında tespit eder</li><li>NTFS Dizin Kavşakları (Junctions), uygulama yollarını bozmadan dev klasörlerin taşınmasını sağlar</li><li>Sistem Alanı Temizleme, kurtarılabilir Windows geçici klasörlerini ve önbelleklerini bulur</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Derin Windows Entegrasyonu ve Taşınabilir Profiller</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Doğrudan Windows için özel olarak geliştirilmiştir. Windows Gezgini&#x27;nde herhangi bir klasöre sağ tıklayarak &#x27;Stow ile Düzenle&#x27; veya &#x27;Yinelenenleri Bul&#x27; seçeneğini kullanın. Genel Hızlı Başlatıcı&#x27;yı açmak için dilediğiniz yerde Win+Shift+F tuşlarına basın. İndirilen dosyalardaki Web İşareti (Zone.Identifier) engellemesini toplu olarak kaldırır, dosyalar taşındığında Masaüstü/Başlat Menüsü kısayollarını otomatik olarak onarır ve yeni bilgisayarları saniyeler içinde yapılandırmak için taşınabilir JSON profilleri dışa aktarır.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Windows Gezgini sağ tık bağlam menüsü entegrasyonu</li><li>Anında sistem araması için Genel Hızlı Başlatıcı kısayolu (Win+Shift+F)</li><li>İndirilen dosyalar için Web İşareti (Zone.Identifier) toplu engel kaldırıcı</li><li>Taşımaya duyarlı kısayol onarımı, Masaüstü ve Başlat Menüsü bağlantılarını çalışır tutar</li><li>Kuralları ve profilleri yeni bilgisayarlara aktarmak için taşınabilir JSON dışa aktarımı</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Ödünsüz Gizlilik ve Denetim
         </span>
-        <h2 class="display-5 fw-bold text-white">Tüm uygulamanın üzerine kurulduğu beş kural</h2>
+        <h2 class="display-5 fw-bold text-white">Stow Nasıl Karşılaştırılır?</h2>
+        <p class="text-secondary fs-5">Masaüstü kullanıcılarının neden komut dosyaları ve bulut hizmetleri yerine Stow&#x27;u tercih ettiği burada.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Hiçbir şey bilgisayardan çıkmaz</h3>
-              </div>
-              <p class="text-secondary small mb-0">Ne dosyalar, ne adları, ne dizin, ne gömmeler, ne yüz verileri, ne de bir çökme günlüğü. Tüm uygulamada tam olarak iki ağ işlemi vardır ve ikisini de bilerek sizin başlatmanız gerekir.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Önizleme olmadan hiçbir şey olmaz</h3>
-              </div>
-              <p class="text-secondary small mb-0">Bir dosyaya dokunan her işlem — tek tıklamalık bir hazır ayar, dil modelinin yazdığı bir kural, toplu yeniden adlandırma — aynı hattan geçer ve aynı önizleme ekranına varır. Bunu atlayan bir kestirme yol yoktur.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Hiçbir şey silinmez veya üzerine yazılmaz</h3>
-              </div>
-              <p class="text-secondary small mb-0">Motor yalnızca dosyaları taşır, yeniden adlandırır ve klasör oluşturur. Kaldırma tam olarak tek bir yerde vardır — yinelenen bulucuda — ve Stow kaldırılsa bile ayakta kalan Windows Geri Dönüşüm Kutusu&#x27;ndan geçer.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Her şey geri alınabilir</h3>
-              </div>
-              <p class="text-secondary small mb-0">Her işlem, yürütülmeden önce bir günlüğe yazılır. Bu günlük geri al düğmesini besler, makine iş ortasında elektriği kaybederse uygulamayı kurtarır ve sonrasında hangi klasörleri boşalttığını bilir.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Modeller önerir, kod karar verir</h3>
-              </div>
-              <p class="text-secondary small mb-0">Dil modeli dosya listenizi asla görmez ve asla bir işlem yürütmez. Kurallar üretir. Sıradan, denetlenebilir kod bunları her dosyaya uygular ve bağımsız bir doğrulayıcı ürettiği her hedefi yeniden denetler.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">İstediğinizi anlatmanın beş yolu</h2>
-        <p class="text-secondary fs-5">Hepsi tam olarak aynı önizlemede birleşir.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Hazır ayarlar</h3>
-                  <p class="text-secondary small mb-0">Tek tıklamalık altı seçenek: dosya türüne göre, yıl ve aya göre, yıla göre, türe sonra yıla göre, ekran görüntülerini kenara ayır, ya da fotoğraf makinesine göre. Bunların beşi tek bir dosya bile açmadan çalışır, yani Stow herhangi bir model indirilmeden önce de işe yarar.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Kendi kelimelerinizle anlatın</h3>
-                  <p class="text-secondary small mb-0">«Faturalarla ilgili her şeyi bir Faturalar klasörüne taşı.» Yerel bir dil modeli bu cümleyi kurallara çevirir. Arşivinizin bir özetini alır — sayılar, uzantılar, tarih aralığı, klasör adları — dosya listesini asla. Ona onu verecek bir kod yolu yoktur.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Zaten sahip olduğunuz düzeni sürdürün</h3>
-                  <p class="text-secondary small mb-0">Stow yapıyı klasör ağacınızdan geri okur ve onu sürdüren kurallar yazar. Çözümleme kanıta dayalıdır: 2019 adlı bir klasör, ancak içindeki dosyalar gerçekten 2019&#x27;dansa yıl klasörü sayılır. Model yok, indirme yok.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Kuralları kendiniz kurun</h3>
-                  <p class="text-secondary small mb-0">Bir dosya böyle göründüğünde onu şu klasöre koy. Kurallar yukarıdan aşağı işler, ilk eşleşme kazanır. Koşullar uzantıyı, adı, yolu, boyutu, tarihleri, ölçüleri, etiketleri, kişileri, yerleri ve görsel benzerliği kapsar; hedefler {{year}}, {{month_name}} ve {{camera}} gibi yer tutucular alır.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Tarif olarak kaydedin</h3>
-                  <p class="text-secondary small mb-0">Bir önizlemeye ulaşmış her kural kümesi adlandırılıp saklanabilir, yeniden çalıştırılabilir ya da izlenen bir klasöre verilebilir. Kaydetmek ona hiçbir ayrıcalık tanımaz: her çalıştırmada yeniden derlenir, yeniden sınırlanır ve yeniden doğrulanır — ve yine onaylamanız gereken bir önizlemeye varır.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Tek bir düğme her şeyi geri koyar</h2>
-          <p class="text-secondary fs-5 mb-0">Geçmiş, Stow&#x27;un yaptığı son yirmi şeyi en yenisi başta olacak şekilde listeler ve her biri birebir geri alınabilir. Her düzenlemeden sonra pencerenin üstünde tek tıklamalık bir geri al düğmesi içeren bir çubuk belirir — asla bir menüye gömülmez.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Geri alma, yürütmeyle bilinçli olarak simetrik değildir. Yürütme ilk hatada dururken, geri alma her işlemi dener ve sorunları topluca bildirir; çünkü bir geri yüklemenin ortasında durmak sizi iki durum arasında mahsur bırakırdı. Dosyaları bir klasörden çıkarmak onu boşaltır ve o klasörlerin hangileri olduğunu yalnızca Stow bilir — bu yüzden sonrasında onları temizlemeyi önerir ve önermekten fazlasını yapmaz.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Bir şeyleri yeniden bulmak</h2>
-        <p class="text-secondary fs-5">Buradaki her şey Stow&#x27;un zaten kurmuş olduğu dizini okur, dolayısıyla bakmak neredeyse hiçbir şeye mal olmaz.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Dosyalarınızda arayın</h3>
-              </div>
-              <p class="text-secondary small mb-0">Küçük, belgelenmiş bir sözdizimi: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:«kombi garantisi» ve dışarıda bırakmak için başa bir eksi. Stow&#x27;un dosyalarınızı açmasına izin verilmediğinde bile eksiksiz çalışır.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Fotoğrafları içeriklerine göre arayın</h3>
-              </div>
-              <p class="text-secondary small mb-0">«sahilde köpek» yazın ve sahil fotoğraflarınızı alın; adları IMG_4821.jpg olsun ya da bambaşka bir şey. Görüntüler okunur, yerel olarak bir vektöre kodlanır ve bırakılır: fotoğrafların kendisi asla kopyalanmaz veya saklanmaz.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Yeri neyin kapladığını görün</h3>
-              </div>
-              <p class="text-secondary small mb-0">Dosya türüne göre toplamlar, en dolu klasörleriniz en dibe kadar sayılmış hâlde ve en büyük tekil dosyalarınız. Her bulgu, kendisini üreten aramayı beraberinde taşır; böylece «üç yıldır kimsenin açmadığı 18 GB video» üzerinde işlem yapabileceğiniz tam sorguyu elinize verir.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Yerler ve kişiler</h3>
-              </div>
-              <p class="text-secondary small mb-0">Fotoğraflar çekildikleri yere göre ve — yalnızca siz açarsanız — hangi yüzlerin birbirine benzediğine göre gruplanır. Bu benzerliğe göre gruplamadır, kimlik belirleme değil: hiçbir kimlik veritabanı ve birinin kim olduğunu saptayacak hiçbir yetenek yoktur. Tüm adları siz verirsiniz.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Etiketler</h3>
-              </div>
-              <p class="text-secondary small mb-0">Kendi seçtiğiniz bir kelime — «iş», «vergi», «tatil» — izlemek istediğiniz herhangi bir dosyaya iliştirilir. Etiketler Stow&#x27;un dizininde yaşar, dolayısıyla dosyalarınız asla yeniden adlandırılmaz veya değiştirilmez ve her gizlilik kipinde çalışırlar.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Yinelenenler, bütün klasörler dâhil</h2>
-          <p class="text-secondary fs-5 mb-0">Birebir aynı dosyalar, nerede olurlarsa olsunlar ve adları ne olursa olsun içeriğe göre gruplanır. Birebir aynı klasörler de öyle: adlar karşılaştırmaya hiç katılmaz, dolayısıyla baytları aynıysa «Tatil 2019» ile «Tatilin kopyası» aynı klasördür. Gerçek alan genellikle oradadır.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Neredeyse aynı olan fotoğraflar da yakalanır; fotoğraf aramasıyla aynı gömmeler kullanıldığından yeniden sıkıştırılmış ve boyutu değiştirilmiş kopyalar, baytları tamamen farklı olsa da bulunur. Tümüyle belirlenimci dört ilke hangi kopyanın kalacağını seçer — en iyi kalite, en eski, en yeni ya da belirlediğiniz bir klasörde duran — ve her seçim gerekçesiyle birlikte gelir. Hiçbir şey silinmez; fazla kopyalar Geri Dönüşüm Kutusu&#x27;na gider.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Yaptığı üç şey daha</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Toplu yeniden adlandırma</h3>
-              </div>
-              <p class="text-secondary small mb-0">Metin değiştirme, bir diziyi numaralandırma, ön ek veya son ek ekleme, büyük-küçük harfi düzeltme, bir parçayı çıkarma. Yeniden adlandırma, hedefi dosyanın kendi klasörü olan sıradan bir kural kümesidir — dolayısıyla diğer her şeyle aynı önizlemeyi, aynı doğrulayıcıyı ve aynı geri almayı alır.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">İzlenen klasörler</h3>
-              </div>
-              <p class="text-secondary small mb-0">İzlenen bir klasöre gelen dosyalar fark edilir ve gözden geçirilmek üzere hazırlanır, isteğe bağlı olarak kayıtlı bir tarifle karşılaştırılır. Bilinçli olarak yapmadığı şey harekete geçmektir: arka planda sessizce dosya taşıyan bir düzenleyici, ne kadar kullanışlı olursa olsun çok daha az güvenilir bir ürün olurdu.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Birbirine ait dosyaları bir arada tutmak</h3>
-              </div>
-              <p class="text-secondary small mb-0">Bir fotoğraf makinesi RAW&#x27;ı JPEG&#x27;i olmadan anlamsızdır; bir altyazı videosu olmadan işe yaramaz. Motor ile doğrulayıcı arasındaki bir geçiş, eşlik eden dosyaları bir arada tutar — temkinli biçimde, çünkü ortak bir ad öneki tek başına iki dosyanın birbirine ait olduğunu kanıtlamaz.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Gizlilik ürünün biçimidir, üstüne sonradan takılmış bir ilke değil</h2>
-          <p class="text-secondary fs-5 mb-0">Hesap yok, arka uç yok, bulut veritabanı yok — dolayısıyla sızdırılacak bir şey, mahkeme kararıyla istenecek bir şey ve geliştiricinin sizin adınıza silebileceği bir şey yok. Geliştirici uygulamadan hiçbir veri almaz.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Stow&#x27;un türettiği her şey tek bir klasörde yaşar; dizin dosya eşitleme veya Windows Yedekleme yoluyla buluta asla kopyalanmasın diye kasıtlı olarak bulutla eşitlenen konumların dışında tutulur. Dizinin tamamını CSV olarak dışa aktarıp okuyabilir, yalnızca yüz verilerini silebilir, yalnızca saklanan belge metnini silebilir ya da dizinin tümünü atıp yeniden kurabilirsiniz. Bunların hiçbiri gerçek dosyalarınızın tekine bile dokunmaz.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Özellik ve Güvenlik Güvencesi</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Geleneksel Araçlar / Betikler</th>
+                <th scope="col">Bulut Hizmetleri</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Gizlilik ve Veri Güvenliği</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">%100 Çevrimdışı • Sıfır telemetri, hesap veya bulut sunucusu</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Çevrimdışıdır ancak akıllı otomasyon ve yapay zekadan yoksundur</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Dosyalar ve meta veriler uzak kurumsal sunuculara yüklenir</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bulut Yüklemesi Gereksinimi</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Sıfır bayt yükleme (Tüm işlemler tamamen bilgisayarınızda yapılır)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Yok (yalnızca yerel)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Zorunlu senkronizasyon (gigabaytlarca bant genişliği gerektirir)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Cihaz Üzerinde Yerel Yapay Zeka</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">ONNX aracılığıyla yerel CPU görü, OCR ve Phi-4 dil modelleri</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Yok (statik regex veya temel kabuk betikleri)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Sunucu tarafında çalışan kapalı kutu özel modeller</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Zorunlu Önizleme Tablosu</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Herhangi bir dosyaya dokunulmadan önce garantili önizleme tablosu</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Körlemesine çalıştırma veya riskli toplu betik yürütmeleri</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ön inceleme olmaksızın şeffaf olmayan arka plan eşitlemesi</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Tek Tıkla İşlemsel Geri Alma</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">İşlem öncesi atomik günlük sayesinde anında eski durumuna döndürme</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Manuel kurtarma; betik işlemleri geri alınamaz</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Karmaşık sürüm geçmişi veya kalıcı veri kaybı</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bulut Yer Tutucu Güvenliği</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">OneDrive/iCloud/Dropbox dosyalarını tanır; asla zorla indirmez</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Farkında değildir; genellikle kazara devasa indirmeleri tetikler</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Sağlayıcıya bağımlı kapalı bulut depoları</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Yinelenen ve Benzer Dosyalar</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Bayt bayt klasörler, benzer videolar ve fotoğraf netliği analizi</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Yalnızca temel dosya adı veya tekil dosya karması eşleşmeleri</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Yalnızca temel fotoğraf kopyaları; video veya klasör ayıklama yok</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Veri Bozulması (Bit-Rot) Doğrulayıcı</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Disk arızalarını yakalamak için yerleşik SHA-256 yedekleme doğrulaması</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Karmaşık manuel komut satırı araçları gerektirir</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kapalı ve şeffaf olmayan tescilli bulut depolaması</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Fiyatlandırma ve Lisanslama</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Microsoft Store&#x27;da tek seferlik satın alma • Ömür boyu sahiplik</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ücretsiz basit araçlar veya parçalı ücretli yazılımlar</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Pahalı, tekrarlayan aylık veya yıllık abonelik ücretleri</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Net Yanıtlar
+        </span>
+        <h2 class="display-5 fw-bold text-white">Sıkça Sorulan Sorular</h2>
+        <p class="text-secondary fs-5">Stow&#x27;un gizlilik mimarisi, çevrimdışı yapay zekası, dosya güvenliği ve uyumluluğu hakkında merak edilenler.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Stow, dosyalarımın veya verilerimin hiçbirinin buluta yüklenmeyeceğini nasıl garanti ediyor?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow bünyesinde hesap sistemi, harici sunucu, telemetri SDK&#x27;sı veya arka plan analitiği barındırmaz. Tüm makine öğrenimi modelleri (semantik fotoğraf araması için SigLIP-2, yüz kümeleme için YuNet ve SFace, taranan belgeler için yerel OCR ve doğal dil kuralları için Phi-4-mini) ONNX Runtime aracılığıyla yalnızca bilgisayarınızın işlemcisinde çalışır. Fotoğraflarınız, belgeleriniz, dosya adlarınız, dizin ağaçlarınız ve arama sorgularınız bilgisayarınızdan asla ayrılmaz.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Stow&#x27;u kullanmak için güçlü bir ekran kartına (GPU) veya özel bir NPU&#x27;ya ihtiyacım var mı?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Hayır. Stow yerel olarak Windows 10 ve 11 için (hem x64 hem de ARM64 mimarilerinde) geliştirilmiştir ve yerel çıkarım altyapısı, harici GPU veya NPU gerektirmeden standart tüketici işlemcileri için özel olarak optimize edilmiştir. Dahası; hazır profiller, görsel kurallar, canlı klasör boyutları, dosya kopyalarını bulma, kalıntı temizliği, diferansiyel eşitleme ve evrensel önizleme gibi temel özellikler hiçbir yapay zeka modeli gerektirmez ve kurulur kurulmaz anında çalışır.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Stow, OneDrive, iCloud veya Dropbox klasörlerinde istenmeyen devasa indirmeleri nasıl önler?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow, bulut yer tutucu dosyalarının (cloud placeholders) bilincinde olarak tasarlanmıştır. OneDrive, Dropbox, Google Drive veya iCloud tarafından yönetilen klasörleri tararken yalnızca bulutta bulunan sanal yer tutucuları tespit eder. Kotalı veya pille çalışan bağlantılarda sessiz ve devasa dosya indirmeleri başlatmayı reddederek, bant genişliğini tüketmeden veya yerel diski beklenmedik şekilde doldurmadan bulut dosyalarınızın güvende kalmasını sağlar.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Stow kalıntıları temizlediğinde veya kopyaları sildiğinde ne olur? Dosyalar kalıcı olarak kaybolabilir mi?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow tarafından hiçbir dosya asla kalıcı olarak silinmez. Kalıntı temizleme işlemleri (yarım kalmış indirmeleri veya eski yükleyicileri silmek gibi) ve kopya kaldırma eylemleri, öğeleri güvenli bir şekilde standart Windows Geri Dönüşüm Kutusu&#x27;na taşır. Bir dosyayı yanlışlıkla kaldırdığınızı fark ederseniz, onu doğrudan Geri Dönüşüm Kutusu&#x27;ndan kolayca geri yükleyebilir veya Stow&#x27;un tek tıkla Geri Alma özelliğini kullanabilirsiniz.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Tek tıkla Geri Alma özelliği nasıl çalışır? Bir düzenleme işlemini günler sonra geri alabilir miyim?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Diskteki herhangi bir dosya taşınmadan, yeniden adlandırılmadan veya temizlenmeden önce Stow, her bir öğenin tam kaynak ve hedef yollarını belgeleyen atomik ve tersine çevrilebilir bir işlem günlüğü kaydeder. Her işlemden hemen sonra bir Geri Alma bildirim çubuğu görüntülenir ve Stow&#x27;un Geçmiş merkezi önceki işlemleri saklar; böylece saatler, günler hatta haftalar sonra bile düzenleme oturumlarını güvenle geri alabilirsiniz.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Doğal Dil Yapay Zekası komutları yerel olarak nasıl düzenleme kurallarına dönüştürüyor?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  &#x27;Tüm faturaları Faturalar klasörüne taşı ve fotoğraf makinesi fotoğraflarını yıl ve aya göre sırala&#x27; gibi bir komut yazdığınızda, Stow&#x27;un yerel dil modeli (Phi-4-mini) isteğinizi güvenli ve önizlenebilir düzenleme kurallarına dönüştürür. Model yalnızca üst düzey bir kütüphane şeması alır (uzantı sayıları, tarih aralıkları ve üst klasör adları) — dosyalarınızın adlarını veya içeriklerini asla görmez. Ardından denetlenebilir kod, bu kuralları inceleyip onaylayabileceğiniz etkileşimli bir önizleme tablosunda değerlendirir.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Stow, fotoğraf makinesi RAW dosyalarını ve eşlikçi dosyaları bir arada tutabilir mi?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Evet. Stow akıllı eşlikçi dosya koruma özelliğine sahiptir. Kamera RAW biçimleri (CR2, NEF, ARW, DNG gibi) eşleşen JPEG/HEIC önizlemelerine ve .xmp sepeti (sidecar) meta veri dosyalarına otomatik olarak bağlanır. Benzer şekilde video dosyaları da .srt veya .vtt altyazılarıyla birlikte tutulur. Stow birincil dosyayı düzenlediğinde veya taşıdığında, tüm eşlikçi dosyalar da onunla birlikte taşınır.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Sistem gereksinimleri nelerdir ve Stow nasıl yüklenir?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow; hem 64-bit Intel/AMD (x64) hem de Qualcomm Snapdragon (ARM64) mimarilerinde Windows 10 (sürüm 2004 / yapı 19041 ve üzeri) ve Windows 11&#x27;i destekler. Doğrudan Microsoft Store üzerinden yalıtılmış (sandbox), modern paketli bir MSIX uygulaması olarak dağıtılır; temiz kurulum, otomatik güncellemeler ve sıfır arka plan yükü garanti eder.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: Fotoğraf ve Dosya Düzenleyici</h2>
-          <p class="text-secondary fs-5 mb-4">Bilgisayarınızı toparlayan çevrimdışı yapay zekâ — ve hiçbir dosyayı sormadan taşımaz.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: Yapay Zeka Destekli Fotoğraf ve Dosya Düzenleyici, Yinelenen Dosya Bulucu</h2>
+          <p class="text-secondary fs-5 mb-4">Buluta tek bir bayt bile yüklemeden dosyalarınızı düzenleyen, kopyaları temizleyen, gereksiz verileri süpüren ve verilerinizi koruyan, %100 çevrimdışı ve gizlilik odaklı masaüstü dosya yönetim paketi.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Yükle</a>
-</div>
-<button type="button" class="to-top" aria-label="Başa dön" title="Başa dön">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Çerez onayı" hidden>
   <p class="consent-bar-text">Bu sitenin nasıl kullanıldığını anlamak için Google Analytics kullanıyoruz. Reddederseniz hiçbir şey saklanmaz — site tamamen aynı şekilde çalışır. <a href="/privacy.html" class="consent-bar-link">Gizlilik politikası</a></p>

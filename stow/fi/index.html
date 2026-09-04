@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: kuva- ja tiedostojärjestäjä | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Verkotonta tekoälyä, joka siivoaa koneesi — eikä koskaan siirrä tiedostoa kysymättä. Stow lukee osoittamasi kansiot, päättelee minne kaiken kuuluisi mennä ja näyttää sinulle täydellisen luettelon jokaisesta ehdottamastaan muutoksesta. Mikään ei liiku ennen kuin painat painiketta.">
+  <title>Stow: Tekoälypohjainen kuvien ja tiedostojen järjestäjä, kaksoiskappaleiden etsijä | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="Täysin offline-tilassa toimiva, yksityisyyttä kunnioittava työpöydän tiedostonhallintapaketti, joka järjestää, poistaa kaksoiskappaleet, siivoaa ja suojaa tiedostosi lataamatta koskaan tavuakaan pilveen. Stow tekee lopun sotkuisista Ladatut tiedostot -kansioista, paisuvista valokuvakirjastoista ja m">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: kuva- ja tiedostojärjestäjä | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Verkotonta tekoälyä, joka siivoaa koneesi — eikä koskaan siirrä tiedostoa kysymättä. Stow lukee osoittamasi kansiot, päättelee minne kaiken kuuluisi mennä ja näyttää sinulle täydellisen luettelon jokaisesta ehdottamastaan muutoksesta. Mikään ei liiku ennen kuin painat painiketta.">
+  <meta property="og:title" content="Stow: Tekoälypohjainen kuvien ja tiedostojen järjestäjä, kaksoiskappaleiden etsijä | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="Täysin offline-tilassa toimiva, yksityisyyttä kunnioittava työpöydän tiedostonhallintapaketti, joka järjestää, poistaa kaksoiskappaleet, siivoaa ja suojaa tiedostosi lataamatta koskaan tavuakaan pilveen. Stow tekee lopun sotkuisista Ladatut tiedostot -kansioista, paisuvista valokuvakirjastoista ja m">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/fi/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="fi_FI">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: kuva- ja tiedostojärjestäjä | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Verkotonta tekoälyä, joka siivoaa koneesi — eikä koskaan siirrä tiedostoa kysymättä. Stow lukee osoittamasi kansiot, päättelee minne kaiken kuuluisi mennä ja näyttää sinulle täydellisen luettelon jokaisesta ehdottamastaan muutoksesta. Mikään ei liiku ennen kuin painat painiketta.">
+  <meta name="twitter:title" content="Stow: Tekoälypohjainen kuvien ja tiedostojen järjestäjä, kaksoiskappaleiden etsijä | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="Täysin offline-tilassa toimiva, yksityisyyttä kunnioittava työpöydän tiedostonhallintapaketti, joka järjestää, poistaa kaksoiskappaleet, siivoaa ja suojaa tiedostosi lataamatta koskaan tavuakaan pilveen. Stow tekee lopun sotkuisista Ladatut tiedostot -kansioista, paisuvista valokuvakirjastoista ja m">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: kuva- ja tiedostojärjestäjä","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Verkotonta tekoälyä, joka siivoaa koneesi — eikä koskaan siirrä tiedostoa kysymättä. Stow lukee osoittamasi kansiot, päättelee minne kaiken kuuluisi mennä ja näyttää sinulle täydellisen luettelon jokaisesta ehdottamastaan muutoksesta. Mikään ei liiku ennen kuin painat painiketta.","url":"https://www.dhinovatech.com/stow/fi/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (fi)","item":"https://www.dhinovatech.com/stow/fi/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: Tekoälypohjainen kuvien ja tiedostojen järjestäjä, kaksoiskappaleiden etsijä","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Täysin offline-tilassa toimiva, yksityisyyttä kunnioittava työpöydän tiedostonhallintapaketti, joka järjestää, poistaa kaksoiskappaleet, siivoaa ja suojaa tiedostosi lataamatta koskaan tavuakaan pilveen. Stow tekee lopun sotkuisista Ladatut tiedostot -kansioista, paisuvista valokuvakirjastoista ja m","url":"https://www.dhinovatech.com/stow/fi/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (fi)","item":"https://www.dhinovatech.com/stow/fi/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/fi/#faq","inLanguage":"fi","mainEntity":[{"@type":"Question","name":"Miten Stow takaa, ettei mitään tiedostoistani tai tiedoistani ladata pilveen?","acceptedAnswer":{"@type":"Answer","text":"Stowissa ei ole lainkaan tili- tai kirjautumisjärjestelmiä, ulkoisia palvelimia, telemetria-SDK-paketteja eikä tausta-analytiikkaa. Kaikki koneoppimismallit (SigLIP-2 semanttiseen valokuvahakuun, YuNet & SFace kasvojen klusterointiin, paikallinen OCR skannatuille asiakirjoille ja Phi-4-mini luonnollisen kielen sääntöjen luomiseen) toimivat tiukasti tietokoneesi suorittimella (CPU) ONNX Runtimen kautta. Valokuvasi, asiakirjasi, tiedostonimesi, kansiopuusi ja hakukyselysi eivät koskaan poistu laitteeltasi."}},{"@type":"Question","name":"Tarvitsenko tehokkaan näytönohjaimen (GPU) tai erillisen NPU-suorittimen käyttääkseni Stowia?","acceptedAnswer":{"@type":"Answer","text":"Et. Stow on rakennettu natiivisti Windows 10:lle ja 11:lle (x64 ja ARM64), ja sen paikallinen päättely-ympäristö on optimoitu varta vasten tavallisille kuluttajasuorittimille ilman tarvetta erillisille GPU- tai NPU-yksiköille. Lisäksi perusominaisuudet, kuten esiasetukset, visuaaliset säännöt, reaaliaikaiset rekursiiviset kansiokoot, tiedostojen kaksoiskappaleiden poisto, roskien siivous, differentiaalinen synkronointi ja universaalit esikatselut eivät vaadi tekoälymalleja lainkaan, ja ne toimivat välittömästi asennuksen jälkeen."}},{"@type":"Question","name":"Miten Stow estää ei-toivotut massiiviset lataukset OneDrive-, iCloud- tai Dropbox-kansioissa?","acceptedAnswer":{"@type":"Answer","text":"Stow on kehitetty huomioimaan pilvipalveluiden paikkamerkit. Kun Stow skannaa OneDriven, Dropboxin, Google Driven tai iCloudin hallinnoimia kansioita, se tunnistaa vain pilvessä olevat virtuaaliset paikkamerkit. Se kieltäytyy käynnistämästä hiljaisia suuria latauksia maksullisten tai akkuvirtaa kuluttavien yhteyksien yli, varmistaen pilvitiedostojesi koskemattomuuden ilman kaistanleveyden tukkimista tai paikallisen levytilan odottamatonta täyttymistä."}},{"@type":"Question","name":"Mitä tapahtuu, kun Stow siivoaa roskat tai poistaa kaksoiskappaleet? Voivatko tiedostot kadota pysyvästi?","acceptedAnswer":{"@type":"Answer","text":"Stow ei koskaan poista mitään pysyvästi. Roskien siivoustoiminnot (kuten keskeneräisten latausten tai vanhojen asennusohjelmien poisto) ja kaksoiskappaleiden poistotoimet siirtävät kohteet turvallisesti tavalliseen Windowsin Roskakoriin. Jos huomaat poistaneesi tiedoston vahingossa, voit palauttaa sen välittömästi suoraan Roskakorista tai käyttää Stowin 1 napsautuksen kumoamistoimintoa."}},{"@type":"Question","name":"Miten 1 napsautuksen kumoamistoiminto toimii? Voinko kumota järjestelyn useita päiviä myöhemmin?","acceptedAnswer":{"@type":"Answer","text":"Ennen kuin mitään tiedostoa siirretään, nimetään uudelleen tai siivotaan levyllä, Stow tallentaa atomisen ja palautettavan tapahtumalokikirjauksen, joka dokumentoi jokaisen yksittäisen tiedoston tarkan lähde- ja kohdepolun. Kumoamispalkki tulee näkyviin heti minkä tahansa toiminnon jälkeen, ja Stowin Historiakeskus säilyttää aiemmat toiminnot, jotta voit luotettavasti peruuttaa järjestelytuntien, -päivien tai -viikkojen kuluttua."}},{"@type":"Question","name":"Miten luonnollisen kielen tekoälykehotteet luovat järjestelysääntöjä paikallisesti?","acceptedAnswer":{"@type":"Answer","text":"Kun kirjoitat kehotteen, kuten 'Siirrä kaikki laskut Laskut-kansioon ja lajittele kamerakuvat vuoden ja kuukauden mukaan', Stowin paikallinen kielimalli (Phi-4-mini) kääntää pyyntösi turvallisiksi, esikatseltavissa oleviksi järjestelysäännöiksi. Malli vastaanottaa vain korkean tason kirjastorakenteen (tiedostotyyppien määrät, päivämäärävälit ja päätason kansioiden nimet) – ei koskaan yksittäisiä tiedostonimiä tai sisältöjäsi. Tarkastettavissa oleva koodi arvioi sitten nämä säännöt interaktiivisessa esikatselutaulukossa, jonka tarkistat ja hyväksyt."}},{"@type":"Question","name":"Voiko Stow pitää kameran RAW-tiedostot ja kumppanitiedostot yhdessä?","acceptedAnswer":{"@type":"Answer","text":"Kyllä. Stow sisältää älykkään kumppanitiedostojen säilytyksen. Kameran RAW-muodot (kuten CR2, NEF, ARW, DNG) sidotaan automaattisesti niitä vastaaviin JPEG/HEIC-esikatselukuviin ja .xmp-metatietotiedostoihin. Samalla tavalla videotiedostot pysyvät kytkettyinä .srt- tai .vtt-tekstityksiinsä. Kun Stow järjestää tai siirtää päätiedoston, kaikki kumppanitiedostot siirtyvät sen mukana rinnakkain."}},{"@type":"Question","name":"Mitkä ovat järjestelmävaatimukset ja miten Stow asennetaan?","acceptedAnswer":{"@type":"Answer","text":"Stow tukee Windows 10:tä (versio 2004 / koontiversio 19041 ja uudemmat) ja Windows 11:tä sekä 64-bittisellä Intel/AMD- (x64) että Qualcomm Snapdragon -arkkitehtuurilla (ARM64). Se toimitetaan suoraan Microsoft Storen kautta eristettynä, modernina MSIX-pakettisovelluksena, mikä takaa puhtaan asennuksen, automaattiset päivitykset ja nollamäärän järjestelmäjätettä."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Siirry pääsisältöön</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Hanki Microsoft Storesta
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Uusin suuri julkaisu</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Desktop Suite</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 Desktop Suite: Selaus &amp; esikatselu, roskien siivooja, differentiaalinen synkronointi, paikallinen OCR &amp; varmuuskopiokeskus</h2>
+            <p class="text-secondary small mb-0">Merkittävä kehitysaskel yksinkertaisesta järjestämisestä täydelliseksi, yksityiseksi työpöydän tiedostonhallinnan voimanpesäksi.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Tutustu uusimpiin ominaisuuksiin
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Kaksipaneelinen selain &amp; reaaliaikaiset koot</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Erillinen roskien siivooja</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Kohdennettu kansioiden täsmäytys</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>Asiakirja-OCR PDF-muotoon</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Varmuuskopiointi &amp; bittimädän tarkistus</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: kuva- ja tiedostojärjestäjä</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Verkotonta tekoälyä, joka siivoaa koneesi — eikä koskaan siirrä tiedostoa kysymättä.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow lukee osoittamasi kansiot, päättelee minne kaiken kuuluisi mennä ja näyttää sinulle täydellisen luettelon jokaisesta ehdottamastaan muutoksesta. Mikään ei liiku ennen kuin painat painiketta.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Se toimii kokonaan omalla koneellasi. Ei tiliä, ei palvelinta, ei telemetriaa, ei mainoksia. Tekoälymallit ladataan kerran ja ne pyörivät omalla suorittimellasi: yksikään tiedosto, tiedostonimi, valokuva, asiakirja tai hakusana ei koskaan poistu koneelta.</p>
+          <h1 class="hero-title mb-3">Stow: Tekoälypohjainen kuvien ja tiedostojen järjestäjä, kaksoiskappaleiden etsijä</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">Täysin offline-tilassa toimiva, yksityisyyttä kunnioittava työpöydän tiedostonhallintapaketti, joka järjestää, poistaa kaksoiskappaleet, siivoaa ja suojaa tiedostosi lataamatta koskaan tavuakaan pilveen.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow tekee lopun sotkuisista Ladatut tiedostot -kansioista, paisuvista valokuvakirjastoista ja mysteerikansioista. Laitteessa toimivan konenäön, paikallisen asiakirja-OCR:n ja suoritinpohjaisten kielimallien avulla Stow laskee älykkäät järjestelysuunnitelmat, jäljittää kaksoiskappaleet ja epäterävät kuvat sekä lakaisee pois piilotetun roskan.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Kaikki toimii täysin omalla tietokoneellasi ilman pilvipalvelimia, telemetriaa tai taustaseurantaa. Mitään ei koskaan siirretä ilman hyväksyttyä esikatselua, mitään ei poisteta pysyvästi, ja jokainen toiminto voidaan kumota yhdellä napsautuksella.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Katso miten se toimii
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Katso miten se toimii
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100 % offline</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Hyväksytty esikatselu ensin</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Ei koskaan poista pysyvästi</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1 napsautuksen kumoaminen</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Turvallinen pilvikansioiden kanssa</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Hanki Microsoft Storesta
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Järjestelmäsi ei pettänyt. Elämä vain tuli väliin.</h2>
-          <p class="text-secondary fs-5 mb-0">Lataukset-kansio, jossa on neljätuhatta asiaa. Kuvat-kansio, jossa on kolme puhelinta, kaksi kameraa ja vuosikymmenen verran kuvakaappauksia. Kansioita nimeltä ”Loma 2019”, ”Kopio lomasta” ja ”loma (lopullinen)”, eikä mitään keinoa erottaa mikä on mikä.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Käsin se onnistuu, mutta kukaan ei saa sitä loppuun. Pilvipalvelut tekevät sen puolestasi — lataamalla koko henkilökohtaisen kirjastosi jonkun toisen tietokoneelle. Skriptattavat työkalut tekevät täsmälleen niin kuin käsket, kunhan jaksat opetella sääntösyntaksin ja kokeilla sitä ensin kopiolla. Ja ne kaikki pyytävät ratkaisevalla hetkellä luottamaan siihen, että kymmenentuhannen tiedoston yli kohta juokseva toimenpide on se, jota tarkoitit.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Arkkitehtuurin takaama
+        </span>
+        <h2 class="display-5 fw-bold text-white">Viisi muuttumatonta periaatetta</h2>
+        <p class="text-secondary fs-5">Viisi tinkimätöntä arkkitehtonista takuuta, jotka on sisäänrakennettu Stowin jokaiseen kerrokseen.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Periaate 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100 % offline &amp; yksityinen</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Ei käyttäjätilejä, ei pilvipalvelimia, ei telemetriaa, ei analytiikkaa eikä taustaseurantaa. Kaikki tekoälymallit (konenäkö, OCR, kieli) toimivat paikallisesti tietokoneesi suorittimella (CPU).</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Periaate 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Mitään ei siirretä ilman hyväksyttyä esikatselua</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow ei koskaan siirrä, nimeä uudelleen tai puhdista tiedostoja selkäsi takana. Jokainen toiminto tuottaa eritellyn esikatselutaulukon, jonka tarkistat ja hyväksyt ensin.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Periaate 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Mitään ei poisteta koskaan pysyvästi</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Sovellus ei koskaan suorita tiedostojen pysyvää poistoa. Siivous- ja kaksoiskappaleiden poistotoiminnot siirtävät kohteet tuttuun Windowsin roskakoriin, josta ne on helppo palauttaa.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Periaate 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Välitön 1 napsautuksen kumoaminen</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Kaikki kirjataan lokiin ennen levylle kirjoittamista. Jos muutat mielesi tunnin tai viikon kuluttua, tiedostot palautetaan yhdellä napsautuksella tarkalleen aiempiin sijainteihinsa.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Periaate 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Turvallinen pilvikansioiden kanssa</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Tunnistaa automaattisesti pilvipalveluiden paikkamerkit (OneDrive, Dropbox, iCloud) eikä suostu lataamaan gigatavuja salaa datayhteyksien yli.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Turvallinen suorituskulku
+        </span>
+        <h2 class="display-5 fw-bold text-white">Miten se toimii</h2>
+        <p class="text-secondary fs-5">Kolme yksinkertaista ja läpinäkyvää vaihetta. Täysi hallinta alusta loppuun.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Skannaa &amp; kuvaile</h3>
+              <p class="text-secondary small mb-0">Osoita Stow mihin tahansa kansioon tai asemaan. Valitse 1 napsautuksen esiasetus, kuvaile haluamasi järjestys tavallisella kielellä tai anna Stowin tunnistaa nykyiset kansiokäytäntösi automaattisesti.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Esikatsele &amp; tarkista</h3>
+              <p class="text-secondary small mb-0">Tarkista koko ehdotustaulukko ennen kuin ainoatakaan tavua siirretään levyllä. Jokaisella tiedostolla on oma rivinsä, ehdotettu polku ja sovellettu sääntö. Suodata, muokkaa tai poista valinta tiedostoilta, jotka haluat jättää koskemattomiksi.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Toteuta 1 napsautuksen kumoamisella</h3>
+              <p class="text-secondary small mb-0">Suorita suunnitelma täydellä luottamuksella. Stow kirjaa jokaisen toiminnon ensin atomiseen tapahtumalokiin. Jos muutat mielesi – tunnin tai kuukauden kuluttua – yksi napsautus kumoaa kaiken.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">Esikatselu on se varsinainen tuote</h2>
         <p class="text-secondary fs-5">Et koskaan saa tietää mitä Stow päätti katsomalla sen tapahtuvan. Saat tietää sen lukemalla taulukon, ennen kuin mikään liikkuu, ja siinä jokaisella yksittäisellä tiedostolla on rivinsä, kohteensa ja sen säännön nimi, joka sen otti. Jos se on väärin, suljet näkymän — eikä mitään ole tapahtunut.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Pilari 1: Vaivaton järjestäminen &amp; automatisoitu arkistointi -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> Pilari 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Vaivaton järjestäminen &amp; automatisoitu arkistointi</h2>
+          <p class="text-secondary fs-5 mb-0">Muunna sekavat hakemistot siisteiksi ja jäsennellyiksi arkistoiksi käyttämällä esiasetuksia, luonnollisen kielen tekoälyä tai mukautettuja sääntöjä.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Älykäs hallintapaneeli &amp; kuntokeskus</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Kirjastosi komentokeskus. Saat välittömän arvion kirjaston kunnosta – indeksoitujen tiedostojen kokonaismäärä, hallittu tallennustila, järjestämättömät kohteet ja vapautettu tila. Toimintaan kehottavat Huomiokortit tuovat esiin tuoreet kameran SD-kortit, odottavat lataukset, roskavaroitukset ja varmuuskopiointimuistutukset.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Välitön yleiskatsaus tallennustilasta, järjestämättömistä tiedostoista ja vapautetuista gigatavuista</li><li>Toimintaan kehottavat Huomiokortit SD-korteille, odottaville latauksille ja roskavaroituksille</li><li>1 napsautuksen pikatoiminnot järjestämiseen, roskien siivoamiseen tai asemien täsmäyttämiseen</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Viisi tapaa järjestää</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Valitse haluamasi työskentelytapa. Käytä valmiita 1 napsautuksen esiasetuksia (tiedostotyypin, vuoden/kuukauden, erillisten näyttökuvien tai kameramallin mukaan); kirjoita toiveesi tavallisella kielellä laitteessa toimivalle paikalliselle kielimallille; anna Stowin oppia ja jatkaa nykyisiä kansiokäytäntöjäsi; rakenna tarkkoja ehtoja visuaalisella sääntötyökalulla; tai suorita sääntöpohjainen massanimeäminen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Valmiit 1 napsautuksen esiasetukset: Välitön arkistointi tyypin, päivämäärän tai kamerametadatan mukaan</li><li>Luonnollisen kielen tekoäly: Kirjoita toiveesi selväkielellä; paikallinen kielimalli luo turvalliset säännöt</li><li>Jatka nykyistä järjestelmää: Tunnistaa ja täydentää vakiintuneet kansiokäytäntösi</li><li>Visuaalinen sääntötyökalu: Yksityiskohtaiset ehdot, kohdetunnisteet ja ristiriitojen hallinta</li><li>Massanimeäjä: Juoksevat laskurit, päivämäärätunnisteet ja kaavamainen tekstin korvaaminen</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Kansiot, jotka järjestävät itse itsensä (älykkäät valvotut kansiot)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Liitä sääntöjä sotkuisiin pudotuskansioihin, kuten Ladatut tiedostot tai Työpöytä. Kun uusia tiedostoja saapuu, Stow valmistelee taustalla jäsennellyn ehdotuksen ja antaa huomaamattoman esikatseluilmoituksen – valmiina toteutettavaksi yhdellä napsautuksella ilman raskasta taustaprosessia.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Valvoo pudotuskansioita tehokkaasti ilman raskaita taustapalveluita</li><li>Laatii siistit ehdotukset automaattisesti, kun valvottuihin kansioihin ilmestyy uusia tiedostoja</li><li>Vaatii aina käyttäjän hyväksynnän yhdellä napsautuksella – ei koskaan siirrä tiedostoja poissa ollessasi</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilari 2: Kaksipaneelinen selain &amp; universaali esikatseluruutu -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> Pilari 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Kaksipaneelinen selain &amp; universaali esikatseluruutu</h2>
+          <p class="text-secondary fs-5 mb-0">Täysimittainen moderni vaihtoehto Windowsin Resurssienhallinnalle, joka korjaa Windowsin puutteet reaaliaikaisilla rekursiivisilla kansiokoilla ja välittömillä esikatseluilla.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Kaksipaneelinen kirjastoselain reaaliaikaisilla kansiokoilla</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Navigoi koko tiedostojärjestelmässä laajennettavan hakemistopuun ja responsiivisen tiedostoruudukon avulla. Stow ratkaisee Resurssienhallinnan suurimman puutteen laskemalla ja näyttämällä todelliset rekursiiviset kansiokoot ja kohteiden määrät suoraan ruudukossa, paljastaen heti tilasyöpöt.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Reaaliaikaiset rekursiiviset kansiokoot ja kohteiden määrät laskettuna suoraan ruudukkoon</li><li>Kaksipaneelinen navigointi laajennettavalla hakemistopuulla ja navigointipoluilla</li><li>Suora tiedostojen käsittely: luo kansioita, nimeä uudelleen sekä leikkaa/kopioi/liitä paikallaan</li><li>Saumaton kaksisuuntainen vetäminen ja pudottaminen Windowsin Resurssienhallinnan ja työpöytäsovellusten välillä</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Universaali välitön esikatseluruutu</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Tarkastele mitä tahansa tiedostomuotoa välittömästi avaamatta raskaita erillisohjelmia. Sisältää valokuvien tarkastelun EXIF-metatiedoilla, videosoittimen tarkkuus- ja koodekkitiedoilla, asiakirjalukijan PDF- ja Word-tiedostoille, audiosoittimen ID3-tiedoilla sekä arkistojen tarkastelun.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Korkearesoluutioinen kuvien tarkastelu kameramallilla, aukolla, ISO-arvolla ja EXIF-tiedoilla</li><li>Integroitu videosoitin, joka näyttää resoluution, kuvanopeuden, bittinopeuden ja koodekin</li><li>Välitön asiakirjalukija PDF-, Word (.docx)- ja tekstitiedostoille</li><li>Audiosoitin ID3-tunnisteilla, kansikuvalla ja bittinopeuden tarkastelulla</li><li>Arkistojen tarkastelu: kurkista ZIP- ja TAR-arkistojen sisälle purkamatta niitä</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilari 3: Älykäs siivous, roskien poisto &amp; kaksoiskappaleiden karsinta -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> Pilari 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Älykäs siivous, roskien poisto &amp; kaksoiskappaleiden karsinta</h2>
+          <p class="text-secondary fs-5 mb-0">Vapauta menetettyjä gigatavuja ja poista kaksoiskappaleiden sotku pitäen tiedostosi 100 % turvassa.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Erillinen roskien ja turhien tiedostojen siivooja</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Vapauta menetettyjä gigatavuja piilotetusta roskasta yhdellä napsautuksella. Etsii keskeneräisiä/keskeytyneitä latauksia (.crdownload, .part, .download), editorien ja käyttöjärjestelmän jäänteitä (.DS_Store, Thumbs.db, väliaikaistiedostot), kertyneitä asennustiedostoja (.exe, .msi), kehittäjien raskaita välimuisteja (node_modules, bin/obj, .gradle), hylättyjä purettuja kansioita ja nollatavuisia tiedostoja.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Vapauttaa gigatavuja keskeytyneistä latauksista, väliaikaistiedostoista ja pikkukuvista</li><li>Siivoaa vanhat asennusohjelmat, jotka kerääntyvät Ladatut tiedostot -kansioon</li><li>Tyhjentää kehittäjien riippuvuusvälimuistit (node_modules, gradle, bin/obj)</li><li>Lakaisee tyhjät kansiot ja hylätyt purettujen arkistojen jäänteet</li><li>Jokainen siivous tarkistetaan esikatselutaulukossa ja siirretään turvallisesti Roskakoriin</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Tarkka kaksoiskappaleiden etsijä (tiedostot ja kansiot)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Tunnistaa identtiset tiedostot ja kokonaiset identtiset kansiopuut tavu tavulta tiedostonimistä tai sijainneista riippumatta. Neljä determinististä sääntöä suosittelee säilytettävää kopiota (paras laatu, vanhin, uusin tai ensisijainen kansio). Ylimääräiset kopiot siirretään turvallisesti Roskakoriin.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Ryhmittelee identtiset tiedostot ja peilatut kansiopuut sisällön tiivisteen perusteella</li><li>Löytää päällekkäiset kansiot myös eri nimillä (&#x27;Kuvat 2021&#x27; vs &#x27;Varmuuskopio Kuvat&#x27;)</li><li>Roskakorin turva varmistaa, että tarpeettomat kopiot voidaan aina palauttaa</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Lähes identtisten videoiden etsijä &amp; valokuvien terävyysvertailu</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Menee tarkkoja kaksoiskappaleita pidemmälle. Havaitsee uudelleenkoodatut videot, matalamman resoluution versiot (esim. 1080p vs. 720p), leikatut leikkeet ja WhatsAppin tai viestisovellusten pakatut videokopiot. Valokuvissa se tunnistaa nopeat sarjakuvat ja analysoi reunojen terävyyttä suositellen terävimmän otoksen säilyttämistä ja merkitsemällä epäterävät kuvat.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Lähes identtisten videoiden tunnistus löytää uudelleenkoodatut, skaalatut ja leikatut videot</li><li>Valokuvien sarjakuvausryhmittely tunnistaa jatkuvat toimintakuvat</li><li>Reuna- ja terävyysanalyysi merkitsee epätarkat, tarkentumattomat ja tärähtäneet kuvat</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilari 4: Paperittomat asiakirjat, musiikin kuratointi &amp; valokuvaus -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> Pilari 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Paperittomat asiakirjat, musiikin kuratointi &amp; valokuvaus</h2>
+          <p class="text-secondary fs-5 mb-0">Muunna kaoottiset paperipinot ja nimeämättömät mediakokoelmat kauniisti jäsennellyiksi kirjastoiksi.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Skannatut paperit monisivuiseksi PDF-tiedostoksi</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Muuntaa kuiteista, tiliotteista, veroilmoituksista ja laskuista otetut valokuvat siistiksi digitaaliseksi arkistoksi. Laitteessa toimiva paikallinen OCR erottaa tekstin lähettämättä asiakirjoja pilven rajapintoihin. Älykäs luokittelu tunnistaa asiakirjatyypin (kuitti, lasku, verolomake, sähkölasku, tiliote, sopimus) ja myöntäjän, yhdistää useasta kuvasta koostuvat sivut ja standardoi tiedostonimet.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>100 % paikallinen laitteen sisäinen OCR erottaa tekstin ilman pilven yksityisyysriskejä</li><li>Älykäs luokittelu ryhmittelee asiakirjatyypit ja myöntävät tahot</li><li>Monikuvausniputus yhdistää peräkkäiset sivut standardoiduksi, haettavaksi PDF-tiedostoksi</li><li>Johdonmukainen automaattinen nimeäminen (esim. &#x27;2024-03-15_Nordea_Tiliote.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Musiikki- ja äänikirjaston kuratointi</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Lukee ja indeksoi ID3- ja äänitunnisteet MP3-, FLAC-, M4A-, WAV- ja OGG-muodoista. Erottaa kappaleen esittäjän albumin esittäjästä, joten usean artistin kokoelmalevyt pysyvät yhdessä yhtenäisessä kansiossa pirstoutumisen sijaan. Sisältää sisäänrakennetun tunniste-editorin puuttuvien tai virheellisten metatietojen korjaamiseen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Kattava ID3- ja metatietojen indeksointi MP3-, FLAC-, M4A-, WAV- ja OGG-tiedostoille</li><li>Albumin esittäjän mukainen ryhmittely estää kokoelmien ja soundtrackien pirstoutumisen</li><li>Sisäänrakennettu massatunniste-editori korjaa puuttuvat raidat, esittäjät, vuosiluvut ja kansikuvat</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Offline-vektorimaailmankartta &amp; SD-kortin tuonti</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Tutki valokuviesi kuvauspaikkoja interaktiivisella vektorimaailmankartalla, joka renderöidään täysin offline-tilassa – ilman ulkoisia verkkokarttoja tai GPS-koordinaattien jakamista. Tunnistaa automaattisesti liitetyt muistikortit tai kamerat 1 napsautuksen tuontia varten RAW + JPEG -kumppaniryhmittelyllä.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Interaktiivinen vektorimaailmankartta näyttää paikkamerkityt kuvat 100 % offline-pohjalla</li><li>Älykäs kameran ja SD-kortin tunnistus tehokkailla 1 napsautuksen tuontityönkuluilla</li><li>Tarkka kumppanitiedostojen säilytys pitää RAW+JPEG- ja video+tekstitys -parit yhdessä</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilari 5: Tallennustilan palautus, differentiaalinen synkronoiti &amp; Windows-integraatio -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Pilari 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Tallennustilan palautus, differentiaalinen synkronoiti &amp; Windows-integraatio</h2>
+          <p class="text-secondary fs-5 mb-0">Yritystason turvallisuus, differentiaalinen asemien täsmäytys ja tiivis yhteistyö Windows-käyttöjärjestelmän kanssa.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Kohdennettu kansioiden täsmäytys &amp; differentiaalinen synkronointi</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Vastaa yleiseen kysymykseen: &#x27;Mitä ulkoisella varmuuskopiopääteasemallani on, mitä ei ole jo pääkirjastossani?&#x27; Vertaa kahta kansiopuuta tai asemaa ja luokittelee tiedostot luokkiin Puuttuu kohteesta, Identtinen tai Ristiriitainen/Muokattu. Laatii puhtaan ja turvallisen kopiointisuunnitelman erojen kuromiseksi poistamatta vahvistamattomia tiedostoja.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Vertaa kahta kansiopuuta tai asemaa erojen ja puutteiden tunnistamiseksi</li><li>Luokittelee tiedostot luokkiin Puuttuu kohteesta, Identtinen tai Ristiriidassa</li><li>Turvallinen kopiointisuunnitelma kuuroo erot ilman tuhoavia peilauspoistoja</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Tuhoamaton varmuuskopiointi &amp; bittimädän eheydenvarmistus</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Määritä tärkeiden kirjastojen 1 napsautuksen tai ajastetut varmuuskopiot ulkoisille asemille tai toissijaisille levyille. Kopioi uudet ja päivitetyt tiedostot peilaamatta tuhoavia poistoja lähteestä. Sisäänrakennettu bittimädän tarkistus tarkistaa SHA-256-tarkistussummat uudelleen lähteen ja varmuuskopion välillä levyvirheiden ja viallisten sektoreiden havaitsemiseksi.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Tuhoamattomat varmuuskopiointitehtävät kopioivat uudet tiedostot peilaamatta poistoja</li><li>Bittimädän eheystarkistin vertaa SHA-256-tiivisteitä levyn vaurioiden havaitsemiseksi</li><li>Turvallinen palautussuunnittelija esikatselee ja palauttaa tiedostot alkuperäisiin tai palautuskansioihin</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Koko aseman tilakartta &amp; siirto liitospisteillä (junctions)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Visualisoi levytilan kokonaisilta asemilta (C:, D:) löytääksesi suuret tilasyöpöt skannauskansioidesi ulkopuolelta (kuten TreeSize tai WizTree). Siirrä massiiviset kansiot (kuten 400 Gt:n Kuvat-kirjasto) toissijaiselle asemalle; Stow luo automaattisesti NTFS-hakemistoliitoksen (Junction) alkuperäiseen sijaintiin, jotta pikakuvakkeet ja sovellukset toimivat keskeytyksettä. Vapauta järjestelmän väliaikaistiedostojen ja päivitysvälimuistien tilaa.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Koko aseman visuaalinen tilakartta tunnistaa jättikansiot kaikilta osioilta</li><li>NTFS-hakemistoliitokset mahdollistavat jättikansioiden siirtämisen rikkomatta sovelluslinkkejä</li><li>Järjestelmätilan vapautus tunnistaa vapautettavissa olevat Windowsin temp-kansiot ja välimuistit</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Syvä Windows-integraatio &amp; siirrettävät profiilit</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Rakennettu nimenomaan Windowsille. Napsauta mitä tahansa kansiota hiiren kakkospainikkeella Resurssienhallinnassa valitaksesi &#x27;Järjestä Stowilla&#x27; tai &#x27;Etsi kaksoiskappaleet&#x27;. Paina Win+Shift+F missä tahansa avataksesi maailmanlaajuisen pikakäynnistimen. Poistaa ladattujen tiedostojen Mark of the Web (Zone.Identifier) -estot erissä, korjaa automaattisesti Työpöydän ja Käynnistä-valikon pikakuvakkeet tiedostoja siirrettäessä sekä vie siirrettäviä JSON-profiileja uusien PC-tietokoneiden määrittämiseksi sekunneissa.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Integraatio Windowsin Resurssienhallinnan kontekstivalikkoon (hiiren kakkospainike)</li><li>Yleinen pikakäynnistimen pikanäppäin (Win+Shift+F) välittömään järjestelmähakuun</li><li>Mark of the Web (Zone.Identifier) -estojen massapoisto ladatuille tiedostoille</li><li>Siirrot huomioiva pikakuvakkeiden korjaus pitää Työpöydän ja Käynnistä-valikon linkit toimivina</li><li>Vie siirrettäviä JSON-profiileja sääntöjen ja asetusten siirtämiseksi uusiin tietokoneisiin</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Tinkimätön yksityisyys ja hallinta
         </span>
-        <h2 class="display-5 fw-bold text-white">Viisi sääntöä, joille koko sovellus rakentuu</h2>
+        <h2 class="display-5 fw-bold text-white">Miten Stow vertautuu</h2>
+        <p class="text-secondary fs-5">Miksi tietokoneen käyttäjät valitsevat Stowin skriptityökalujen ja pilvipalveluiden sijaan.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Mikään ei poistu koneelta</h3>
-              </div>
-              <p class="text-secondary small mb-0">Eivät tiedostot, eivät niiden nimet, ei hakemisto, eivät upotukset, eivät kasvotiedot, ei kaatumisloki. Koko sovelluksessa on täsmälleen kaksi verkkotoimintoa, ja molemmat sinun on käynnistettävä tietoisesti.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Mitään ei tapahdu ilman esikatselua</h3>
-              </div>
-              <p class="text-secondary small mb-0">Jokainen tiedostoon koskeva toimenpide — yhden napsautuksen esiasetus, kielimallin kirjoittama sääntö, joukkonimeäminen — kulkee saman ketjun läpi ja päätyy samaan esikatselunäkymään. Sen ohittavaa oikotietä ei ole.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Mitään ei poisteta eikä ylikirjoiteta</h3>
-              </div>
-              <p class="text-secondary small mb-0">Moottori vain siirtää tiedostoja, nimeää niitä uudelleen ja luo kansioita. Poistaminen on olemassa täsmälleen yhdessä paikassa — kaksoiskappaleiden etsijässä — ja se kulkee Windowsin roskakorin kautta, joka säilyy vaikka Stow poistettaisiin.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Kaikki on peruttavissa</h3>
-              </div>
-              <p class="text-secondary small mb-0">Jokainen toimenpide kirjataan lokiin ennen sen suorittamista. Tuo loki pyörittää kumoa-painiketta, palauttaa sovelluksen jos kone menettää virran kesken kaiken, ja tietää jälkikäteen mitkä kansiot se tyhjensi.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Mallit ehdottavat, koodi päättää</h3>
-              </div>
-              <p class="text-secondary small mb-0">Kielimalli ei koskaan näe tiedostoluetteloasi eikä koskaan suorita toimenpidettä. Se tuottaa sääntöjä. Tavallinen, tarkastettavissa oleva koodi soveltaa niitä jokaiseen tiedostoon, ja erillinen tarkistin varmistaa uudelleen jokaisen sen tuottaman kohteen.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Viisi tapaa kuvata mitä haluat</h2>
-        <p class="text-secondary fs-5">Ne kaikki päätyvät täsmälleen samaan esikatseluun.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Valmiit esiasetukset</h3>
-                  <p class="text-secondary small mb-0">Kuusi yhden napsautuksen vaihtoehtoa: tiedostotyypin mukaan, vuoden ja kuukauden mukaan, vuoden mukaan, tyypin ja sitten vuoden mukaan, kuvakaappaukset syrjään, tai kameran mukaan. Viisi niistä toimii avaamatta yhtäkään tiedostoa, joten Stow on hyödyllinen ennen kuin mitään mallia on ladattu.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Kuvaile se omin sanoin</h3>
-                  <p class="text-secondary small mb-0">”Siirrä kaikki laskuihin liittyvä Laskut-kansioon.” Paikallinen kielimalli muuttaa lauseen säännöiksi. Se saa tiivistelmän kirjastostasi — lukumäärät, tiedostopäätteet, aikaväli, kansioiden nimet — ei koskaan tiedostoluetteloa. Ei ole olemassa koodipolkua, joka antaisi sen sille.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Jatka järjestelmää, joka sinulla jo on</h3>
-                  <p class="text-secondary small mb-0">Stow lukee rakenteen takaisin kansiopuustasi ja kirjoittaa sääntöjä, jotka jatkavat sitä. Analyysi perustuu todisteisiin: kansio nimeltä 2019 lasketaan vuosikansioksi vain jos sen sisällä olevat tiedostot ovat todella vuodelta 2019. Ei mallia, ei latausta.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Rakenna säännöt itse</h3>
-                  <p class="text-secondary small mb-0">Kun tiedosto näyttää tältä, laita se tuohon kansioon. Säännöt käydään ylhäältä alas, ensimmäinen osuma voittaa. Ehdot kattavat tiedostopäätteen, nimen, polun, koon, päivämäärät, mitat, tunnisteet, henkilöt, paikat ja visuaalisen samankaltaisuuden; kohteet ottavat paikkamerkkejä kuten {{year}}, {{month_name}} ja {{camera}}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Tallenna se reseptiksi</h3>
-                  <p class="text-secondary small mb-0">Mikä tahansa sääntöjoukko, joka pääsi esikatseluun, voidaan nimetä ja säilyttää, ajaa uudelleen tai antaa valvotulle kansiolle. Tallentaminen ei anna sille mitään erioikeuksia: se käännetään, rajataan ja tarkistetaan uudelleen joka ajolla — ja päätyy yhä esikatseluun, joka sinun on hyväksyttävä.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Yksi painike palauttaa kaiken</h2>
-          <p class="text-secondary fs-5 mb-0">Historia luettelee kaksikymmentä viimeisintä Stowin tekemää asiaa, uusin ensin, ja jokainen niistä voidaan perua täsmälleen. Jokaisen järjestelyn jälkeen ikkunan yläreunaan ilmestyy palkki, jossa on yhden napsautuksen kumoaminen — sitä ei ole koskaan haudattu valikkoon.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Kumoaminen ei tarkoituksella ole symmetrinen suorituksen kanssa. Siinä missä suoritus pysähtyy ensimmäiseen virheeseen, kumoaminen yrittää jokaista toimenpidettä ja raportoi ongelmat yhdessä, sillä palautuksen keskeyttäminen puolivälissä jättäisi sinut jumiin kahden tilan väliin. Tiedostojen siirtäminen pois kansiosta tyhjentää sen, ja vain Stow tietää mitkä kansiot ne olivat — siksi se tarjoutuu jälkeenpäin siivoamaan ne pois, eikä tee enempää kuin tarjoutuu.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Asioiden löytäminen uudelleen</h2>
-        <p class="text-secondary fs-5">Kaikki täällä lukee hakemistoa, jonka Stow on joka tapauksessa jo rakentanut, joten katsominen ei maksa juuri mitään.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Etsi tiedostojasi</h3>
-              </div>
-              <p class="text-secondary small mb-0">Pieni dokumentoitu syntaksi: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:”kattilan takuu”, ja miinus edessä poissulkemiseen. Se toimii täysin myös silloin, kun Stow ei saa avata tiedostojasi lainkaan.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Etsi kuvia sen perusteella mitä niissä on</h3>
-              </div>
-              <p class="text-secondary small mb-0">Kirjoita ”koira rannalla” ja saat rantakuvasi, olivatpa ne nimeltään IMG_4821.jpg tai mitä tahansa muuta. Kuvat luetaan, koodataan paikallisesti vektoriksi ja vapautetaan: itse kuvia ei koskaan kopioida eikä säilytetä.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Katso mikä vie tilan</h3>
-              </div>
-              <p class="text-secondary small mb-0">Summat tiedostolajeittain, täysimmät kansiosi laskettuna pohjaan asti, ja suurimmat yksittäiset tiedostosi. Jokainen havainto kantaa mukanaan sen haun, joka sen tuotti, joten ”18 Gt videoita, joita kukaan ei ole avannut kolmeen vuoteen” ojentaa sinulle täsmälleen sen kyselyn, jonka pohjalta voit toimia.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Paikat ja ihmiset</h3>
-              </div>
-              <p class="text-secondary small mb-0">Kuvat ryhmittyvät sen mukaan missä ne on otettu ja — vain jos otat sen käyttöön — sen mukaan mitkä kasvot muistuttavat toisiaan. Tämä on ryhmittelyä samankaltaisuuden perusteella, ei tunnistamista: identiteettitietokantaa ei ole eikä mitään kykyä määrittää kuka joku on. Kaikki nimet annat sinä.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Tunnisteet</h3>
-              </div>
-              <p class="text-secondary small mb-0">Oma sanasi — ”työ”, ”verot”, ”loma” — kiinnitettynä mihin tahansa tiedostoon, jota haluat pitää silmällä. Tunnisteet elävät Stowin hakemistossa, joten tiedostojasi ei koskaan nimetä uudelleen eikä muuteta, ja ne toimivat kaikissa yksityisyystiloissa.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Kaksoiskappaleet, myös kokonaiset kansiot</h2>
-          <p class="text-secondary fs-5 mb-0">Samanlaiset tiedostot ryhmitellään sisällön perusteella, sijaitsivatpa ne missä tahansa ja oli niiden nimi mikä hyvänsä. Samoin samanlaiset kansiot: nimet eivät osallistu vertailuun lainkaan, joten ”Loma 2019” ja ”Kopio lomasta” ovat sama kansio, jos niiden tavut ovat. Yleensä juuri siellä on se todellinen tila.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Myös lähes samanlaiset kuvat löytyvät, samoilla upotuksilla kuin kuvahaku, joten uudelleen pakatut ja pienennetyt kopiot löydetään, vaikka niiden tavut poikkeaisivat täysin. Neljä täysin deterministista käytäntöä valitsee kumpi kopio säilytetään — paras laatu, vanhin, uusin, tai se joka on osoittamassasi kansiossa — ja jokainen valinta tulee perusteluineen. Mitään ei poisteta; ylimääräiset kopiot menevät roskakoriin.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Kolme muuta asiaa, jotka se osaa</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Joukkonimeäminen</h3>
-              </div>
-              <p class="text-secondary small mb-0">Korvaa tekstiä, numeroi sarja, lisää etuliite tai jälkiliite, korjaa kirjainkoko, poista pätkä. Nimeäminen on tavallinen sääntöjoukko, jonka kohteena on tiedoston oma kansio — se saa siis saman esikatselun, saman tarkistimen ja saman kumoamisen kuin kaikki muukin.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Valvotut kansiot</h3>
-              </div>
-              <p class="text-secondary small mb-0">Valvottuun kansioon saapuvat tiedostot huomataan ja valmistellaan tarkastettaviksi, haluttaessa verrattuna tallennettuun reseptiin. Mitä se tarkoituksella ei tee, on toimia: järjestäjä, joka hiljaisesti siirtelisi tiedostoja taustalla, olisi paljon vähemmän luotettava tuote, olipa se kuinka kätevä tahansa.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Yhteenkuuluvien tiedostojen pitäminen yhdessä</h3>
-              </div>
-              <p class="text-secondary small mb-0">Kameran RAW ei merkitse mitään ilman JPEG-pariaan; tekstitys on hyödytön ilman videotaan. Moottorin ja tarkistimen välissä kulkeva ajo pitää seuralaistiedostot yhdessä — varovaisesti, sillä yhteinen nimen alkuosa ei yksin todista, että kaksi tiedostoa kuuluvat yhteen.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Yksityisyys on tuotteen muoto, ei päälle ruuvattu käytäntö</h2>
-          <p class="text-secondary fs-5 mb-0">Ei ole tiliä, ei taustajärjestelmää eikä pilvitietokantaa — joten ei ole mitään vuodettavaa, mitään oikeusteitse vaadittavaa eikä mitään, mitä kehittäjä voisi poistaa puolestasi. Kehittäjä ei saa sovelluksesta lainkaan tietoja.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Kaikki mitä Stow johtaa asuu yhdessä kansiossa, tarkoituksella pilveen synkronoitujen sijaintien ulkopuolella, jottei hakemistoa koskaan kopioitaisi pilveen tiedostosynkronoinnin tai Windowsin varmuuskopioinnin toimesta. Voit viedä koko hakemiston CSV-muotoon ja lukea sen, poistaa pelkät kasvotiedot, poistaa pelkän tallennetun asiakirjatekstin, tai heittää koko hakemiston pois ja rakentaa sen uudelleen. Mikään näistä ei koske ainoaankaan oikeaan tiedostoosi.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Ominaisuus &amp; turvatakuu</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Perinteiset työkalut / skriptit</th>
+                <th scope="col">Pilvipalvelut</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Yksityisyys &amp; tietojen luottamuksellisuus</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100 % offline • Ei telemetriaa, käyttäjätilejä tai pilvipalvelimia</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Offline, mutta puuttuu älykäs automaatio ja tekoäly</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Tiedostot ja metatiedot ladataan ulkoisille yrityspalvelimille</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Pilveen lataamisen vaatimus</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Nolla tavua ladattu (kaikki käsittely tapahtuu täysin omalla PC:lläsi)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ei mitään (vain paikallinen)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Pakollinen synkronointi (vaatii gigatavuja kaistanleveyttä)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Laitteessa toimiva paikallinen tekoäly</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Paikallinen suoritinpohjainen konenäkö, OCR &amp; Phi-4-kielimallit ONNX:lla</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ei lainkaan (staattiset säännölliset lausekkeet tai komentotulkin skriptit)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Palvelinpuolen suljetut mustan laatikon mallit</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Pakollinen esikatselutaulukko</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Taattu esikatselutaulukko ennen kuin mihinkään tiedostoon kosketaan</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Sokea suoritus tai riskialttiit komentojonot</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Läpinäkymätön taustasynkronointi ilman ennakkotarkistusta</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">1 napsautuksen tapahtumallinen kumoaminen</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Välitön palautus ennen suoritusta luodun atomisen lokin avulla</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Manuaalinen palautus; skriptejä ei voi peruuttaa</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Monimutkainen versiohistoria tai pysyvä tietojen menetys</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Pilvipalvelun paikkamerkkien turvallisuus</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Tunnistaa OneDriven/iCloudin/Dropboxin; ei koskaan pakota latauksia</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Tietämätön; laukaisee usein massiivisia tahattomia latauksia</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Toimittajasidonnaiset pilvisiilot</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Deduplikointi &amp; lähes identtiset tiedostot</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Tavu tavulta -kansiot, lähes identtiset videot &amp; kuvien terävyys</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Vain perustason samannimiset tai yksittäisen tiedoston tiivistekaksoiskappaleet</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Vain peruskuvakaksoiskappaleet; ei videoiden tai kansioiden karsintaa</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bittimätä &amp; eheyden tarkistus</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Sisäänrakennettu SHA-256-varmuuskopiotarkistus levyn vaurioiden varalta</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Vaatii monimutkaisia manuaalisia komentorivityökaluja</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Läpinäkymätön suljettu pilvitallennustila</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Hinnoittelu &amp; lisensointi</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Kertamaksu Microsoft Storessa • Elinikäinen omistus</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ilmaisohjelmat tai pirstaloituneet maksulliset apuohjelmat</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kalliit toistuvat kuukausi- tai vuositilausmaksut</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Selkeät vastaukset
+        </span>
+        <h2 class="display-5 fw-bold text-white">Usein kysytyt kysymykset</h2>
+        <p class="text-secondary fs-5">Selkeät vastaukset Stowin yksityisyysarkkitehtuurista, offline-tekoälystä, tiedostoturvallisuudesta ja yhteensopivuudesta.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Miten Stow takaa, ettei mitään tiedostoistani tai tiedoistani ladata pilveen?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stowissa ei ole lainkaan tili- tai kirjautumisjärjestelmiä, ulkoisia palvelimia, telemetria-SDK-paketteja eikä tausta-analytiikkaa. Kaikki koneoppimismallit (SigLIP-2 semanttiseen valokuvahakuun, YuNet &amp; SFace kasvojen klusterointiin, paikallinen OCR skannatuille asiakirjoille ja Phi-4-mini luonnollisen kielen sääntöjen luomiseen) toimivat tiukasti tietokoneesi suorittimella (CPU) ONNX Runtimen kautta. Valokuvasi, asiakirjasi, tiedostonimesi, kansiopuusi ja hakukyselysi eivät koskaan poistu laitteeltasi.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Tarvitsenko tehokkaan näytönohjaimen (GPU) tai erillisen NPU-suorittimen käyttääkseni Stowia?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Et. Stow on rakennettu natiivisti Windows 10:lle ja 11:lle (x64 ja ARM64), ja sen paikallinen päättely-ympäristö on optimoitu varta vasten tavallisille kuluttajasuorittimille ilman tarvetta erillisille GPU- tai NPU-yksiköille. Lisäksi perusominaisuudet, kuten esiasetukset, visuaaliset säännöt, reaaliaikaiset rekursiiviset kansiokoot, tiedostojen kaksoiskappaleiden poisto, roskien siivous, differentiaalinen synkronointi ja universaalit esikatselut eivät vaadi tekoälymalleja lainkaan, ja ne toimivat välittömästi asennuksen jälkeen.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Miten Stow estää ei-toivotut massiiviset lataukset OneDrive-, iCloud- tai Dropbox-kansioissa?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow on kehitetty huomioimaan pilvipalveluiden paikkamerkit. Kun Stow skannaa OneDriven, Dropboxin, Google Driven tai iCloudin hallinnoimia kansioita, se tunnistaa vain pilvessä olevat virtuaaliset paikkamerkit. Se kieltäytyy käynnistämästä hiljaisia suuria latauksia maksullisten tai akkuvirtaa kuluttavien yhteyksien yli, varmistaen pilvitiedostojesi koskemattomuuden ilman kaistanleveyden tukkimista tai paikallisen levytilan odottamatonta täyttymistä.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Mitä tapahtuu, kun Stow siivoaa roskat tai poistaa kaksoiskappaleet? Voivatko tiedostot kadota pysyvästi?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow ei koskaan poista mitään pysyvästi. Roskien siivoustoiminnot (kuten keskeneräisten latausten tai vanhojen asennusohjelmien poisto) ja kaksoiskappaleiden poistotoimet siirtävät kohteet turvallisesti tavalliseen Windowsin Roskakoriin. Jos huomaat poistaneesi tiedoston vahingossa, voit palauttaa sen välittömästi suoraan Roskakorista tai käyttää Stowin 1 napsautuksen kumoamistoimintoa.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Miten 1 napsautuksen kumoamistoiminto toimii? Voinko kumota järjestelyn useita päiviä myöhemmin?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ennen kuin mitään tiedostoa siirretään, nimetään uudelleen tai siivotaan levyllä, Stow tallentaa atomisen ja palautettavan tapahtumalokikirjauksen, joka dokumentoi jokaisen yksittäisen tiedoston tarkan lähde- ja kohdepolun. Kumoamispalkki tulee näkyviin heti minkä tahansa toiminnon jälkeen, ja Stowin Historiakeskus säilyttää aiemmat toiminnot, jotta voit luotettavasti peruuttaa järjestelytuntien, -päivien tai -viikkojen kuluttua.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Miten luonnollisen kielen tekoälykehotteet luovat järjestelysääntöjä paikallisesti?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Kun kirjoitat kehotteen, kuten &#x27;Siirrä kaikki laskut Laskut-kansioon ja lajittele kamerakuvat vuoden ja kuukauden mukaan&#x27;, Stowin paikallinen kielimalli (Phi-4-mini) kääntää pyyntösi turvallisiksi, esikatseltavissa oleviksi järjestelysäännöiksi. Malli vastaanottaa vain korkean tason kirjastorakenteen (tiedostotyyppien määrät, päivämäärävälit ja päätason kansioiden nimet) – ei koskaan yksittäisiä tiedostonimiä tai sisältöjäsi. Tarkastettavissa oleva koodi arvioi sitten nämä säännöt interaktiivisessa esikatselutaulukossa, jonka tarkistat ja hyväksyt.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Voiko Stow pitää kameran RAW-tiedostot ja kumppanitiedostot yhdessä?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Kyllä. Stow sisältää älykkään kumppanitiedostojen säilytyksen. Kameran RAW-muodot (kuten CR2, NEF, ARW, DNG) sidotaan automaattisesti niitä vastaaviin JPEG/HEIC-esikatselukuviin ja .xmp-metatietotiedostoihin. Samalla tavalla videotiedostot pysyvät kytkettyinä .srt- tai .vtt-tekstityksiinsä. Kun Stow järjestää tai siirtää päätiedoston, kaikki kumppanitiedostot siirtyvät sen mukana rinnakkain.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Mitkä ovat järjestelmävaatimukset ja miten Stow asennetaan?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow tukee Windows 10:tä (versio 2004 / koontiversio 19041 ja uudemmat) ja Windows 11:tä sekä 64-bittisellä Intel/AMD- (x64) että Qualcomm Snapdragon -arkkitehtuurilla (ARM64). Se toimitetaan suoraan Microsoft Storen kautta eristettynä, modernina MSIX-pakettisovelluksena, mikä takaa puhtaan asennuksen, automaattiset päivitykset ja nollamäärän järjestelmäjätettä.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: kuva- ja tiedostojärjestäjä</h2>
-          <p class="text-secondary fs-5 mb-4">Verkotonta tekoälyä, joka siivoaa koneesi — eikä koskaan siirrä tiedostoa kysymättä.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: Tekoälypohjainen kuvien ja tiedostojen järjestäjä, kaksoiskappaleiden etsijä</h2>
+          <p class="text-secondary fs-5 mb-4">Täysin offline-tilassa toimiva, yksityisyyttä kunnioittava työpöydän tiedostonhallintapaketti, joka järjestää, poistaa kaksoiskappaleet, siivoaa ja suojaa tiedostosi lataamatta koskaan tavuakaan pilveen.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Asenna</a>
-</div>
-<button type="button" class="to-top" aria-label="Takaisin ylös" title="Takaisin ylös">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
   <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>

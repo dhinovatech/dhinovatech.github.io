@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: foto- og filorganisator | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Offline AI, der rydder op på din pc — og aldrig flytter en fil uden at spørge. Stow læser de mapper, du peger på, regner ud, hvor alting bør ligge, og viser dig den fulde liste over alle de ændringer, den foreslår. Først når du trykker på knappen, flytter noget sig.">
+  <title>Stow: AI-foto- og filorganisering, duplikatfinder | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="Den 100 % offline, privatlivsfokuserede filhåndteringspakke til computeren, der organiserer, deduplikerer, rydder op og beskytter dine filer uden nogensinde at uploade en eneste byte til skyen. Stow gør en ende på uoverskuelige Overførsler-mapper, vildtvoksende fotobiblioteker og mystiske mapper. Dr">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: foto- og filorganisator | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Offline AI, der rydder op på din pc — og aldrig flytter en fil uden at spørge. Stow læser de mapper, du peger på, regner ud, hvor alting bør ligge, og viser dig den fulde liste over alle de ændringer, den foreslår. Først når du trykker på knappen, flytter noget sig.">
+  <meta property="og:title" content="Stow: AI-foto- og filorganisering, duplikatfinder | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="Den 100 % offline, privatlivsfokuserede filhåndteringspakke til computeren, der organiserer, deduplikerer, rydder op og beskytter dine filer uden nogensinde at uploade en eneste byte til skyen. Stow gør en ende på uoverskuelige Overførsler-mapper, vildtvoksende fotobiblioteker og mystiske mapper. Dr">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/da/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="da_DK">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: foto- og filorganisator | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Offline AI, der rydder op på din pc — og aldrig flytter en fil uden at spørge. Stow læser de mapper, du peger på, regner ud, hvor alting bør ligge, og viser dig den fulde liste over alle de ændringer, den foreslår. Først når du trykker på knappen, flytter noget sig.">
+  <meta name="twitter:title" content="Stow: AI-foto- og filorganisering, duplikatfinder | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="Den 100 % offline, privatlivsfokuserede filhåndteringspakke til computeren, der organiserer, deduplikerer, rydder op og beskytter dine filer uden nogensinde at uploade en eneste byte til skyen. Stow gør en ende på uoverskuelige Overførsler-mapper, vildtvoksende fotobiblioteker og mystiske mapper. Dr">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: foto- og filorganisator","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Offline AI, der rydder op på din pc — og aldrig flytter en fil uden at spørge. Stow læser de mapper, du peger på, regner ud, hvor alting bør ligge, og viser dig den fulde liste over alle de ændringer, den foreslår. Først når du trykker på knappen, flytter noget sig.","url":"https://www.dhinovatech.com/stow/da/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (da)","item":"https://www.dhinovatech.com/stow/da/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI-foto- og filorganisering, duplikatfinder","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Den 100 % offline, privatlivsfokuserede filhåndteringspakke til computeren, der organiserer, deduplikerer, rydder op og beskytter dine filer uden nogensinde at uploade en eneste byte til skyen. Stow gør en ende på uoverskuelige Overførsler-mapper, vildtvoksende fotobiblioteker og mystiske mapper. Dr","url":"https://www.dhinovatech.com/stow/da/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (da)","item":"https://www.dhinovatech.com/stow/da/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/da/#faq","inLanguage":"da","mainEntity":[{"@type":"Question","name":"Hvordan garanterer Stow, at ingen af mine filer eller data uploades til skyen?","acceptedAnswer":{"@type":"Answer","text":"Stow har nul kontosystemer, nul eksterne servere, nul telemetri-SDK'er og nul baggrundsanalyser. Alle maskinlæringsmodeller (SigLIP-2 til semantisk fotosøgning, YuNet & SFace til ansigtsklyngedannelse, lokal OCR til scannede papirer og Phi-4-mini til syntese af regler på naturligt sprog) afvikles udelukkende på din pc's CPU via ONNX Runtime. Dine fotos, dokumenter, filnavne, mappetræer og søgeforespørgsler forlader aldrig din computer."}},{"@type":"Question","name":"Kræver Stow en kraftig GPU eller dedikeret NPU?","acceptedAnswer":{"@type":"Answer","text":"Nej. Stow er udviklet direkte til Windows 10 og 11 (x64 og ARM64), og det lokale inferensmiljø er særligt optimeret til almindelige forbruger-CPU'er uden krav om dedikerede GPU'er eller NPU'er. Desuden kræver kernefunktioner som forudindstillinger, visuelle regler, rekursive mappestørrelser i realtid, filduplikering, affaldsoprydning, differentiel synkronisering og universelle forhåndsvisninger slet ingen AI-modeller og fungerer med det samme efter installation."}},{"@type":"Question","name":"Hvordan forhindrer Stow uønskede massive overførsler i OneDrive-, iCloud- eller Dropbox-mapper?","acceptedAnswer":{"@type":"Answer","text":"Stow er udviklet med kendskab til sky-pladsholdere. Når Stow scanner mapper, der administreres af OneDrive, Dropbox, Google Drev eller iCloud, registrerer programmet virtuelle pladsholdere, som udelukkende findes i skyen. Det afviser at starte tavse, massive filoverførsler over forbrugsafregnede forbindelser eller batteridrift, hvilket sikrer, at dine skyfiler forbliver intakte uden at optage båndbredde eller uventet forbruge lokal diskplads."}},{"@type":"Question","name":"Hvad sker der, når Stow rydder skrammelaffald eller fjerner duplikater? Kan filer gå tabt permanent?","acceptedAnswer":{"@type":"Answer","text":"Intet slettes nogensinde permanent af Stow. Affaldsoprydninger (såsom fjernelse af ufuldstændige overførsler eller gamle installationsprogrammer) og handlinger til fjernelse af duplikater flytter sikkert elementerne til den almindelige Windows Papirkurv. Hvis du opdager, at du har kasseret en fil ved en fejl, kan du straks gendanne den direkte fra Papirkurven eller aktivere Stows 1-klik-fortrydelse."}},{"@type":"Question","name":"Hvordan fungerer 1-klik-fortrydelsesfunktionen? Kan jeg fortryde en organisering flere dage senere?","acceptedAnswer":{"@type":"Answer","text":"Før en fil flyttes, omdøbes eller ryddes på disken, registrerer Stow en atomar, reversibel transaktionsjournal, der dokumenterer de nøjagtige kilde- og destinationsstier for hvert eneste element. En fortrydelseslinje vises umiddelbart efter enhver handling, og Stows historik-hub bevarer tidligere handlinger, så du pålideligt kan rulle organiseringssessioner tilbage timer, dage eller uger senere."}},{"@type":"Question","name":"Hvordan genererer AI-prompten med naturligt sprog organiseringsregler lokalt?","acceptedAnswer":{"@type":"Answer","text":"Når du skriver en instruktion som 'Flyt alle fakturaer til Fakturaer og sorter kamerabilleder efter år og måned', oversætter Stows lokale sprogmodel (Phi-4-mini) din anmodning til sikre regler, der kan forhåndsvises. Modellen modtager kun et overordnet biblioteksskema (antal filtyper, datointervaller og navne på mapper på øverste niveau) – aldrig dine individuelle filnavne eller filindhold. Verificerbar kode evaluerer derefter reglerne mod en interaktiv forhåndsvisningstabel, som du gennemgår og godkender."}},{"@type":"Question","name":"Kan Stow holde kamera-RAW-filer og tilhørende filer samlet?","acceptedAnswer":{"@type":"Answer","text":"Ja. Stow har intelligent bevarelse af ledsagefiler. Kamera-RAW-formater (såsom CR2, NEF, ARW, DNG) knyttes automatisk til deres tilhørende JPEG/HEIC-forhåndsvisninger og .xmp-sidecar-metadatafiler. På samme måde forbliver videofiler knyttet til deres .srt- eller .vtt-undertekster. Når Stow organiserer eller flytter en primær fil, flyttes alle ledsagefiler sammen med den."}},{"@type":"Question","name":"Hvad er systemkravene, og hvordan installeres Stow?","acceptedAnswer":{"@type":"Answer","text":"Stow understøtter Windows 10 (version 2004 / build 19041 og nyere) og Windows 11 på både 64-bit Intel/AMD (x64) og Qualcomm Snapdragon (ARM64) arkitekturer. Det distribueres direkte via Microsoft Store som et sandkassebeskyttet, moderne pakket MSIX-program, hvilket garanterer ren installation, automatiske opdateringer og nul rod i systemet."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Gå til hovedindhold</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Hent i Microsoft Store
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Nyeste store udgivelse</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Desktop Suite</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 Desktop Suite: Gennemse &amp; forhåndsvis, affaldsrydder, differentiel synkronisering, lokal OCR &amp; sikkerhedskopieringshub</h2>
+            <p class="text-secondary small mb-0">En markant udvikling fra simpel organisering til et komplet, privat kraftcenter til filhåndtering på computeren.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Udforsk de nyeste funktioner
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>To-rudet stifinder &amp; live-størrelser</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Dedikeret affaldsrydder</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Målrettet mappeafstemning</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>Papirarbejde-OCR til PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Sikkerhedskopi &amp; bit-rot-kontrol</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: foto- og filorganisator</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Offline AI, der rydder op på din pc — og aldrig flytter en fil uden at spørge.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow læser de mapper, du peger på, regner ud, hvor alting bør ligge, og viser dig den fulde liste over alle de ændringer, den foreslår. Først når du trykker på knappen, flytter noget sig.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Den kører udelukkende på din egen pc. Ingen konto, ingen server, ingen telemetri, ingen reklamer. AI-modellerne hentes én gang og kører på din egen processor: ingen fil, intet filnavn, intet foto, intet dokument og ingen søgetekst forlader nogensinde maskinen.</p>
+          <h1 class="hero-title mb-3">Stow: AI-foto- og filorganisering, duplikatfinder</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">Den 100 % offline, privatlivsfokuserede filhåndteringspakke til computeren, der organiserer, deduplikerer, rydder op og beskytter dine filer uden nogensinde at uploade en eneste byte til skyen.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow gør en ende på uoverskuelige Overførsler-mapper, vildtvoksende fotobiblioteker og mystiske mapper. Drevet af lokal computervision, lokal dokument-OCR og CPU-sprogmodeller beregner Stow intelligente organiseringsplaner, opsporer duplikater og slørede filer og fjerner skjult skrammel.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Alt kører udelukkende på din pc med nul cloudservere, nul telemetri og nul baggrundssporing. Intet flyttes nogensinde uden en godkendt forhåndsvisning, intet slettes nogensinde permanent, og enhver handling kan fortrydes med et enkelt klik.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Se hvordan det virker
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Se hvordan det fungerer
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100 % offline</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Godkendt forhåndsvisning først</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Sletter aldrig permanent</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1-klik-fortryd</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Sikker med skymapper</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Hent i Microsoft Store
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Dit arkivsystem fejlede ikke. Livet kom i vejen.</h2>
-          <p class="text-secondary fs-5 mb-0">En Overførsler-mappe med fire tusind ting i. En Billeder-mappe med tre telefoner, to kameraer og ti års skærmbilleder. Mapper med navne som «Ferie 2019», «Kopi af ferie» og «ferie (endelig)», og ingen måde at se hvilken er hvilken.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">I hånden virker det, men ingen bliver færdig. Cloudtjenester gør det for dig — ved at uploade hele dit personlige bibliotek til en andens computer. Scriptbare værktøjer gør præcis, hvad du beder om, forudsat at du gider lære en regelsyntaks og teste den på en kopi først. Og alle sammen beder dig i det afgørende øjeblik om at stole på, at den handling, der lige om lidt løber hen over ti tusind filer, er den, du mente.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Garanteret af arkitekturen
+        </span>
+        <h2 class="display-5 fw-bold text-white">De fem invarianter</h2>
+        <p class="text-secondary fs-5">Fem ufravigelige arkitektoniske garantier indbygget i alle lag af Stow.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100 % offline &amp; privat</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Nul konti, nul cloudservere, nul telemetri, nul analyser, nul baggrundssporing. Alle AI-modeller (vision, OCR, sprog) kører lokalt på din pc&#x27;s CPU.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Intet flyttes uden en godkendt forhåndsvisning</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow flytter, omdøber eller rydder aldrig en fil bag din ryg. Hver eneste handling genererer en specificeret forhåndsvisningstabel, som du gennemgår og godkender først.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Intet slettes nogensinde permanent</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Appen udfører aldrig permanente filsletninger. Oprydnings- og duplikatfjernelseshandlinger flytter elementer til den velkendte Windows Papirkurv, hvor de nemt kan gendannes.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Øjeblikkelig 1-klik-fortrydelse</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Alt journalføres før eksekvering på disken. Hvis du skifter mening en time eller en uge senere, gendanner et enkelt klik dine filer til deres præcise tidligere placeringer.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Sikker med skymapper</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Genkender automatisk sky-pladsholdere (OneDrive, Dropbox, iCloud) og nægter at hente gigabytes i det skjulte over forbrugsbaserede forbindelser.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Sikkert udførelsesforløb
+        </span>
+        <h2 class="display-5 fw-bold text-white">Sådan fungerer det</h2>
+        <p class="text-secondary fs-5">Tre enkle, gennemskuelige trin. Fuldstændig kontrol fra start til slut.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Scan &amp; beskriv</h3>
+              <p class="text-secondary small mb-0">Peg Stow på en vilkårlig mappe eller et drev. Vælg en 1-klik-forudindstilling, beskriv din ønskede struktur i almindelig tekst, eller lad Stow automatisk finde dine eksisterende arkiveringskonventioner.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Forhåndsvis &amp; kontrollér</h3>
+              <p class="text-secondary small mb-0">Gennemgå hele forslagstabellen, før en eneste byte flyttes på disken. Hver fil har en præcis række, foreslået sti og gældende regel. Filtrer, rediger eller fravælg elementer, du vil bevare uberørte.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Anvend med 1-klik-fortryd</h3>
+              <p class="text-secondary small mb-0">Udfør planen med fuld tryghed. Stow skriver først enhver handling til en atomar transaktionsjournal. Hvis du ombestemmer dig – en time eller en måned senere – fortryder et enkelt klik det hele.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">Forhåndsvisningen er det egentlige produkt</h2>
         <p class="text-secondary fs-5">Du finder aldrig ud af, hvad Stow besluttede, ved at se det ske. Du finder ud af det ved at læse en tabel, før noget som helst flytter sig, hvor hver eneste fil har sin række, sin destination og navnet på den regel, der gjorde krav på den. Er det forkert, lukker du skærmen — og der er ikke sket noget.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Søjle 1: Ubesværet organisering &amp; automatiseret arkivering -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> Søjle 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Ubesværet organisering &amp; automatiseret arkivering</h2>
+          <p class="text-secondary fs-5 mb-0">Forvandl uoverskuelige mapper til overskuelige, strukturerede arkiver ved hjælp af forudindstillinger, AI med naturligt sprog eller brugerdefinerede regelsystemer.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Smart kontrolpanel &amp; sundhedscenter</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Dit biblioteks kontrolcenter. Få en øjeblikkelig vurdering af bibliotekets tilstand – samlet antal indekserede filer, administreret lagerplads, uorganiserede elementer og genvunden plads. Handlingsorienterede Opmærksomhedskort viser proaktivt nyligt tilsluttede SD-kort fra kameraer klar til import, ventende filer i Overførsler, affaldsadvarsler og påmindelser om sikkerhedskopiering.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Øjeblikkelig oversigt over lagerplads, uorganiserede filer og genvundne gigabytes</li><li>Handlingsorienterede Opmærksomhedskort til SD-kort, ventende overførsler og affaldsadvarsler</li><li>Hurtige genveje til med ét klik at organisere, fjerne affald eller afstemme drev</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Fem måder at organisere på</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Vælg, hvordan du vil arbejde. Brug færdige 1-klik-forudindstillinger (efter filtype, år/måned, skærmbilleder for sig, kameramodel); skriv hvad du ønsker i almindelig tekst til vores lokale sprogmodel på enheden; lad Stow automatisk lære og videreføre dine eksisterende mappekonventioner; opbyg præcise betingelser med den visuelle regelbygger; eller udfør regelbaseret masseomdøbning.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Færdige 1-klik-forudindstillinger: Øjeblikkelig arkivering efter type, dato eller kamerametadata</li><li>AI med naturligt sprog: Skriv ønsker i almindeligt sprog; lokal LLM på enheden danner sikre regler</li><li>Fortsæt eksisterende system: Registrerer og fuldfører dine etablerede mappekonventioner</li><li>Visuel regelbygger: Detaljerede betingelser, destinations-tokens og kollisionslogik</li><li>Masseomdøber: Fortløbende tællere, datokoder og mønsterbaseret tekstudskiftning</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Mapper der organiserer sig selv (smarte overvågede mapper)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Knyt regler til rodede modtagemapper som Overførsler eller Skrivebord. Når der ankommer nye filer, opretter Stow et organiseret forslag i baggrunden og giver dig en diskret besked med forhåndsvisning – klar til at blive anvendt med ét klik uden at køre som en forstyrrende baggrundsproces.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Overvåger modtagemapper effektivt uden tunge baggrundstjenester</li><li>Klargør automatisk strukturerede forslag, når nye filer lander i overvågede mapper</li><li>Kræver altid brugergodkendelse med ét klik – flytter aldrig filer, mens du er væk</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Søjle 2: To-rudet biblioteksstifinder &amp; universel forhåndsvisningsrude -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> Søjle 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">To-rudet biblioteksstifinder &amp; universel forhåndsvisningsrude</h2>
+          <p class="text-secondary fs-5 mb-0">Et fuldgyldigt, moderne alternativ til Windows Stifinder, der løser Windows&#x27; største mangler med rekursive mappestørrelser i realtid og øjeblikkelige, detaljerede forhåndsvisninger.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">To-rudet biblioteksstifinder med mappestørrelser i realtid</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Naviger i hele dit filsystem med et udvideligt mappetræ og et responsivt filgitter. Stow løser den største begrænsning i Windows Stifinder ved at beregne og vise reelle rekursive mappestørrelser og elementantal direkte i gitteret, så det straks fremgår, hvor lagerpladsen er koncentreret.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Rekursive mappestørrelser og elementantal beregnet direkte i gitteret i realtid</li><li>To-rudet navigation med udvideligt mappetræ og brødkrummestier</li><li>Direkte filmanipulation: opret mapper, omdøb samt klip/kopier/indsæt på stedet</li><li>Problemfri tovejs træk-og-slip med Windows Stifinder og skrivebordsapps</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Universel øjeblikkelig forhåndsvisningsrude</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Inspicer ethvert filformat med det samme uden at starte tunge eksterne programmer. Indeholder fotovisning med EXIF-metadata, videoafspiller med oplysninger om opløsning og codec, dokumentlæser til PDF- og Word-dokumenter, lydafspiller med ID3-metadata samt arkivinspektion.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Højopløselig fotoinspektion med kameramodel, blænde, ISO og EXIF-statistik</li><li>Integreret videoafspiller, der viser opløsning, billedhastighed, bitrate og codec</li><li>Øjeblikkelig dokumentlæser til PDF&#x27;er, Word-dokumenter (.docx) og tekstfiler</li><li>Lydafspiller med ID3-tag-metadata, albumcover og bitrate-inspektion</li><li>Arkivinspektion: se indholdet af ZIP- og TAR-arkiver uden at udpakke dem</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Søjle 3: Intelligent oprydning, affaldsrydder &amp; deduplikering -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> Søjle 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Intelligent oprydning, affaldsrydder &amp; deduplikering</h2>
+          <p class="text-secondary fs-5 mb-0">Genvind tabte gigabytes og fjern duplikatrod, mens dine filer bevares 100 % sikre.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dedikeret affalds- og skrammelrydder</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Genvind tabte gigabytes fra skjult affald med et enkelt klik. Scanner efter ufuldstændige/afbrudte overførsler (.crdownload, .part, .download), efterladenskaber fra editorer og operativsystemer (.DS_Store, Thumbs.db, midlertidige filer), ophobede installationsfiler (.exe, .msi), tunge udvikler-caches (node_modules, bin/obj, .gradle), forladte udpakkede mapper og nul-byte-filer.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Genvinder gigabytes fra afbrudte downloads, midlertidige filer og OS-miniaturer</li><li>Rydder gamle installationsprogrammer, der ophober sig i Overførsler</li><li>Renser udvikleres afhængighedscaches (node_modules, gradle, bin/obj)</li><li>Fjerner tomme mapper og forladte rester fra udpakkede arkiver</li><li>Hver oprydning gennemgås i en forhåndsvisningstabel og sendes sikkert til Papirkurv</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Eksakt duplikatfinder (filer &amp; mapper)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Finder identiske filer og hele identiske mappetræer byte for byte, uanset filnavne eller placeringer. Fire deterministiske strategier anbefaler, hvilken kopi der skal beholdes (bedste kvalitet, ældste, nyeste eller foretrukne mappe). Ekstra kopier flyttes sikkert til Papirkurv.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Grupperer identiske filer og hele spejlede mappetræer ud fra indholdshash</li><li>Finder duplikerede mapper selv med forskellige navne (&#x27;Billeder 2021&#x27; vs &#x27;Backup Billeder&#x27;)</li><li>Papirkurvssikkerhed sikrer, at overflødige kopier altid kan gendannes</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Finder af næsten-ens videoer &amp; fotoskarphedsvurdering</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Går videre end nøjagtige duplikater. Finder genkodede videoer, versioner i lavere opløsning (f.eks. 1080p vs. 720p), trimmede klip og komprimerede videokopier fra WhatsApp eller beskedtjenester. For billeder registreres hurtige fotoserier, og kantskarpheden analyseres for at anbefale det skarpeste billede og markere slørede optagelser.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Registrering af næsten-ens videoer fanger genkodede, omskalerede og trimmede videoer</li><li>Gruppering af fotoserier identificerer kontinuerlige action-optagelser</li><li>Kant- og skarphedsanalyse markerer slørede, ufokuserede eller rystede billeder</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Søjle 4: Papirløse dokumenter, musikkuratering &amp; fotografi -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> Søjle 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Papirløse dokumenter, musikkuratering &amp; fotografi</h2>
+          <p class="text-secondary fs-5 mb-0">Forvandl kaotiske papirbunker og umærkede mediesamlinger til smukt strukturerede biblioteker.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Scannet papirarbejde til flersidet PDF</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Forvandler mobilfotos af kvitteringer, kontoudtog, skattedokumenter og regninger til et nydeligt digitalt arkivskab. Lokal OCR på enheden udtrækker tekst uden at sende dokumenter til sky-API&#x27;er. Intelligent klassificering registrerer dokumenttype (kvittering, faktura, skatteformular, forbrugsregning, kontoudtog, kontrakt) og udsteder, samler flersidede fotos og standardiserer filnavne.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>100 % lokal OCR udtrækker tekst direkte på enheden uden privatlivsrisici i skyen</li><li>Intelligent klassificering kategoriserer dokumenttyper og udstedende instanser</li><li>Flersidet samling fletter sammenhørende sider til en standardiseret, søgbar PDF</li><li>Ensartet automatisk navngivning (f.eks. &#x27;2024-03-15_DanskeBank_Kontoudtog.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Kuratering af musik- og lydbiblioteker</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Læser og indekserer ID3- og lydtags på tværs af formaterne MP3, FLAC, M4A, WAV og OGG. Skelner mellem sangkunstner og albumkunstner, så opsamlingsalbummer forbliver samlet i en enkelt mappe i stedet for at blive splittet op. Indeholder en indbygget editor til lydtags til udbedring af manglende eller forkerte metadata.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Omfattende ID3- og tag-indeksering på tværs af MP3, FLAC, M4A, WAV og OGG</li><li>Gruppering efter albumkunstner forhindrer opsplitning af opsamlings- og soundtrack-albummer</li><li>Indbygget masseredigering af tags udbedrer manglende numre, kunstnere, årstal og coverbilleder</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Offline vektor-verdenskort &amp; SD-kortimport</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Udforsk, hvor dine billeder er taget, på et interaktivt vektor-verdenskort, der gengives fuldstændig offline – uden indlæsning af eksterne kortfliser fra nettet eller deling af GPS-koordinater. Registrerer automatisk tilsluttede hukommelseskort eller kameraer til 1-klik-import med samlet gruppering af RAW- og JPEG-filer.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Interaktivt vektor-verdenskort viser geotaggede fotos på et 100 % offline kort</li><li>Smart kamera- og SD-kortregistrering med effektive 1-klik-arbejdsgange til import</li><li>Streng bevarelse af ledsagefiler holder RAW+JPEG og video+undertekster koblet sammen</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Søjle 5: Lagergenvinding, differentiel synkronisering &amp; Windows-integration -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Søjle 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Lagergenvinding, differentiel synkronisering &amp; Windows-integration</h2>
+          <p class="text-secondary fs-5 mb-0">Sikkerhed i virksomhedsklassen, differentiel drevafstemning og tæt samspil med Windows-operativsystemet.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Målrettet mappeafstemning &amp; differentiel synkronisering</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Løser det klassiske spørgsmål: &#x27;Hvad ligger der på mit eksterne sikkerhedskopidrev, som ikke allerede findes i mit primære bibliotek?&#x27; Sammenligner to mappetræer eller drev og inddeler filer i Mangler på destination, Identisk eller Konflikt/Ændret. Udarbejder en ren, sikker kopieringsplan til at lukke hullet uden at slette ubekræftede filer.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Sammenligner to mappetræer eller drev for at identificere forskelle og uoverensstemmelser</li><li>Kategoriserer filer i Mangler på destination, Identisk eller Konflikt</li><li>Sikker kopieringsplan udligner forskellen uden destruktive spejlingssletninger</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Ikke-destruktiv sikkerhedskopiering &amp; bit-rot-integritetskontrol</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Opret 1-klik- eller planlagte sikkerhedskopier af vigtige biblioteker til eksterne drev eller sekundære diske. Kopierer nye og opdaterede filer uden at afspejle destruktive sletninger fra kilden. Indbygget bit-rot-kontrol genberegner SHA-256-kontrolsummer mellem kilde og sikkerhedskopi for at opdage diskfejl eller defekte lagringssektorer.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Ikke-destruktive sikkerhedskopieringsjob kopierer nye filer uden at genspejle sletninger</li><li>Bit-rot-integritetskontrol efterprøver SHA-256-hashes for at opdage diskfejl</li><li>Sikker gendannelsesplanlægger forhåndsviser og gendanner filer til oprindelige mapper eller gendannelsesmapper</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Lagerkort over hele disken &amp; flytning med junctions</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Visualiserer diskplads på tværs af hele drev (C:, D:) for at finde massive pladsslugere uden for dine scanningsmapper (som TreeSize eller WizTree). Flyt store mapper (f.eks. et 400 GB Billeder-bibliotek) til et sekundært drev; Stow opretter automatisk en NTFS Directory Junction på den oprindelige placering, så genveje og programmer fortsætter med at fungere uden afbrydelse. Genvind plads fra systemets midlertidige filer og opdateringscaches.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Visuelt pladskort over hele drevet identificerer enorme mapper på tværs af partitioner</li><li>NTFS Directory Junctions gør det muligt at flytte gigantiske mapper uden at ødelægge programstier</li><li>Systempladsgenvinding identificerer frigørlige Windows-tempmapper og caches</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dyb Windows-integration &amp; overførbare profiler</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Udviklet specifikt til Windows. Højreklik på en vilkårlig mappe i Windows Stifinder for at &#x27;Organiser med Stow&#x27; eller &#x27;Find duplikater&#x27;. Tryk på Win+Shift+F hvor som helst for at åbne den globale hurtigstarter. Masse-fjerner blokering af downloadede dokumenter med Mark of the Web (Zone.Identifier), reparerer automatisk genveje på skrivebordet/Startmenuen, når filer flyttes, og eksporterer overførbare JSON-profiler til opsætning af nye pc&#x27;er på få sekunder.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Integration i Windows Stifinders genvejsmenu (højreklik)</li><li>Global hurtigstarter-genvej (Win+Shift+F) til øjeblikkelig systemsøgning</li><li>Fjernelse af Mark of the Web (Zone.Identifier) i blokke for hentede filer</li><li>Flyttebevidst genvejsreparation holder links på skrivebordet og i Startmenuen funktionsdygtige</li><li>Eksportér overførbare JSON-profiler for at flytte regler og opskrifter til nye pc&#x27;er</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Kompromisløst privatliv &amp; kontrol
         </span>
-        <h2 class="display-5 fw-bold text-white">Fem regler, hele programmet er bygget på</h2>
+        <h2 class="display-5 fw-bold text-white">Hvordan Stow adskiller sig</h2>
+        <p class="text-secondary fs-5">Hvorfor computerbrugere foretrækker Stow frem for scriptværktøjer og skytjenester.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Intet forlader pc&#x27;en</h3>
-              </div>
-              <p class="text-secondary small mb-0">Hverken filerne, deres navne, indekset, indlejringerne, ansigtsdataene eller en nedbrudslog. Der findes præcis to netværkshandlinger i hele programmet, og du skal starte dem begge bevidst.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Intet sker uden forhåndsvisning</h3>
-              </div>
-              <p class="text-secondary small mb-0">Enhver handling, der rører en fil — en forudindstilling med ét klik, en regel skrevet af sprogmodellen, en masseomdøbning — går gennem den samme kæde og ender på den samme forhåndsvisning. Der findes ingen genvej udenom.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Intet slettes eller overskrives</h3>
-              </div>
-              <p class="text-secondary small mb-0">Motoren flytter kun filer, omdøber dem og opretter mapper. Fjernelse findes præcis ét sted — i dubletsøgningen — og går gennem Windows&#x27; papirkurv, som overlever, at Stow afinstalleres.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Alt kan fortrydes</h3>
-              </div>
-              <p class="text-secondary small mb-0">Hver handling skrives til en journal, før den udføres. Den journal driver fortryd-knappen, genopretter programmet, hvis maskinen mister strøm midtvejs, og ved bagefter, hvilke mapper den tømte.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Modellerne foreslår, koden bestemmer</h3>
-              </div>
-              <p class="text-secondary small mb-0">Sprogmodellen ser aldrig din filliste og udfører aldrig en handling. Den udsteder regler. Ganske almindelig, kontrollerbar kode anvender dem på hver fil, og en uafhængig validator efterprøver hver eneste destination, den frembragte.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Fem måder at beskrive, hvad du vil have</h2>
-        <p class="text-secondary fs-5">De ender alle sammen i præcis den samme forhåndsvisning.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Færdige forudindstillinger</h3>
-                  <p class="text-secondary small mb-0">Seks muligheder med ét klik: efter filtype, efter år og måned, efter år, efter type og derefter år, sæt skærmbilleder til side, eller efter kamera. Fem af dem virker uden at åbne en eneste fil, så Stow er nyttig, før nogen model overhovedet er hentet.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Beskriv det med dine egne ord</h3>
-                  <p class="text-secondary small mb-0">«Flyt alt, der har med fakturaer at gøre, over i en Fakturaer-mappe.» En lokal sprogmodel laver sætningen om til regler. Den får et resumé af dit bibliotek — antal, filendelser, datointerval, mappenavne — aldrig fillisten. Der findes ingen kodesti, der ville give den den.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Før det system videre, du allerede har</h3>
-                  <p class="text-secondary small mb-0">Stow læser strukturen ud af dit mappetræ igen og skriver regler, der fører den videre. Analysen bygger på beviser: en mappe ved navn 2019 tæller kun som årsmappe, hvis filerne i den faktisk er fra 2019. Ingen model, ingen download.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Byg reglerne selv</h3>
-                  <p class="text-secondary small mb-0">Når en fil ser sådan ud, så læg den i den mappe. Regler køres oppefra og ned, første match vinder. Betingelser dækker filendelse, navn, sti, størrelse, datoer, dimensioner, etiketter, personer, steder og visuel lighed; destinationer tager pladsholdere som {{year}}, {{month_name}} og {{camera}}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Gem det som en opskrift</h3>
-                  <p class="text-secondary small mb-0">Ethvert regelsæt, der nåede en forhåndsvisning, kan navngives og gemmes, køres igen eller gives til en overvåget mappe. At gemme det giver det ingen særrettigheder: det kompileres, begrænses og valideres forfra ved hver kørsel — og ender stadig i en forhåndsvisning, du skal godkende.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Én knap sætter det hele tilbage</h2>
-          <p class="text-secondary fs-5 mb-0">Historikken viser de sidste tyve ting, Stow gjorde, nyeste først, og hver eneste af dem kan rulles præcist tilbage. Efter enhver oprydning dukker der en bjælke op øverst i vinduet med en fortryd-knap på ét klik — den er aldrig gemt væk i en menu.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Fortryd er bevidst ikke symmetrisk med udførelsen. Hvor udførelsen stopper ved den første fejl, forsøger fortryd hver eneste handling og melder problemerne samlet, for at stoppe halvvejs i en gendannelse ville efterlade dig strandet mellem to tilstande. At tage filer ud af en mappe tømmer den, og kun Stow ved, hvilke mapper det var — derfor tilbyder den bagefter at rydde dem væk, og gør ikke mere end at tilbyde det.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Finde tingene igen</h2>
-        <p class="text-secondary fs-5">Alt her læser det indeks, Stow allerede har bygget, så det koster stort set ingenting bare at kigge.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Søg i dine filer</h3>
-              </div>
-              <p class="text-secondary small mb-0">En lille dokumenteret syntaks: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:«garanti fyr», og et minus foran for at udelade. Den virker fuldt ud, også når Stow slet ikke må åbne dine filer.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Søg fotos efter, hvad der er på dem</h3>
-              </div>
-              <p class="text-secondary small mb-0">Skriv «hund på en strand» og få dine strandbilleder, uanset om de hedder IMG_4821.jpg eller noget helt andet. Billeder læses, kodes lokalt til en vektor og slippes igen: selve fotoene kopieres eller gemmes aldrig.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Se hvad der fylder</h3>
-              </div>
-              <p class="text-secondary small mb-0">Totaler efter filtype, dine fyldigste mapper talt hele vejen ned, og dine største enkeltfiler. Hvert fund bærer den søgning med sig, der frembragte det, så «18 GB video, som ingen har åbnet i tre år» rækker dig den præcise søgning, du kan handle på.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Steder og personer</h3>
-              </div>
-              <p class="text-secondary small mb-0">Fotos grupperes efter, hvor de er taget, og — kun hvis du slår det til — efter hvilke ansigter der ligner hinanden. Dette er gruppering efter lighed, ikke identifikation: der er ingen identitetsdatabase og ingen som helst evne til at afgøre, hvem nogen er. Alle navne kommer fra dig.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Etiketter</h3>
-              </div>
-              <p class="text-secondary small mb-0">Et ord, du selv vælger — «arbejde», «skat», «ferie» — sat på enhver fil, du vil holde styr på. Etiketter bor i Stows indeks, så dine filer omdøbes eller ændres aldrig, og de virker i alle privatlivstilstande.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Dubletter, også hele mapper</h2>
-          <p class="text-secondary fs-5 mb-0">Identiske filer grupperes efter indhold, uanset hvor de ligger, og hvad de hedder. Det samme gælder identiske mapper: navne indgår slet ikke i sammenligningen, så «Ferie 2019» og «Kopi af ferie» er den samme mappe, hvis deres bytes er det. Det er som regel dér, den rigtige plads gemmer sig.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Næsten identiske fotos fanges også, med de samme indlejringer som fotosøgningen, så genkomprimerede og formindskede kopier findes, selv om deres bytes er helt forskellige. Fire fuldt deterministiske regler vælger, hvilken kopi der beholdes — bedste kvalitet, ældste, nyeste, eller den der ligger i en mappe, du udpeger — og hvert valg kommer med sin begrundelse. Intet slettes; de overskydende kopier ryger i papirkurven.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Tre ting mere, den kan</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Masseomdøbning</h3>
-              </div>
-              <p class="text-secondary small mb-0">Erstat tekst, nummerér en serie, tilføj et præfiks eller suffiks, ret store og små bogstaver, fjern et stykke. En omdøbning er et ganske almindeligt regelsæt, hvis destination er filens egen mappe — så den får den samme forhåndsvisning, den samme validator og den samme fortryd som alt andet.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Overvågede mapper</h3>
-              </div>
-              <p class="text-secondary small mb-0">Filer, der lander i en overvåget mappe, bliver bemærket og gjort klar til gennemsyn, eventuelt holdt op mod en gemt opskrift. Det, den bevidst ikke gør, er at handle: en organisator, der stille og roligt flyttede filer i baggrunden, ville være et langt mindre troværdigt produkt, hvor bekvemt det end måtte være.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Holde sammen på det, der hører sammen</h3>
-              </div>
-              <p class="text-secondary small mb-0">En kamera-RAW giver ingen mening uden sin JPEG; en undertekst er ubrugelig uden sin video. En gennemgang mellem motoren og validatoren holder følgefiler samlet — forsigtigt, for et fælles navnepræfiks alene beviser ikke, at to filer hører sammen.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Privatliv er produktets form, ikke en politik skruet på bagefter</h2>
-          <p class="text-secondary fs-5 mb-0">Der er ingen konto, ingen backend og ingen clouddatabase — så der er intet at lække, intet at kræve udleveret ved dom, og intet udvikleren kan slette på dine vegne. Udvikleren modtager overhovedet ingen data fra programmet.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Alt, hvad Stow udleder, bor i én mappe, bevidst holdt uden for cloud-synkroniserede placeringer, så indekset aldrig kopieres til skyen af filsynkronisering eller Windows Sikkerhedskopiering. Du kan eksportere hele indekset til CSV og læse det, slette ansigtsdataene alene, slette den gemte dokumenttekst alene, eller smide hele indekset væk og bygge det op igen. Intet af det rører en eneste af dine rigtige filer.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Funktion &amp; sikkerhedsgaranti</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Traditionelle værktøjer / scripts</th>
+                <th scope="col">Skytjenester</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Privatliv &amp; datafortrolighed</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100 % offline • Nul telemetri, konti eller cloudservere</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Offline, men mangler intelligent automatisering &amp; AI</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Filer og metadata uploades til eksterne virksomhedsservere</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Krav om upload til skyen</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Nul bytes uploadet (al behandling foregår udelukkende på din pc)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ingen (kun lokalt)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Obligatorisk synkronisering (kræver gigabytes af båndbredde)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Lokal AI på enheden</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Lokal CPU-vision, OCR &amp; Phi-4 sprogmodeller via ONNX</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ingen (statiske regulære udtryk eller simple shell-scripts)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Serverbaserede, proprietære &#x27;black-box&#x27;-modeller</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Obligatorisk forhåndsvisningstabel</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Garanteret forhåndsvisningstabel, før en eneste fil berøres</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Blind kørsel eller risikable batch-script-kørsler</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Uigennemskuelig baggrundssynkronisering uden forudgående gennemgang</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">1-klik-transaktionsfortrydelse</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Øjeblikkelig tilbagerulning via atomar journal før udførelse</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Manuel gendannelse; scripts kan ikke fortrydes</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kompleks versionshistorik eller permanent tab</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Sikkerhed ved sky-pladsholdere</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Registrerer OneDrive/iCloud/Dropbox; fremtvinger aldrig overførsler</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ikke opmærksom; udløser ofte utilsigtede massive overførsler</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Leverandørlåste sky-siloer</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Deduplikering &amp; næsten-duplikater</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Byte-for-byte-mapper, næsten-ens videoer &amp; fotoskarphed</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kun simple ens filnavne eller enkeltfil-hash-duplikater</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kun simple fotoduplikater; ingen video- eller mappededuplikering</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bit-rot &amp; integritetskontrol</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Indbygget SHA-256-sikkerhedskopikontrol til opsporing af diskfejl</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kræver komplekse manuelle kommandolinjeværktøjer</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Uigennemskueligt proprietært skylager</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Priser &amp; licensering</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Engangskøb i Microsoft Store • Livstidslicens</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Gratis hjælpeprogrammer eller fragmenterede betalingsværktøjer</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Dyrt løbende månedligt/årligt abonnementsgebyr</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Klare svar
+        </span>
+        <h2 class="display-5 fw-bold text-white">Ofte stillede spørgsmål</h2>
+        <p class="text-secondary fs-5">Klare svar om Stows privatlivsarkitektur, offline AI, filsikkerhed og kompatibilitet.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Hvordan garanterer Stow, at ingen af mine filer eller data uploades til skyen?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow har nul kontosystemer, nul eksterne servere, nul telemetri-SDK&#x27;er og nul baggrundsanalyser. Alle maskinlæringsmodeller (SigLIP-2 til semantisk fotosøgning, YuNet &amp; SFace til ansigtsklyngedannelse, lokal OCR til scannede papirer og Phi-4-mini til syntese af regler på naturligt sprog) afvikles udelukkende på din pc&#x27;s CPU via ONNX Runtime. Dine fotos, dokumenter, filnavne, mappetræer og søgeforespørgsler forlader aldrig din computer.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Kræver Stow en kraftig GPU eller dedikeret NPU?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nej. Stow er udviklet direkte til Windows 10 og 11 (x64 og ARM64), og det lokale inferensmiljø er særligt optimeret til almindelige forbruger-CPU&#x27;er uden krav om dedikerede GPU&#x27;er eller NPU&#x27;er. Desuden kræver kernefunktioner som forudindstillinger, visuelle regler, rekursive mappestørrelser i realtid, filduplikering, affaldsoprydning, differentiel synkronisering og universelle forhåndsvisninger slet ingen AI-modeller og fungerer med det samme efter installation.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Hvordan forhindrer Stow uønskede massive overførsler i OneDrive-, iCloud- eller Dropbox-mapper?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow er udviklet med kendskab til sky-pladsholdere. Når Stow scanner mapper, der administreres af OneDrive, Dropbox, Google Drev eller iCloud, registrerer programmet virtuelle pladsholdere, som udelukkende findes i skyen. Det afviser at starte tavse, massive filoverførsler over forbrugsafregnede forbindelser eller batteridrift, hvilket sikrer, at dine skyfiler forbliver intakte uden at optage båndbredde eller uventet forbruge lokal diskplads.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Hvad sker der, når Stow rydder skrammelaffald eller fjerner duplikater? Kan filer gå tabt permanent?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Intet slettes nogensinde permanent af Stow. Affaldsoprydninger (såsom fjernelse af ufuldstændige overførsler eller gamle installationsprogrammer) og handlinger til fjernelse af duplikater flytter sikkert elementerne til den almindelige Windows Papirkurv. Hvis du opdager, at du har kasseret en fil ved en fejl, kan du straks gendanne den direkte fra Papirkurven eller aktivere Stows 1-klik-fortrydelse.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Hvordan fungerer 1-klik-fortrydelsesfunktionen? Kan jeg fortryde en organisering flere dage senere?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Før en fil flyttes, omdøbes eller ryddes på disken, registrerer Stow en atomar, reversibel transaktionsjournal, der dokumenterer de nøjagtige kilde- og destinationsstier for hvert eneste element. En fortrydelseslinje vises umiddelbart efter enhver handling, og Stows historik-hub bevarer tidligere handlinger, så du pålideligt kan rulle organiseringssessioner tilbage timer, dage eller uger senere.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Hvordan genererer AI-prompten med naturligt sprog organiseringsregler lokalt?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Når du skriver en instruktion som &#x27;Flyt alle fakturaer til Fakturaer og sorter kamerabilleder efter år og måned&#x27;, oversætter Stows lokale sprogmodel (Phi-4-mini) din anmodning til sikre regler, der kan forhåndsvises. Modellen modtager kun et overordnet biblioteksskema (antal filtyper, datointervaller og navne på mapper på øverste niveau) – aldrig dine individuelle filnavne eller filindhold. Verificerbar kode evaluerer derefter reglerne mod en interaktiv forhåndsvisningstabel, som du gennemgår og godkender.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Kan Stow holde kamera-RAW-filer og tilhørende filer samlet?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Stow har intelligent bevarelse af ledsagefiler. Kamera-RAW-formater (såsom CR2, NEF, ARW, DNG) knyttes automatisk til deres tilhørende JPEG/HEIC-forhåndsvisninger og .xmp-sidecar-metadatafiler. På samme måde forbliver videofiler knyttet til deres .srt- eller .vtt-undertekster. Når Stow organiserer eller flytter en primær fil, flyttes alle ledsagefiler sammen med den.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Hvad er systemkravene, og hvordan installeres Stow?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow understøtter Windows 10 (version 2004 / build 19041 og nyere) og Windows 11 på både 64-bit Intel/AMD (x64) og Qualcomm Snapdragon (ARM64) arkitekturer. Det distribueres direkte via Microsoft Store som et sandkassebeskyttet, moderne pakket MSIX-program, hvilket garanterer ren installation, automatiske opdateringer og nul rod i systemet.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: foto- og filorganisator</h2>
-          <p class="text-secondary fs-5 mb-4">Offline AI, der rydder op på din pc — og aldrig flytter en fil uden at spørge.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI-foto- og filorganisering, duplikatfinder</h2>
+          <p class="text-secondary fs-5 mb-4">Den 100 % offline, privatlivsfokuserede filhåndteringspakke til computeren, der organiserer, deduplikerer, rydder op og beskytter dine filer uden nogensinde at uploade en eneste byte til skyen.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Installer</a>
-</div>
-<button type="button" class="to-top" aria-label="Tilbage til toppen" title="Tilbage til toppen">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
   <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>

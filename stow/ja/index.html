@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: 写真・ファイル整理ツール | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="PC を片づけるオフライン AI — ファイルを勝手に動かすことは決してありません。 Stow は指定されたフォルダーを読み取り、何がどこに収まるべきかを判断し、提案するすべての変更を一覧にして表示します。ボタンを押すまで、何ひとつ動きません。">
+  <title>Stow: AI写真・ファイル整理＆重複ファイル検索 | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="クラウドに1バイトもアップロードすることなく、ファイルの整理・重複排除・クリーンアップ・保護を完結する、100%オフライン＆プライバシー最優先のデスクトップファイル管理スイート。 Stowは、散らかった「ダウンロード」フォルダー、肥大化した写真ライブラリ、中身の分からない謎のフォルダーに終止符を打ちます。オンデバイス画像認識、ローカル文書OCR、CPU言語モデルを搭載し、インテリジェントな整理プランを算出し、重複ファイルやピンボケ写真を検出し、隠れた不要データを一掃します。">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: 写真・ファイル整理ツール | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="PC を片づけるオフライン AI — ファイルを勝手に動かすことは決してありません。 Stow は指定されたフォルダーを読み取り、何がどこに収まるべきかを判断し、提案するすべての変更を一覧にして表示します。ボタンを押すまで、何ひとつ動きません。">
+  <meta property="og:title" content="Stow: AI写真・ファイル整理＆重複ファイル検索 | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="クラウドに1バイトもアップロードすることなく、ファイルの整理・重複排除・クリーンアップ・保護を完結する、100%オフライン＆プライバシー最優先のデスクトップファイル管理スイート。 Stowは、散らかった「ダウンロード」フォルダー、肥大化した写真ライブラリ、中身の分からない謎のフォルダーに終止符を打ちます。オンデバイス画像認識、ローカル文書OCR、CPU言語モデルを搭載し、インテリジェントな整理プランを算出し、重複ファイルやピンボケ写真を検出し、隠れた不要データを一掃します。">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/ja/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="ja_JP">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: 写真・ファイル整理ツール | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="PC を片づけるオフライン AI — ファイルを勝手に動かすことは決してありません。 Stow は指定されたフォルダーを読み取り、何がどこに収まるべきかを判断し、提案するすべての変更を一覧にして表示します。ボタンを押すまで、何ひとつ動きません。">
+  <meta name="twitter:title" content="Stow: AI写真・ファイル整理＆重複ファイル検索 | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="クラウドに1バイトもアップロードすることなく、ファイルの整理・重複排除・クリーンアップ・保護を完結する、100%オフライン＆プライバシー最優先のデスクトップファイル管理スイート。 Stowは、散らかった「ダウンロード」フォルダー、肥大化した写真ライブラリ、中身の分からない謎のフォルダーに終止符を打ちます。オンデバイス画像認識、ローカル文書OCR、CPU言語モデルを搭載し、インテリジェントな整理プランを算出し、重複ファイルやピンボケ写真を検出し、隠れた不要データを一掃します。">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: 写真・ファイル整理ツール","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"PC を片づけるオフライン AI — ファイルを勝手に動かすことは決してありません。 Stow は指定されたフォルダーを読み取り、何がどこに収まるべきかを判断し、提案するすべての変更を一覧にして表示します。ボタンを押すまで、何ひとつ動きません。","url":"https://www.dhinovatech.com/stow/ja/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (ja)","item":"https://www.dhinovatech.com/stow/ja/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI写真・ファイル整理＆重複ファイル検索","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"クラウドに1バイトもアップロードすることなく、ファイルの整理・重複排除・クリーンアップ・保護を完結する、100%オフライン＆プライバシー最優先のデスクトップファイル管理スイート。 Stowは、散らかった「ダウンロード」フォルダー、肥大化した写真ライブラリ、中身の分からない謎のフォルダーに終止符を打ちます。オンデバイス画像認識、ローカル文書OCR、CPU言語モデルを搭載し、インテリジェントな整理プランを算出し、重複ファイルやピンボケ写真を検出し、隠れた不要データを一掃します。","url":"https://www.dhinovatech.com/stow/ja/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (ja)","item":"https://www.dhinovatech.com/stow/ja/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/ja/#faq","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"ファイルやデータがクラウドへアップロードされないことを、Stowはどう保証していますか？","acceptedAnswer":{"@type":"Answer","text":"Stowにはユーザーアカウント機能、外部サーバーとの通信、テレメトリSDK、バックグラウンド分析機能が一切存在しません。すべての機械学習モデル（写真の意味検索用 SigLIP-2、顔認識クラスタリング用 YuNet & SFace、書類スキャン用ローカルOCR、自然言語ルール生成用 Phi-4-mini）は、ONNX Runtimeを介してお使いのPCのCPU上でのみ厳格に実行されます。写真、ドキュメント、ファイル名、ディレクトリ構造、検索キーワードがお使いのPCの外へ出ることは決してありません。"}},{"@type":"Question","name":"Stowを使用するには強力なGPUや専用のNPUが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ、必要ありません。StowはWindows 10および11（x64およびARM64）向けにネイティブ設計されており、そのローカル推論ランタイムは一般的な一般消費者向けCPUで快適に動作するよう高度に最適化されています。専用GPUやNPUは不要です。さらに、プリセット、ビジュアルルール、フォルダー容量計算、重複ファイル排除、不要データ消去、差分同期、プレビューといった基本機能はAIモデルを一切使わないため、インストール後すぐに超高速で動作します。"}},{"@type":"Question","name":"OneDrive、iCloud、Dropboxなどのフォルダーで意図しない大量ダウンロードを防ぐ仕組みはどうなっていますか？","acceptedAnswer":{"@type":"Answer","text":"Stowはクラウドプレースホルダー（仮想ファイル）認識機能を備えています。OneDrive、Dropbox、Googleドライブ、iCloudによって管理されているフォルダーをスキャンする際、オンライン専用の仮想プレースホルダーを検出します。従量制課金接続やバッテリー駆動時にギガバイト単位の無断ダウンロードを開始することを拒否するため、クラウド上のファイル状態を保ったまま、通信帯域の逼迫やローカルディスクの圧迫を防ぎます。"}},{"@type":"Question","name":"不要データをクリーンアップしたり重複ファイルを削除したりするとどうなりますか？ファイルが永久に失われる心配はありませんか？","acceptedAnswer":{"@type":"Answer","text":"Stowによってファイルが永久に削除されることは一切ありません。不要データのクリーンアップ（中断されたダウンロードや古いインストーラーの削除など）や重複ファイルの削除操作では、すべてのアイテムがWindowsの標準のごみ箱へと安全に移動されます。万が一、誤って必要なファイルを捨ててしまった場合でも、ごみ箱から直接元に戻すか、Stowの1クリックUndoを実行するだけですぐに復元できます。"}},{"@type":"Question","name":"1クリックで元に戻す（Undo）機能はどのように動作しますか？数日後でも整理を取り消せますか？","acceptedAnswer":{"@type":"Answer","text":"ディスク上でファイルが移動、名前変更、削除される前に、Stowは全アイテムの移動元と移動先の正確なパスを記録した不可分（アトミック）で可逆的なトランザクションジャーナルを作成します。操作直後には画面上にUndo通知バーが表示されるほか、Stowの「履歴」ハブに過去の全操作が保持されるため、数時間後、数日後、あるいは数週間後であっても、確実に整理前の状態へとロールバックできます。"}},{"@type":"Question","name":"自然言語AIプロンプトは、どのようにローカルで整理ルールを生成するのですか？","acceptedAnswer":{"@type":"Answer","text":"「すべての請求書を『請求書』フォルダーに移動し、カメラの写真は年と月で分類して」といったプロンプトを入力すると、Stowに内蔵されたローカル言語モデル（Phi-4-mini）がその要望を解釈し、安全でプレビュー可能な整理ルールへと変換します。モデルに渡されるのはライブラリの概要情報（拡張子の統計、日付の範囲、トップレベルのフォルダー名など）のみであり、個別のファイル名やファイルの中身が渡されることは絶対にありません。生成されたルールは監査可能なコードによって評価され、ユーザーが承認するためのプレビュー一覧表として表示されます。"}},{"@type":"Question","name":"StowはカメラのRAWファイルと関連ファイルを一緒に保持して整理できますか？","acceptedAnswer":{"@type":"Answer","text":"はい、可能です。Stowは高度なコンパニオンファイル保持機能を備えています。カメラのRAWフォーマット（CR2、NEF、ARW、DNGなど）は、対応するJPEG/HEICプレビューや.xmpサイドカーメタデータファイルと自動的に紐付けられます。同様に、動画ファイルも.srtや.vttなどの字幕ファイルと常に連携を維持します。Stowが主ファイルを整理・移動する際は、すべての関連ファイルも同時に並行して移動されます。"}},{"@type":"Question","name":"動作環境とStowのインストール方法を教えてください。","acceptedAnswer":{"@type":"Answer","text":"Stowは、64ビットIntel/AMD（x64）およびQualcomm Snapdragon（ARM64）アーキテクチャのWindows 10（バージョン2004 / ビルド19041以降）とWindows 11に対応しています。Microsoft Storeを通じてサンドボックス化された最新のMSIXパッケージとして安全に配信されているため、クリーンなインストール、自動アップデートが保証され、不要なバックグラウンド常駐プログラムでシステムを汚すこともありません。"}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">メインコンテンツへスキップ</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Microsoft Store で入手
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>最新メジャーリリース</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Desktop Suite</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 デスクトップスイート: 閲覧＆プレビュー、不要データスイーパー、差分同期、ローカルOCR＆バックアップハブ</h2>
+            <p class="text-secondary small mb-0">単なるファイル整理ツールから、完全オフラインでプライベートなデスクトップファイル管理の中核へと大幅に進化。</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> 最新機能を見る
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>デュアルペイン閲覧＆リアルタイム容量</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>専用デブリス（不要データ）スイーパー</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>指定フォルダー照合＆差分同期</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>紙書類OCRによるPDF作成</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>バックアップ＆ビット腐敗検証</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: 写真・ファイル整理ツール</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">PC を片づけるオフライン AI — ファイルを勝手に動かすことは決してありません。</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow は指定されたフォルダーを読み取り、何がどこに収まるべきかを判断し、提案するすべての変更を一覧にして表示します。ボタンを押すまで、何ひとつ動きません。</p>
-          <p class="text-secondary mb-4 pe-lg-4">すべてがあなたの PC 上で完結します。アカウントなし、サーバーなし、テレメトリなし、広告なし。AI モデルは一度だけダウンロードされ、あなた自身の CPU で動作します。ファイル、ファイル名、写真、文書、検索語 — そのいずれもこの端末を出ることはありません。</p>
+          <h1 class="hero-title mb-3">Stow: AI写真・ファイル整理＆重複ファイル検索</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">クラウドに1バイトもアップロードすることなく、ファイルの整理・重複排除・クリーンアップ・保護を完結する、100%オフライン＆プライバシー最優先のデスクトップファイル管理スイート。</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stowは、散らかった「ダウンロード」フォルダー、肥大化した写真ライブラリ、中身の分からない謎のフォルダーに終止符を打ちます。オンデバイス画像認識、ローカル文書OCR、CPU言語モデルを搭載し、インテリジェントな整理プランを算出し、重複ファイルやピンボケ写真を検出し、隠れた不要データを一掃します。</p>
+          <p class="text-secondary mb-4 pe-lg-4">クラウドサーバーへの通信、テレメトリ送信、バックグラウンド追跡は一切行わず、すべての処理がお使いのPC上でのみ実行されます。承認されたプレビューなしにファイルが移動することはなく、ファイルが永久に削除されることもありません。さらに、あらゆる操作は1クリックで元に戻せます。</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> 動作を見る
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> 仕組みを見る
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% オフライン</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> 事前承認プレビュー</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> 完全削除なし（ごみ箱へ）</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1クリックで元に戻す</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> クラウド同期フォルダも安心</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 &amp; ARM64 対応</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Microsoft Store で入手
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">整理の仕組みが失敗したのではありません。人生が起きただけです。</h2>
-          <p class="text-secondary fs-5 mb-0">四千個ものものが入ったダウンロード フォルダー。三台のスマートフォン、二台のカメラ、十年分のスクリーンショットが同居するピクチャ フォルダー。「休暇 2019」「休暇のコピー」「休暇(最終)」という名前のフォルダーが並び、どれがどれだか見分けようがありません。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">手作業でもできますが、誰も最後までやり遂げません。クラウド サービスは代わりにやってくれます — 個人ライブラリ全体を他人のコンピューターにアップロードすることによって。スクリプト可能なツールは言われたとおりに正確に動きますが、それはルール構文を学び、まず複製で試す気がある場合に限られます。そしてどれもが肝心の場面で、これから一万件のファイルを走査する処理があなたの意図したものだと信じてくれ、と求めてきます。</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> アーキテクチャによる保証
+        </span>
+        <h2 class="display-5 fw-bold text-white">5つの不変原則</h2>
+        <p class="text-secondary fs-5">Stowのすべてのレイヤーに組み込まれた、決して妥協のない5つの基本設計保証。</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">原則 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100% オフライン＆完全プライベート</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">アカウント登録不要、クラウドサーバー通信ゼロ、テレメトリ送信ゼロ、行動追跡ゼロ。すべてのAIモデル（画像認識、OCR、言語モデル）はお使いのPCのCPU上で直接動作します。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">原則 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">承認プレビューなしには何一つ動かさない</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">ユーザーの確認なしにファイルを勝手に移動、名前変更、削除することは一切ありません。すべての操作において、事前に確認・承認できる詳細なプレビュー一覧表が提示されます。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">原則 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">ファイルを永久削除することは絶対にない</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">アプリがファイルを完全に消去することはありません。不要データの整理や重複ファイルの削除操作でも、ファイルはWindowsのごみ箱へ安全に移動されるため、いつでも簡単に復元できます。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">原則 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">1クリックで即座に元に戻せる</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">ディスクへの書き込み前にすべての変更がトランザクションとして記録されます。1時間後でも1週間後でも、気が変わったときは1クリックですべてのファイルを元の場所へ正確に戻せます。</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">原則 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">クラウド同期フォルダーも安心設計</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">OneDrive、Dropbox、iCloudなどのクラウドプレースホルダー（オンライン専用ファイル）を自動検知。従量制接続などでギガバイト単位の無用な自動ダウンロードを引き起こすことはありません。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> 安全な実行フロー
+        </span>
+        <h2 class="display-5 fw-bold text-white">使い方・動作の流れ</h2>
+        <p class="text-secondary fs-5">透明性の高い3つのシンプルステップ。最初から最後まで完全な主導権をあなたに。</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">スキャン＆整理方法の指定</h3>
+              <p class="text-secondary small mb-0">整理したいフォルダーやドライブをStowで選択します。1クリックのプリセットを選ぶか、日常会話の平易な言葉で希望の整理方法を入力するか、またはStowに既存のフォルダー構造を自動学習させます。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">プレビュー＆確認</h3>
+              <p class="text-secondary small mb-0">ディスク上のファイルが1バイトも動く前に、整理提案の全一覧表を確認できます。すべてのファイルに行、移動先パス、適用ルールが表示されます。除外したいファイルはチェックを外すか直接編集できます。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">適用＆いつでも1クリックで元に戻す</h3>
+              <p class="text-secondary small mb-0">確信を持って整理を実行します。Stowはすべての処理をアトミックなトランザクションジャーナルに記録してから実行します。1時間後でも1か月後でも、1クリックで元の状態へ戻せます。</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">プレビューこそが製品そのものです</h2>
         <p class="text-secondary fs-5">Stow が何を決めたのかを、実行を眺めて知ることはありません。何かが動く前に表を読むことで知ります。その表には一つひとつのファイルに行があり、移動先があり、そのファイルを担当したルールの名前があります。違っていれば画面を閉じるだけ — 何も起きていません。</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- 第1の柱: 手間いらずのファイル整理＆自動分類 -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> 第1の柱
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">手間いらずのファイル整理＆自動分類</h2>
+          <p class="text-secondary fs-5 mb-0">プリセット、自然言語AI、またはカスタムルールを活用し、散乱したディレクトリを美しく整然としたアーカイブへと瞬時に変換します。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">スマートダッシュボード＆健全性ハブ</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">ライブラリの司令塔。インデックス済みファイル総数、管理ストレージ容量、未整理アイテム、回収可能スペースなど、ライブラリの健全性をひと目で把握できます。アクション可能なアテンションカードが、接続されたカメラのSDカードの取り込み準備、整理待ちのダウンロード、不要ファイルの警告、バックアップの更新リマインダーをプロアクティブに通知します。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>ライブラリ容量、未整理ファイル、回収済みギガバイトを即座に俯瞰</li><li>SDカード、保留中ダウンロード、不要ファイル警告を知らせるアテンションカード</li><li>整理、不要データ消去、ドライブ照合をワンクリックで実行できるショートカット</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">選べる5つの整理アプローチ</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">好みのワークフローを選択できます。すぐに使える1クリックプリセット（ファイル形式別、年/月別、スクリーンショットの仕分け、カメラ機種別）、オンデバイスのローカル言語モデルに日常の言葉で指示を出す方法、Stowに既存のフォルダー規則を自動推論・継続させる方法、ビジュアルルールビルダーで緻密な条件を組む方法、またはルールに基づく一括リネームが可能です。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>即戦力となる1クリックプリセット: 種類、日付、カメラメタデータですぐに分類</li><li>自然言語AI: 日本語などで要望を入力すると、ローカルLLMが安全なルールを自動作成</li><li>既存構造の継続: すでに確立されているフォルダーの命名・分類規則を検知して補完</li><li>ビジュアルルールビルダー: 詳細な条件指定、移動先トークン、衝突回避ロジックを柔軟に設定</li><li>一括リネーム機能: 連番カウンター、日付タグ、パターン文字列置換に対応</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">自動で片付くフォルダー（スマート監視フォルダー）</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">「ダウンロード」やデスクトップなどの散らかりやすいフォルダーにルールを割り当てておきます。新しいファイルが追加されると、Stowがバックグラウンドで整理案をステージングし、プレビュー通知で控えめに案内します。重い常駐デーモンを起動し続けることなく、1クリックでいつでも適用できます。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>リソースを食う重い常駐サービスなしでドロップゾーンをスマートに監視</li><li>監視フォルダーに新しいファイルが入ると自動で整理プランをステージング</li><li>常にワンクリックのユーザー承認が必要。不在時にファイルを勝手に動かさない</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 第2の柱: デュアルペイン・ライブラリブラウザー＆高機能プレビューペイン -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> 第2の柱
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">デュアルペイン・ライブラリブラウザー＆高機能プレビューペイン</h2>
+          <p class="text-secondary fs-5 mb-0">リアルタイムな再帰的フォルダー容量計算と瞬時のリッチプレビューにより、Windows エクスプローラー最大の欠落を解消する先進の代替ブラウザー。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">リアルタイムフォルダー容量表示付きデュアルペイン・ライブラリブラウザー</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">展開可能なディレクトリーツリーと軽快なファイルグリッドでファイルシステム全体を快適に移動できます。Stowは、フォルダー全体の再帰的サイズと含まれる項目数をグリッド上に直接計算・表示することで、Windows エクスプローラーの最大の弱点を克服し、ストレージを消費している場所を瞬時に可視化します。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>グリッド上で直接計算されるリアルタイムな再帰的フォルダーサイズ＆アイテム数</li><li>展開可能なディレクトリツリーとブレッドクラム（パンくずリスト）によるデュアルペイン操作</li><li>フォルダー作成、名前変更、その場での切り取り/コピー/貼り付けなど直接のファイル操作に対応</li><li>Windows エクスプローラーやデスクトップアプリとのスムーズな双方向ドラッグ＆ドロップ</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">万能インスタントプレビューペイン</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">重い外部アプリケーションを起動することなく、あらゆるファイル形式をその場で素早く確認できます。EXIFメタデータ付きの写真閲覧、解像度やコーデックを表示する動画プレーヤー、PDFやWord文書に対応したドキュメントリーダー、ID3メタデータを表示する音楽プレーヤー、アーカイブのプレビュー機能を備えています。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>カメラ機種、絞り値、ISO、EXIF詳細情報を確認できる高解像度写真プレビュー</li><li>解像度、フレームレート、ビットレート、コーデックを表示する統合動画プレーヤー</li><li>PDF、Word文書（.docx）、テキストファイルを瞬時に読めるドキュメントリーダー</li><li>ID3タグ、アルバムアート、ビットレートを確認できるオーディオプレーヤー</li><li>アーカイブ透視: 解凍することなくZIPやTARアーカイブの中身を確認</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 第3の柱: 高度なクリーンアップ、不要データスイーパー＆重複排除 -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> 第3の柱
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">高度なクリーンアップ、不要データスイーパー＆重複排除</h2>
+          <p class="text-secondary fs-5 mb-0">ファイルを100%安全に保ちながら、無駄に占有されたギガバイトを解放し、散乱した重複ファイルを根絶します。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">専用デブリス（不要データ＆残骸）スイーパー</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">見えないゴミをワンクリックで一掃し、失われたギガバイトを取り戻します。中断された不完全なダウンロード（.crdownload、.part、.download）、エディタやOSの一時ファイル（.DS_Store、Thumbs.db、tempファイル）、溜まったインストーラーの残骸（.exe、.msi）、肥大化した開発者キャッシュ（node_modules、bin/obj、.gradle）、不要になった解凍後フォルダー、0バイトの空ファイルを検出して安全に整理します。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>中断されたダウンロード、一時ファイル、OSサムネイルからギガバイト単位の空き容量を回復</li><li>「ダウンロード」フォルダーに溜まった古いソフトウェアのインストーラーを実行ファイルごとクリーンアップ</li><li>肥大化した開発者用依存関係キャッシュ（node_modules、gradle、bin/obj）を一括パージ</li><li>空のフォルダーや解凍後に放置されたアーカイブの残骸をすっきり清掃</li><li>すべてのクリーンアップはプレビュー表で事前確認され、安全にごみ箱へ移動</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">完全一致重複検索（ファイル＆フォルダー単位）</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">ファイル名や保存場所が異なっていても、同一ファイルおよび同一フォルダーツリー全体をバイト単位で正確に特定します。4つの決定論的ポリシー（最高画質優先、最古優先、最新優先、指定フォルダー優先）が残すべきコピーを推薦。余剰な重複ファイルは安全にごみ箱へ移動されます。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>コンテンツハッシュにより同一ファイルおよび完全ミラーされたフォルダーツリーをグループ化</li><li>名前が異なる重複フォルダー（「2021写真」と「バックアップ写真」など）も漏れなく検出</li><li>ごみ箱への移動方式により、重複削除した余剰ファイルもいつでも元に戻せる安全設計</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">動画類似重複検索＆写真シャープネス（鮮明度）選別</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">完全一致の重複検索にとどまりません。再エンコードされた動画、低解像度版（1080p対720pなど）、トリミングされたクリップ、メッセージアプリで圧縮された動画コピーを検出します。写真に対しては、高速連写バースト撮影を自動グループ化し、輪郭の鮮明度（シャープネス）を解析。最もピントが合った1枚の保持を推奨し、ピンボケやブレた写真をフラグ付けします。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>再エンコード、サイズ変更、トリミングされた類似動画を漏らさず検知</li><li>カメラの連写バースト撮影を自動検知してグループ化</li><li>エッジおよび鮮明度解析により、ピンボケ、手ブレ、ピント外れの写真を自動フラグ付け</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 第4の柱: ペーパーレス文書、音楽整理＆スマート写真管理 -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> 第4の柱
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">ペーパーレス文書、音楽整理＆スマート写真管理</h2>
+          <p class="text-secondary fs-5 mb-0">散らかった紙書類の写真やタグのない音楽・メディアコレクションを、整然と整理された美しいライブラリへと変貌させます。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">書類写真から複数ページPDFへ変換＆分類</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">レシート、利用明細書、確定申告・税務書類、公共料金の請求書などを撮影した写真から、整然としたデジタル書庫を構築します。オンデバイスのローカルOCRが、クラウドAPIに書類を送ることなく安全にテキストを抽出。書類種別（レシート、請求書、税務書類、公共料金、銀行明細、契約書）と発行元組織をスマートに判定し、複数枚にわたる書類を1つのPDFにまとめ、標準化されたファイル名へと自動整形します。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>クラウドへのプライバシー露出ゼロ。100%ローカルOCRが端末内だけでテキストを抽出</li><li>書類の種類や発行元組織をインテリジェントに分類</li><li>連続して撮影された複数枚の書類を、検索可能な1本の標準PDFへと自動結合</li><li>統一された命名規則（例: 「2024-03-15_BankOfAmerica_Statement.pdf」）で自動命名</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">音楽＆オーディオライブラリのキュレーション</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">MP3、FLAC、M4A、WAV、OGG形式にわたるID3タグとオーディオメタデータを読み込んでインデックス化。「トラックアーティスト」と「アルバムアーティスト」を明確に区別するため、オムニバスやコンピレーションアルバムがバラバラに散らばることなく、1つのフォルダーに整然とまとまります。欠落または不一致のメタデータを修正できる一括タグエディターも内蔵しています。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>MP3、FLAC、M4A、WAV、OGGを網羅する総合的なID3＆オーディオタグインデックス</li><li>「アルバムアーティスト」基準のフォルダー分けにより、オムニバスやサントラの分散を防止</li><li>トラック番号、アーティスト、発売年、ジャケット画像を修正できる内蔵の一括タグエディター</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">完全オフライン・ベクトル世界地図＆SDカード取り込み</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">外部のWebマップタイルを読み込んだりGPS位置情報を送信したりすることなく、100%オフラインで描画されるインタラクティブなベクトル世界地図上で写真の撮影場所を探索できます。接続されたSDカードやカメラを自動検出し、RAW + JPEGのコンパニオン関係を保持したまま1クリックで安全に取り込めます。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>外部通信なしの100%オフラインキャンバス上に位置情報付き写真をマッピングするベクトル世界地図</li><li>カメラやSDカードの接続を瞬時に感知し、1クリックで取り込みを実行</li><li>RAW+JPEGや動画+字幕ファイルのペア関係を厳格に保持して整理・移動</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 第5の柱: ストレージ回収、差分同期＆高度なWindows統合 -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> 第5の柱
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">ストレージ回収、差分同期＆高度なWindows統合</h2>
+          <p class="text-secondary fs-5 mb-0">エンタープライズ水準の安全性、ドライブ間の差分照合、そしてWindows OSとの強固な親和性。</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">指定フォルダー照合＆差分同期</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">「メインライブラリに入っていないデータが、外付けバックアップドライブ側にどれだけあるか？」という日常の疑問を解決します。2つのフォルダーツリーまたはドライブを比較し、ファイルを「コピー先に存在しない」「完全一致」「競合/変更あり」の3つに分類。未確認のファイルを勝手に消去することなく、安全なコピー計画を作成して同期します。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>2つのフォルダーツリーやドライブを比較し、差分や不一致を漏れなく特定</li><li>ファイルを「コピー先に不足」「同一」「競合」に自動分類</li><li>破壊的なミラー削除を行わず、安全なコピー計画で両者の差分を解消</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">非破壊バックアップ＆ビット腐敗（ビットロット）検証</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">重要ライブラリの外付けドライブやセカンダリディスクへのワンクリック/スケジュールバックアップを設定可能。コピー元での削除操作を無差別に反映してバックアップ先を消去してしまう危険（破壊的ミラーリング）がありません。内蔵のビット腐敗検証機能がソースとバックアップのSHA-256チェックサムを再照合し、ディスクの劣化や破損セクターによるデータの静かな破損をいち早く検知します。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>削除をミラーリングしない非破壊バックアップで新しいファイルを安全に複製</li><li>SHA-256ハッシュを再照合してストレージの物理的劣化やデータ破損を検知するビット腐敗検証</li><li>元の場所または復旧用フォルダーへの復元を事前プレビューできる安全なリストア計画</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">ボリューム全体容量マップ＆ジャンクション移動</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">ドライブ全体（C:、D:）のディスク使用量を視覚化し、スキャンルート外にある巨大な容量浪費フォルダーを特定します（TreeSizeやWizTreeに相当）。大容量フォルダー（400GBのピクチャフォルダなど）をセカンダリドライブへ退避させても、元の場所にStowがNTFSディレクトリージャンクションを自動作成するため、ショートカットや各種アプリの設定パスが壊れることなくそのまま機能します。システムの一時ファイルや更新キャッシュも回収可能です。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>ドライブ全体の巨大フォルダーを直感的に特定できるボリューム全体容量マップ</li><li>巨大フォルダーを別ドライブへ移動してもアプリアクセスを壊さないNTFSディレクトリージャンクション</li><li>Windowsの一時フォルダーや更新キャッシュを特定して容量を解放するシステム領域回収</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">高度なWindows統合＆ポータブルプロファイル</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Windows専用に極限まで最適化。Windows エクスプローラーでフォルダーを右クリックして「Stowで整理」や「重複を検索」を直接呼び出せます。どの画面からでも Win+Shift+F を押せばグローバルクイックランチャーが即座に起動。Mark of the Web（Zone.Identifier）が付与されたダウンロード文書の一括ブロック解除、ファイル移動に伴うデスクトップやスタートメニューのショートカット自動修復、新しいPCへ数秒で設定を移行できるポータブルJSONプロファイル書き出しに対応しています。</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Windows エクスプローラーの右クリックコンテキストメニュー統合</li><li>システム全体から一瞬で呼び出せるグローバルクイックランチャー（Win+Shift+F）</li><li>ダウンロードしたファイルのMark of the Web（Zone.Identifier）を一括解除</li><li>ファイル移動に追従してデスクトップやスタートメニューのリンクを維持するショートカット自動修復</li><li>整理ルールや設定を新しいPCへ数秒で複製できるポータブルJSONプロファイルの書き出し</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> 妥協のないプライバシーと主導権
         </span>
-        <h2 class="display-5 fw-bold text-white">アプリケーション全体を支える五つの原則</h2>
+        <h2 class="display-5 fw-bold text-white">他ツールとの徹底比較</h2>
+        <p class="text-secondary fs-5">スクリプトやクラウドサービスではなく、なぜデスクトップユーザーがStowを選ぶのか。</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">何ひとつ PC の外に出ません</h3>
-              </div>
-              <p class="text-secondary small mb-0">ファイルも、その名前も、索引も、埋め込みベクトルも、顔のデータも、クラッシュ ログさえも出ません。アプリケーション全体でネットワーク通信はちょうど二つだけで、そのどちらもあなたが意図して開始する必要があります。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">プレビューなしには何も起こりません</h3>
-              </div>
-              <p class="text-secondary small mb-0">ファイルに触れるあらゆる操作 — ワンクリックのプリセット、言語モデルが書いたルール、一括リネーム — は同じ経路をたどり、同じプレビュー画面にたどり着きます。それを飛ばす近道はありません。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">削除も上書きもしません</h3>
-              </div>
-              <p class="text-secondary small mb-0">エンジンが行うのはファイルの移動、名前の変更、フォルダーの作成だけです。削除はただ一か所 — 重複検出 — にのみ存在し、Windows のごみ箱を経由します。ごみ箱は Stow をアンインストールしても残ります。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">すべて元に戻せます</h3>
-              </div>
-              <p class="text-secondary small mb-0">すべての操作は実行される前に記録簿に書き込まれます。この記録簿が元に戻すボタンを支え、実行中に電源が落ちてもアプリを復旧させ、後からどのフォルダーが空になったかを把握します。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">モデルは提案し、コードが決めます</h3>
-              </div>
-              <p class="text-secondary small mb-0">言語モデルがあなたのファイル一覧を見ることはなく、操作を実行することもありません。モデルが出すのはルールです。ごく普通の、検証可能なコードがそれを各ファイルに適用し、独立した検証器が生成されたすべての移動先を改めて確認します。</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">やりたいことを伝える五つの方法</h2>
-        <p class="text-secondary fs-5">どれもまったく同じプレビューに合流します。</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">既製のプリセット</h3>
-                  <p class="text-secondary small mb-0">ワンクリックの六つの選択肢: ファイル種別ごと、年と月ごと、年ごと、種別のあと年ごと、スクリーンショットを脇へ、カメラごと。うち五つは一つもファイルを開かずに動くので、Stow はモデルを一つもダウンロードしないうちから役に立ちます。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">自分の言葉で伝える</h3>
-                  <p class="text-secondary small mb-0">「請求書に関するものはすべて請求書フォルダーへ移して。」ローカルの言語モデルがその一文をルールに変えます。モデルが受け取るのはライブラリの要約 — 件数、拡張子、日付の範囲、フォルダー名 — であって、ファイル一覧ではありません。それを渡すコード経路自体が存在しません。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">すでにある仕組みを引き継ぐ</h3>
-                  <p class="text-secondary small mb-0">Stow はあなたのフォルダー構成から仕組みを読み取り、それを引き継ぐルールを書きます。判断は証拠に基づきます。2019 という名前のフォルダーが年フォルダーと見なされるのは、中のファイルが実際に 2019 年のものである場合だけです。モデルもダウンロードも不要です。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">ルールを自分で組み立てる</h3>
-                  <p class="text-secondary small mb-0">ファイルがこういう見た目なら、あのフォルダーへ。ルールは上から順に評価され、最初に一致したものが採用されます。条件は拡張子、名前、パス、サイズ、日付、画像の寸法、ラベル、人物、場所、視覚的な類似度に及び、移動先には {{year}}、{{month_name}}、{{camera}} などの差し込み記法が使えます。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">レシピとして保存する</h3>
-                  <p class="text-secondary small mb-0">プレビューまで到達したルール一式は、名前を付けて保存し、再実行し、監視フォルダーに引き渡せます。保存しても特権は一切与えられません。実行のたびに再コンパイルされ、再び制限をかけられ、再検証され — それでもあなたが承認すべきプレビューに到達します。</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">ボタン一つですべて元通り</h2>
-          <p class="text-secondary fs-5 mb-0">履歴には Stow が行った直近二十件が新しい順に並び、そのどれもが正確に取り消せます。整理のあとにはウィンドウ上部にバーが現れ、ワンクリックで元に戻せます — メニューの奥に埋もれることはありません。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">元に戻す処理は、実行とは意図的に非対称です。実行は最初の失敗で止まりますが、元に戻す処理はすべての操作を試み、問題をまとめて報告します。復元の途中で止まれば、二つの状態のあいだで身動きが取れなくなるからです。フォルダーからファイルを出せばそこは空になり、どのフォルダーがそうなったかを知っているのは Stow だけです。だからこそ後で片づけを提案します — 提案する以上のことはしません。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">もう一度見つけ出す</h2>
-        <p class="text-secondary fs-5">ここにあるものはすべて Stow がすでに作った索引を読むので、覗くだけならほとんど負荷がかかりません。</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">ファイルを検索する</h3>
-              </div>
-              <p class="text-secondary small mb-0">小さな、説明付きの記法があります: kind:image、ext:pdf、size:&gt;10mb、older:1y、in:Downloads、tag:work、text:「給湯器 保証」、そして先頭のマイナスで除外。Stow にファイルを開く許可を与えていない場合でも、そのまま完全に動作します。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">写っているもので写真を探す</h3>
-              </div>
-              <p class="text-secondary small mb-0">「浜辺の犬」と入力すれば浜辺の写真が出てきます。ファイル名が IMG_4821.jpg でも、まったく別の名前でも関係ありません。画像は読み込まれ、ローカルでベクトルに符号化され、解放されます。写真そのものが複製されたり保持されたりすることはありません。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">容量を食っているものを見る</h3>
-              </div>
-              <p class="text-secondary small mb-0">種別ごとの合計、最下層まで数え上げた最も重いフォルダー、そして単体で最大のファイル。どの指摘にもそれを導いた検索式が添えられているので、「三年間誰も開いていない動画が 18 GB」という一枚が、そのまま次の行動につながる検索式を手渡してくれます。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">場所と人物</h3>
-              </div>
-              <p class="text-secondary small mb-0">写真は撮影された場所ごとに、そして — 明示的に有効にした場合に限り — 似た顔どうしでまとまります。これは類似度によるグループ分けであって、本人特定ではありません。身元のデータベースはなく、誰であるかを判定する機能もありません。名前はすべてあなたが付けます。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">ラベル</h3>
-              </div>
-              <p class="text-secondary small mb-0">「仕事」「税金」「休暇」といった自分の言葉を、追いかけたいファイルに付けられます。ラベルは Stow の索引の中にあるので、あなたのファイルの名前が変わることも中身が変わることもなく、どのプライバシー設定でも使えます。</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">重複、フォルダーまるごとも含めて</h2>
-          <p class="text-secondary fs-5 mb-0">内容が同一のファイルは、どこにあっても、どんな名前でも一つにまとめられます。同一のフォルダーも同様です。比較に名前は一切関与しないため、バイト列が同じであれば「休暇 2019」と「休暇のコピー」は同じフォルダーです。本当に容量が眠っているのはたいていここです。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">ほぼ同一の写真も、写真検索と同じ埋め込みベクトルを使って検出されます。再圧縮やサイズ変更をされた複製は、バイト列がまったく異なっていても見つかります。どのコピーを残すかは完全に決定的な四つの方針が選びます — 最高画質、最も古いもの、最も新しいもの、あるいはあなたが指定したフォルダーにあるもの — そしてどの選択にも理由が添えられます。削除は行われません。余分なコピーはごみ箱へ送られます。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">さらに三つできること</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">一括リネーム</h3>
-              </div>
-              <p class="text-secondary small mb-0">文字列の置換、連番付け、接頭辞や接尾辞の追加、大文字小文字の整え、断片の削除。リネームは移動先がそのファイル自身のフォルダーであるだけの普通のルール一式なので、他のすべてと同じプレビュー、同じ検証器、同じ取り消しが適用されます。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">監視フォルダー</h3>
-              </div>
-              <p class="text-secondary small mb-0">監視フォルダーに届いたファイルは検知され、確認待ちとして並べられます。必要なら保存済みのレシピと突き合わせます。意図的にやらないのは「行動すること」です。裏で黙ってファイルを動かす整理ツールは、どれほど便利でも、はるかに信頼しづらい製品になってしまいます。</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">一緒にあるべきファイルをまとめておく</h3>
-              </div>
-              <p class="text-secondary small mb-0">カメラの RAW は対の JPEG なしでは意味をなさず、字幕は動画なしでは役に立ちません。エンジンと検証器のあいだの処理が付随ファイルをまとめて動かします — ただし慎重に。名前の接頭辞が同じというだけでは、二つのファイルが対だと証明したことにはならないからです。</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">プライバシーは製品の形そのものであって、後から付け足した方針ではありません</h2>
-          <p class="text-secondary fs-5 mb-0">アカウントもバックエンドもクラウド データベースもありません。したがって流出するものも、法的に差し押さえられるものも、開発者があなたの代わりに削除できるものも存在しません。開発者はこのアプリケーションから一切のデータを受け取りません。</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Stow が導き出したものはすべて一つのフォルダーに収まり、そのフォルダーはクラウド同期の対象外に意図的に置かれます。ファイル同期や Windows バックアップによって索引がクラウドへ複製されることがないようにするためです。索引全体を CSV に書き出して読むことも、顔のデータだけを消すことも、保存された文書テキストだけを消すことも、索引をまるごと捨てて作り直すこともできます。そのいずれも、あなたの実際のファイルには一切触れません。</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">機能＆安全性保証</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">従来のツール / 自作スクリプト</th>
+                <th scope="col">クラウドサービス</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">プライバシー＆データの機密性</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100% オフライン • アカウント、テレメトリ、クラウドサーバー一切不要</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>オフラインだが、知的な自動化やAI機能に欠ける</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>ファイルとメタデータが遠隔の企業サーバーへアップロードされる</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">クラウドへのアップロード</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">アップロード0バイト（すべての処理はお使いのPC上でのみ実行）</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>なし（ローカルのみ）</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>同期が必須（ギガバイト単位の通信帯域を消費）</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">オンデバイス・ローカルAI</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">ONNX経由で動作するローカルCPU画像認識、OCR、Phi-4言語モデル</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>なし（静的な正規表現や基本的なシェルスクリプトのみ）</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>サーバー側で動作する独自のブラックボックスモデル</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">必須プレビュー一覧表</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">ファイルに変更が加わる前に、必ずプレビュー表で確認・承認を保証</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>プレビューなしのブラインド実行、または危険な一括スクリプト実行</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>事前の確認なく不透明にバックグラウンド同期</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">1クリック・トランザクションUndo</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">実行前アトミックジャーナルにより、いつでも瞬時に元の状態へロールバック</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>手動での復旧が必要。スクリプトによる変更は基本的に取り消し不能</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>複雑なバージョン履歴に依存、または完全なデータ消失の危険</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">クラウドプレースホルダー安全対策</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">OneDrive/iCloud/Dropboxを検知。勝手なダウンロードを強制しない</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>プレースホルダーを認識できず、意図しない大量ダウンロードを頻繁に誘発</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>ベンダーロックインされた独自のクラウド隔離環境</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">重複＆類似重複の排除</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">バイト単位のフォルダー重複、類似動画、写真の鮮明度解析まで対応</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>単純なファイル名一致や単一ファイルのハッシュ重複のみ</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>基本的な写真重複のみ。動画やフォルダー全体の重複排除には非対応</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">ビット腐敗＆整合性検証</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">ディスク障害を早期発見する内蔵SHA-256バックアップ整合性検証</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>複雑なコマンドラインツールの手動操作が必要</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>不透明なプロプライエタリクラウドストレージに依存</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">価格体系＆ライセンス</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Microsoft Store での買い切り購入 • 永久ライセンス</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>機能が断片化された無料ツールまたは複数の有償ツールの組み合わせ</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>高額で継続的な月額・年額のサブスクリプション課金</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> よくあるご質問
+        </span>
+        <h2 class="display-5 fw-bold text-white">よくあるご質問（FAQ）</h2>
+        <p class="text-secondary fs-5">Stowのプライバシー設計、オフラインAI、ファイル安全性、互換性についての詳しい回答。</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: ファイルやデータがクラウドへアップロードされないことを、Stowはどう保証していますか？
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stowにはユーザーアカウント機能、外部サーバーとの通信、テレメトリSDK、バックグラウンド分析機能が一切存在しません。すべての機械学習モデル（写真の意味検索用 SigLIP-2、顔認識クラスタリング用 YuNet &amp; SFace、書類スキャン用ローカルOCR、自然言語ルール生成用 Phi-4-mini）は、ONNX Runtimeを介してお使いのPCのCPU上でのみ厳格に実行されます。写真、ドキュメント、ファイル名、ディレクトリ構造、検索キーワードがお使いのPCの外へ出ることは決してありません。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Stowを使用するには強力なGPUや専用のNPUが必要ですか？
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  いいえ、必要ありません。StowはWindows 10および11（x64およびARM64）向けにネイティブ設計されており、そのローカル推論ランタイムは一般的な一般消費者向けCPUで快適に動作するよう高度に最適化されています。専用GPUやNPUは不要です。さらに、プリセット、ビジュアルルール、フォルダー容量計算、重複ファイル排除、不要データ消去、差分同期、プレビューといった基本機能はAIモデルを一切使わないため、インストール後すぐに超高速で動作します。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: OneDrive、iCloud、Dropboxなどのフォルダーで意図しない大量ダウンロードを防ぐ仕組みはどうなっていますか？
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stowはクラウドプレースホルダー（仮想ファイル）認識機能を備えています。OneDrive、Dropbox、Googleドライブ、iCloudによって管理されているフォルダーをスキャンする際、オンライン専用の仮想プレースホルダーを検出します。従量制課金接続やバッテリー駆動時にギガバイト単位の無断ダウンロードを開始することを拒否するため、クラウド上のファイル状態を保ったまま、通信帯域の逼迫やローカルディスクの圧迫を防ぎます。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: 不要データをクリーンアップしたり重複ファイルを削除したりするとどうなりますか？ファイルが永久に失われる心配はありませんか？
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stowによってファイルが永久に削除されることは一切ありません。不要データのクリーンアップ（中断されたダウンロードや古いインストーラーの削除など）や重複ファイルの削除操作では、すべてのアイテムがWindowsの標準のごみ箱へと安全に移動されます。万が一、誤って必要なファイルを捨ててしまった場合でも、ごみ箱から直接元に戻すか、Stowの1クリックUndoを実行するだけですぐに復元できます。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: 1クリックで元に戻す（Undo）機能はどのように動作しますか？数日後でも整理を取り消せますか？
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  ディスク上でファイルが移動、名前変更、削除される前に、Stowは全アイテムの移動元と移動先の正確なパスを記録した不可分（アトミック）で可逆的なトランザクションジャーナルを作成します。操作直後には画面上にUndo通知バーが表示されるほか、Stowの「履歴」ハブに過去の全操作が保持されるため、数時間後、数日後、あるいは数週間後であっても、確実に整理前の状態へとロールバックできます。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: 自然言語AIプロンプトは、どのようにローカルで整理ルールを生成するのですか？
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  「すべての請求書を『請求書』フォルダーに移動し、カメラの写真は年と月で分類して」といったプロンプトを入力すると、Stowに内蔵されたローカル言語モデル（Phi-4-mini）がその要望を解釈し、安全でプレビュー可能な整理ルールへと変換します。モデルに渡されるのはライブラリの概要情報（拡張子の統計、日付の範囲、トップレベルのフォルダー名など）のみであり、個別のファイル名やファイルの中身が渡されることは絶対にありません。生成されたルールは監査可能なコードによって評価され、ユーザーが承認するためのプレビュー一覧表として表示されます。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: StowはカメラのRAWファイルと関連ファイルを一緒に保持して整理できますか？
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  はい、可能です。Stowは高度なコンパニオンファイル保持機能を備えています。カメラのRAWフォーマット（CR2、NEF、ARW、DNGなど）は、対応するJPEG/HEICプレビューや.xmpサイドカーメタデータファイルと自動的に紐付けられます。同様に、動画ファイルも.srtや.vttなどの字幕ファイルと常に連携を維持します。Stowが主ファイルを整理・移動する際は、すべての関連ファイルも同時に並行して移動されます。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: 動作環境とStowのインストール方法を教えてください。
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stowは、64ビットIntel/AMD（x64）およびQualcomm Snapdragon（ARM64）アーキテクチャのWindows 10（バージョン2004 / ビルド19041以降）とWindows 11に対応しています。Microsoft Storeを通じてサンドボックス化された最新のMSIXパッケージとして安全に配信されているため、クリーンなインストール、自動アップデートが保証され、不要なバックグラウンド常駐プログラムでシステムを汚すこともありません。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: 写真・ファイル整理ツール</h2>
-          <p class="text-secondary fs-5 mb-4">PC を片づけるオフライン AI — ファイルを勝手に動かすことは決してありません。</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI写真・ファイル整理＆重複ファイル検索</h2>
+          <p class="text-secondary fs-5 mb-4">クラウドに1バイトもアップロードすることなく、ファイルの整理・重複排除・クリーンアップ・保護を完結する、100%オフライン＆プライバシー最優先のデスクトップファイル管理スイート。</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">インストール</a>
-</div>
-<button type="button" class="to-top" aria-label="トップへ戻る" title="トップへ戻る">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie の同意" hidden>
   <p class="consent-bar-text">このサイトの利用状況を把握するために Google Analytics を使用しています。拒否しても何も保存されず、サイトは全く同じように動作します。 <a href="/privacy.html" class="consent-bar-link">プライバシーポリシー</a></p>

@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow : organisateur de photos et de fichiers | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Une IA hors ligne qui range votre PC — et ne déplace jamais un fichier sans demander. Stow lit les dossiers que vous lui confiez, détermine où chaque chose devrait aller et vous montre la liste complète de tous les changements qu&#x27;il propose. Rien ne bouge tant que vous n&#x27;avez pas appuyé sur le bouto">
+  <title>Stow: Organisateur de photos et fichiers par IA, Détecteur de doublons | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="La suite de gestion de fichiers pour bureau 100 % hors ligne et respectueuse de la vie privée qui organise, déduplique, nettoie et protège vos fichiers sans jamais téléverser le moindre octet dans le cloud. Stow met fin au désordre dans vos Téléchargements, à la dispersion de vos photothèques et aux">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow : organisateur de photos et de fichiers | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Une IA hors ligne qui range votre PC — et ne déplace jamais un fichier sans demander. Stow lit les dossiers que vous lui confiez, détermine où chaque chose devrait aller et vous montre la liste complète de tous les changements qu&#x27;il propose. Rien ne bouge tant que vous n&#x27;avez pas appuyé sur le bouto">
+  <meta property="og:title" content="Stow: Organisateur de photos et fichiers par IA, Détecteur de doublons | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="La suite de gestion de fichiers pour bureau 100 % hors ligne et respectueuse de la vie privée qui organise, déduplique, nettoie et protège vos fichiers sans jamais téléverser le moindre octet dans le cloud. Stow met fin au désordre dans vos Téléchargements, à la dispersion de vos photothèques et aux">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/fr/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow : organisateur de photos et de fichiers | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Une IA hors ligne qui range votre PC — et ne déplace jamais un fichier sans demander. Stow lit les dossiers que vous lui confiez, détermine où chaque chose devrait aller et vous montre la liste complète de tous les changements qu&#x27;il propose. Rien ne bouge tant que vous n&#x27;avez pas appuyé sur le bouto">
+  <meta name="twitter:title" content="Stow: Organisateur de photos et fichiers par IA, Détecteur de doublons | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="La suite de gestion de fichiers pour bureau 100 % hors ligne et respectueuse de la vie privée qui organise, déduplique, nettoie et protège vos fichiers sans jamais téléverser le moindre octet dans le cloud. Stow met fin au désordre dans vos Téléchargements, à la dispersion de vos photothèques et aux">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow : organisateur de photos et de fichiers","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Une IA hors ligne qui range votre PC — et ne déplace jamais un fichier sans demander. Stow lit les dossiers que vous lui confiez, détermine où chaque chose devrait aller et vous montre la liste complète de tous les changements qu'il propose. Rien ne bouge tant que vous n'avez pas appuyé sur le bouto","url":"https://www.dhinovatech.com/stow/fr/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (fr)","item":"https://www.dhinovatech.com/stow/fr/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: Organisateur de photos et fichiers par IA, Détecteur de doublons","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"La suite de gestion de fichiers pour bureau 100 % hors ligne et respectueuse de la vie privée qui organise, déduplique, nettoie et protège vos fichiers sans jamais téléverser le moindre octet dans le cloud. Stow met fin au désordre dans vos Téléchargements, à la dispersion de vos photothèques et aux","url":"https://www.dhinovatech.com/stow/fr/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (fr)","item":"https://www.dhinovatech.com/stow/fr/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/fr/#faq","inLanguage":"fr","mainEntity":[{"@type":"Question","name":"Comment Stow garantit-il qu'aucun de mes fichiers ou de mes données n'est téléversé dans le cloud ?","acceptedAnswer":{"@type":"Answer","text":"Stow ne possède aucun système de compte, aucun serveur distant, aucun kit SDK de télémétrie et aucun outil d'analyse en arrière-plan. Tous les modèles d'apprentissage automatique (SigLIP-2 pour la recherche sémantique de photos, YuNet & SFace pour le regroupement de visages, l'OCR local pour les documents numérisés et Phi-4-mini pour la génération de règles en langage naturel) s'exécutent strictement sur le processeur (CPU) de votre PC via ONNX Runtime. Vos photos, documents, noms de fichiers, arborescences et recherches ne quittent jamais votre machine."}},{"@type":"Question","name":"Ai-je besoin d'une carte graphique puissante ou d'un NPU dédié pour utiliser Stow ?","acceptedAnswer":{"@type":"Answer","text":"Non. Stow est conçu nativement pour Windows 10 et 11 (architectures x64 et ARM64). Son moteur d'inférence locale est spécialement optimisé pour les processeurs grand public du quotidien, sans nécessiter de GPU ou de NPU dédié. De plus, les fonctions essentielles comme les préréglages, les règles visuelles, l'affichage en direct de la taille des dossiers, la déduplication, le nettoyage des résidus, la synchronisation différentielle et les aperçus universels ne requièrent aucun modèle d'IA et fonctionnent instantanément dès l'installation."}},{"@type":"Question","name":"Comment Stow évite-t-il les téléchargements massifs non souhaités dans les dossiers OneDrive, iCloud ou Dropbox ?","acceptedAnswer":{"@type":"Answer","text":"Stow a été développé pour reconnaître les fichiers fictifs (placeholders) du cloud. Lors de l'analyse de répertoires gérés par OneDrive, Dropbox, Google Drive ou iCloud, Stow détecte ces fichiers virtuels en ligne uniquement. Il refuse de déclencher des téléchargements silencieux et massifs sur des connexions limitées ou sur batterie, préservant ainsi vos fichiers en ligne sans saturer votre bande passante ni encombrer votre disque local."}},{"@type":"Question","name":"Que se passe-t-il lorsque Stow nettoie des fichiers résiduels ou élimine des doublons ? Mes fichiers peuvent-ils être perdus définitivement ?","acceptedAnswer":{"@type":"Answer","text":"Rien n'est jamais supprimé définitivement par Stow. Les opérations de nettoyage (fichiers temporaires, téléchargements incomplets ou anciens installateurs) et la suppression de doublons déplacent systématiquement les éléments dans la Corbeille standard de Windows. Si vous réalisez avoir écarté un fichier par mégarde, vous pouvez le restaurer immédiatement depuis la Corbeille ou déclencher l'annulation en 1 clic de Stow."}},{"@type":"Question","name":"Comment fonctionne la fonction d'annulation en 1 clic ? Puis-je annuler une session d'organisation plusieurs jours après ?","acceptedAnswer":{"@type":"Answer","text":"Avant qu'un fichier ne soit déplacé, renommé ou nettoyé sur le disque, Stow enregistre une entrée atomique et réversible dans un journal de transactions, consignant l'emplacement d'origine et la destination exacte de chaque élément. Une barre de notification d'annulation apparaît immédiatement après chaque tâche, et l'Historique de Stow conserve les opérations passées pour vous permettre de rétablir vos sessions en toute fiabilité, même plusieurs heures, jours ou semaines après."}},{"@type":"Question","name":"Comment le prompt en langage naturel génère-t-il des règles d'organisation en local ?","acceptedAnswer":{"@type":"Answer","text":"Lorsque vous tapez une consigne telle que 'Déplacer toutes les factures dans Factures et classer les photos par année et mois', le modèle de langage local de Stow (Phi-4-mini) traduit votre demande en règles d'organisation sûres et prévisualisables. Le modèle ne reçoit qu'un schéma général de votre bibliothèque (décompte d'extensions, plages de dates et noms de dossiers de premier niveau) — jamais vos noms de fichiers réels ni leur contenu. Un code auditable évalue ensuite ces règles dans un tableau d'aperçu interactif que vous validez avant exécution."}},{"@type":"Question","name":"Stow peut-il conserver ensemble les fichiers RAW d'appareils photo et leurs fichiers associés ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Stow intègre la préservation intelligente des fichiers associés (sidecars et doublons de format). Les formats RAW d'appareils photo (tels que CR2, NEF, ARW, DNG) sont automatiquement liés à leurs aperçus JPEG/HEIC et à leurs fichiers de métadonnées .xmp. De même, les fichiers vidéo restent attachés à leurs sous-titres .srt ou .vtt. Lorsque Stow organise ou déplace un fichier principal, tous les fichiers compagnons sont déplacés simultanément."}},{"@type":"Question","name":"Quels sont les prérequis système et comment Stow s'installe-t-il ?","acceptedAnswer":{"@type":"Answer","text":"Stow prend en charge Windows 10 (version 2004 / build 19041 et ultérieures) et Windows 11, tant sur architectures Intel/AMD 64 bits (x64) que Qualcomm Snapdragon (ARM64). Il est distribué directement via le Microsoft Store sous la forme d'une application MSIX moderne et isolée en bac à sable (sandbox), garantissant une installation propre, des mises à jour automatiques et aucun encombrement du système."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Aller au contenu principal</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Obtenir sur le Microsoft Store
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Dernière version majeure</span>
+              <span class="text-white-50 small fw-semibold">Suite logicielle Stow 3.0 pour bureau</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Suite logicielle Stow 3.0 pour bureau : Navigation &amp; Aperçu, Nettoyeur de résidus, Synchronisation différentielle, OCR local &amp; Centre de sauvegarde</h2>
+            <p class="text-secondary small mb-0">Une évolution majeure : d&#x27;un simple outil d&#x27;organisation à une suite bureautique complète et privée de gestion de fichiers.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Découvrir les nouveautés
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Explorateur double panneau &amp; Tailles en direct</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Nettoyeur de résidus dédié</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Rapprochement ciblé de dossiers</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>OCR de documents vers PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Vérificateur d&#x27;intégrité &amp; Sauvegarde</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow : organisateur de photos et de fichiers</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Une IA hors ligne qui range votre PC — et ne déplace jamais un fichier sans demander.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow lit les dossiers que vous lui confiez, détermine où chaque chose devrait aller et vous montre la liste complète de tous les changements qu&#x27;il propose. Rien ne bouge tant que vous n&#x27;avez pas appuyé sur le bouton.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Tout s&#x27;exécute sur votre PC. Pas de compte, pas de serveur, pas de télémétrie, pas de publicité. Les modèles d&#x27;IA sont téléchargés une fois et tournent sur votre propre processeur : aucun fichier, nom de fichier, photo, document ou terme de recherche ne quitte jamais la machine.</p>
+          <h1 class="hero-title mb-3">Stow: Organisateur de photos et fichiers par IA, Détecteur de doublons</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">La suite de gestion de fichiers pour bureau 100 % hors ligne et respectueuse de la vie privée qui organise, déduplique, nettoie et protège vos fichiers sans jamais téléverser le moindre octet dans le cloud.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow met fin au désordre dans vos Téléchargements, à la dispersion de vos photothèques et aux dossiers mystères. Propulsé par la vision artificielle sur l&#x27;appareil, l&#x27;OCR local de documents et des modèles de langage sur processeur, Stow calcule des plans d&#x27;organisation intelligents, traque les fichiers en double ou flous et élimine les déchets cachés.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Tout s&#x27;exécute strictement sur votre PC, sans aucun serveur cloud, sans télémétrie et sans suivi en arrière-plan. Rien n&#x27;est déplacé sans un aperçu validé au préalable, rien n&#x27;est supprimé définitivement, et chaque opération peut être annulée en un seul clic.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Voir comment ça marche
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Découvrir le fonctionnement
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100 % hors ligne</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Aperçu préalable requis</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Aucune suppression définitive</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> Annulation en 1 clic</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Sûr avec les dossiers cloud</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 et ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Obtenir sur le Microsoft Store
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Votre système de classement n&#x27;a pas échoué. C&#x27;est la vie qui est passée.</h2>
-          <p class="text-secondary fs-5 mb-0">Un dossier Téléchargements avec quatre mille choses dedans. Un dossier Images contenant trois téléphones, deux appareils photo et dix ans de captures d&#x27;écran. Des dossiers appelés « Vacances 2019 », « Copie de vacances » et « vacances (final) », sans moyen de savoir lequel est lequel.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Le faire à la main fonctionne, mais personne ne va au bout. Les services cloud le font pour vous, en téléversant toute votre bibliothèque personnelle sur l&#x27;ordinateur de quelqu&#x27;un d&#x27;autre. Les outils scriptables font exactement ce que vous leur dites, à condition d&#x27;apprendre une syntaxe de règles et de la tester d&#x27;abord sur une copie. Et tous, au moment décisif, vous demandent de croire que l&#x27;opération qui va parcourir dix mille fichiers est bien celle que vous vouliez.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Garanti par l&#x27;architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">Les Cinq Invariants</h2>
+        <p class="text-secondary fs-5">Cinq garanties architecturales non négociables intégrées à chaque composant de Stow.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100 % hors ligne et privé</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Zéro compte, zéro serveur cloud, zéro télémétrie, zéro analyse, zéro suivi en arrière-plan. Tous les modèles d&#x27;IA (vision, OCR, langage) tournent localement sur le processeur (CPU) de votre PC.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Rien ne bouge sans aperçu préalable validé</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow ne déplace, ne renomme et ne nettoie jamais aucun fichier à votre insu. Chaque opération génère un tableau d&#x27;aperçu détaillé que vous examinez et validez en premier.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Rien n&#x27;est jamais supprimé définitivement</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">L&#x27;application n&#x27;effectue jamais de suppression définitive de fichiers. Les opérations de nettoyage et de suppression des doublons déplacent les éléments dans la Corbeille Windows habituelle, où ils peuvent être facilement restaurés.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Annulation instantanée en un clic</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Chaque action est journalisée avant d&#x27;être appliquée sur le disque. Si vous changez d&#x27;avis une heure ou une semaine plus tard, un seul clic remet vos fichiers à leur emplacement d&#x27;origine exact.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Sûr avec les dossiers cloud</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Reconnaît automatiquement les fichiers fictifs du cloud (OneDrive, Dropbox, iCloud) et refuse de télécharger silencieusement des gigaoctets sur des connexions limitées.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Flux d&#x27;exécution sécurisé
+        </span>
+        <h2 class="display-5 fw-bold text-white">Comment ça marche</h2>
+        <p class="text-secondary fs-5">Trois étapes simples et transparentes. Un contrôle absolu de bout en bout.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Analyser et décrire</h3>
+              <p class="text-secondary small mb-0">Pointez Stow vers n&#x27;importe quel dossier ou disque. Choisissez un préréglage en 1 clic, décrivez l&#x27;agencement souhaité en langage naturel, ou laissez Stow découvrir automatiquement vos conventions de classement existantes.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Prévisualiser et vérifier</h3>
+              <p class="text-secondary small mb-0">Examinez le tableau de propositions complet avant que le moindre octet ne soit déplacé sur le disque. Chaque fichier dispose d&#x27;une ligne dédiée, du chemin proposé et de la règle appliquée. Filtrez, modifiez ou désélectionnez les éléments que vous préférez laisser intacts.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Appliquer avec annulation en 1 clic</h3>
+              <p class="text-secondary small mb-0">Exécutez le plan en toute sérénité. Stow consigne d&#x27;abord chaque opération dans un journal de transactions atomique. Si vous changez d&#x27;avis — une heure ou un mois plus tard —, un simple clic rétablit tout.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">L&#x27;aperçu est le vrai produit</h2>
         <p class="text-secondary fs-5">Vous ne découvrez jamais ce que Stow a décidé en le regardant faire. Vous le découvrez en lisant un tableau, avant que rien ne bouge, où chaque fichier a sa ligne, sa destination et le nom de la règle qui l&#x27;a réclamé. Si c&#x27;est faux, vous fermez l&#x27;écran et il ne s&#x27;est rien passé.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Pilier 1: Organisation sans effort et classement automatisé -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> Pilier 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Organisation sans effort et classement automatisé</h2>
+          <p class="text-secondary fs-5 mb-0">Transformez des répertoires désordonnés en archives propres et structurées grâce à des préréglages, à l&#x27;IA en langage naturel ou à des règles personnalisées.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Tableau de bord intelligent et centre de santé</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Le poste de pilotage de votre bibliothèque. Obtenez une évaluation immédiate de l&#x27;état de votre photothèque et de vos documents : total des fichiers indexés, espace géré, éléments non classés et espace récupéré. Les cartes d&#x27;attention suggèrent proactivement les cartes SD d&#x27;appareils photo prêtes pour l&#x27;importation, les téléchargements en attente de classement, les alertes de résidus et les rappels de sauvegarde.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Aperçu instantané du stockage, des fichiers non classés et des gigaoctets récupérés</li><li>Cartes d&#x27;attention proactives pour cartes SD, téléchargements récents et fichiers inutiles</li><li>Raccourcis d&#x27;action rapide en 1 clic pour organiser, nettoyer les résidus ou synchroniser les disques</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Cinq façons d&#x27;organiser</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Choisissez votre façon de travailler. Utilisez des préréglages en 1 clic prêts à l&#x27;emploi (par type de fichier, année/mois, captures d&#x27;écran à part, modèle d&#x27;appareil photo) ; formulez vos souhaits en langage naturel auprès de notre modèle local exécuté sur processeur ; laissez Stow apprendre et prolonger votre arborescence existante ; définissez des conditions précises avec le créateur visuel de règles ; ou effectuez des renommages par lots basés sur des règles.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Préréglages prêts à l&#x27;emploi en 1 clic : classement instantané par type, date ou métadonnées EXIF</li><li>IA en langage naturel : saisissez vos requêtes en clair ; le LLM local génère des règles sécurisées</li><li>Prolonger le système existant : détecte et poursuit vos conventions de dossiers établies</li><li>Générateur visuel de règles : conditions détaillées, balises de destination et gestion des conflits</li><li>Renommage par lots : compteurs séquentiels, balises de date et remplacement de motifs textuels</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dossiers auto-classants (dossiers surveillés intelligents)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Associez des règles à des zones de dépôt en désordre comme Téléchargements ou le Bureau. Dès l&#x27;arrivée de nouveaux fichiers, Stow prépare une proposition d&#x27;organisation en arrière-plan et vous alerte avec discrétion via un aperçu — prêt à être validé en un clic sans processus résidents intrusifs.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Surveille efficacement les dossiers cibles sans exécuter de services lourds en arrière-plan</li><li>Prépare automatiquement des propositions propres dès l&#x27;arrivée de nouveaux fichiers</li><li>Requiert systématiquement votre accord en un clic — aucun fichier n&#x27;est déplacé en votre absence</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilier 2: Explorateur double panneau et volet d&#x27;aperçu universel -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> Pilier 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Explorateur double panneau et volet d&#x27;aperçu universel</h2>
+          <p class="text-secondary fs-5 mb-0">Une véritable alternative moderne à l&#x27;Explorateur Windows qui comble ses plus grands manques grâce au calcul en direct de la taille récursive des dossiers et aux aperçus riches et instantanés.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Explorateur double panneau avec tailles de dossiers en direct</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Naviguez dans l&#x27;ensemble de votre système de fichiers grâce à une arborescence déployable et une grille réactive. Stow comble la plus grande lacune de l&#x27;Explorateur Windows en calculant et en affichant la taille récursive réelle des dossiers ainsi que le nombre d&#x27;éléments directement dans la grille, repérant immédiatement où se concentre l&#x27;espace disque.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Taille récursive des dossiers et nombre d&#x27;éléments calculés en direct dans la grille</li><li>Navigation double panneau avec arborescence extensible et fil d&#x27;Ariane</li><li>Gestion directe des fichiers : création de dossiers, renommage et couper/copier/coller sur place</li><li>Glisser-déposer bidirectionnel fluide avec l&#x27;Explorateur Windows et les applications de bureau</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Volet d&#x27;aperçu universel instantané</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Inspectez n&#x27;importe quel format de fichier sans lancer d&#x27;applications externes lourdes. Comprend l&#x27;inspection de photos avec métadonnées EXIF, un lecteur vidéo avec résolution et codecs, une liseuse de documents pour PDF et fichiers Word, un lecteur audio avec métadonnées ID3 et l&#x27;inspection d&#x27;archives.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Inspection photo haute résolution avec modèle d&#x27;appareil, ouverture, sensibilité ISO et EXIF</li><li>Lecteur vidéo intégré affichant la résolution, la fréquence d&#x27;images, le débit et le codec</li><li>Liseuse instantanée pour documents PDF, Word (.docx) et fichiers texte</li><li>Lecteur audio avec balises ID3, pochettes d&#x27;albums et affichage du débit binaire</li><li>Inspecteur d&#x27;archives : explorez l&#x27;intérieur des fichiers ZIP et TAR sans extraction</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilier 3: Nettoyage intelligent, élimination des résidus et déduplication -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> Pilier 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Nettoyage intelligent, élimination des résidus et déduplication</h2>
+          <p class="text-secondary fs-5 mb-0">Récupérez des gigaoctets perdus et éliminez les doublons tout en gardant vos fichiers en parfaite sécurité.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Nettoyeur dédié de résidus et fichiers indésirables</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Récupérez des gigaoctets gaspillés en un clic. Analyse les téléchargements incomplets ou interrompus (.crdownload, .part, .download), les résidus d&#x27;éditeurs et de systèmes (.DS_Store, Thumbs.db, fichiers temporaires), les installateurs accumulés (.exe, .msi), les volumineux caches de développement (node_modules, bin/obj, .gradle), les dossiers décompressés orphelins et les fichiers vides de 0 octet.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Récupère des gigaoctets sur les téléchargements interrompus, fichiers temporaires et miniatures OS</li><li>Nettoie les anciens fichiers d&#x27;installation qui s&#x27;accumulent dans les Téléchargements</li><li>Purger les caches de dépendances de développement (node_modules, gradle, bin/obj)</li><li>Supprime les dossiers vides et les restes d&#x27;archives décompressées abandonnées</li><li>Chaque nettoyage est présenté dans un tableau d&#x27;aperçu et dirigé en toute sécurité vers la Corbeille</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Détecteur de doublons exacts (fichiers et dossiers)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Identifie les fichiers strictement identiques et des arborescences entières octet par octet, indépendamment de leurs noms ou emplacements. Quatre stratégies déterministes recommandent la copie à conserver (meilleure qualité, plus ancien, plus récent ou dossier préféré). Les copies superflues sont transférées en toute sécurité dans la Corbeille.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Regroupe les fichiers identiques et les arborescences miroirs par empreinte de contenu (hash)</li><li>Détecte les dossiers en double même s&#x27;ils portent des noms différents (&#x27;Photos 2021&#x27; vs &#x27;Sauvegarde Photos&#x27;)</li><li>La mise en Corbeille garantit que les copies redondantes peuvent toujours être récupérées</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Détecteur de vidéos quasi-doublons et tri de netteté photo</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Va bien au-delà des doublons exacts. Détecte les vidéos réencodées, les versions de résolution inférieure (ex. 1080p vs 720p), les extraits tronqués et les vidéos compressées issues de WhatsApp ou messageries. Pour les photos, regroupe les rafales de prises de vue et analyse la netteté des contours pour vous conseiller le meilleur cliché tout en signalant les photos floues.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>La détection de vidéos quasi-doublons repère les vidéos réencodées, redimensionnées ou coupées</li><li>Le regroupement de rafales photo identifie les séries de prises de vue en continu</li><li>L&#x27;analyse de contours et de netteté signale les photos floues ou victimes de bougé</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilier 4: Numérisation de documents, gestion audio et photographie -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> Pilier 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Numérisation de documents, gestion audio et photographie</h2>
+          <p class="text-secondary fs-5 mb-0">Transformez vos piles de papiers désordonnées et vos collections multimédias sans métadonnées en bibliothèques élégamment structurées.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Documents papier numérisés vers PDF multipages</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Convertit les photos de reçus, relevés, avis fiscaux et factures d&#x27;énergie en un classeur numérique impeccable. L&#x27;OCR local sur l&#x27;appareil extrait le texte sans transmettre vos documents à des API cloud. La classification intelligente identifie la nature du document (Reçu, Facture, Déclaration d&#x27;impôts, Facture de services, Relevé bancaire, Contrat) ainsi que l&#x27;organisme émetteur, assemble les pages capturées en plusieurs prises et harmonise les noms de fichiers.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>L&#x27;OCR 100 % local extrait le texte sur votre machine, sans aucun risque pour la vie privée</li><li>La classification intelligente catégorise les types de documents et les entités émettrices</li><li>L&#x27;assemblage multipage fusionne les prises de vue successives en un PDF standardisé et interrogeable</li><li>Nomenclature automatique et cohérente (ex. : &#x27;2024-03-15_Banque_Releve.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Gestion et organisation de bibliothèque musicale</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Lit et indexe les balises ID3 et métadonnées audio pour les formats MP3, FLAC, M4A, WAV et OGG. Distingue l&#x27;artiste du morceau de l&#x27;artiste de l&#x27;album pour que les compilations multi-artistes restent regroupées dans un dossier unique sans se disperser. Intègre un éditeur de métadonnées audio pour corriger les informations manquantes ou erronées.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Indexation complète des balises ID3 pour MP3, FLAC, M4A, WAV et OGG</li><li>Le regroupement par artiste de l&#x27;album évite l&#x27;éparpillement des compilations et bandes originales</li><li>Éditeur de métadonnées par lots pour corriger numéros de piste, artistes, années et pochettes</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Carte du monde vectorielle hors ligne et importation de carte SD</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Explorez les lieux de prise de vue de vos photos sur une carte vectorielle interactive 100 % hors ligne — sans charger de tuiles cartographiques externes ni partager de coordonnées GPS. Détecte automatiquement l&#x27;insertion de cartes mémoire ou le branchement d&#x27;appareils photo pour un import en 1 clic avec association des couples RAW + JPEG.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Carte vectorielle interactive positionnant les photos géolocalisées sur un canevas 100 % hors ligne</li><li>Détection intelligente des appareils photo et cartes SD avec flux d&#x27;importation en 1 clic</li><li>Préservation stricte des fichiers associés liant les paires RAW+JPEG et vidéos+sous-titres</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilier 5: Récupération d&#x27;espace, synchronisation différentielle et intégration Windows -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Pilier 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Récupération d&#x27;espace, synchronisation différentielle et intégration Windows</h2>
+          <p class="text-secondary fs-5 mb-0">Sécurité de niveau professionnel, réconciliation différentielle de disques et synergie étroite avec Windows.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Rapprochement ciblé de dossiers et synchronisation différentielle</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Répond à la question fréquente : &#x27;Qu&#x27;y a-t-il sur mon disque dur externe qui n&#x27;est pas déjà dans ma bibliothèque principale ?&#x27; Compare deux arborescences ou lecteurs et classe les fichiers en Manquant sur la cible, Identique ou En conflit/Modifié. Prépare un plan de copie sûr pour combler l&#x27;écart sans jamais supprimer de fichiers non vérifiés.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Compare deux arborescences ou disques pour repérer les écarts et disparités</li><li>Classe les fichiers : Manquant sur la destination, Identique ou En conflit</li><li>Plan de copie sécurisé comblant les écarts sans suppressions miroir destructives</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Sauvegarde non destructive et vérification d&#x27;intégrité (anti-bit rot)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Configurez des sauvegardes en un clic ou planifiées de vos dossiers essentiels vers des disques externes ou secondaires. Copie les fichiers nouveaux et modifiés sans répercuter les suppressions de la source. Le vérificateur d&#x27;intégrité intégré contrôle les sommes SHA-256 entre source et sauvegarde pour détecter toute corruption de données ou défaillance matérielle.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Sauvegardes non destructives copiant les nouveaux fichiers sans répercuter les suppressions</li><li>Le vérificateur d&#x27;intégrité compare les hachages SHA-256 pour détecter la dégradation des bits</li><li>Planificateur de restauration sécurisé avec prévisualisation vers le dossier d&#x27;origine ou de secours</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Carte d&#x27;occupation du volume entier et déplacement par jonction NTFS</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Visualise l&#x27;occupation de disques entiers (C:, D:) pour débusquer les fichiers volumineux hors de vos répertoires analysés (comme TreeSize ou WizTree). Déplacez de volumineux dossiers (ex. un dossier Images de 400 Go) vers un disque secondaire ; Stow crée automatiquement une jonction de répertoire NTFS à l&#x27;emplacement d&#x27;origine afin que raccourcis et applications continuent de fonctionner sans rupture. Récupérez l&#x27;espace des fichiers temporaires et caches système.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Carte visuelle du disque identifiant les dossiers géants sur l&#x27;ensemble du volume</li><li>Les jonctions NTFS permettent de déplacer de gros dossiers sans casser les liens d&#x27;applications</li><li>Nettoyage du système ciblant les dossiers temporaires et caches de mise à jour Windows</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Intégration approfondie à Windows et profils portables</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Conçu spécifiquement pour Windows. Faites un clic droit sur un dossier dans l&#x27;Explorateur Windows pour &#x27;Organiser avec Stow&#x27; ou &#x27;Rechercher les doublons&#x27;. Appuyez sur Win+Maj+F n&#x27;importe où pour ouvrir le lanceur rapide global. Débloquez par lots les fichiers téléchargés (Zone.Identifier), réparez automatiquement les raccourcis du Bureau et du Menu Démarrer lors des déplacements et exportez des profils JSON portables pour configurer de nouveaux PC en quelques secondes.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Intégration au menu contextuel du clic droit de l&#x27;Explorateur Windows</li><li>Raccourci global du lanceur rapide (Win+Maj+F) pour une recherche instantanée</li><li>Déblocage par lots de la marque du web (Zone.Identifier) pour les fichiers téléchargés</li><li>Réparation intelligente des raccourcis maintenant fonctionnels les liens du Bureau et du Menu Démarrer</li><li>Exportation de profils JSON portables pour migrer règles et configurations vers un nouveau PC</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Vie privée et contrôle absolus
         </span>
-        <h2 class="display-5 fw-bold text-white">Cinq règles sur lesquelles toute l&#x27;application est bâtie</h2>
+        <h2 class="display-5 fw-bold text-white">Comment se positionne Stow</h2>
+        <p class="text-secondary fs-5">Pourquoi les utilisateurs d&#x27;ordinateurs choisissent Stow plutôt que des scripts ou des services cloud.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Rien ne quitte le PC</h3>
-              </div>
-              <p class="text-secondary small mb-0">Ni les fichiers, ni leurs noms, ni l&#x27;index, ni les embeddings, ni les données de visage, ni un journal de plantage. Il existe exactement deux opérations réseau dans toute l&#x27;application, et vous devez déclencher les deux délibérément.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Rien ne se produit sans aperçu</h3>
-              </div>
-              <p class="text-secondary small mb-0">Toute opération qui touche un fichier — un préréglage en un clic, une règle écrite par le modèle de langage, un renommage par lot — passe par le même pipeline et aboutit au même écran d&#x27;aperçu. Aucun raccourci ne le contourne.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Rien n&#x27;est supprimé ni écrasé</h3>
-              </div>
-              <p class="text-secondary small mb-0">Le moteur ne fait que déplacer des fichiers, les renommer et créer des dossiers. La suppression n&#x27;existe qu&#x27;à un seul endroit — le détecteur de doublons — et passe par la Corbeille de Windows, qui survit à la désinstallation de Stow.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Tout est réversible</h3>
-              </div>
-              <p class="text-secondary small mb-0">Chaque opération est écrite dans un journal avant d&#x27;être exécutée. Ce journal alimente le bouton d&#x27;annulation, permet de récupérer l&#x27;application si la machine perd le courant en pleine exécution, et sait ensuite quels dossiers ont été vidés.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Les modèles proposent, le code décide</h3>
-              </div>
-              <p class="text-secondary small mb-0">Le modèle de langage ne voit jamais votre liste de fichiers et n&#x27;effectue jamais d&#x27;opération. Il émet des règles. Du code ordinaire et auditable les applique à chaque fichier, et un validateur indépendant revérifie chaque destination produite.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Cinq façons de décrire ce que vous voulez</h2>
-        <p class="text-secondary fs-5">Elles convergent toutes vers exactement le même aperçu.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Préréglages prêts à l&#x27;emploi</h3>
-                  <p class="text-secondary small mb-0">Six options en un clic : par type de fichier, par année et mois, par année, par type puis année, mettre les captures d&#x27;écran à part, ou par appareil photo. Cinq d&#x27;entre elles fonctionnent sans ouvrir un seul fichier, donc Stow est utile avant même qu&#x27;un modèle soit téléchargé.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Décrivez-le avec vos mots</h3>
-                  <p class="text-secondary small mb-0">« Déplace tout ce qui concerne les factures dans un dossier Factures. » Un modèle de langage local transforme la phrase en règles. Il reçoit un résumé de votre bibliothèque — nombres, extensions, plage de dates, noms de dossiers — jamais la liste des fichiers. Aucun chemin de code ne pourrait la lui donner.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Poursuivez le système que vous avez déjà</h3>
-                  <p class="text-secondary small mb-0">Stow relit la structure de votre arborescence et écrit des règles qui la poursuivent. L&#x27;analyse repose sur des preuves : un dossier nommé 2019 ne compte comme dossier d&#x27;année que si les fichiers qu&#x27;il contient datent réellement de 2019. Aucun modèle, aucun téléchargement.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Construisez les règles vous-même</h3>
-                  <p class="text-secondary small mb-0">Quand un fichier ressemble à ceci, mets-le dans ce dossier. Les règles s&#x27;évaluent de haut en bas, la première correspondance l&#x27;emporte. Les conditions couvrent extension, nom, chemin, taille, dates, dimensions, étiquettes, personnes, lieux et similarité visuelle ; les destinations acceptent des jetons comme {{year}}, {{month_name}} et {{camera}}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Enregistrez-le comme recette</h3>
-                  <p class="text-secondary small mb-0">Tout jeu de règles parvenu à un aperçu peut être nommé et conservé, relancé, ou confié à un dossier surveillé. L&#x27;enregistrer ne lui accorde aucun privilège : il est recompilé, de nouveau restreint et revalidé à chaque exécution, et aboutit toujours à un aperçu que vous devez approuver.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Un bouton remet tout en place</h2>
-          <p class="text-secondary fs-5 mb-0">L&#x27;historique répertorie les vingt dernières actions de Stow, de la plus récente à la plus ancienne, et chacune peut être annulée à l&#x27;identique. Après chaque rangement, une barre apparaît en haut de la fenêtre avec une annulation en un clic : elle n&#x27;est jamais enfouie dans un menu.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">L&#x27;annulation n&#x27;est délibérément pas symétrique de l&#x27;exécution. Là où l&#x27;exécution s&#x27;arrête au premier échec, l&#x27;annulation tente toutes les opérations et signale les problèmes ensemble, car s&#x27;interrompre au milieu d&#x27;une restauration vous laisserait coincé entre deux états. Sortir des fichiers d&#x27;un dossier le vide, et Stow est la seule chose à savoir de quels dossiers il s&#x27;agissait : il propose donc ensuite de les nettoyer, et ne fait rien de plus que le proposer.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Retrouver les choses</h2>
-        <p class="text-secondary fs-5">Tout ici lit l&#x27;index que Stow a déjà construit, donc l&#x27;essentiel ne coûte rien à consulter.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Cherchez vos fichiers</h3>
-              </div>
-              <p class="text-secondary small mb-0">Une petite syntaxe documentée : kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:« garantie chaudière », et un moins devant pour exclure. Elle fonctionne pleinement même quand Stow n&#x27;a pas le droit d&#x27;ouvrir vos fichiers.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Cherchez les photos par leur contenu</h3>
-              </div>
-              <p class="text-secondary small mb-0">Tapez « chien sur une plage » et obtenez vos photos de plage, qu&#x27;elles s&#x27;appellent IMG_4821.jpg ou autrement. Les images sont lues, encodées localement en vecteur, puis relâchées : les photos elles-mêmes ne sont jamais copiées ni conservées.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Voyez ce qui prend la place</h3>
-              </div>
-              <p class="text-secondary small mb-0">Totaux par type de fichier, vos dossiers les plus remplis comptés jusqu&#x27;au fond, et vos plus gros fichiers isolés. Chaque constat porte la recherche qui l&#x27;a produit, si bien que « 18 Go de vidéos que personne n&#x27;a ouvertes depuis trois ans » vous remet la requête exacte sur laquelle agir.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Lieux et personnes</h3>
-              </div>
-              <p class="text-secondary small mb-0">Les photos se regroupent par lieu de prise de vue et — seulement si vous y consentez — selon les visages qui se ressemblent. Il s&#x27;agit d&#x27;un regroupement par ressemblance, pas d&#x27;une identification : il n&#x27;y a pas de base d&#x27;identités ni la moindre capacité à déterminer qui est quelqu&#x27;un. Tous les noms viennent de vous.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Étiquettes</h3>
-              </div>
-              <p class="text-secondary small mb-0">Un mot à vous — « travail », « impôts », « vacances » — attaché à n&#x27;importe quel fichier que vous voulez suivre. Les étiquettes vivent dans l&#x27;index de Stow, donc vos fichiers ne sont jamais renommés ni modifiés, et elles fonctionnent dans tous les modes de confidentialité.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Les doublons, dossiers entiers compris</h2>
-          <p class="text-secondary fs-5 mb-0">Les fichiers identiques sont regroupés par contenu, où qu&#x27;ils vivent et quel que soit leur nom. Les dossiers identiques aussi : les noms ne participent pas à la comparaison, donc « Vacances 2019 » et « Copie de vacances » sont le même dossier si leurs octets le sont. C&#x27;est là que se trouve généralement le vrai espace.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Les photos quasi identiques sont également repérées, grâce aux mêmes embeddings que la recherche de photos, si bien que les copies recompressées et redimensionnées sont trouvées alors même que leurs octets diffèrent entièrement. Quatre politiques entièrement déterministes choisissent la copie à conserver — meilleure qualité, la plus ancienne, la plus récente, ou celle qui se trouve dans un dossier que vous désignez — et chaque choix est motivé. Rien n&#x27;est supprimé ; les copies en trop vont à la Corbeille.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Trois autres choses qu&#x27;il fait</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Renommage par lot</h3>
-              </div>
-              <p class="text-secondary small mb-0">Remplacer du texte, numéroter une série, ajouter un préfixe ou un suffixe, corriger la casse, retirer un fragment. Un renommage est un jeu de règles ordinaire dont la destination est le dossier même du fichier : il obtient donc le même aperçu, le même validateur et la même annulation que tout le reste.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Dossiers surveillés</h3>
-              </div>
-              <p class="text-secondary small mb-0">Les fichiers qui arrivent dans un dossier surveillé sont repérés et préparés pour relecture, éventuellement confrontés à une recette enregistrée. Ce qu&#x27;il ne fait délibérément pas, c&#x27;est agir : un organisateur qui déplacerait des fichiers en silence en arrière-plan serait un produit bien moins digne de confiance, aussi pratique soit-il.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Garder ensemble ce qui va ensemble</h3>
-              </div>
-              <p class="text-secondary small mb-0">Un RAW d&#x27;appareil photo n&#x27;a aucun sens sans son JPEG ; un sous-titre ne sert à rien sans sa vidéo. Une passe entre le moteur et le validateur garde les compagnons ensemble — prudemment, car un préfixe de nom commun ne suffit pas à prouver que deux fichiers s&#x27;appartiennent.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">La confidentialité est la forme du produit, pas une politique ajoutée par-dessus</h2>
-          <p class="text-secondary fs-5 mb-0">Il n&#x27;y a ni compte, ni backend, ni base de données cloud — donc rien à faire fuiter, rien à réquisitionner, et rien que le développeur puisse supprimer en votre nom. Le développeur ne reçoit aucune donnée de l&#x27;application.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Tout ce que Stow dérive vit dans un seul dossier, délibérément tenu hors des emplacements synchronisés avec le cloud pour que l&#x27;index ne soit jamais recopié dans le cloud par la synchronisation de fichiers ou la sauvegarde Windows. Vous pouvez exporter l&#x27;index entier en CSV et le lire, effacer les seules données de visage, effacer le seul texte de documents stocké, ou jeter l&#x27;index complet et le reconstruire. Rien de tout cela ne touche un seul de vos fichiers réels.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Fonctionnalité et garantie de sécurité</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Outils traditionnels / Scripts</th>
+                <th scope="col">Services Cloud</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Confidentialité et protection des données</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100 % Hors ligne • Zéro télémétrie, compte ou serveur cloud</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Hors ligne, mais sans automatisation intelligente ni IA</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Fichiers et métadonnées transférés sur des serveurs distants d&#x27;entreprises</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Téléversement cloud requis</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Zéro octet téléversé (Tous les traitements s&#x27;effectuent strictement sur votre PC)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Aucun (uniquement en local)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Synchronisation obligatoire (consomme des gigaoctets de bande passante)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">IA locale sur l&#x27;appareil</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Vision par processeur, OCR et modèles Phi-4 en local via ONNX</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Aucune (expressions régulières statiques ou scripts shell basiques)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Modèles boîte noire propriétaires exécutés côté serveur</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Tableau d&#x27;aperçu obligatoire</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Tableau d&#x27;aperçu garanti avant toute modification de fichier</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Exécution à l&#x27;aveugle ou exécution risquée de scripts par lots</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Synchronisation opaque en arrière-plan sans revue préalable</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Annulation transactionnelle en 1 clic</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Restauration instantanée via un journal atomique pré-exécution</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Récupération manuelle ; les scripts sont irréversibles</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Historique de versions complexe ou perte irréversible</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Sécurité des fichiers fictifs cloud</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Détecte OneDrive/iCloud/Dropbox ; ne force jamais les téléchargements</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Non averti ; déclenche souvent des téléchargements massifs involontaires</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Silos cloud propriétaires et captifs</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Déduplication et quasi-doublons</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Dossiers identiques octet par octet, quasi-doublons vidéo et netteté photo</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Doublons basiques sur nom de fichier ou empreinte de fichier unique</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Doublons photo basiques uniquement ; aucune déduplication de vidéos ou dossiers</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Vérificateur d&#x27;intégrité (anti-bit rot)</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Vérification SHA-256 intégrée des sauvegardes pour parer aux défaillances de disque</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Nécessite des utilitaires complexes en ligne de commande</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Stockage cloud opaque et propriétaire</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Tarification et licence</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Achat unique sur le Microsoft Store • Licence à vie</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Utilitaires gratuits ou outils payants fragmentés</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Abonnements récurrents mensuels ou annuels onéreux</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Réponses claires
+        </span>
+        <h2 class="display-5 fw-bold text-white">Foire Aux Questions</h2>
+        <p class="text-secondary fs-5">Des réponses précises sur l&#x27;architecture de confidentialité, l&#x27;IA hors ligne, la sécurité des données et la compatibilité de Stow.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Comment Stow garantit-il qu&#x27;aucun de mes fichiers ou de mes données n&#x27;est téléversé dans le cloud ?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow ne possède aucun système de compte, aucun serveur distant, aucun kit SDK de télémétrie et aucun outil d&#x27;analyse en arrière-plan. Tous les modèles d&#x27;apprentissage automatique (SigLIP-2 pour la recherche sémantique de photos, YuNet &amp; SFace pour le regroupement de visages, l&#x27;OCR local pour les documents numérisés et Phi-4-mini pour la génération de règles en langage naturel) s&#x27;exécutent strictement sur le processeur (CPU) de votre PC via ONNX Runtime. Vos photos, documents, noms de fichiers, arborescences et recherches ne quittent jamais votre machine.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Ai-je besoin d&#x27;une carte graphique puissante ou d&#x27;un NPU dédié pour utiliser Stow ?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Non. Stow est conçu nativement pour Windows 10 et 11 (architectures x64 et ARM64). Son moteur d&#x27;inférence locale est spécialement optimisé pour les processeurs grand public du quotidien, sans nécessiter de GPU ou de NPU dédié. De plus, les fonctions essentielles comme les préréglages, les règles visuelles, l&#x27;affichage en direct de la taille des dossiers, la déduplication, le nettoyage des résidus, la synchronisation différentielle et les aperçus universels ne requièrent aucun modèle d&#x27;IA et fonctionnent instantanément dès l&#x27;installation.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Comment Stow évite-t-il les téléchargements massifs non souhaités dans les dossiers OneDrive, iCloud ou Dropbox ?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow a été développé pour reconnaître les fichiers fictifs (placeholders) du cloud. Lors de l&#x27;analyse de répertoires gérés par OneDrive, Dropbox, Google Drive ou iCloud, Stow détecte ces fichiers virtuels en ligne uniquement. Il refuse de déclencher des téléchargements silencieux et massifs sur des connexions limitées ou sur batterie, préservant ainsi vos fichiers en ligne sans saturer votre bande passante ni encombrer votre disque local.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Que se passe-t-il lorsque Stow nettoie des fichiers résiduels ou élimine des doublons ? Mes fichiers peuvent-ils être perdus définitivement ?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Rien n&#x27;est jamais supprimé définitivement par Stow. Les opérations de nettoyage (fichiers temporaires, téléchargements incomplets ou anciens installateurs) et la suppression de doublons déplacent systématiquement les éléments dans la Corbeille standard de Windows. Si vous réalisez avoir écarté un fichier par mégarde, vous pouvez le restaurer immédiatement depuis la Corbeille ou déclencher l&#x27;annulation en 1 clic de Stow.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Comment fonctionne la fonction d&#x27;annulation en 1 clic ? Puis-je annuler une session d&#x27;organisation plusieurs jours après ?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Avant qu&#x27;un fichier ne soit déplacé, renommé ou nettoyé sur le disque, Stow enregistre une entrée atomique et réversible dans un journal de transactions, consignant l&#x27;emplacement d&#x27;origine et la destination exacte de chaque élément. Une barre de notification d&#x27;annulation apparaît immédiatement après chaque tâche, et l&#x27;Historique de Stow conserve les opérations passées pour vous permettre de rétablir vos sessions en toute fiabilité, même plusieurs heures, jours ou semaines après.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Comment le prompt en langage naturel génère-t-il des règles d&#x27;organisation en local ?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Lorsque vous tapez une consigne telle que &#x27;Déplacer toutes les factures dans Factures et classer les photos par année et mois&#x27;, le modèle de langage local de Stow (Phi-4-mini) traduit votre demande en règles d&#x27;organisation sûres et prévisualisables. Le modèle ne reçoit qu&#x27;un schéma général de votre bibliothèque (décompte d&#x27;extensions, plages de dates et noms de dossiers de premier niveau) — jamais vos noms de fichiers réels ni leur contenu. Un code auditable évalue ensuite ces règles dans un tableau d&#x27;aperçu interactif que vous validez avant exécution.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Stow peut-il conserver ensemble les fichiers RAW d&#x27;appareils photo et leurs fichiers associés ?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Oui. Stow intègre la préservation intelligente des fichiers associés (sidecars et doublons de format). Les formats RAW d&#x27;appareils photo (tels que CR2, NEF, ARW, DNG) sont automatiquement liés à leurs aperçus JPEG/HEIC et à leurs fichiers de métadonnées .xmp. De même, les fichiers vidéo restent attachés à leurs sous-titres .srt ou .vtt. Lorsque Stow organise ou déplace un fichier principal, tous les fichiers compagnons sont déplacés simultanément.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Quels sont les prérequis système et comment Stow s&#x27;installe-t-il ?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow prend en charge Windows 10 (version 2004 / build 19041 et ultérieures) et Windows 11, tant sur architectures Intel/AMD 64 bits (x64) que Qualcomm Snapdragon (ARM64). Il est distribué directement via le Microsoft Store sous la forme d&#x27;une application MSIX moderne et isolée en bac à sable (sandbox), garantissant une installation propre, des mises à jour automatiques et aucun encombrement du système.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow : organisateur de photos et de fichiers</h2>
-          <p class="text-secondary fs-5 mb-4">Une IA hors ligne qui range votre PC — et ne déplace jamais un fichier sans demander.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: Organisateur de photos et fichiers par IA, Détecteur de doublons</h2>
+          <p class="text-secondary fs-5 mb-4">La suite de gestion de fichiers pour bureau 100 % hors ligne et respectueuse de la vie privée qui organise, déduplique, nettoie et protège vos fichiers sans jamais téléverser le moindre octet dans le cloud.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Installer</a>
-</div>
-<button type="button" class="to-top" aria-label="Retour en haut" title="Retour en haut">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Consentement aux cookies" hidden>
   <p class="consent-bar-text">Nous utilisons Google Analytics pour comprendre l&#x27;utilisation de ce site. En cas de refus, rien n&#x27;est enregistré — le site fonctionne exactement pareil. <a href="/privacy.html" class="consent-bar-link">Confidentialité</a></p>

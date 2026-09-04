@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: organizátor fotek a souborů | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Offline AI, která uklidí váš počítač — a nikdy nepřesune soubor, aniž by se zeptala. Stow přečte složky, které mu určíte, zjistí, kam co patří, a ukáže vám úplný seznam všech změn, které navrhuje. Nic se nepohne, dokud nestisknete tlačítko.">
+  <title>Stow: AI organizér fotek a souborů, vyhledávač duplicit | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="Zcela offline, na soukromí zaměřená desktopová sada pro správu souborů, která organizuje, deduplikuje, čistí a chrání vaše soubory, aniž by do cloudu odeslala jediný bajt. Stow skoncuje se zahlcenou složkou Stažené soubory, nepřehlednými knihovnami fotografií i záhadnými složkami. Díky počítačovému ">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: organizátor fotek a souborů | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Offline AI, která uklidí váš počítač — a nikdy nepřesune soubor, aniž by se zeptala. Stow přečte složky, které mu určíte, zjistí, kam co patří, a ukáže vám úplný seznam všech změn, které navrhuje. Nic se nepohne, dokud nestisknete tlačítko.">
+  <meta property="og:title" content="Stow: AI organizér fotek a souborů, vyhledávač duplicit | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="Zcela offline, na soukromí zaměřená desktopová sada pro správu souborů, která organizuje, deduplikuje, čistí a chrání vaše soubory, aniž by do cloudu odeslala jediný bajt. Stow skoncuje se zahlcenou složkou Stažené soubory, nepřehlednými knihovnami fotografií i záhadnými složkami. Díky počítačovému ">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/cs/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="cs_CZ">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: organizátor fotek a souborů | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Offline AI, která uklidí váš počítač — a nikdy nepřesune soubor, aniž by se zeptala. Stow přečte složky, které mu určíte, zjistí, kam co patří, a ukáže vám úplný seznam všech změn, které navrhuje. Nic se nepohne, dokud nestisknete tlačítko.">
+  <meta name="twitter:title" content="Stow: AI organizér fotek a souborů, vyhledávač duplicit | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="Zcela offline, na soukromí zaměřená desktopová sada pro správu souborů, která organizuje, deduplikuje, čistí a chrání vaše soubory, aniž by do cloudu odeslala jediný bajt. Stow skoncuje se zahlcenou složkou Stažené soubory, nepřehlednými knihovnami fotografií i záhadnými složkami. Díky počítačovému ">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: organizátor fotek a souborů","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Offline AI, která uklidí váš počítač — a nikdy nepřesune soubor, aniž by se zeptala. Stow přečte složky, které mu určíte, zjistí, kam co patří, a ukáže vám úplný seznam všech změn, které navrhuje. Nic se nepohne, dokud nestisknete tlačítko.","url":"https://www.dhinovatech.com/stow/cs/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (cs)","item":"https://www.dhinovatech.com/stow/cs/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI organizér fotek a souborů, vyhledávač duplicit","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Zcela offline, na soukromí zaměřená desktopová sada pro správu souborů, která organizuje, deduplikuje, čistí a chrání vaše soubory, aniž by do cloudu odeslala jediný bajt. Stow skoncuje se zahlcenou složkou Stažené soubory, nepřehlednými knihovnami fotografií i záhadnými složkami. Díky počítačovému ","url":"https://www.dhinovatech.com/stow/cs/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (cs)","item":"https://www.dhinovatech.com/stow/cs/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/cs/#faq","inLanguage":"cs","mainEntity":[{"@type":"Question","name":"Jak Stow zaručuje, že žádné mé soubory ani data nebudou nahrány do cloudu?","acceptedAnswer":{"@type":"Answer","text":"Stow nemá žádný uživatelský účetní systém, žádné externí servery, žádné telemetrické balíčky ani analytické skripty na pozadí. Všechny modely strojového učení (SigLIP-2 pro sémantické vyhledávání fotek, YuNet a SFace pro shlukování tváří, lokální OCR pro skenované dokumenty a Phi-4-mini pro syntézu pravidel z přirozeného jazyka) běží výhradně na procesoru vašeho počítače prostřednictvím ONNX Runtime. Vaše fotografie, dokumenty, názvy souborů, adresářové stromy ani vyhledávací dotazy nikdy neopustí váš počítač."}},{"@type":"Question","name":"Potřebuji k používání aplikace Stow výkonnou grafickou kartu nebo dedikovanou NPU jednotku?","acceptedAnswer":{"@type":"Answer","text":"Ne. Stow je vyvinut nativně pro Windows 10 a 11 (pro architektury x64 i ARM64) a jeho lokální inferenční prostředí je přímo optimalizováno pro běžné spotřebitelské procesory bez nutnosti vyhrazené grafické karty či NPU. Klíčové funkce jako předvolby, vizuální pravidla, živé velikosti složek, deduplikace, čištění zbytků, diferenciální synchronizace a univerzální náhledy navíc žádné AI modely nevyžadují a fungují ihned po instalaci."}},{"@type":"Question","name":"Jak Stow zabraňuje nechtěnému hromadnému stahování souborů ve složkách OneDrive, iCloud nebo Dropbox?","acceptedAnswer":{"@type":"Answer","text":"Stow je navržen s plnou podporou cloudových zástupců (cloud placeholders). Při prohledávání složek spravovaných službami OneDrive, Dropbox, Disk Google nebo iCloud detekuje virtuální soubory uložené pouze v cloudu. Odmítá spouštět tiché, objemné stahování souborů přes měřená připojení či při provozu na baterii, což zajišťuje, že vaše cloudové soubory zůstanou nedotčené bez zahlcení linky nebo nečekaného zaplnění disku."}},{"@type":"Question","name":"Co se stane, když Stow čistí nepotřebná data nebo odstraňuje duplicity? Mohou se soubory trvale ztratit?","acceptedAnswer":{"@type":"Answer","text":"V aplikaci Stow se nikdy nic nemaže trvale. Operace úklidu zbytkových souborů (jako je odstraňování nedokončených stahování či starých instalačních balíčků) i odstraňování duplicit bezpečně přesouvají položky do standardního Koše systému Windows. Pokud kdykoli zjistíte, že jste soubor vyřadili omylem, můžete jej snadno obnovit přímo z Koše nebo použít funkci vrácení zpět 1 kliknutím."}},{"@type":"Question","name":"Jak funguje vrácení změn jedním kliknutím? Mohu vrátit uspořádání složek i po několika dnech?","acceptedAnswer":{"@type":"Answer","text":"Dříve než se jakýkoli soubor na disku přesune, přejmenuje nebo uklidí, Stow zaznamená atomický, vratný zápis do transakčního žurnálu s přesnou původní i cílovou cestou každé položky. Po každé operaci se ihned zobrazí lišta pro vrácení zpět a centrum Historie uchovává minulé operace, takže můžete spolehlivě vrátit relace organizace i po hodinách, dnech či týdnech."}},{"@type":"Question","name":"Jakým způsobem zadání v přirozeném jazyce generuje organizační pravidla lokálně v zařízení?","acceptedAnswer":{"@type":"Answer","text":"Když zadáte požadavek jako 'Přesuň všechny faktury do složky Faktury a roztřiď fotky z fotoaparátu podle roku a měsíce', lokální jazykový model aplikace Stow (Phi-4-mini) převede váš požadavek na bezpečná pravidla organizace s náhledem. Model obdrží pouze obecné schéma knihovny (počty přípon, rozsahy dat a názvy složek nejvyšší úrovně) — nikdy názvy konkrétních souborů ani jejich obsah. Následně auditovatelný kód vyhodnotí tato pravidla a připraví interaktivní tabulku náhledu, kterou sami zkontrolujete a potvrdíte."}},{"@type":"Question","name":"Dokáže Stow udržet pohromadě soubory fotoaparátu RAW a jejich doprovodné soubory?","acceptedAnswer":{"@type":"Answer","text":"Ano. Stow obsahuje inteligentní zachování doprovodných souborů. Formáty RAW (např. CR2, NEF, ARW, DNG) jsou automaticky svázány s odpovídajícími náhledy JPEG/HEIC a metadatovými soubory .xmp. Stejně tak videosoubory zůstávají propojeny se svými titulky .srt či .vtt. Když Stow organizuje nebo přesouvá primární soubor, všechny doprovodné soubory se přesouvají společně s ním."}},{"@type":"Question","name":"Jaké jsou systémové požadavky a jak se Stow instaluje?","acceptedAnswer":{"@type":"Answer","text":"Stow podporuje systémy Windows 10 (od verze 2004 / sestavení 19041) a Windows 11 na 64bitových architekturách Intel/AMD (x64) i Qualcomm Snapdragon (ARM64). Distribuce probíhá přímo přes Microsoft Store ve formě moderní zabezpečené aplikace v balíčku MSIX (sandbox), což zaručuje čistou instalaci, automatické aktualizace a žádný nežádoucí balast na pozadí."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Přejít na hlavní obsah</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Získat v Microsoft Store
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Nejnovější hlavní vydání</span>
+              <span class="text-white-50 small fw-semibold">Desktopová sada Stow 3.0</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Desktopová sada Stow 3.0: Prohlížení a náhledy, čistič zbytků, diferenciální synchronizace, lokální OCR a centrum zálohování</h2>
+            <p class="text-secondary small mb-0">Zásadní posun od jednoduché organizace ke komplexnímu, privátnímu nástroji pro správu souborů na počítači.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Prozkoumat nejnovější funkce
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Dvoupanelový průzkumník a živé velikosti</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Dedikovaný čistič nepotřebných dat</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Směrové porovnání a sloučení složek</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>OCR dokumentů do PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Zálohování a ověření degradace dat</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: organizátor fotek a souborů</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Offline AI, která uklidí váš počítač — a nikdy nepřesune soubor, aniž by se zeptala.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow přečte složky, které mu určíte, zjistí, kam co patří, a ukáže vám úplný seznam všech změn, které navrhuje. Nic se nepohne, dokud nestisknete tlačítko.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Běží výhradně na vašem počítači. Žádný účet, žádný server, žádná telemetrie, žádné reklamy. Modely AI se stáhnou jednou a běží na vašem vlastním procesoru: žádný soubor, název souboru, fotka, dokument ani hledaný výraz nikdy neopustí stroj.</p>
+          <h1 class="hero-title mb-3">Stow: AI organizér fotek a souborů, vyhledávač duplicit</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">Zcela offline, na soukromí zaměřená desktopová sada pro správu souborů, která organizuje, deduplikuje, čistí a chrání vaše soubory, aniž by do cloudu odeslala jediný bajt.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow skoncuje se zahlcenou složkou Stažené soubory, nepřehlednými knihovnami fotografií i záhadnými složkami. Díky počítačovému vidění přímo v zařízení, místnímu OCR dokumentů a jazykovým modelům běžícím na procesoru vytváří Stow inteligentní plány organizace, vyhledává duplicitní či rozmazané snímky a odstraňuje skrytý nepořádek.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Vše běží výhradně na vašem PC bez cloudových serverů, bez telemetrie a bez jakéhokoli sledování na pozadí. Žádný soubor se nepřesune bez schváleného náhledu, nic se nemaže trvale a jakoukoli operaci lze vrátit zpět jediným kliknutím.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Podívejte se, jak to funguje
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Podívejte se, jak to funguje
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Vždy nejprve schválený náhled</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Nikdy nemaže trvale</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> Vrácení zpět 1 kliknutím</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Bezpečné pro cloudové složky</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 a ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Získat v Microsoft Store
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Váš systém pořádku neselhal. Jen se přihodil život.</h2>
-          <p class="text-secondary fs-5 mb-0">Složka Stažené se čtyřmi tisíci věcmi. Složka Obrázky, ve které jsou tři telefony, dva fotoaparáty a deset let snímků obrazovky. Složky pojmenované „Dovolená 2019“, „Kopie dovolené“ a „dovolená (finální)“, a žádný způsob, jak poznat, která je která.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Ručně to jde, ale nikdo to nedodělá. Cloudové služby to udělají za vás — tím, že nahrají celou vaši osobní knihovnu na cizí počítač. Skriptovatelné nástroje udělají přesně to, co jim řeknete, pokud jste ochotni naučit se syntaxi pravidel a otestovat ji nejdřív na kopii. A všechny v rozhodující chvíli chtějí, abyste věřili, že operace, která se právě chystá projít deset tisíc souborů, je ta zamýšlená.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Garantováno architekturou
+        </span>
+        <h2 class="display-5 fw-bold text-white">Pět základních invariantů</h2>
+        <p class="text-secondary fs-5">Pět nekompromisních architektonických záruk zabudovaných do každé vrstvy aplikace Stow.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100% offline a v soukromí</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Žádné uživatelské účty, žádné cloudové servery, žádná telemetrie, žádná analytika ani sledování na pozadí. Všechny AI modely (počítačové vidění, OCR, jazykové modely) běží lokálně na procesoru vašeho PC.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Nic se nepřesune bez schváleného náhledu</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow nikdy nepřesune, nepřejmenuje ani nepromaže žádný soubor bez vašeho vědomí. Každá operace nejprve vytvoří položkovou tabulku náhledu, kterou sami zkontrolujete a schválíte.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Nic se nemaže bez možnosti obnovy</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Aplikace nikdy neprovádí nevratné mazání souborů. Při čištění a odstraňování duplicit se položky bezpečně přesouvají do známého Koše Windows, odkud je lze snadno obnovit.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Okamžité vrácení zpět jedním kliknutím</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Veškeré změny se před provedením na disku zaznamenávají do žurnálu. Pokud si to za hodinu nebo za týden rozmyslíte, jedním kliknutím vrátíte soubory na jejich původní místa.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Bezpečné pro cloudové složky</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Automaticky rozpoznává zástupce cloudových souborů (OneDrive, Dropbox, iCloud) a odmítá tiše stahovat gigabajty dat přes měřená připojení.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Bezpečný pracovní postup
+        </span>
+        <h2 class="display-5 fw-bold text-white">Jak to funguje</h2>
+        <p class="text-secondary fs-5">Tři jednoduché, transparentní kroky. Absolutní kontrola od začátku do konce.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Prohledejte a popište</h3>
+              <p class="text-secondary small mb-0">Nasměrujte Stow na libovolnou složku či disk. Zvolte předvolbu na 1 kliknutí, popište požadované uspořádání přirozeným jazykem, nebo nechte Stow automaticky rozpoznat vaše stávající pravidla řazení.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Zkontrolujte v náhledu</h3>
+              <p class="text-secondary small mb-0">Prohlédněte si ucelenou tabulku navrhovaných změn dříve, než se na disku pohne jediný bajt. Každý soubor má vlastní řádek, navrženou cestu i odpovídající pravidlo. Filtrujte, upravujte nebo odškrtněte položky, které chcete ponechat beze změny.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Použijte s možností vrácení 1 kliknutím</h3>
+              <p class="text-secondary small mb-0">Proveďte naplánované úpravy s naprostou jistotou. Stow nejprve zapíše každou operaci do atomického transakčního žurnálu. Pokud kdykoli změníte názor — za hodinu či za měsíc — jediné kliknutí vše vrátí zpět.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">Náhled je ten skutečný produkt</h2>
         <p class="text-secondary fs-5">Nikdy se nedozvíte, co Stow rozhodl, tím, že se na to budete dívat. Dozvíte se to z tabulky, dřív než se cokoli pohne, ve které má každý jednotlivý soubor svůj řádek, cíl a jméno pravidla, které si ho nárokovalo. Pokud je to špatně, zavřete obrazovku — a nic se nestalo.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Pilíř 1: Snadná organizace a automatizované třídění -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> Pilíř 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Snadná organizace a automatizované třídění</h2>
+          <p class="text-secondary fs-5 mb-0">Proměňte nepřehledné adresáře v čisté, strukturované archivy pomocí předvoleb, umělé inteligence s přirozeným jazykem nebo vlastních pravidel.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Chytrý přehled a centrum stavu knihovny</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Řídicí centrum vaší knihovny. Získejte okamžitý přehled o stavu úložiště — celkový počet zaindexovaných souborů, spravovanou velikost, nezařazené položky a uvolněné místo. Akční karty pozornosti aktivně upozorňují na připojené paměťové karty SD fotoaparátů připravené k importu, čekající soubory ke zpracování ve složce Stažené soubory, varování před zbytkovými daty a připomínky zálohování.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Okamžitý přehled o velikosti knihovny, nezařazených souborech a uvolněných gigabajtech</li><li>Praktické karty pozornosti pro karty SD, čekající stažené soubory a upozornění na nepořádek</li><li>Rychlé akce na 1 kliknutí pro organizaci, úklid zbytků nebo synchronizaci disků</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Pět způsobů organizace</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Zvolte si styl práce, který vám vyhovuje. Využijte připravené předvolby na 1 kliknutí (podle typu souboru, roku/měsíce, snímků obrazovky zvlášť, modelu fotoaparátu); popište své přání přirozeným jazykem lokálnímu jazykovému modelu; nechte Stow automaticky navázat na váš zavedený systém složek; sestavte detailní podmínky ve vizuálním editoru pravidel nebo proveďte dávkové přejmenování podle pravidel.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Hotové předvolby na 1 kliknutí: okamžité roztřídění podle typu, data či metadat fotoaparátu</li><li>AI s přirozeným jazykem: zadejte textový požadavek; lokální LLM sestaví bezpečná pravidla</li><li>Pokračování ve stávajícím systému: rozpozná a doplní vaši zavedenou strukturu složek</li><li>Vizuální tvůrce pravidel: jemné podmínky, cílové zástupné tokeny a logika předcházení kolizím</li><li>Dávkové přejmenování: sekvenční čítače, datumové značky a nahrazování textu podle vzorů</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Složky, které se organizují samy (chytré sledované složky)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Přiřaďte pravidla k frekventovaným odkládacím místům, jako jsou Stažené soubory nebo Plocha. Jakmile dorazí nové soubory, Stow na pozadí připraví uspořádaný návrh a jemně vás upozorní notifikací s náhledem — připraveno ke schválení jedním kliknutím bez nutnosti běhu náročných služeb na pozadí.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Efektivně monitoruje odkládací složky bez zátěže v podobě těžkých služeb na pozadí</li><li>Při příchodu nových souborů automaticky připraví přehledný návrh na roztřídění</li><li>Vždy vyžaduje potvrzení uživatele jedním kliknutím — nikdy nepřesouvá soubory bez vašeho vědomí</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilíř 2: Dvoupanelový prohlížeč knihovny a univerzální panel náhledu -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> Pilíř 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Dvoupanelový prohlížeč knihovny a univerzální panel náhledu</h2>
+          <p class="text-secondary fs-5 mb-0">Plnohodnotná moderní alternativa k Průzkumníku Windows, která řeší jeho největší nedostatky živým výpočtem rekurzivní velikosti složek a okamžitým bohatým náhledem.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dvoupanelový prohlížeč s živou velikostí složek</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Procházejte celý souborový systém pomocí rozbalovacího stromu adresářů a přehledné mřížky souborů. Stow řeší největší handicap Průzkumníka Windows tím, že přímo v mřížce počítá a zobrazuje skutečné rekurzivní velikosti složek i počty položek, čímž okamžitě odhalí největší žrouty místa.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Živé rekurzivní velikosti složek a počty položek počítané přímo v zobrazení mřížky</li><li>Dvoupanelová navigace s rozbalovacím adresářovým stromem a drobečkovou navigací</li><li>Přímá manipulace se soubory: vytváření složek, přejmenování a vyjmutí/kopírování/vložení na místě</li><li>Plynulé obousměrné přetahování (drag-and-drop) mezi Průzkumníkem Windows a desktopovými aplikacemi</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Univerzální panel okamžitého náhledu</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Prohlížejte jakýkoli formát souboru bez spouštění robustních externích aplikací. Nabízí kontrolu fotografií s metadaty EXIF, přehrávač videa se statistikami rozlišení a kodeků, čtečku dokumentů PDF a Word, přehrávač zvuku s ID3 tagy i nahlížení do archivů.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Detailní prohlížení fotografií ve vysokém rozlišení s modelem fotoaparátu, clonou, ISO a EXIF</li><li>Integrovaný přehrávač videa zobrazující rozlišení, snímkovou frekvenci, datový tok a kodek</li><li>Okamžitý prohlížeč dokumentů PDF, textových souborů a dokumentů Word (.docx)</li><li>Přehrávač zvuku s metadaty ID3, přebaly alb a kontrolou přenosové rychlosti</li><li>Prohlížeč archivů: náhled do archivů ZIP a TAR bez nutnosti jejich rozbalování</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilíř 3: Inteligentní úklid, čistič zbytků a deduplikace -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> Pilíř 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Inteligentní úklid, čistič zbytků a deduplikace</h2>
+          <p class="text-secondary fs-5 mb-0">Získejte zpět ztracené gigabajty a odstraňte duplicitní soubory při zachování 100% bezpečí vašich dat.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dedikovaný čistič zbytků a nepotřebných dat</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Uvolněte ztracené gigabajty ze skrytého balastu jediným kliknutím. Vyhledává nedokončená či přerušená stahování (.crdownload, .part, .download), dočasné soubory systému a editorů (.DS_Store, Thumbs.db), nashromážděné staré instalátory (.exe, .msi), objemné mezipaměti vývojářských nástrojů (node_modules, bin/obj, .gradle), opuštěné rozbalené složky i prázdné soubory s nulovou délkou.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Získá zpět gigabajty z přerušených stahování, dočasných souborů a mezipaměti miniatur</li><li>Vyčistí staré instalátory aplikací hromadící se ve složce Stažené soubory</li><li>Odstraní vývojářské mezipaměti knihoven (node_modules, gradle, bin/obj)</li><li>Uklidí prázdné složky a opuštěné zbytky po rozbalených archivech</li><li>Každý úklid je přehledně zobrazen v tabulce náhledu a bezpečně přesunut do Koše</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Vyhledávač přesných duplicit (soubory a složky)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Identifikuje shodné soubory i celé identické struktury složek bajt po bajtu, bez ohledu na názvy souborů či jejich umístění. Čtyři jednoznačná pravidla doporučí, kterou kopii zachovat (nejvyšší kvalita, nejstarší, nejnovější nebo preferovaná složka). Nadbytečné kopie se bezpečně přesunou do Koše.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Seskupuje identické soubory a zrcadlené složky na základě kontrolního hashe obsahu</li><li>Odhalí duplicitní složky i při různých názvech (&#x27;Fotky 2021&#x27; vs &#x27;Záloha fotek&#x27;)</li><li>Bezpečný přesun do Koše zaručuje, že nadbytečné kopie lze kdykoli obnovit</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Vyhledávač podobných videí a posuzování ostrosti fotografií</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Jde mnohem dál než běžné hledání přesných shod. Rozpozná překódovaná videa, verze v nižším rozlišení (např. 1080p vs 720p), sestříhané klipy i komprimovaná videa z WhatsAppu či zpráv. U fotografií detekuje sekvenční snímky z fotoaparátu, analyzuje ostrost hran a doporučí nejostřejší snímek k ponechání, zatímco rozmazané označí k vyřazení.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Detekce vizuálně podobných videí odhalí překódovaná, zmenšená či oříznutá videa</li><li>Seskupování sekvenčních snímků identifikuje série akčních fotografií</li><li>Analýza hran a ostrosti spolehlivě označí rozmazané a neostré fotografie</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilíř 4: Bezpapírové dokumenty, správa audia a fotografie -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> Pilíř 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Bezpapírové dokumenty, správa audia a fotografie</h2>
+          <p class="text-secondary fs-5 mb-0">Proměňte hromady papírových účtenek a neoznačené multimediální sbírky v dokonale strukturované knihovny.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Skenované dokumenty do vícestránkového PDF</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Přemění vyfotografované účtenky, výpisy, daňové doklady a faktury za energie v přehlednou digitální kartotéku. Místní OCR přímo v zařízení přečte text bez odesílání dokumentů do cloudových služeb. Inteligentní klasifikace rozpozná typ dokumentu (účtenka, faktura, daňový formulář, vyúčtování, bankovní výpis, smlouva) a vystavitele, spojí vícesnímkové stránky a sjednotí názvy souborů.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>100% lokální OCR vytěží text přímo na zařízení bez rizika úniku dat do cloudu</li><li>Chytrá klasifikace přesně určí typ dokumentu a vystavující instituci</li><li>Spojování vícestránkových snímků sloučí navazující strany do prohledávatelného PDF</li><li>Konzistentní automatické pojmenování (např. &#x27;2024-03-15_CeskaSporitelna_Vypis.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Správa hudební a zvukové knihovny</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Čte a indexuje ID3 a audio tagy napříč formáty MP3, FLAC, M4A, WAV a OGG. Rozlišuje interpreta skladby od interpreta alba, takže kompilační alba více interpretů zůstanou v jedné ucelené složce namísto rozpadu do desítek podsložek. Obsahuje vestavěný editor tagů pro doplnění chybějících metadat.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Komplexní indexování ID3 tagů u formátů MP3, FLAC, M4A, WAV i OGG</li><li>Seskupení podle interpreta alba zabraňuje roztříštění kompilací a soundtracků</li><li>Vestavěný dávkový editor tagů opraví chybějící stopy, umělce, roky i obaly alb</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Offline vektorová mapa světa a import z SD karet</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Prozkoumejte místa pořízení fotografií na interaktivní vektorové mapě světa vykreslované zcela offline — bez stahování mapových podkladů z internetu a bez sdílení GPS souřadnic. Automaticky detekuje připojené paměťové karty nebo fotoaparáty a nabízí import jedním kliknutím s udržením vazby mezi RAW a JPEG.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Interaktivní vektorová mapa světa zobrazí geotagované snímky ve 100% offline režimu</li><li>Chytrá detekce fotoaparátů a SD karet s jednoduchým postupem importu na 1 kliknutí</li><li>Důsledné zachování doprovodných souborů udržuje pohromadě RAW+JPEG i videa s titulky</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pilíř 5: Úspora místa, diferenciální synchronizace a integrace do Windows -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Pilíř 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Úspora místa, diferenciální synchronizace a integrace do Windows</h2>
+          <p class="text-secondary fs-5 mb-0">Bezpečnost podnikové úrovně, diferenciální porovnávání disků a hluboké propojení s prostředím Windows.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Směrové porovnání složek a diferenciální synchronizace</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Odpovídá na častou otázku: &#x27;Co mám na externím záložním disku, co ještě chybí v mé hlavní knihovně?&#x27; Porovná dva adresářové stromy nebo disky a roztřídí soubory na chybějící v cíli, identické a konfliktní či změněné. Připraví bezpečný plán kopírování pro vyrovnání rozdílů bez mazání neověřených souborů.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Porovná dva adresářové stromy či disky a odhalí rozdíly a chybějící položky</li><li>Kategorizuje soubory na Chybějící v cíli, Identické a Konfliktní</li><li>Bezpečný plán kopírování doplní data bez destruktivního zrcadlového mazání</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Nedestruktivní zálohování a kontrola tiché degradace dat (Bit-Rot)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Nastavte zálohování důležitých knihoven na externí disky nebo sekundární úložiště jedním kliknutím nebo podle plánu. Kopíruje nové a upravené soubory bez přenášení smazaných položek ze zdroje. Vestavěný ověřovač integrity znovu přepočítává kontrolní součty SHA-256 mezi zdrojem a zálohou pro včasné odhalení poškození disku či vadných sektorů.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Nedestruktivní zálohovací úlohy kopírují nové soubory bez kopírování smazání</li><li>Kontrola integrity dat ověřuje hashe SHA-256 a včas detekuje selhání disku</li><li>Bezpečný plán obnovy nabízí náhled a obnovení souborů do původních či nových složek</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Prostorová mapa celého disku a přesun složek pomocí spojení Junction</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Vizualizuje využití místa na celých discích (C:, D:) a najde obrovské objemy dat i mimo prohledávané kořenové složky (podobně jako TreeSize nebo WizTree). Přesuňte obří složky (např. 400GB knihovnu Obrázky) na sekundární disk; Stow na původním místě automaticky vytvoří spojovací bod NTFS (Junction), takže zástupci i aplikace fungují dál bez přerušení. Uvolněte systémové dočasné soubory a mezipaměť aktualizací.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Přehledná disková mapa využití místa identifikuje obří složky na celých discích</li><li>Spojení NTFS Junction umožňují přesun velkých složek bez porušení vazeb aplikací</li><li>Čištění systémového prostoru vyhledá uvolnitelné dočasné soubory a mezipaměti Windows</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Hluboká integrace s Windows a přenositelné profily</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Vyvinuto přímo na míru systému Windows. Klikněte pravým tlačítkem na libovolnou složku v Průzkumníku Windows a zvolte &#x27;Uspořádat pomocí Stow&#x27; nebo &#x27;Najít duplicity&#x27;. Klávesovou zkratkou Win+Shift+F kdekoli otevřete globální rychlé spouštění. Dávkově odblokuje stažené soubory s příznakem Mark of the Web (Zone.Identifier), automaticky opravuje zástupce na Ploše a v nabídce Start při přesunu souborů a exportuje přenosné profily JSON pro nastavení nového PC během několika sekund.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Integrace do kontextové nabídky pravého tlačítka myši v Průzkumníku Windows</li><li>Globální klávesová zkratka rychlého spuštění (Win+Shift+F) pro bleskové hledání</li><li>Dávkové odblokování bezpečnostního příznaku stažených souborů (Zone.Identifier)</li><li>Inteligentní oprava odkazů udržuje funkční zástupce na Ploše i v nabídce Start</li><li>Export přenosných profilů JSON pro okamžitý přenos pravidel na nový počítač</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Nekompromisní soukromí a kontrola
         </span>
-        <h2 class="display-5 fw-bold text-white">Pět pravidel, na kterých stojí celá aplikace</h2>
+        <h2 class="display-5 fw-bold text-white">Srovnání aplikace Stow</h2>
+        <p class="text-secondary fs-5">Proč uživatelé stolních počítačů volí Stow místo skriptů a cloudových služeb.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Nic neopustí počítač</h3>
-              </div>
-              <p class="text-secondary small mb-0">Ani soubory, ani jejich názvy, ani index, ani embeddingy, ani data o tvářích, ani záznam o pádu. V celé aplikaci jsou přesně dvě síťové operace a obě musíte spustit záměrně.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Nic se nestane bez náhledu</h3>
-              </div>
-              <p class="text-secondary small mb-0">Každá operace, která se dotkne souboru — přednastavení jedním kliknutím, pravidlo napsané jazykovým modelem, hromadné přejmenování — projde stejnou cestou a skončí na stejné obrazovce náhledu. Neexistuje zkratka, která by ji obešla.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Nic se nemaže ani nepřepisuje</h3>
-              </div>
-              <p class="text-secondary small mb-0">Jádro pouze přesouvá soubory, přejmenovává je a vytváří složky. Odstranění existuje na jediném místě — ve vyhledávači duplicit — a vede přes Koš systému Windows, který přežije i odinstalaci Stow.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Všechno je vratné</h3>
-              </div>
-              <p class="text-secondary small mb-0">Každá operace se před provedením zapíše do žurnálu. Ten žurnál pohání tlačítko Zpět, obnoví aplikaci, pokud stroj uprostřed běhu ztratí napájení, a ví potom, které složky vyprázdnil.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Modely navrhují, kód rozhoduje</h3>
-              </div>
-              <p class="text-secondary small mb-0">Jazykový model nikdy nevidí váš seznam souborů a nikdy neprovádí žádnou operaci. Vydává pravidla. Obyčejný, auditovatelný kód je aplikuje na každý soubor a nezávislý validátor znovu ověří každý vytvořený cíl.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Pět způsobů, jak popsat, co chcete</h2>
-        <p class="text-secondary fs-5">Všechny se sbíhají do naprosto stejného náhledu.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Hotová přednastavení</h3>
-                  <p class="text-secondary small mb-0">Šest voleb na jedno kliknutí: podle typu souboru, podle roku a měsíce, podle roku, podle typu a pak roku, odsunout snímky obrazovky stranou, nebo podle fotoaparátu. Pět z nich funguje, aniž by se otevřel jediný soubor, takže Stow je užitečný ještě předtím, než se stáhne jakýkoli model.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Popište to vlastními slovy</h3>
-                  <p class="text-secondary small mb-0">„Přesuň všechno, co se týká faktur, do složky Faktury.“ Místní jazykový model promění tu větu v pravidla. Dostane souhrn vaší knihovny — počty, přípony, rozsah dat, názvy složek — nikdy seznam souborů. Neexistuje cesta v kódu, která by mu ho dala.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Pokračujte v systému, který už máte</h3>
-                  <p class="text-secondary small mb-0">Stow vyčte strukturu zpět z vašeho stromu složek a napíše pravidla, která v ní pokračují. Analýza stojí na důkazech: složka pojmenovaná 2019 se počítá jako roční složka jen tehdy, pokud soubory uvnitř opravdu pocházejí z roku 2019. Žádný model, žádné stahování.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Postavte si pravidla sami</h3>
-                  <p class="text-secondary small mb-0">Když soubor vypadá takhle, dej ho do téhle složky. Pravidla běží shora dolů, vyhrává první shoda. Podmínky pokrývají příponu, název, cestu, velikost, data, rozměry, štítky, osoby, místa a vizuální podobnost; cíle přijímají zástupné značky jako {{year}}, {{month_name}} a {{camera}}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Uložte to jako recept</h3>
-                  <p class="text-secondary small mb-0">Každou sadu pravidel, která se dostala k náhledu, lze pojmenovat a uchovat, znovu spustit nebo předat sledované složce. Uložení jí nedává žádná privilegia: při každém spuštění se znovu zkompiluje, znovu omezí a znovu ověří — a stejně skončí v náhledu, který musíte schválit.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Jedno tlačítko vrátí všechno zpátky</h2>
-          <p class="text-secondary fs-5 mb-0">Historie vypisuje posledních dvacet věcí, které Stow udělal, od nejnovější, a každou z nich lze přesně vrátit. Po každém úklidu se v horní části okna objeví lišta se zpětným krokem na jedno kliknutí — nikdy není zahrabaná v nabídce.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Vrácení zpět záměrně není symetrické k provedení. Zatímco provedení se zastaví u první chyby, vrácení zkusí každou operaci a problémy nahlásí pohromadě, protože zastavit se uprostřed obnovy by vás nechalo trčet mezi dvěma stavy. Vytažení souborů ze složky ji vyprázdní a jen Stow ví, které složky to byly — proto potom nabídne, že je uklidí, a neudělá nic víc než tu nabídku.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Znovu nacházet věci</h2>
-        <p class="text-secondary fs-5">Všechno tady čte index, který Stow už tak jako tak vytvořil, takže nahlédnout skoro nic nestojí.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Prohledejte své soubory</h3>
-              </div>
-              <p class="text-secondary small mb-0">Malá zdokumentovaná syntaxe: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:„záruka kotel“, a mínus na začátku pro vyloučení. Funguje naplno i tehdy, když Stow nesmí vaše soubory vůbec otevírat.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Hledejte fotky podle toho, co je na nich</h3>
-              </div>
-              <p class="text-secondary small mb-0">Napište „pes na pláži“ a dostanete své fotky z pláže, ať se jmenují IMG_4821.jpg nebo jakkoli jinak. Obrázky se přečtou, místně zakódují do vektoru a uvolní: samotné fotky se nikdy nekopírují ani neuchovávají.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Podívejte se, co zabírá místo</h3>
-              </div>
-              <p class="text-secondary small mb-0">Součty podle druhu souborů, vaše nejplnější složky spočítané až do hloubky a vaše největší jednotlivé soubory. Každé zjištění s sebou nese hledání, které ho vytvořilo, takže „18 GB videí, která nikdo tři roky neotevřel“ vám podá přesný dotaz, podle kterého můžete jednat.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Místa a lidé</h3>
-              </div>
-              <p class="text-secondary small mb-0">Fotky se seskupují podle toho, kde vznikly, a — jen pokud si to zapnete — podle toho, které tváře se sobě podobají. Tohle je seskupování podle podobnosti, ne identifikace: neexistuje žádná databáze identit ani jakákoli schopnost určit, kdo někdo je. Všechna jména dodáváte vy.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Štítky</h3>
-              </div>
-              <p class="text-secondary small mb-0">Vaše vlastní slovo — „práce“, „daně“, „dovolená“ — připnuté k jakémukoli souboru, který chcete mít na očích. Štítky žijí v indexu Stow, takže vaše soubory se nikdy nepřejmenovávají ani nemění, a fungují v každém režimu soukromí.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Duplicity, včetně celých složek</h2>
-          <p class="text-secondary fs-5 mb-0">Shodné soubory se seskupují podle obsahu, ať leží kdekoli a jmenují se jakkoli. Stejně tak shodné složky: názvy se srovnání vůbec neúčastní, takže „Dovolená 2019“ a „Kopie dovolené“ jsou tatáž složka, pokud jsou takové jejich bajty. Právě tam bývá to skutečné místo.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Zachytí se i téměř shodné fotky, pomocí stejných embeddingů jako u hledání fotek, takže znovu zkomprimované a zmenšené kopie se najdou, i když se jejich bajty zcela liší. Čtyři plně deterministické politiky vyberou, kterou kopii ponechat — nejlepší kvalita, nejstarší, nejnovější, nebo ta, která leží ve složce, kterou určíte — a každá volba přichází se svým zdůvodněním. Nic se nemaže; přebytečné kopie jdou do Koše.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Další tři věci, které umí</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Hromadné přejmenování</h3>
-              </div>
-              <p class="text-secondary small mb-0">Nahradit text, očíslovat sérii, přidat předponu nebo příponu, srovnat velikost písmen, odstranit úsek. Přejmenování je obyčejná sada pravidel, jejímž cílem je vlastní složka souboru — dostane tedy stejný náhled, stejný validátor a stejné vrácení zpět jako všechno ostatní.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Sledované složky</h3>
-              </div>
-              <p class="text-secondary small mb-0">Soubory, které dorazí do sledované složky, se zaznamenají a připraví k prohlédnutí, volitelně se porovnají s uloženým receptem. Co záměrně nedělá, je jednat: organizátor, který by potichu přesouval soubory na pozadí, by byl mnohem méně důvěryhodný produkt, jakkoli pohodlný.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Držet pohromadě, co patří k sobě</h3>
-              </div>
-              <p class="text-secondary small mb-0">Fotoaparátový RAW nemá bez svého JPEG smysl; titulky jsou bez svého videa k ničemu. Průchod mezi jádrem a validátorem drží doprovodné soubory pohromadě — obezřetně, protože společná předpona názvu sama o sobě nedokazuje, že dva soubory patří k sobě.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Soukromí je tvar produktu, ne politika přišroubovaná navrch</h2>
-          <p class="text-secondary fs-5 mb-0">Není tu účet, není backend a není cloudová databáze — takže není co uniknout, není co obstavit soudním příkazem a není nic, co by vývojář mohl za vás smazat. Vývojář z aplikace nedostává vůbec žádná data.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Vše, co Stow odvodí, žije v jediné složce, záměrně držené mimo místa synchronizovaná s cloudem, aby index nikdy nebyl zkopírován do cloudu synchronizací souborů ani zálohou Windows. Celý index můžete vyexportovat do CSV a přečíst si ho, vymazat samotná data o tvářích, vymazat samotný uložený text dokumentů, nebo celý index zahodit a postavit znovu. Nic z toho se nedotkne ani jediného z vašich skutečných souborů.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Funkce a bezpečnostní záruka</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Běžné nástroje a skripty</th>
+                <th scope="col">Cloudové služby</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Soukromí a důvěrnost dat</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100% offline • Žádná telemetrie, účty ani cloudové servery</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Běží offline, ale postrádají inteligentní automatizaci a AI</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Soubory a metadata se odesílají na vzdálené firemní servery</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Nutnost nahrávání do cloudu</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Nula odeslaných bajtů (veškeré zpracování probíhá výhradně na vašem PC)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Žádné (pouze lokálně)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Povinná synchronizace (vyžaduje gigabajty přenosu dat)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Lokální AI přímo v zařízení</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Lokální vidění na procesoru, OCR a jazykové modely Phi-4 přes ONNX</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Žádná (jen statické regulární výrazy nebo jednoduché skripty)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Proprietární modely fungující jako černá skříňka na serveru</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Povinná tabulka náhledu</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Garantovaný náhled změn dříve, než se dotkne jakéhokoli souboru</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Spouštění naslepo nebo riskantní dávkové skripty</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Neprůhledná synchronizace na pozadí bez předchozí kontroly</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Transakční vrácení změn 1 kliknutím</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Okamžitý návrat do původního stavu díky atomickému žurnálu</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ruční obnova; provedené skripty nelze automaticky vrátit</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Složitá historie verzí nebo nevratná ztráta souborů</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bezpečnost cloudových zástupců</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Rozpozná OneDrive/iCloud/Dropbox; nikdy nevynutí stahování</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Nerozpoznává; často způsobí nechtěné masivní stahování</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Uzavřená cloudová úložiště závislá na jednom dodavateli</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Deduplikace a podobné soubory</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Složky bajt po bajtu, podobná videa i posouzení ostrosti fotek</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Pouze základní shoda jmen nebo prostý hash jednoho souboru</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Pouze základní duplicity fotek; bez deduplikace videí či složek</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Kontrola integrity dat (Bit-Rot)</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Vestavěné ověřování záloh SHA-256 pro včasné odhalení selhání disku</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Vyžaduje složité ruční spouštění utilit příkazového řádku</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Neprůhledné proprietární cloudové úložiště</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Cena a licence</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Jednorázový nákup v Microsoft Store • Doživotní vlastnictví</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Bezplatné jednoúčelové utility nebo roztříštěné placené programy</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Drahé pravidelné měsíční či roční poplatky za předplatné</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Jasné odpovědi
+        </span>
+        <h2 class="display-5 fw-bold text-white">Často kladené otázky</h2>
+        <p class="text-secondary fs-5">Odpovědi na dotazy ohledně architektury soukromí, lokální AI, zabezpečení souborů a kompatibility aplikace Stow.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Jak Stow zaručuje, že žádné mé soubory ani data nebudou nahrány do cloudu?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow nemá žádný uživatelský účetní systém, žádné externí servery, žádné telemetrické balíčky ani analytické skripty na pozadí. Všechny modely strojového učení (SigLIP-2 pro sémantické vyhledávání fotek, YuNet a SFace pro shlukování tváří, lokální OCR pro skenované dokumenty a Phi-4-mini pro syntézu pravidel z přirozeného jazyka) běží výhradně na procesoru vašeho počítače prostřednictvím ONNX Runtime. Vaše fotografie, dokumenty, názvy souborů, adresářové stromy ani vyhledávací dotazy nikdy neopustí váš počítač.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Potřebuji k používání aplikace Stow výkonnou grafickou kartu nebo dedikovanou NPU jednotku?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ne. Stow je vyvinut nativně pro Windows 10 a 11 (pro architektury x64 i ARM64) a jeho lokální inferenční prostředí je přímo optimalizováno pro běžné spotřebitelské procesory bez nutnosti vyhrazené grafické karty či NPU. Klíčové funkce jako předvolby, vizuální pravidla, živé velikosti složek, deduplikace, čištění zbytků, diferenciální synchronizace a univerzální náhledy navíc žádné AI modely nevyžadují a fungují ihned po instalaci.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Jak Stow zabraňuje nechtěnému hromadnému stahování souborů ve složkách OneDrive, iCloud nebo Dropbox?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow je navržen s plnou podporou cloudových zástupců (cloud placeholders). Při prohledávání složek spravovaných službami OneDrive, Dropbox, Disk Google nebo iCloud detekuje virtuální soubory uložené pouze v cloudu. Odmítá spouštět tiché, objemné stahování souborů přes měřená připojení či při provozu na baterii, což zajišťuje, že vaše cloudové soubory zůstanou nedotčené bez zahlcení linky nebo nečekaného zaplnění disku.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Co se stane, když Stow čistí nepotřebná data nebo odstraňuje duplicity? Mohou se soubory trvale ztratit?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  V aplikaci Stow se nikdy nic nemaže trvale. Operace úklidu zbytkových souborů (jako je odstraňování nedokončených stahování či starých instalačních balíčků) i odstraňování duplicit bezpečně přesouvají položky do standardního Koše systému Windows. Pokud kdykoli zjistíte, že jste soubor vyřadili omylem, můžete jej snadno obnovit přímo z Koše nebo použít funkci vrácení zpět 1 kliknutím.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Jak funguje vrácení změn jedním kliknutím? Mohu vrátit uspořádání složek i po několika dnech?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Dříve než se jakýkoli soubor na disku přesune, přejmenuje nebo uklidí, Stow zaznamená atomický, vratný zápis do transakčního žurnálu s přesnou původní i cílovou cestou každé položky. Po každé operaci se ihned zobrazí lišta pro vrácení zpět a centrum Historie uchovává minulé operace, takže můžete spolehlivě vrátit relace organizace i po hodinách, dnech či týdnech.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Jakým způsobem zadání v přirozeném jazyce generuje organizační pravidla lokálně v zařízení?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Když zadáte požadavek jako &#x27;Přesuň všechny faktury do složky Faktury a roztřiď fotky z fotoaparátu podle roku a měsíce&#x27;, lokální jazykový model aplikace Stow (Phi-4-mini) převede váš požadavek na bezpečná pravidla organizace s náhledem. Model obdrží pouze obecné schéma knihovny (počty přípon, rozsahy dat a názvy složek nejvyšší úrovně) — nikdy názvy konkrétních souborů ani jejich obsah. Následně auditovatelný kód vyhodnotí tato pravidla a připraví interaktivní tabulku náhledu, kterou sami zkontrolujete a potvrdíte.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Dokáže Stow udržet pohromadě soubory fotoaparátu RAW a jejich doprovodné soubory?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ano. Stow obsahuje inteligentní zachování doprovodných souborů. Formáty RAW (např. CR2, NEF, ARW, DNG) jsou automaticky svázány s odpovídajícími náhledy JPEG/HEIC a metadatovými soubory .xmp. Stejně tak videosoubory zůstávají propojeny se svými titulky .srt či .vtt. Když Stow organizuje nebo přesouvá primární soubor, všechny doprovodné soubory se přesouvají společně s ním.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Jaké jsou systémové požadavky a jak se Stow instaluje?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow podporuje systémy Windows 10 (od verze 2004 / sestavení 19041) a Windows 11 na 64bitových architekturách Intel/AMD (x64) i Qualcomm Snapdragon (ARM64). Distribuce probíhá přímo přes Microsoft Store ve formě moderní zabezpečené aplikace v balíčku MSIX (sandbox), což zaručuje čistou instalaci, automatické aktualizace a žádný nežádoucí balast na pozadí.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: organizátor fotek a souborů</h2>
-          <p class="text-secondary fs-5 mb-4">Offline AI, která uklidí váš počítač — a nikdy nepřesune soubor, aniž by se zeptala.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI organizér fotek a souborů, vyhledávač duplicit</h2>
+          <p class="text-secondary fs-5 mb-4">Zcela offline, na soukromí zaměřená desktopová sada pro správu souborů, která organizuje, deduplikuje, čistí a chrání vaše soubory, aniž by do cloudu odeslala jediný bajt.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Instalovat</a>
-</div>
-<button type="button" class="to-top" aria-label="Zpět nahoru" title="Zpět nahoru">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
   <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>

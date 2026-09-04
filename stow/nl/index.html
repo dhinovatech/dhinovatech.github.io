@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: foto- en bestandsorganizer | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Offline AI die je pc opruimt — en nooit een bestand verplaatst zonder te vragen. Stow leest de mappen die je aanwijst, bepaalt waar alles hoort te staan en toont je de volledige lijst van elke wijziging die het voorstelt. Pas als jij op de knop drukt, verschuift er iets.">
+  <title>Stow: AI Foto- &amp; Bestandsorganizer, Duplicaatzoeker | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="Het 100% offline, privacygerichte desktop-bestandsbeheerpakket dat uw bestanden organiseert, ontdubbelt, opschoont en beveiligt zonder ooit een enkele byte naar de cloud te uploaden. Stow maakt een einde aan overvolle Downloads-mappen, uitdijende fotobibliotheken en raadselachtige mappen. Aangedreve">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: foto- en bestandsorganizer | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Offline AI die je pc opruimt — en nooit een bestand verplaatst zonder te vragen. Stow leest de mappen die je aanwijst, bepaalt waar alles hoort te staan en toont je de volledige lijst van elke wijziging die het voorstelt. Pas als jij op de knop drukt, verschuift er iets.">
+  <meta property="og:title" content="Stow: AI Foto- &amp; Bestandsorganizer, Duplicaatzoeker | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="Het 100% offline, privacygerichte desktop-bestandsbeheerpakket dat uw bestanden organiseert, ontdubbelt, opschoont en beveiligt zonder ooit een enkele byte naar de cloud te uploaden. Stow maakt een einde aan overvolle Downloads-mappen, uitdijende fotobibliotheken en raadselachtige mappen. Aangedreve">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/nl/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="nl_NL">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: foto- en bestandsorganizer | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Offline AI die je pc opruimt — en nooit een bestand verplaatst zonder te vragen. Stow leest de mappen die je aanwijst, bepaalt waar alles hoort te staan en toont je de volledige lijst van elke wijziging die het voorstelt. Pas als jij op de knop drukt, verschuift er iets.">
+  <meta name="twitter:title" content="Stow: AI Foto- &amp; Bestandsorganizer, Duplicaatzoeker | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="Het 100% offline, privacygerichte desktop-bestandsbeheerpakket dat uw bestanden organiseert, ontdubbelt, opschoont en beveiligt zonder ooit een enkele byte naar de cloud te uploaden. Stow maakt een einde aan overvolle Downloads-mappen, uitdijende fotobibliotheken en raadselachtige mappen. Aangedreve">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: foto- en bestandsorganizer","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Offline AI die je pc opruimt — en nooit een bestand verplaatst zonder te vragen. Stow leest de mappen die je aanwijst, bepaalt waar alles hoort te staan en toont je de volledige lijst van elke wijziging die het voorstelt. Pas als jij op de knop drukt, verschuift er iets.","url":"https://www.dhinovatech.com/stow/nl/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (nl)","item":"https://www.dhinovatech.com/stow/nl/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI Foto- & Bestandsorganizer, Duplicaatzoeker","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Het 100% offline, privacygerichte desktop-bestandsbeheerpakket dat uw bestanden organiseert, ontdubbelt, opschoont en beveiligt zonder ooit een enkele byte naar de cloud te uploaden. Stow maakt een einde aan overvolle Downloads-mappen, uitdijende fotobibliotheken en raadselachtige mappen. Aangedreve","url":"https://www.dhinovatech.com/stow/nl/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (nl)","item":"https://www.dhinovatech.com/stow/nl/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/nl/#faq","inLanguage":"nl","mainEntity":[{"@type":"Question","name":"Hoe garandeert Stow dat er geen bestanden of gegevens van mij naar de cloud worden geüpload?","acceptedAnswer":{"@type":"Answer","text":"Stow bevat geen accountsysteem, geen externe servers, geen telemetrie-SDK's en geen analytics op de achtergrond. Alle machine learning-modellen (SigLIP-2 voor semantisch zoeken naar foto's, YuNet & SFace voor gezichtsherkenning, lokale OCR voor gescande documenten en Phi-4-mini voor het genereren van ordeningsregels in natuurlijke taal) draaien uitsluitend op de CPU van uw pc via ONNX Runtime. Uw foto's, documenten, bestandsnamen, mappenstructuren en zoekopdrachten verlaten nooit uw computer."}},{"@type":"Question","name":"Heb ik een krachtige videokaart of speciale NPU nodig om Stow te gebruiken?","acceptedAnswer":{"@type":"Answer","text":"Nee. Stow is standaard gebouwd voor Windows 10 en 11 (zowel x64 als ARM64) en de lokale inferentie-omgeving is specifiek geoptimaliseerd voor alledaagse consumenten-CPU's, zonder dat een speciale GPU of NPU vereist is. Bovendien hebben basisfuncties zoals voorinstellingen, visuele regels, live recursieve mapgroottes, bestandsontdubbeling, het opschonen van rommel, differentiële synchronisatie en universele voorvertoningen helemaal geen AI-modellen nodig en werken ze direct na installatie."}},{"@type":"Question","name":"Hoe voorkomt Stow ongewenste grote downloads in mappen van OneDrive, iCloud of Dropbox?","acceptedAnswer":{"@type":"Answer","text":"Stow is ontworpen om rekening te houden met virtuele cloudbestanden (placeholders). Bij het scannen van mappen die worden beheerd door OneDrive, Dropbox, Google Drive of iCloud herkent Stow virtuele online-only tijdelijke aanduidingen. Het weigert stilzwijgend grote bestanden te downloaden over verbindingen met een datalimiet of op batterijvoeding, zodat uw cloudbestanden onaangetast blijven zonder bandbreedte te verspillen of onverwacht lokale schijfruimte in te nemen."}},{"@type":"Question","name":"Wat gebeurt er als Stow rommel opruimt of duplicaten verwijdert? Kunnen er bestanden definitief verloren gaan?","acceptedAnswer":{"@type":"Answer","text":"Er wordt door Stow nooit iets permanent verwijderd. Opschoonbewerkingen (zoals het verwijderen van afgebroken downloads of oude installatiebestanden) en het ontdubbelen van bestanden verplaatsen items veilig naar de standaard Windows Prullenbak. Mocht u merken dat u per ongeluk een bestand heeft opgeruimd, dan kunt u dit direct herstellen vanuit de Prullenbak of gebruikmaken van Stow's 1-klik herstelfunctie."}},{"@type":"Question","name":"Hoe werkt de 1-klik herstelfunctie? Kan ik een indelingssessie dagen later nog ongedaan maken?","acceptedAnswer":{"@type":"Answer","text":"Voordat er een bestand op schijf wordt verplaatst, hernoemd of opgeschoond, legt Stow een atomair, omkeerbaar transactielogboekitem vast met het exacte bron- en doelpad van elk item. Direct na elke actie verschijnt een herstelbalk, en de Geschiedenis-hub van Stow bewaart eerdere bewerkingen, zodat u indelingssessies zelfs uren, dagen of weken later betrouwbaar kunt terugdraaien."}},{"@type":"Question","name":"Hoe genereert de prompt in natuurlijke taal lokale ordeningsregels?","acceptedAnswer":{"@type":"Answer","text":"Wanneer u een instructie typt zoals 'Verplaats alle facturen naar Facturen en sorteer camerafoto's op jaar en maand', vertaalt het lokale taalmodel van Stow (Phi-4-mini) uw verzoek naar veilige, controleerbare ordeningsregels. Het model ontvangt uitsluitend een overzicht op hoog niveau (aantallen bestandsextensies, datumbereiken en mappen van het hoogste niveau) — nooit uw individuele bestandsnamen of bestandsinhoud. Controleerbare programmacode evalueert die regels vervolgens in een interactieve voorvertoningstabel die u eerst controleert en goedkeurt."}},{"@type":"Question","name":"Kan Stow camera-RAW-bestanden en bijbehorende nevenbestanden bij elkaar houden?","acceptedAnswer":{"@type":"Answer","text":"Ja. Stow beschikt over slimme bewaking van bijbehorende bestanden (companion files). Camera-RAW-formaten (zoals CR2, NEF, ARW, DNG) worden automatisch gekoppeld aan hun bijpassende JPEG/HEIC-voorbeelden en .xmp-metadatabestanden. Evenzo blijven videobestanden gekoppeld aan hun .srt- of .vtt-ondertitels. Wanneer Stow een hoofdbestand organiseert of verplaatst, worden alle bijbehorende bestanden gelijktijdig meegenomen."}},{"@type":"Question","name":"Wat zijn de systeemvereisten en hoe wordt Stow geïnstalleerd?","acceptedAnswer":{"@type":"Answer","text":"Stow ondersteunt Windows 10 (versie 2004 / build 19041 en hoger) en Windows 11 op zowel 64-bits Intel/AMD (x64) als Qualcomm Snapdragon (ARM64) architecturen. Het wordt rechtstreeks gedistribueerd via de Microsoft Store als een modern, veilig geïsoleerd MSIX-pakket, wat garant staat voor een schone installatie, automatische updates en een opgeruimd systeem zonder achterblijvende rommel."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Ga naar hoofdinhoud</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Downloaden in de Microsoft Store
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Nieuwste grote release</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 Desktop Suite</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 Desktop Suite: Dubbelvenster-verkenner &amp; Voorbeeld, Rommelopruimer, Differentiële synchronisatie, Lokale OCR &amp; Backup-hub</h2>
+            <p class="text-secondary small mb-0">Een grote evolutie van eenvoudig organiseren naar een compleet, privé desktop-krachtpakket voor bestandsbeheer.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Nieuwste functies ontdekken
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Dubbelvenster-verkenner &amp; Live-mapgroottes</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Toegewijde rommelopruimer</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Gerichte mapafstemming</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>Document-OCR naar PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Back-up- &amp; Bit-rot-verificatie</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: foto- en bestandsorganizer</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Offline AI die je pc opruimt — en nooit een bestand verplaatst zonder te vragen.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow leest de mappen die je aanwijst, bepaalt waar alles hoort te staan en toont je de volledige lijst van elke wijziging die het voorstelt. Pas als jij op de knop drukt, verschuift er iets.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Het draait volledig op je eigen pc. Geen account, geen server, geen telemetrie, geen advertenties. De AI-modellen worden één keer gedownload en draaien op je eigen processor: geen bestand, bestandsnaam, foto, document of zoekterm verlaat ooit de machine.</p>
+          <h1 class="hero-title mb-3">Stow: AI Foto- &amp; Bestandsorganizer, Duplicaatzoeker</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">Het 100% offline, privacygerichte desktop-bestandsbeheerpakket dat uw bestanden organiseert, ontdubbelt, opschoont en beveiligt zonder ooit een enkele byte naar de cloud te uploaden.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">Stow maakt een einde aan overvolle Downloads-mappen, uitdijende fotobibliotheken en raadselachtige mappen. Aangedreven door lokale beeldherkenning, document-OCR en CPU-taalmodellen berekent Stow intelligente indelingsplannen, spoort het dubbele en onscherpe bestanden op en veegt het verborgen rommel weg.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Alles draait uitsluitend op uw pc, zonder cloudservers, zonder telemetrie en zonder tracking op de achtergrond. Niets wordt verplaatst zonder goedgekeurd voorbeeld vooraf, niets wordt permanent verwijderd en elke bewerking kan met één klik ongedaan worden gemaakt.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Zo werkt het
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Bekijk hoe het werkt
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% Offline</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Eerst voorvertoning goedkeuren</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Verwijdert nooit definitief</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1-klik herstellen</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Veilig met cloudmappen</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Downloaden in de Microsoft Store
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Je archiefsysteem heeft niet gefaald. Het leven kwam ertussen.</h2>
-          <p class="text-secondary fs-5 mb-0">Een map Downloads met vierduizend dingen erin. Een map Afbeeldingen met drie telefoons, twee camera&#x27;s en tien jaar aan schermafbeeldingen. Mappen die «Vakantie 2019», «Kopie van vakantie» en «vakantie (definitief)» heten, zonder enige manier om te zien welke welke is.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Met de hand werkt het, maar niemand maakt het af. Clouddiensten doen het voor je — door je hele persoonlijke bibliotheek naar de computer van iemand anders te uploaden. Scriptbare gereedschappen doen precies wat je zegt, mits je bereid bent een regelsyntaxis te leren en die eerst op een kopie te testen. En allemaal vragen ze je op het beslissende moment te vertrouwen dat de bewerking die zo meteen tienduizend bestanden doorloopt, de bedoelde is.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Gegarandeerd door architectuur
+        </span>
+        <h2 class="display-5 fw-bold text-white">De Vijf Invarianten</h2>
+        <p class="text-secondary fs-5">Vijf niet-onderhandelbare architectonische garanties die in elke laag van Stow zijn ingebouwd.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 1</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100% Offline &amp; Privé</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Geen accounts, geen cloudservers, geen telemetrie, geen analytics, geen tracking op de achtergrond. Alle AI-modellen (beeldherkenning, OCR, taal) draaien lokaal op de CPU van uw pc.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 2</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Niets verplaatst zonder goedgekeurd voorbeeld</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Stow verplaatst, hernoemt of schoont nooit bestanden achter uw rug om op. Elke bewerking levert een gedetailleerde voorvertoningstabel op die u eerst bekijkt en goedkeurt.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 3</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Er wordt nooit iets definitief verwijderd</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">De app voert nooit definitieve bestandsverwijderingen uit. Bij opschoon- en ontdubbelacties worden bestanden naar de vertrouwde Windows Prullenbak verplaatst, van waaruit ze eenvoudig kunnen worden hersteld.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 4</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Direct met één klik ongedaan maken</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Alles wordt vastgelegd in een logboek vóór uitvoering op schijf. Als u zich een uur of een week later bedenkt, zet één klik uw bestanden terug naar hun exacte vorige locaties.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">Invariant 5</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Veilig met cloudmappen</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Herkent automatisch virtuele cloudbestanden (OneDrive, Dropbox, iCloud) en weigert gigabytes stilzwijgend te downloaden via verbindingen met datalimiet.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Veilige uitvoeringsstroom
+        </span>
+        <h2 class="display-5 fw-bold text-white">Hoe het werkt</h2>
+        <p class="text-secondary fs-5">Drie eenvoudige, transparante stappen. Volledige controle van begin tot eind.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Scannen &amp; beschrijven</h3>
+              <p class="text-secondary small mb-0">Wijs Stow aan naar een willekeurige map of schijf. Kies een kant-en-klaar 1-klik-profiel, beschrijf uw gewenste indeling in gewone taal, of laat Stow automatisch uw bestaande ordeningsconventies herkennen.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Bekijken &amp; verifiëren</h3>
+              <p class="text-secondary small mb-0">Bekijk de volledige voorsteltabel voordat er ook maar één byte op schijf wordt verplaatst. Elk bestand heeft een exacte rij, voorgesteld doelpad en de geldende regel. Filter, bewerk of vink items uit die u liever ongemoeid laat.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Toepassen met 1-klik herstellen</h3>
+              <p class="text-secondary small mb-0">Voer het plan met volledig vertrouwen uit. Stow schrijft elke actie eerst naar een atomair transactielogboek. Als u zich ooit bedenkt — een uur of een maand later — herstelt één klik alles direct.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">Het voorbeeld is het eigenlijke product</h2>
         <p class="text-secondary fs-5">Je komt nooit te weten wat Stow besloot door ernaar te kijken terwijl het gebeurt. Je komt het te weten door een tabel te lezen, vóórdat er iets beweegt, waarin elk afzonderlijk bestand een regel heeft, een bestemming, en de naam van de regel die het opeiste. Klopt het niet, dan sluit je het scherm — en er is niets gebeurd.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Pijler 1: Moeiteloze organisatie &amp; geautomatiseerde archivering -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> Pijler 1
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Moeiteloze organisatie &amp; geautomatiseerde archivering</h2>
+          <p class="text-secondary fs-5 mb-0">Maak van overvolle mappen schone, gestructureerde archieven met behulp van voorinstellingen, natuurlijke taal-AI of aangepaste regelsystemen.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Slim dashboard &amp; Bibliotheekstatus</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">De controlekamer voor al uw bestanden. Krijg direct inzicht in de gezondheid van uw bibliotheek: totaal aantal geïndexeerde bestanden, beheerde opslaggrootte, nog in te delen bestanden en herwonnen schijfruimte. Handige attentiekaarten tonen aangesloten camera-SD-kaarten klaar voor import, wachtende downloads, waarschuwingen voor rommel en back-upherinneringen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Direct overzicht van bibliotheekopslag, niet-geordende bestanden en herwonnen gigabytes</li><li>Praktische attentiekaarten voor SD-kaarten, downloads en waarschuwingen voor overbodige bestanden</li><li>1-klik snelkoppelingen om te organiseren, rommel op te ruimen of schijven af te stemmen</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Vijf manieren om te organiseren</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Kies hoe u wilt werken. Gebruik kant-en-klare 1-klik-voorinstellingen (op bestandstype, jaar/maand, schermafbeeldingen apart, cameramodel); typ wat u wilt in gewone taal voor ons lokale taalmodel op de CPU; laat Stow uw bestaande mapconventies leren en voortzetten; stel nauwkeurige voorwaarden op met de visuele regelbouwer; of voer regelgebaseerde batchhernoemingen uit.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Kant-en-klare 1-klik-voorinstellingen: direct sorteren op type, datum of camera-metadata</li><li>Natuurlijke taal-AI: typ opdrachten in gewone taal; het lokale LLM formuleert veilige regels</li><li>Bestaand systeem voortzetten: herkent en voltooit uw vertrouwde mappenstructuur</li><li>Visuele regelbouwer: verfijnde voorwaarden, bestemmingstokens en conflictafhandeling</li><li>Batch-hernoemer: opeenvolgende tellers, datumtags en tekstpatroonvervanging</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Mappen die zichzelf ordenen (Slimme bewaakte mappen)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Koppel regels aan rommelige verzamelmappen zoals Downloads of het Bureaublad. Wanneer nieuwe bestanden binnenkomen, bereidt Stow op de achtergrond een indelingsvoorstel voor en attendeert het u subtiel met een voorbeeldmelding — klaar om met één klik toe te passen zonder zware achtergrondprocessen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Bewaakt mappen uiterst efficiënt zonder zware achtergrondservices uit te voeren</li><li>Bereidt automatisch nette voorstellen voor zodra nieuwe bestanden binnenkomen</li><li>Vereist altijd goedkeuring met één klik — verplaatst nooit bestanden tijdens uw afwezigheid</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pijler 2: Dubbelvenster-verkenner &amp; Universeel voorbeeldvenster -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> Pijler 2
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Dubbelvenster-verkenner &amp; Universeel voorbeeldvenster</h2>
+          <p class="text-secondary fs-5 mb-0">Een volwaardig, modern alternatief voor Windows Verkenner dat de grootste tekortkomingen van Windows oplost met live recursieve mapgroottes en directe voorvertoningen.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dubbelvenster-verkenner met live mapgroottes</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Navigeer door uw complete bestandssysteem met een uitklapbare directorystructuur en responsief bestandsraster. Stow lost de grootste beperking van Windows Verkenner op door de werkelijke recursieve mapgrootte en het aantal items direct in het raster te berekenen en weer te geven, waardoor u direct ziet waar opslagruimte wordt verbruikt.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Live recursieve mapgroottes en itemtellingen direct berekend in het raster</li><li>Dubbelvenster-navigatie met uitklapbare directorystructuur en broodkruimelpad</li><li>Direct bestandsbeheer: maak mappen aan, hernoem en knip/kopieer/plak ter plekke</li><li>Naadloze tweerichtings drag-and-drop met Windows Verkenner en desktop-apps</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Universeel venster voor directe voorvertoning</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Bekijk elk bestandsformaat direct zonder zware externe applicaties op te starten. Biedt fotoweergave met EXIF-metadata, videospeler met resolutie- en codecstatistieken, documentlezer voor PDF&#x27;s en Word-bestanden, audiospeler met ID3-tags en inspectie van archieven.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Hoge-resolutie fotoweergave met cameramodel, diafragma, ISO en EXIF-gegevens</li><li>Geïntegreerde videospeler met weergave van resolutie, framesnelheid, bitrate en codec</li><li>Directe documentlezer voor PDF&#x27;s, Word-documenten (.docx) en tekstbestanden</li><li>Audiospeler met weergave van ID3-tags, albumhoes en bitrate</li><li>Archiefinspecteur: bekijk de inhoud van ZIP- en TAR-archieven zonder ze uit te pakken</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pijler 3: Intelligente opschoning, rommelopruimer &amp; ontdubbeling -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> Pijler 3
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Intelligente opschoning, rommelopruimer &amp; ontdubbeling</h2>
+          <p class="text-secondary fs-5 mb-0">Win verloren gigabytes terug en verwijder overbodige dubbele bestanden terwijl uw gegevens 100% veilig blijven.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Toegewijde rommel- &amp; afvalopruimer</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Win verloren gigabytes aan verborgen afval terug met een enkele klik. Scant op onvolledige/onderbroken downloads (.crdownload, .part, .download), restanten van bewerkingsprogramma&#x27;s en besturingssystemen (.DS_Store, Thumbs.db, tijdelijke bestanden), opgehoopte installatiebestanden (.exe, .msi), zware ontwikkelaarscaches (node_modules, bin/obj, .gradle), achtergebleven uitgepakte mappen en bestanden van 0 bytes.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Wint gigabytes terug uit onderbroken downloads, tijdelijke bestanden en OS-miniaturen</li><li>Ruimt oude installatiebestanden op die zich opstapelen in de Downloads-map</li><li>Verwijdert afhankelijkheidscaches van ontwikkelaars (node_modules, gradle, bin/obj)</li><li>Ruimt lege mappen en achtergebleven resten van uitgepakte archieven op</li><li>Elke opschoonactie wordt getoond in een voorvertoningstabel en veilig naar de Prullenbak verplaatst</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Exacte duplicaatzoeker (bestanden &amp; mappen)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Identificeert identieke bestanden en complete mappenstructuren byte-voor-byte, ongeacht bestandsnamen of locaties. Vier duidelijke regels stellen voor welke kopie bewaard moet blijven (beste kwaliteit, oudste, nieuwste of voorkeursmap). Overtollige kopieën gaan veilig naar de Prullenbak.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Groepeert identieke bestanden en complete gespiegelde mappen op basis van inhoudshash</li><li>Detecteert dubbele mappen zelfs met afwijkende namen (&#x27;Foto&#x27;s 2021&#x27; vs &#x27;Backup Foto&#x27;s&#x27;)</li><li>Veiligheid via de Prullenbak zorgt ervoor dat overtollige kopieën altijd hersteld kunnen worden</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Zoeker voor video-bijna-duplicaten &amp; fotoscherpte-selectie</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Gaat veel verder dan exacte duplicaten. Detecteert opnieuw gecodeerde video&#x27;s, versies met lagere resolutie (bijv. 1080p vs 720p), bijgesneden clips en gecomprimeerde WhatsApp- of chatvideo&#x27;s. Voor foto&#x27;s detecteert het snelle cameraburst-series en analyseert het randscherpte om de scherpste opname aan te bevelen en onscherpe foto&#x27;s te markeren.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Detectie van video-bijna-duplicaten herkent opnieuw gecodeerde, verkleinde en ingekorte video&#x27;s</li><li>Fotoburst-groepering identificeert continue actieopnamen van camera&#x27;s</li><li>Randscherpte-analyse markeert onscherpe, bewogen of verkeerd gefocuste foto&#x27;s</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pijler 4: Papierloos kantoor, muziekbeheer &amp; fotografie -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> Pijler 4
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Papierloos kantoor, muziekbeheer &amp; fotografie</h2>
+          <p class="text-secondary fs-5 mb-0">Transformeer chaotische papierstapels en ongeordende mediacollecties in prachtig gestructureerde bibliotheken.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Gescande documenten naar meerpagina-PDF</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Zet smartphonefoto&#x27;s van bonnetjes, afschriften, belastingbrieven en energierekeningen om in een opgeruimd digitaal archief. Lokale OCR op het apparaat leest tekst uit zonder documenten naar cloud-API&#x27;s te sturen. Slimme classificatie herkent het documenttype (Bonnetje, Factuur, Belastingformulier, Energierekening, Bankafschrift, Contract) en de afzender, bundelt opeenvolgende gefotografeerde pagina&#x27;s en standaardiseert bestandsnamen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>100% lokale OCR op het apparaat haalt tekst lokaal op zonder privacyrisico&#x27;s in de cloud</li><li>Slimme classificatie categoriseert documenttypes en uitgevende instanties</li><li>Bundeling van opeenvolgende opnamen voegt pagina&#x27;s samen tot een doorzoekbare standaard-PDF</li><li>Consistente automatische naamgeving (bijv. &#x27;2024-03-15_Bank_Afschrift.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Muziek- &amp; audiobibliotheekbeheer</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Leest en indexeert ID3- en audiotags voor MP3, FLAC, M4A, WAV en OGG. Maakt onderscheid tussen trackartiest en albumartiest, zodat verzamelalbums met meerdere artiesten in één gezamenlijke map blijven en niet versnipperen. Bevat een ingebouwde audiotag-bewerker om ontbrekende of foutieve gegevens te corrigeren.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Uitgebreide ID3- &amp; tag-indexering voor MP3, FLAC, M4A, WAV en OGG</li><li>Groepering op albumartiest voorkomt versnippering van compilaties en soundtracks</li><li>Ingebouwde batch-tagbewerker repareert ontbrekende nummers, artiesten, jaartallen en albumhoezen</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Offline vector-wereldkaart &amp; SD-kaart-import</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Ontdek waar uw foto&#x27;s zijn gemaakt op een interactieve vector-wereldkaart die volledig offline wordt weergegeven — zonder externe kaarttegels te laden of GPS-coördinaten te delen. Detecteert automatisch geplaatste geheugenkaarten of aangesloten camera&#x27;s voor 1-klik-import met koppeling van RAW + JPEG.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Interactieve vector-wereldkaart toont foto&#x27;s met geotags op een 100% offline canvas</li><li>Slimme detectie van camera&#x27;s en SD-kaarten met handige 1-klik-importworkflows</li><li>Strikte bewaking van bijbehorende bestanden houdt RAW+JPEG en video+ondertitels gekoppeld</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pijler 5: Schijfruimteherstel, Differentiële synchronisatie &amp; Windows-integratie -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Pijler 5
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Schijfruimteherstel, Differentiële synchronisatie &amp; Windows-integratie</h2>
+          <p class="text-secondary fs-5 mb-0">Betrouwbaarheid op zakelijk niveau, gerichte schijfafstemming en naadloze synergie met Windows.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Gerichte mapafstemming &amp; Differentiële synchronisatie</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Biedt antwoord op de veelgestelde vraag: &#x27;Wat staat er op mijn externe back-upschijf dat nog niet in mijn primaire bibliotheek staat?&#x27; Vergelijkt twee mappenstructuren of schijven en categoriseert bestanden in &#x27;Ontbreekt op doel&#x27;, &#x27;Identiek&#x27; of &#x27;Conflict/Gewijzigd&#x27;. Maakt een veilig kopieerplan om het verschil te overbruggen zonder ongeverifieerde bestanden te verwijderen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Vergelijkt twee mappenstructuren of schijven om verschillen en hiaten te identificeren</li><li>Categoriseert bestanden in: Ontbreekt op bestemming, Identiek of In conflict</li><li>Veilig kopieerplan overbrugt het verschil zonder destructieve spiegelverwijderingen</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Niet-destructieve back-up &amp; Bit-rot-integriteitscontrole</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Stel met één klik of op schema back-ups van belangrijke bibliotheken in naar externe schijven of secundaire opslag. Kopieert nieuwe en gewijzigde bestanden zonder verwijderingen uit de bron destructief over te nemen. De ingebouwde bit-rot-controle vergelijkt SHA-256-controlesommen tussen bron en back-up om bestandscorruptie of falende schijfsectoren tijdig op te merken.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Niet-destructieve back-uptaken kopiëren nieuwe bestanden zonder verwijderingen te spiegeln</li><li>Bit-rot-integriteitscontrole herberekent SHA-256-hashes om datacorruptie op te sporen</li><li>Veilige herstelplanner met voorvertoning voor terugplaatsing naar originele of herstelmappen</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Schijfbrede opslagkaart &amp; NTFS-koppelpunten (Junctions)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Visualiseert de schijfruimte over gehele stations (C:, D:) om enorme ruimtevreters buiten uw scanmappen te vinden (vergelijkbaar met TreeSize of WizTree). Verplaats gigantische mappen (bijv. een fotomap van 400 GB) naar een tweede schijf; Stow maakt automatisch een NTFS-koppelpunt (Junction) aan op de oorspronkelijke locatie, zodat snelkoppelingen en toepassingen vlekkeloos blijven werken. Win ruimte terug uit tijdelijke systeemmappen en update-caches.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Schijfbrede visuele opslagkaart identificeert reusachtige mappen over de hele schijf</li><li>NTFS-koppelpunten maken het verplaatsen van grote mappen mogelijk zonder koppelingen te breken</li><li>Systeem-opruiming identificeert vrij te maken Windows-tempmappen en caches</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Diepe Windows-integratie &amp; Draagbare profielen</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Specifiek ontworpen voor Windows. Klik met de rechtermuisknop op een map in Windows Verkenner om &#x27;Organiseren met Stow&#x27; of &#x27;Duplicaten zoeken&#x27; te kiezen. Druk overal op Win+Shift+F om het snelstartvenster te openen. Deblokkeert gedownloade bestanden met Mark of the Web (Zone.Identifier) in bulk, herstelt automatisch snelkoppelingen op het bureaublad en in het Startmenu na verplaatsingen en exporteert draagbare JSON-profielen om nieuwe pc&#x27;s in enkele seconden in te stellen.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Integratie in het contextmenu van de rechtermuisknop in Windows Verkenner</li><li>Globale sneltoets (Win+Shift+F) voor direct zoeken in het systeem</li><li>Batch-deblokkering van Mark of the Web (Zone.Identifier) voor gedownloade bestanden</li><li>Snelkoppelingsherstel houdt koppelingen op het bureaublad en in het Startmenu werkend</li><li>Exporteer draagbare JSON-profielen om regels en profielen naar nieuwe pc&#x27;s over te zetten</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Geen compromissen op privacy &amp; controle
         </span>
-        <h2 class="display-5 fw-bold text-white">Vijf regels waarop de hele toepassing is gebouwd</h2>
+        <h2 class="display-5 fw-bold text-white">Hoe Stow zich verhoudt</h2>
+        <p class="text-secondary fs-5">Waarom desktopgebruikers voor Stow kiezen in plaats van scripts of clouddiensten.</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Er verlaat niets de pc</h3>
-              </div>
-              <p class="text-secondary small mb-0">Niet de bestanden, niet hun namen, niet de index, niet de embeddings, niet de gezichtsgegevens, niet een crashlogboek. Er zijn precies twee netwerkbewerkingen in de hele toepassing, en beide moet jij bewust starten.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Er gebeurt niets zonder voorbeeld</h3>
-              </div>
-              <p class="text-secondary small mb-0">Elke bewerking die een bestand raakt — een voorinstelling met één klik, een regel die het taalmodel schreef, een groepshernoeming — doorloopt dezelfde keten en komt uit op hetzelfde voorbeeldscherm. Er is geen snelle route eromheen.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Er wordt niets verwijderd of overschreven</h3>
-              </div>
-              <p class="text-secondary small mb-0">De motor verplaatst alleen bestanden, hernoemt ze en maakt mappen aan. Verwijderen bestaat op precies één plek — de duplicaatzoeker — en gaat via de Windows-prullenbak, die het verwijderen van Stow overleeft.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Alles is omkeerbaar</h3>
-              </div>
-              <p class="text-secondary small mb-0">Elke bewerking wordt naar een logboek geschreven vóór ze wordt uitgevoerd. Dat logboek voedt de knop Ongedaan maken, herstelt de app als de machine halverwege de stroom verliest, en weet achteraf welke mappen het leeg heeft gemaakt.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">De modellen stellen voor, de code beslist</h3>
-              </div>
-              <p class="text-secondary small mb-0">Het taalmodel ziet je bestandslijst nooit en voert nooit een bewerking uit. Het levert regels. Gewone, controleerbare code past ze toe op elk bestand, en een onafhankelijke validator hercontroleert elke bestemming die eruit kwam.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Vijf manieren om te omschrijven wat je wilt</h2>
-        <p class="text-secondary fs-5">Ze komen allemaal uit op precies hetzelfde voorbeeldscherm.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Kant-en-klare voorinstellingen</h3>
-                  <p class="text-secondary small mb-0">Zes opties met één klik: op bestandstype, op jaar en maand, op jaar, op type en dan jaar, schermafbeeldingen apart zetten, of op camera. Vijf ervan werken zonder ook maar één bestand te openen, dus Stow is al bruikbaar voordat er enig model is gedownload.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Omschrijf het in je eigen woorden</h3>
-                  <p class="text-secondary small mb-0">«Verplaats alles wat met facturen te maken heeft naar een map Facturen.» Een lokaal taalmodel maakt van die zin regels. Het krijgt een samenvatting van je bibliotheek — aantallen, extensies, datumbereik, mapnamen — nooit de bestandslijst. Er is geen codepad dat die zou geven.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Zet het systeem voort dat je al hebt</h3>
-                  <p class="text-secondary small mb-0">Stow leest de structuur terug uit je mappenboom en schrijft regels die haar voortzetten. De analyse is op bewijs gebaseerd: een map met de naam 2019 telt alleen als jaarmap als de bestanden erin werkelijk uit 2019 komen. Geen model, geen download.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Bouw de regels zelf</h3>
-                  <p class="text-secondary small mb-0">Als een bestand er zo uitziet, zet het dan in die map. Regels lopen van boven naar beneden, de eerste treffer wint. Voorwaarden dekken extensie, naam, pad, grootte, datums, afmetingen, labels, personen, plaatsen en visuele gelijkenis; bestemmingen accepteren tijdelijke aanduidingen als {{year}}, {{month_name}} en {{camera}}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Bewaar het als recept</h3>
-                  <p class="text-secondary small mb-0">Elke regelset die een voorbeeldscherm haalde, kun je een naam geven en bewaren, opnieuw uitvoeren, of aan een bewaakte map meegeven. Bewaren geeft hem geen enkel voorrecht: hij wordt bij elke uitvoering opnieuw gecompileerd, opnieuw beperkt en opnieuw gevalideerd, en komt nog steeds uit op een voorbeeld dat jij moet goedkeuren.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Eén knop zet alles terug</h2>
-          <p class="text-secondary fs-5 mb-0">De geschiedenis toont de laatste twintig dingen die Stow deed, het nieuwste eerst, en elk ervan kan exact worden teruggedraaid. Na elke opruimactie verschijnt bovenaan het venster een balk met een ongedaan-maken van één klik: het zit nooit weggestopt in een menu.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Ongedaan maken is bewust niet symmetrisch met uitvoeren. Waar de uitvoering stopt bij de eerste fout, probeert ongedaan maken elke bewerking en meldt problemen samen, want halverwege een herstel stoppen zou je tussen twee toestanden laten stranden. Bestanden uit een map halen maakt die leeg, en alleen Stow weet welke mappen dat waren — daarom biedt het achteraf aan ze op te ruimen, en doet het niet meer dan aanbieden.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Dingen terugvinden</h2>
-        <p class="text-secondary fs-5">Alles hier leest de index die Stow toch al heeft aangelegd, dus het meeste kost niets om even te bekijken.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Doorzoek je bestanden</h3>
-              </div>
-              <p class="text-secondary small mb-0">Een kleine gedocumenteerde syntaxis: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:«garantie cv-ketel», en een min ervoor om uit te sluiten. Het werkt volledig, ook wanneer Stow je bestanden helemaal niet mag openen.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Zoek foto&#x27;s op wat erop staat</h3>
-              </div>
-              <p class="text-secondary small mb-0">Typ «hond op een strand» en krijg je strandfoto&#x27;s, of ze nu IMG_4821.jpg heten of iets heel anders. Afbeeldingen worden gelezen, lokaal tot een vector gecodeerd en weer losgelaten: de foto&#x27;s zelf worden nooit gekopieerd of bewaard.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Zie wat de ruimte inneemt</h3>
-              </div>
-              <p class="text-secondary small mb-0">Totalen per soort bestand, je volste mappen tot op de bodem geteld, en je grootste losse bestanden. Elke bevinding draagt de zoekopdracht die haar opleverde, dus «18 GB aan video&#x27;s die niemand in drie jaar heeft geopend» geeft je precies de zoekopdracht waarmee je kunt handelen.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Plaatsen en personen</h3>
-              </div>
-              <p class="text-secondary small mb-0">Foto&#x27;s groeperen op waar ze zijn gemaakt en — alleen als je daarvoor kiest — op welke gezichten op elkaar lijken. Dit is groeperen op gelijkenis, geen identificatie: er is geen identiteitsdatabase en geen enkele mogelijkheid om vast te stellen wie iemand is. Elke naam geef jij.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Labels</h3>
-              </div>
-              <p class="text-secondary small mb-0">Een eigen woord — «werk», «belasting», «vakantie» — geplakt op elk bestand dat je wilt bijhouden. Labels leven in de index van Stow, dus je bestanden worden nooit hernoemd of gewijzigd, en ze werken in elke privacymodus.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Duplicaten, inclusief hele mappen</h2>
-          <p class="text-secondary fs-5 mb-0">Identieke bestanden worden op inhoud gegroepeerd, waar ze ook staan en hoe ze ook heten. Identieke mappen ook: namen doen niet mee in de vergelijking, dus «Vakantie 2019» en «Kopie van vakantie» zijn dezelfde map als hun bytes dat zijn. Dáár zit meestal de echte ruimte.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Bijna-identieke foto&#x27;s worden ook gevonden, met dezelfde embeddings als de fotozoekfunctie, zodat hercomprimeerde en verkleinde kopieën worden gevonden ook al verschillen hun bytes volledig. Vier volledig deterministische beleidsregels kiezen welke kopie blijft — beste kwaliteit, oudste, nieuwste, of die in een map die jij aanwijst — en elke keuze komt met haar reden. Er wordt niets verwijderd; overtollige kopieën gaan naar de prullenbak.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Nog drie dingen die het doet</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Groepsgewijs hernoemen</h3>
-              </div>
-              <p class="text-secondary small mb-0">Tekst vervangen, een reeks nummeren, een voorvoegsel of achtervoegsel toevoegen, hoofdlettergebruik rechtzetten, een fragment weghalen. Een hernoeming is een gewone regelset waarvan de bestemming de eigen map van het bestand is — dus krijgt ze hetzelfde voorbeeld, dezelfde validator en hetzelfde ongedaan maken als al het andere.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Bewaakte mappen</h3>
-              </div>
-              <p class="text-secondary small mb-0">Bestanden die in een bewaakte map binnenkomen, worden opgemerkt en klaargezet ter beoordeling, desgewenst getoetst aan een bewaard recept. Wat het bewust níét doet, is handelen: een organizer die stilletjes op de achtergrond bestanden verplaatst zou een veel minder betrouwbaar product zijn, hoe handig ook.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Bij elkaar houden wat bij elkaar hoort</h3>
-              </div>
-              <p class="text-secondary small mb-0">Een camera-RAW is zinloos zonder zijn JPEG; een ondertitel heeft geen nut zonder zijn video. Een doorloop tussen de motor en de validator houdt bijbehorende bestanden samen — behoedzaam, want een gedeeld naamvoorvoegsel alleen bewijst niet dat twee bestanden bij elkaar horen.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Privacy is de vorm van het product, geen beleid dat er achteraf op is geschroefd</h2>
-          <p class="text-secondary fs-5 mb-0">Er is geen account, geen backend en geen clouddatabase — dus er valt niets te lekken, niets te vorderen, en er is niets dat de ontwikkelaar namens jou zou kunnen wissen. De ontwikkelaar ontvangt helemaal geen gegevens uit de toepassing.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Alles wat Stow afleidt, staat in één map, bewust buiten met de cloud gesynchroniseerde locaties gehouden zodat de index nooit door bestandssynchronisatie of Windows-back-up naar de cloud wordt gekopieerd. Je kunt de hele index naar CSV exporteren en lezen, alleen de gezichtsgegevens wissen, alleen de opgeslagen documenttekst wissen, of de hele index weggooien en opnieuw opbouwen. Niets daarvan raakt ook maar één van je echte bestanden.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Functie &amp; Veiligheidsgarantie</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Traditionele tools / Scripts</th>
+                <th scope="col">Clouddiensten</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Privacy &amp; Gegevensvertrouwelijkheid</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100% Offline • Geen telemetrie, accounts of cloudservers</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Offline, maar zonder intelligente automatisering &amp; AI</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Bestanden en metadata geüpload naar externe bedrijfsservers</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Cloud-upload vereist</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Nul bytes geüpload (alle verwerking vindt strikt plaats op uw pc)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Geen (uitsluitend lokaal)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Verplichte synchronisatie (vereist gigabytes aan bandbreedte)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Lokale AI op het apparaat</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Lokale beeldherkenning, OCR &amp; Phi-4-taalmodellen op de CPU via ONNX</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Geen (statische regex of eenvoudige shell-scripts)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ondoorzichtige, bedrijfseigen modellen op externe servers</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Verplichte voorvertoningstabel</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Gegarandeerde voorvertoningstabel voordat er een bestand wordt aangeraakt</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Blindelings uitvoeren of riskante batch-scripts</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ondoorzichtige synchronisatie op de achtergrond zonder controle vooraf</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">1-klik herstel met transactielogboek</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Direct terugdraaien via atomair logboek vóór schijfuitvoering</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Handmatig herstel; scripts kunnen niet worden teruggedraaid</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Complexe versiegeschiedenis of definitief verlies</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Veilig met virtuele cloudbestanden</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Herkent OneDrive/iCloud/Dropbox; forceert nooit downloads</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Niet op de hoogte; veroorzaakt vaak enorme onbedoelde downloads</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Aan leverancier gebonden cloudsilo&#x27;s</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Ontdubbeling &amp; Bijna-duplicaten</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Byte-voor-byte mappen, video-bijna-duplicaten &amp; fotoscherpte</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Alleen eenvoudige exacte bestandsnaam- of enkelvoudige hash-duplicaten</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Alleen eenvoudige fotoduplicaten; geen video- of mapontdubbeling</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bit-rot- &amp; integriteitscontrole</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Ingebouwde SHA-256-back-upverificatie om schijffouten tijdig op te vangen</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Vereist ingewikkelde handmatige opdrachtregelprogramma&#x27;s</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ondoorzichtige, bedrijfseigen cloudopslag</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Prijzen &amp; Licenties</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Eenmalige aanschaf in Microsoft Store • Levenslang eigendom</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Gratis hulpprogramma&#x27;s of gefragmenteerde betaalde software</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Dure terugkerende maandelijkse of jaarlijkse abonnementskosten</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Duidelijke antwoorden
+        </span>
+        <h2 class="display-5 fw-bold text-white">Veelgestelde vragen</h2>
+        <p class="text-secondary fs-5">Heldere antwoorden over Stow&#x27;s privacyarchitectuur, offline AI, bestandsveiligheid en compatibiliteit.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Hoe garandeert Stow dat er geen bestanden of gegevens van mij naar de cloud worden geüpload?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow bevat geen accountsysteem, geen externe servers, geen telemetrie-SDK&#x27;s en geen analytics op de achtergrond. Alle machine learning-modellen (SigLIP-2 voor semantisch zoeken naar foto&#x27;s, YuNet &amp; SFace voor gezichtsherkenning, lokale OCR voor gescande documenten en Phi-4-mini voor het genereren van ordeningsregels in natuurlijke taal) draaien uitsluitend op de CPU van uw pc via ONNX Runtime. Uw foto&#x27;s, documenten, bestandsnamen, mappenstructuren en zoekopdrachten verlaten nooit uw computer.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Heb ik een krachtige videokaart of speciale NPU nodig om Stow te gebruiken?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nee. Stow is standaard gebouwd voor Windows 10 en 11 (zowel x64 als ARM64) en de lokale inferentie-omgeving is specifiek geoptimaliseerd voor alledaagse consumenten-CPU&#x27;s, zonder dat een speciale GPU of NPU vereist is. Bovendien hebben basisfuncties zoals voorinstellingen, visuele regels, live recursieve mapgroottes, bestandsontdubbeling, het opschonen van rommel, differentiële synchronisatie en universele voorvertoningen helemaal geen AI-modellen nodig en werken ze direct na installatie.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Hoe voorkomt Stow ongewenste grote downloads in mappen van OneDrive, iCloud of Dropbox?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow is ontworpen om rekening te houden met virtuele cloudbestanden (placeholders). Bij het scannen van mappen die worden beheerd door OneDrive, Dropbox, Google Drive of iCloud herkent Stow virtuele online-only tijdelijke aanduidingen. Het weigert stilzwijgend grote bestanden te downloaden over verbindingen met een datalimiet of op batterijvoeding, zodat uw cloudbestanden onaangetast blijven zonder bandbreedte te verspillen of onverwacht lokale schijfruimte in te nemen.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Wat gebeurt er als Stow rommel opruimt of duplicaten verwijdert? Kunnen er bestanden definitief verloren gaan?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Er wordt door Stow nooit iets permanent verwijderd. Opschoonbewerkingen (zoals het verwijderen van afgebroken downloads of oude installatiebestanden) en het ontdubbelen van bestanden verplaatsen items veilig naar de standaard Windows Prullenbak. Mocht u merken dat u per ongeluk een bestand heeft opgeruimd, dan kunt u dit direct herstellen vanuit de Prullenbak of gebruikmaken van Stow&#x27;s 1-klik herstelfunctie.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Hoe werkt de 1-klik herstelfunctie? Kan ik een indelingssessie dagen later nog ongedaan maken?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Voordat er een bestand op schijf wordt verplaatst, hernoemd of opgeschoond, legt Stow een atomair, omkeerbaar transactielogboekitem vast met het exacte bron- en doelpad van elk item. Direct na elke actie verschijnt een herstelbalk, en de Geschiedenis-hub van Stow bewaart eerdere bewerkingen, zodat u indelingssessies zelfs uren, dagen of weken later betrouwbaar kunt terugdraaien.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Hoe genereert de prompt in natuurlijke taal lokale ordeningsregels?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Wanneer u een instructie typt zoals &#x27;Verplaats alle facturen naar Facturen en sorteer camerafoto&#x27;s op jaar en maand&#x27;, vertaalt het lokale taalmodel van Stow (Phi-4-mini) uw verzoek naar veilige, controleerbare ordeningsregels. Het model ontvangt uitsluitend een overzicht op hoog niveau (aantallen bestandsextensies, datumbereiken en mappen van het hoogste niveau) — nooit uw individuele bestandsnamen of bestandsinhoud. Controleerbare programmacode evalueert die regels vervolgens in een interactieve voorvertoningstabel die u eerst controleert en goedkeurt.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Kan Stow camera-RAW-bestanden en bijbehorende nevenbestanden bij elkaar houden?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Stow beschikt over slimme bewaking van bijbehorende bestanden (companion files). Camera-RAW-formaten (zoals CR2, NEF, ARW, DNG) worden automatisch gekoppeld aan hun bijpassende JPEG/HEIC-voorbeelden en .xmp-metadatabestanden. Evenzo blijven videobestanden gekoppeld aan hun .srt- of .vtt-ondertitels. Wanneer Stow een hoofdbestand organiseert of verplaatst, worden alle bijbehorende bestanden gelijktijdig meegenomen.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Wat zijn de systeemvereisten en hoe wordt Stow geïnstalleerd?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Stow ondersteunt Windows 10 (versie 2004 / build 19041 en hoger) en Windows 11 op zowel 64-bits Intel/AMD (x64) als Qualcomm Snapdragon (ARM64) architecturen. Het wordt rechtstreeks gedistribueerd via de Microsoft Store als een modern, veilig geïsoleerd MSIX-pakket, wat garant staat voor een schone installatie, automatische updates en een opgeruimd systeem zonder achterblijvende rommel.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: foto- en bestandsorganizer</h2>
-          <p class="text-secondary fs-5 mb-4">Offline AI die je pc opruimt — en nooit een bestand verplaatst zonder te vragen.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI Foto- &amp; Bestandsorganizer, Duplicaatzoeker</h2>
+          <p class="text-secondary fs-5 mb-4">Het 100% offline, privacygerichte desktop-bestandsbeheerpakket dat uw bestanden organiseert, ontdubbelt, opschoont en beveiligt zonder ooit een enkele byte naar de cloud te uploaden.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Installeren</a>
-</div>
-<button type="button" class="to-top" aria-label="Terug naar boven" title="Terug naar boven">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookietoestemming" hidden>
   <p class="consent-bar-text">We gebruiken Google Analytics om te zien hoe deze site wordt gebruikt. Bij weigeren wordt niets opgeslagen — de site werkt precies hetzelfde. <a href="/privacy.html" class="consent-bar-link">Privacybeleid</a></p>

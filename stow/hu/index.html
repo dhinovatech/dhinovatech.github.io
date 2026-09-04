@@ -7,20 +7,6 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    /* Two defaults. Order between them does not matter: Consent Mode applies
-       the most specific region match, and the call without a region key is the
-       catch-all for everyone the first one does not name.
-
-       Google resolves which one applies on its own side, from the request.
-       Nothing here reads, derives or stores a location, and the page itself
-       never learns where the reader is - which is why the banner below is
-       drawn for everyone rather than being hidden by region.
-
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
-       wait_for_update gives a returning reader's stored answer time to land
-       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -36,9 +22,6 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -47,17 +30,13 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
-    /* A stored answer overrides the default in either direction. 'denied' has
-       to be re-applied and not just skipped: a reader outside the EEA who
-       declined would otherwise be granted again by the catch-all on their
-       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { /* storage blocked - the defaults above stand */ }
+      } catch (e) { }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
@@ -65,8 +44,8 @@
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stow: fotó- és fájlrendező | Windows (Microsoft Store) | Dhinovatech</title>
-  <meta name="description" content="Offline MI, amely rendet tesz a gépeden — és soha nem mozdít el fájlt kérdés nélkül. A Stow beolvassa a megadott mappákat, kiszámolja, minek hol lenne a helye, és megmutatja az összes javasolt változtatás teljes listáját. Semmi sem mozdul, amíg meg nem nyomod a gombot.">
+  <title>Stow: AI fotó- és fájlrendszerező, duplikátumkereső | Windows (Microsoft Store) | Dhinovatech</title>
+  <meta name="description" content="A 100%-ban offline, adatvédelmet előtérbe helyező asztali fájlkezelő csomag, amely rendszerezi, duplikátumszűri, megtisztítja és védi fájljait anélkül, hogy egyetlen bájtot is a felhőbe töltene. A Stow véget vet a zsúfolt Letöltések mappának, a szétterülő fotókönyvtáraknak és a rejtélyes mappáknak. ">
 
   <!-- Bootstrap 5.3 CDN & Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -79,8 +58,7 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -95,9 +73,6 @@
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -112,13 +87,121 @@
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
@@ -150,13 +233,13 @@
   <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/stow/he/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
-  <meta property="og:title" content="Stow: fotó- és fájlrendező | Windows (Microsoft Store) | Dhinovatech">
-  <meta property="og:description" content="Offline MI, amely rendet tesz a gépeden — és soha nem mozdít el fájlt kérdés nélkül. A Stow beolvassa a megadott mappákat, kiszámolja, minek hol lenne a helye, és megmutatja az összes javasolt változtatás teljes listáját. Semmi sem mozdul, amíg meg nem nyomod a gombot.">
+  <meta property="og:title" content="Stow: AI fotó- és fájlrendszerező, duplikátumkereső | Windows (Microsoft Store) | Dhinovatech">
+  <meta property="og:description" content="A 100%-ban offline, adatvédelmet előtérbe helyező asztali fájlkezelő csomag, amely rendszerezi, duplikátumszűri, megtisztítja és védi fájljait anélkül, hogy egyetlen bájtot is a felhőbe töltene. A Stow véget vet a zsúfolt Letöltések mappának, a szétterülő fotókönyvtáraknak és a rejtélyes mappáknak. ">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/hu/">
   <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
   <meta property="og:image:width" content="512">
   <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow photo and file organizer icon">
+  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
   <meta property="og:locale" content="hu_HU">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -181,12 +264,12 @@
   <meta property="og:locale:alternate" content="ar_AR">
   <meta property="og:locale:alternate" content="he_IL">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Stow: fotó- és fájlrendező | Windows (Microsoft Store) | Dhinovatech">
-  <meta name="twitter:description" content="Offline MI, amely rendet tesz a gépeden — és soha nem mozdít el fájlt kérdés nélkül. A Stow beolvassa a megadott mappákat, kiszámolja, minek hol lenne a helye, és megmutatja az összes javasolt változtatás teljes listáját. Semmi sem mozdul, amíg meg nem nyomod a gombot.">
+  <meta name="twitter:title" content="Stow: AI fotó- és fájlrendszerező, duplikátumkereső | Windows (Microsoft Store) | Dhinovatech">
+  <meta name="twitter:description" content="A 100%-ban offline, adatvédelmet előtérbe helyező asztali fájlkezelő csomag, amely rendszerezi, duplikátumszűri, megtisztítja és védi fájljait anélkül, hogy egyetlen bájtot is a felhőbe töltene. A Stow véget vet a zsúfolt Letöltések mappának, a szétterülő fotókönyvtáraknak és a rejtélyes mappáknak. ">
   <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow photo and file organizer icon">
+  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: fotó- és fájlrendező","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"Offline MI, amely rendet tesz a gépeden — és soha nem mozdít el fájlt kérdés nélkül. A Stow beolvassa a megadott mappákat, kiszámolja, minek hol lenne a helye, és megmutatja az összes javasolt változtatás teljes listáját. Semmi sem mozdul, amíg meg nem nyomod a gombot.","url":"https://www.dhinovatech.com/stow/hu/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (hu)","item":"https://www.dhinovatech.com/stow/hu/"}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: AI fotó- és fájlrendszerező, duplikátumkereső","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"A 100%-ban offline, adatvédelmet előtérbe helyező asztali fájlkezelő csomag, amely rendszerezi, duplikátumszűri, megtisztítja és védi fájljait anélkül, hogy egyetlen bájtot is a felhőbe töltene. A Stow véget vet a zsúfolt Letöltések mappának, a szétterülő fotókönyvtáraknak és a rejtélyes mappáknak. ","url":"https://www.dhinovatech.com/stow/hu/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (hu)","item":"https://www.dhinovatech.com/stow/hu/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/hu/#faq","inLanguage":"hu","mainEntity":[{"@type":"Question","name":"Hogyan garantálja a Stow, hogy egyetlen fájlom vagy adatom sem kerül a felhőbe?","acceptedAnswer":{"@type":"Answer","text":"A Stow nem rendelkezik felhasználói fiókokkal, külső kiszolgálókkal, telemetriai keretrendszerekkel vagy háttérben futó analitikával. Minden gépi tanulási modell (SigLIP-2 a szemantikus fotókereséshez, YuNet és SFace az arccsoportosításhoz, helyi OCR a beolvasott iratokhoz és Phi-4-mini a természetes nyelvű szabályokhoz) szigorúan az Ön számítógépének processzorán fut az ONNX Runtime segítségével. Fényképei, dokumentumai, fájlnevei, mappastruktúrái és keresési lekérdezései soha nem hagyják el az Ön számítógépét."}},{"@type":"Question","name":"Szükségem van erős videokártyára (GPU) vagy dedikált NPU-ra a Stow használatához?","acceptedAnswer":{"@type":"Answer","text":"Nem. A Stow natívan Windows 10 és 11 rendszerekre készült (mind x64, mind ARM64 architektúrán), és a helyi következtetési motor kifejezetten a hétköznapi fogyasztói processzorokra lett optimalizálva, dedikált grafikus kártya vagy NPU igénye nélkül. Ezenfelül az olyan alapvető funkciók, mint az előbeállítások, a vizuális szabályok, az élő mappaméretek, a duplikátumkeresés, a szeméttisztítás, a differenciális szinkronizálás és az univerzális előnézet egyáltalán nem igényelnek AI-modelleket, és a telepítés után azonnal működnek."}},{"@type":"Question","name":"Hogyan akadályozza meg a Stow a nem kívánt tömeges letöltéseket a OneDrive, iCloud vagy Dropbox mappákban?","acceptedAnswer":{"@type":"Answer","text":"A Stow a felhőbeli helyőrző fájlok (cloud placeholders) teljes ismeretével készült. A OneDrive, Dropbox, Google Drive vagy iCloud által kezelt mappák beolvasásakor a Stow észleli a csak felhőben létező virtuális helyőrzőket. Nem indít el észrevétlen, nagyméretű fájlletöltéseket forgalomkorlátos vagy akkumulátoros kapcsolatokon, így felhőfájljai érintetlenek maradnak anélkül, hogy túlterhelnék a sávszélességet vagy váratlanul megtöltenék a helyi lemezt."}},{"@type":"Question","name":"Mi történik, amikor a Stow szemetet takarít vagy duplikátumokat távolít el? Elveszhetnek véglegesen a fájlok?","acceptedAnswer":{"@type":"Answer","text":"A Stow soha semmit nem töröl véglegesen. A szeméttisztítási műveletek (mint például a félbemaradt letöltések vagy a régi telepítők eltávolítása) és a duplikátumeltávolítási lépések biztonságosan a szabványos Windows Lomtárba mozgatják az elemeket. Ha később észreveszi, hogy tévedésből távolított el egy fájlt, azonnal visszaállíthatja közvetlenül a Lomtárból, vagy igénybe veheti a Stow 1 kattintásos Visszavonás funkcióját."}},{"@type":"Question","name":"Hogyan működik az 1 kattintásos visszavonás funkció? Visszavonhatok egy rendszerezést napokkal később is?","acceptedAnswer":{"@type":"Answer","text":"Mielőtt bármely fájl elmozdulna, átnevezésre kerülne vagy törlődne a lemezen, a Stow egy atomi, megfordítható tranzakciós naplóbejegyzést rögzít, amely tartalmazza minden egyes elem pontos forrás- és célútvonalát. A művelet után azonnal megjelenik egy visszavonási értesítősáv, a Stow Előzmények központja pedig megőrzi a korábbi műveleteket, így órákkal, napokkal vagy hetekkel később is megbízhatóan visszaállíthatja a rendszerezési folyamatokat."}},{"@type":"Question","name":"Hogyan készít rendszerezési szabályokat a Természetes Nyelvű AI helyben, az eszközön?","acceptedAnswer":{"@type":"Answer","text":"Amikor olyan utasítást ír be, mint például: 'Helyezd át az összes számlát a Számlák mappába, és csoportosítsd a fényképezőgép fotóit év és hónap szerint', a Stow helyi nyelvi modellje (Phi-4-mini) biztonságos, előnézetben megtekinthető rendszerezési szabályokká alakítja kérését. A modell kizárólag egy magas szintű sémát kap a könyvtárról (kiterjesztések száma, dátumtartományok és a legfelső szintű mappák nevei) — az Ön egyéni fájlneveit vagy azok tartalmát soha. Ezt követően auditálható programkód értékeli e szabályokat egy interaktív előnézeti táblázatban, amelyet Ön ellenőriz és jóváhagy."}},{"@type":"Question","name":"Képes a Stow a fényképezőgépes RAW fájlokat és kísérőfájljaikat együtt tartani?","acceptedAnswer":{"@type":"Answer","text":"Igen. A Stow intelligens kísérőfájl-megőrzési technológiával rendelkezik. A fényképezőgépek RAW formátumai (mint a CR2, NEF, ARW, DNG) automatikusan hozzá vannak rendelve a megfelelő JPEG/HEIC előnézetekhez és a .xmp metaadatfájlokhoz. Hasonlóképpen a videofájlok is szorosan összekapcsolva maradnak a .srt vagy .vtt felirataikkal. Amikor a Stow rendszerez vagy áthelyez egy elsődleges fájlt, az összes kísérőfájl vele együtt mozog."}},{"@type":"Question","name":"Milyen rendszerkövetelményei vannak a Stow-nak, és hogyan telepíthető?","acceptedAnswer":{"@type":"Answer","text":"A Stow a Windows 10 (2004-es verziótól / 19041-es buildtől kezdődően) és a Windows 11 rendszereket támogatja mind a 64 bites Intel/AMD (x64), mind a Qualcomm Snapdragon (ARM64) architektúrákon. Közvetlenül a Microsoft Store-on keresztül tölthető le korszerű, homokozóban (sandbox) futó, csomagolt MSIX alkalmazásként, amely garantálja a tiszta telepítést, az automatikus frissítéseket és a háttérbeli terheléstől mentes működést."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
@@ -200,7 +283,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Ugrás a fő tartalomra</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -224,7 +307,7 @@
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -262,7 +345,7 @@
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Beszerzés a Microsoft Store-ból
             </a>
           </li>
         </ul>
@@ -272,6 +355,32 @@
 
 <main id="main">
 
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Legfrissebb főverzió</span>
+              <span class="text-white-50 small fw-semibold">Stow 3.0 asztali csomag</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Stow 3.0 asztali csomag: Böngészés és előnézet, szeméttisztító, differenciális szinkronizálás, helyi OCR és biztonsági mentési központ</h2>
+            <p class="text-secondary small mb-0">Jelentős fejlődés az egyszerű rendszerezőtől a teljes körű, privát asztali fájlkezelő erőműig.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Fedezze fel a legújabb funkciókat
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Kétpaneles intéző és élő mappaméretek</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Dedikált szeméttisztító</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Irányított mappakezelés és egyeztetés</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>Iratok OCR-felismerése PDF-be</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Mentés és bit-rot ellenőrzés</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -280,31 +389,33 @@
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
-          <h1 class="hero-title mb-3">Stow: fotó- és fájlrendező</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">Offline MI, amely rendet tesz a gépeden — és soha nem mozdít el fájlt kérdés nélkül.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">A Stow beolvassa a megadott mappákat, kiszámolja, minek hol lenne a helye, és megmutatja az összes javasolt változtatás teljes listáját. Semmi sem mozdul, amíg meg nem nyomod a gombot.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Teljes egészében a saját gépeden fut. Nincs fiók, nincs kiszolgáló, nincs telemetria, nincs hirdetés. Az MI-modellek egyszer töltődnek le, és a saját processzorodon futnak: egyetlen fájl, fájlnév, fénykép, dokumentum vagy keresőkifejezés sem hagyja el a gépet.</p>
+          <h1 class="hero-title mb-3">Stow: AI fotó- és fájlrendszerező, duplikátumkereső</h1>
+          <p class="lead text-gradient fw-semibold mb-3 fs-4">A 100%-ban offline, adatvédelmet előtérbe helyező asztali fájlkezelő csomag, amely rendszerezi, duplikátumszűri, megtisztítja és védi fájljait anélkül, hogy egyetlen bájtot is a felhőbe töltene.</p>
+          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">A Stow véget vet a zsúfolt Letöltések mappának, a szétterülő fotókönyvtáraknak és a rejtélyes mappáknak. Az eszközön futó gépi látásra, a helyi dokumentum-OCR-re és a processzoron futó nyelvi modellekre építve a Stow intelligens rendszerezési terveket készít, felkutatja a duplikált és elmosódott fájlokat, valamint kisöpri a rejtett digitális szemetet.</p>
+          <p class="text-secondary mb-4 pe-lg-4">Minden folyamat szigorúan az Ön számítógépén fut felhőkiszolgálók, telemetria és háttérbeli nyomkövetés nélkül. Semmi sem mozdul el jóváhagyott előnézet nélkül, semmi sem törlődik véglegesen, és bármely művelet egyetlen kattintással visszavonható.</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> Nézd meg, hogyan működik
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Nézze meg a működését
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> 23 languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Előzetesen jóváhagyott előnézet</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Soha nem töröl véglegesen</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> 1 kattintásos visszavonás</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> Biztonságos felhőmappák esetén is</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> x64 és ARM64</span>
           </div>
         </div>
 
@@ -320,8 +431,9 @@
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
 
               <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Beszerzés a Microsoft Store-ból
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -329,20 +441,116 @@
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
     <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Nem a rendszered mondott csődöt. Csak közbeszólt az élet.</h2>
-          <p class="text-secondary fs-5 mb-0">Egy Letöltések mappa négyezer dologgal. Egy Képek mappa, amelyben három telefon, két fényképezőgép és egy évtizednyi képernyőkép lakik. „Nyaralás 2019”, „Nyaralás másolata” és „nyaralás (végleges)” nevű mappák, és semmi támpont, melyik melyik.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Kézzel is megy, csak senki nem ér a végére. A felhőszolgáltatások elvégzik helyetted — úgy, hogy a teljes személyes gyűjteményedet feltöltik valaki más számítógépére. A szkriptelhető eszközök pontosan azt teszik, amit mondasz nekik, feltéve hogy hajlandó vagy megtanulni egy szabálynyelvet, és előbb egy másolaton kipróbálni. És a döntő pillanatban mindegyik azt kéri, hidd el, hogy a tízezer fájlon mindjárt végigfutó művelet az, amelyikre gondoltál.</p>
-        </div>
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architektúra által garantálva
+        </span>
+        <h2 class="display-5 fw-bold text-white">Az öt alapelv</h2>
+        <p class="text-secondary fs-5">Öt megkérdőjelezhetetlen architekturális garancia, amely a Stow minden rétegébe be van építve.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">1. alapelv</span>
+                  <h3 class="h6 text-white fw-bold mb-0">100% offline és privát</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Nincsenek felhasználói fiókok, felhőkiszolgálók, telemetria, analitika vagy háttérben futó adatgyűjtés. Minden mesterséges intelligencia modell (gépi látás, OCR, nyelvi modellek) helyben fut a számítógép processzorán.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">2. alapelv</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Semmi sem mozdul jóváhagyott előnézet nélkül</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">A Stow soha nem helyez át, nem nevez át és nem töröl fájlokat az Ön tudta nélkül. Minden egyes művelet részletes előnézeti táblázatot hoz létre, amelyet először áttekinthet és jóváhagyhat.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">3. alapelv</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Semmi sem törlődik véglegesen</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Az alkalmazás soha nem hajt végre visszaállíthatatlan törlést. A tisztítási és duplikátumeltávolítási műveletek a jól ismert Windows Lomtárba helyezik az elemeket, ahonnan bármikor egyszerűen visszaállíthatók.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">4. alapelv</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Azonnali, egykattintásos visszavonás</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Minden művelet naplózásra kerül a lemezműveletek végrehajtása előtt. Ha egy órával vagy akár egy héttel később meggondolja magát, egyetlen kattintással visszaállíthatja a fájlokat a pontos korábbi helyükre.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi bi-cloud-slash" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">5. alapelv</span>
+                  <h3 class="h6 text-white fw-bold mb-0">Biztonságos a felhőmappákkal</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">Automatikusan felismeri a felhőbeli helyőrző fájlokat (OneDrive, Dropbox, iCloud), és megtagadja gigabájtok észrevétlen letöltését forgalomkorlátos internetkapcsolatokon.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> Biztonságos munkafolyamat
+        </span>
+        <h2 class="display-5 fw-bold text-white">Hogyan működik</h2>
+        <p class="text-secondary fs-5">Három egyszerű, átlátható lépés. Teljes kontroll az elejétől a végéig.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">1</div>
+              <i class="bi bi-search text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Beolvasás és leírás</h3>
+              <p class="text-secondary small mb-0">Irányítsa a Stow-t bármely mappára vagy meghajtóra. Válasszon egy 1 kattintásos előbeállítást, írja le a kívánt elrendezést egyszerű szavakkal, vagy hagyja, hogy a Stow automatikusan felismerje meglévő rendszerezési szokásait.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">2</div>
+              <i class="bi bi-table text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Előnézet és ellenőrzés</h3>
+              <p class="text-secondary small mb-0">Tekintse át a javasolt műveletek teljes táblázatát, még mielőtt egyetlen bájt is megmozdulna a lemezen. Minden fájl pontos sorral, javasolt elérési úttal és szabállyal rendelkezik. Szűrhet, szerkeszthet, vagy kiveheti a pipát a változatlanul hagyni kívánt elemek mellől.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">3</div>
+              <i class="bi bi-arrow-counterclockwise text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">Alkalmazás 1 kattintásos visszavonással</h3>
+              <p class="text-secondary small mb-0">Hajtsa végre a tervet teljes biztonsággal. A Stow minden műveletet először egy atomi tranzakciós naplóba rögzít. Ha bármikor meggondolná magát — egy óra vagy egy hónap múlva —, egyetlen kattintással mindent visszacsinálhat.</p>
+            </div>
+          </div>
       </div>
     </div>
   </section>
@@ -351,7 +559,7 @@
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">Az előnézet maga a termék</h2>
         <p class="text-secondary fs-5">Sosem abból tudod meg, mit döntött a Stow, hogy nézed, ahogy megtörténik. Egy táblázatból tudod meg, még mielőtt bármi elmozdulna: minden egyes fájlnak van egy sora, egy célhelye és annak a szabálynak a neve, amelyik igényt tartott rá. Ha rossz, bezárod az ablakot — és nem történt semmi.</p>
       </div>
@@ -420,279 +628,517 @@
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
+  <!-- 1. pillér: Könnyed rendszerezés és automatizált archiválás -->
+  <section id="pillar-organize" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> 1. pillér
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Könnyed rendszerezés és automatizált archiválás</h2>
+          <p class="text-secondary fs-5 mb-0">Alakítsa át az átláthatatlan mappákat rendezett, strukturált archívumokká előbeállítások, természetes nyelvű AI vagy egyéni szabályok segítségével.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Intelligens vezérlőpult és állapotközpont</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Fájlkönyvtárának irányítóközpontja. Azonnali áttekintést kap a gyűjtemény állapotáról — indexelt fájlok száma, kezelt tárhely mérete, besorolatlan elemek és visszanyert terület. A cselekvésre ösztönző Figyelemkártyák proaktívan jelzik az importálásra kész, újonnan csatlakoztatott SD-kártyákat, a feldolgozásra váró Letöltéseket, a szemétre vonatkozó figyelmeztetéseket és a mentési emlékeztetőket.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Azonnali áttekintés a könyvtár méretéről, a kezeletlen fájlokról és a visszanyert gigabájtokról</li><li>Hasznos Figyelemkártyák SD-kártyákhoz, függőben lévő letöltésekhez és szemétriasztásokhoz</li><li>1 kattintásos gyorsműveletek rendszerezéshez, szeméttisztításhoz vagy meghajtó-egyeztetéshez</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Ötféle módszer a rendszerezésre</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Válassza ki a munkastílusához leginkább illő módszert. Használjon kész 1 kattintásos előbeállításokat (fájltípus, év/hónap, képernyőképek elkülönítése, fényképezőgép-modell szerint); írja le igényeit hétköznapi nyelven a helyi nyelvi modellnek; engedje, hogy a Stow megtanulja és folytassa a meglévő mappastruktúrát; hozzon létre pontos feltételeket a Vizuális Szabályépítővel; vagy hajtson végre szabályalapú kötegelt átnevezést.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Kész 1 kattintásos sablonok: azonnali válogatás típus, dátum vagy fényképezőgép-adatok szerint</li><li>Természetes nyelvű AI: írjon hétköznapi szöveges utasításokat; a helyi LLM biztonságos szabályokat generál</li><li>Meglévő rendszer folytatása: felismeri és kiegészíti a korábban kialakított mappaszerkezetet</li><li>Vizuális szabályépítő: testreszabható feltételek, célhely-változók és ütközéskezelési logika</li><li>Kötegelt átnevező: sorszámlálók, dátumbélyegek és mintázat szerinti szövegcserék</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-folder2-open" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Önrendszerező mappák (Intelligens megfigyelt mappák)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Társítson szabályokat a gyorsan rendetlenné váló helyekhez, például a Letöltésekhez vagy az Asztalhoz. Amikor új fájlok érkeznek, a Stow a háttérben előkészít egy rendezett javaslatot, és diszkrét előnézeti értesítéssel jelzi — egyetlen kattintással jóváhagyható anélkül, hogy tolakodó háttérfolyamatok futnának.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Hatékonyan figyeli a célmappákat anélkül, hogy erőforrás-igényes háttérszolgáltatásokat futtatna</li><li>Automatikusan előkészíti a rendezési tervet, amint új fájlok érkeznek a figyelt mappákba</li><li>Mindig egykattintásos felhasználói jóváhagyást igényel — soha nem mozgat fájlokat az Ön távollétében</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 2. pillér: Kétpaneles könyvtárböngésző és univerzális előnézeti panel -->
+  <section id="pillar-explorer" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-layout-split me-1" aria-hidden="true"></i> 2. pillér
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Kétpaneles könyvtárböngésző és univerzális előnézeti panel</h2>
+          <p class="text-secondary fs-5 mb-0">A Windows Intéző korszerű alternatívája, amely élő rekurzív mappaméretekkel és azonnali gazdag előnézettel pótolja a Windows legnagyobb hiányosságait.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Kétpaneles böngésző élő mappaméretekkel</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Navigáljon a teljes fájlrendszerben a kibontható könyvtárfa és a reszponzív fájlrács segítségével. A Stow megoldja a Windows Intéző legnagyobb hiányosságát: közvetlenül a táblázatban számítja ki és jeleníti meg a valós rekurzív mappaméreteket és elemszámokat, így azonnal láthatóvá válik, hol összpontosul a tárhelyhasználat.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Élő rekurzív mappaméretek és elemszámok közvetlenül a nézetben kiszámítva</li><li>Kétpaneles navigáció kibontható könyvtárfával és navigációs útvonallal (breadcrumbs)</li><li>Közvetlen fájlkezelés: mappák létrehozása, átnevezés, valamint kivágás/másolás/beillesztés helyben</li><li>Zökkenőmentes kétirányú fogd és vidd (drag-and-drop) a Windows Intézővel és más alkalmazásokkal</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-layout-split" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Univerzális azonnali előnézeti panel</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Bármilyen fájlformátumot azonnal megvizsgálhat anélkül, hogy nehézkes külső szoftvereket kellene elindítania. Tartalmaz fotóvizsgálót EXIF-metaadatokkal, videólejátszót felbontási és kodekadatokkal, dokumentumnézegetőt PDF- és Word-fájlokhoz, hanglejátszót ID3-címkékkel, valamint archívum-betekintőt.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Nagy felbontású fotómegjelenítés fényképezőgép-típussal, rekeszértékkel, ISO-val és EXIF-adatokkal</li><li>Integrált videólejátszó felbontás-, képkockasebesség-, bitráta- és kodekinformációkkal</li><li>Azonnali dokumentumnézegető PDF-ekhez, Word-dokumentumokhoz (.docx) és szöveges fájlokhoz</li><li>Hanglejátszó ID3-címkékkel, albumborítókkal és bitráta-elemzéssel</li><li>Archívum-vizsgáló: betekintés ZIP és TAR archívumok belsejébe kibontás nélkül</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 3. pillér: Intelligens tisztítás, szemételtávolítás és duplikátumszűrés -->
+  <section id="pillar-cleanup" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-trash2 me-1" aria-hidden="true"></i> 3. pillér
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Intelligens tisztítás, szemételtávolítás és duplikátumszűrés</h2>
+          <p class="text-secondary fs-5 mb-0">Szerezzen vissza elvesztegetett gigabájtokat és szüntesse meg a duplikátumok okozta zűrzavart, miközben fájljai 100%-os biztonságban maradnak.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Dedikált szemét- és hulladéktisztító</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Szabadítson fel gigabájtokat a rejtett felesleges adatoktól egyetlen kattintással. Keresi a befejezetlen vagy megszakadt letöltéseket (.crdownload, .part, .download), a szerkesztők és az operációs rendszer hátrahagyott fájljait (.DS_Store, Thumbs.db, ideiglenes fájlok), a felhalmozódott telepítőfájlokat (.exe, .msi), a nagyméretű fejlesztői gyorsítótárakat (node_modules, bin/obj, .gradle), az elhagyott kicsomagolt mappákat és a nulla bájtos fájlokat.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Gigabájtokat szabadít fel megszakadt letöltésekből, ideiglenes fájlokból és bélyegképekből</li><li>Eltávolítja a Letöltések mappában felhalmozódott régi szoftvertelepítőket</li><li>Megtisztítja a fejlesztői függőségi gyorsítótárakat (node_modules, gradle, bin/obj)</li><li>Kisöpri az üres mappákat és a kicsomagolt archívumok hátrahagyott maradványait</li><li>Minden tisztítás előzetesen ellenőrizhető a táblázatban, és biztonságosan a Lomtárba kerül</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Pontos duplikátumkereső (fájlok és mappák)</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Bájtról bájtra azonosítja a teljesen megegyező fájlokat és a teljes azonos mappastruktúrákat, függetlenül azok nevétől vagy helyétől. Négy egyértelmű szabály javasolja, melyik példányt érdemes megtartani (legjobb minőség, legrégebbi, legújabb vagy preferált mappa). A felesleges másolatok biztonságosan a Lomtárba kerülnek.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Tartalmi ellenőrzőösszeg alapján csoportosítja az azonos fájlokat és tükrözött mappastruktúrákat</li><li>Megtalálja a duplikált mappákat még eltérő elnevezés esetén is (&#x27;Képek 2021&#x27; vs &#x27;Képek mentése&#x27;)</li><li>A Lomtár védelme biztosítja, hogy a felesleges példányok bármikor visszahozhatók legyenek</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-trash2" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Hasonló videók keresője és fotóélesség-válogató</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Túlmutat a pontos egyezések keresésén. Felismeri az újrakódolt videókat, az alacsonyabb felbontású verziókat (pl. 1080p vs 720p), a megvágott klipeket és a tömörített WhatsApp- vagy üzenetküldős videókat. Fényképek esetén felismeri a sorozatfelvételeket, és a szélek élességének elemzésével javaslatot tesz a legélesebb kép megtartására, miközben az elmosódott képeket kiszűri.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>A hasonló videók észlelése megtalálja az újrakódolt, átméretezett és vágott anyagokat</li><li>A sorozatfelvételek csoportosítása azonosítja a folyamatos kamerás akciójeleneteket</li><li>Az él- és élességelemzés megjelöli az elmosódott, életlen vagy bemozdult fotókat</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 4. pillér: Papírmentes iratok, zenei gyűjtemény és fotográfia -->
+  <section id="pillar-docs" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-file-earmark-text me-1" aria-hidden="true"></i> 4. pillér
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Papírmentes iratok, zenei gyűjtemény és fotográfia</h2>
+          <p class="text-secondary fs-5 mb-0">Alakítsa át a kaotikus papírhalmokat és a címkézetlen médiagyűjteményeket gyönyörűen rendezett könyvtárakká.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Beszcannelt iratokból többoldalas PDF</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">A nyugtákról, bankszámlakivonatokról, adólevelekről és közüzemi számlákról készült fotókat tiszta digitális iratszekrénnyé alakítja. Az eszközön futó helyi OCR szöveggé alakítja az oldalakat anélkül, hogy dokumentumait felhőalapú szolgáltatásoknak továbbítaná. Az intelligens osztályozás felismeri a dokumentum típusát (nyugta, számla, adóbevallás, közüzemi számla, bankkivonat, szerződés) és a kibocsátó szervezetet, összefűzi a több fotóból álló oldalakat, és egységesíti a fájlneveket.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>A 100%-ban helyi OCR helyben olvassa be a szöveget felhőbeli adatvédelmi kockázatok nélkül</li><li>Az intelligens osztályozás beazonosítja az irat típusát és a kiállító intézményt</li><li>A több fotóból álló összefűzés kereshető, szabványos PDF-dokumentumba egyesíti az oldalakat</li><li>Következetes automatikus elnevezés (pl. &#x27;2024-03-15_OTPBank_Kivonat.pdf&#x27;)</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Zene- és hangkönyvtár gondozása</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Beolvassa és indexeli az ID3 és audio metaadatokat MP3, FLAC, M4A, WAV és OGG formátumokban. Különbséget tesz a szám előadója és az album előadója között, így a több előadós válogatásalbumok egyetlen közös mappában maradnak ahelyett, hogy szétaprózódnának. Beépített címkeszerkesztőt tartalmaz a hiányzó vagy hibás metaadatok javítására.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Átfogó ID3- és címkeindexelés MP3, FLAC, M4A, WAV és OGG fájlok esetén</li><li>Az album előadója szerinti csoportosítás megakadályozza a válogatásalbumok szétesését</li><li>A beépített kötegelt címkeszerkesztő javítja a hiányzó számokat, előadókat, éveket és borítókat</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Offline vektoros világtérkép és SD-kártya importálás</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Fedezze fel fotói készítésének helyszíneit egy interaktív, teljesen offline kirajzolt vektoros világtérképen — internetes térképcsempék letöltése és GPS-koordináták megosztása nélkül. Automatikusan felismeri a csatlakoztatott memóriakártyákat vagy fényképezőgépeket az 1 kattintásos importáláshoz a RAW + JPEG párok megőrzésével.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Az interaktív vektoros világtérkép 100% offline felületen jeleníti meg a geocímkézett fotókat</li><li>Intelligens kamera- és SD-kártya felismerés kényelmes, 1 kattintásos importálási folyamattal</li><li>A kísérőfájlok szigorú megőrzése összetartja a RAW+JPEG és a videó+felirat párosokat</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+  <!-- 5. pillér: Tárhely-visszanyerés, differenciális szinkronizálás és Windows-integráció -->
+  <section id="pillar-storage" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> 5. pillér
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">Tárhely-visszanyerés, differenciális szinkronizálás és Windows-integráció</h2>
+          <p class="text-secondary fs-5 mb-0">Vállalati szintű biztonság, differenciális meghajtó-egyeztetés és szoros együttműködés a Windows rendszerrel.</p>
+        </div>
+      </div>
+      <div class="row g-4">
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Irányított mappakezelés és differenciális szinkronizálás</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Megválaszolja a gyakori kérdést: &#x27;Mi van a külső biztonsági mentési meghajtómon, ami még nincs meg az elsődleges könyvtáramban?&#x27; Összehasonlít két mappastruktúrát vagy meghajtót, és besorolja a fájlokat Célhelyről hiányzó, Azonos vagy Ütköző/Módosított kategóriákba. Biztonságos másolási tervet készít az eltérések áthidalására a nem ellenőrzött fájlok törlése nélkül.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Összehasonlít két mappafát vagy meghajtót a hiányosságok és eltérések felderítésére</li><li>Kategorizálja a fájlokat: Célhelyről hiányzó, Megegyező vagy Konfliktusos</li><li>A biztonságos másolási terv pótolja a hiányokat pusztító tükörtörlések végrehajtása nélkül</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Nem destruktív biztonsági mentés és bit-rot integritás-ellenőrző</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Állítson be egykattintásos vagy ütemezett biztonsági mentést a fontos könyvtárakról külső meghajtókra vagy másodlagos lemezekre. Másolja az új és frissített fájlokat anélkül, hogy lemásolná a forrásból történt törléseket. A beépített bit-rot ellenőrző újraellenőrzi a SHA-256 ellenőrző összegeket a forrás és a mentés között a lemezhibák vagy a hibás szektorok időben történő felderítésére.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>A nem destruktív mentési feladatok az új fájlokat másolják a törlések átvétele nélkül</li><li>Az adatintegritás-ellenőrző újraellenőrzi az SHA-256 kódokat a lemez csendes korrupciójának kiszűrésére</li><li>A biztonságos visszaállítási tervező előnézetet biztosít a fájlok eredeti vagy új mappába való mentéséhez</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Teljes kötetméretű tárhelytérkép és áthelyezés Junction segítségével</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Szemlélteti a lemezterület felhasználását a teljes meghajtókon (C:, D:), felfedve a keresési gyökereken kívüli hatalmas helyfoglalókat (hasonlóan a TreeSize vagy WizTree programokhoz). Helyezzen át óriási mappákat (pl. egy 400 GB-os Képek mappát) egy másodlagos meghajtóra; a Stow automatikusan létrehoz egy NTFS Directory Junction kapcsolódási pontot az eredeti helyen, így a parancsikonok és alkalmazások zökkenőmentesen működnek tovább. Nyerjen vissza helyet az ideiglenes rendszerfájlok és frissítési gyorsítótárak felszámolásával.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>A meghajtószintű vizuális tárhelytérkép azonosítja az óriási méretű mappákat a teljes meghajtón</li><li>Az NTFS Directory Junction pontok lehetővé teszik óriási mappák áthelyezését a hivatkozások megtörése nélkül</li><li>A rendszertárhely-visszanyerés felkutatja a felszabadítható Windows ideiglenes fájlokat és gyorsítótárakat</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">Mély Windows-integráció és hordozható profilok</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">Kifejezetten a Windows környezethez tervezve. Kattintson a jobb gombbal bármelyik mappára a Windows Intézőben a &#x27;Rendszerezés a Stow-val&#x27; vagy a &#x27;Duplikátumok keresése&#x27; parancshoz. Nyomja meg a Win+Shift+F billentyűkombinációt bárhol a Globális Gyorsindító megjelenítéséhez. Kötegelten feloldja a letöltött fájlok biztonsági blokkolását (Mark of the Web / Zone.Identifier), a fájlok áthelyezésekor automatikusan javítja az Asztalon és a Start menüben lévő parancsikonokat, és hordozható JSON-profilokat exportál az új számítógépek pillanatok alatti beállításához.</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    <li>Beépülés a Windows Intéző jobb gombos helyi menüjébe</li><li>Globális gyorsindító billentyűkombináció (Win+Shift+F) az azonnali rendszerkereséshez</li><li>A letöltött fájlok letiltásának kötegelt feloldása (Zone.Identifier)</li><li>Az intelligens parancsikon-javítás megőrzi a hivatkozások működését az Asztalon és a Start menüben</li><li>Hordozható JSON-profilok exportálása a szabályok és beállítások új gépre költöztetéséhez</li>
+                  </ul>
+                </div>
+              </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
         <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Kompromisszummentes adatvédelem és felügyelet
         </span>
-        <h2 class="display-5 fw-bold text-white">Öt szabály, amelyre az egész alkalmazás épül</h2>
+        <h2 class="display-5 fw-bold text-white">A Stow összehasonlítása</h2>
+        <p class="text-secondary fs-5">Miért választják az asztali felhasználók a Stow-t a szkriptek és felhőszolgáltatások helyett?</p>
       </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Semmi nem hagyja el a gépet</h3>
-              </div>
-              <p class="text-secondary small mb-0">Sem a fájlok, sem a nevük, sem az index, sem a beágyazások, sem az arcadatok, sem egy összeomlási napló. Az egész alkalmazásban pontosan két hálózati művelet van, és mindkettőt neked kell tudatosan elindítanod.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-table" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Semmi nem történik előnézet nélkül</h3>
-              </div>
-              <p class="text-secondary small mb-0">Minden művelet, amely fájlhoz nyúl — egykattintásos beállítás, a nyelvi modell által írt szabály, kötegelt átnevezés —, ugyanazon a folyamaton megy át, és ugyanarra az előnézeti képernyőre érkezik. Nincs gyorsút, amely megkerülné.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-trash" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Semmi nem törlődik és nem íródik felül</h3>
-              </div>
-              <p class="text-secondary small mb-0">A motor csak áthelyez fájlokat, átnevezi őket és mappákat hoz létre. Az eltávolítás pontosan egy helyen létezik — a duplikátumkeresőben —, és a Windows Lomtárán át vezet, amely a Stow eltávolítását is túléli.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Minden visszafordítható</h3>
-              </div>
-              <p class="text-secondary small mb-0">Minden művelet naplóba kerül, mielőtt végrehajtanák. Ez a napló táplálja a visszavonás gombot, állítja helyre az alkalmazást, ha a gép futás közben áramtalanodik, és tudja utólag, mely mappák ürültek ki.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">A modellek javasolnak, a kód dönt</h3>
-              </div>
-              <p class="text-secondary small mb-0">A nyelvi modell soha nem látja a fájllistádat, és soha nem hajt végre műveletet. Szabályokat ad ki. Hétköznapi, ellenőrizhető kód alkalmazza őket minden fájlra, és egy független ellenőrző újravizsgál minden előállított célhelyet.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Öt mód arra, hogy elmondd, mit szeretnél</h2>
-        <p class="text-secondary fs-5">Mindegyik pontosan ugyanahhoz az előnézethez fut be.</p>
-      </div>
-      <div class="row g-3">
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">1</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Kész beállítások</h3>
-                  <p class="text-secondary small mb-0">Hat egykattintásos lehetőség: fájltípus szerint, év és hónap szerint, év szerint, típus majd év szerint, képernyőképek félretétele, vagy fényképezőgép szerint. Ötük egyetlen fájl megnyitása nélkül működik, így a Stow már azelőtt hasznos, hogy bármilyen modellt letöltenél.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">2</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Mondd el a saját szavaiddal</h3>
-                  <p class="text-secondary small mb-0">„Tedd át mindent, ami számlákkal kapcsolatos, egy Számlák mappába.” Egy helyi nyelvi modell szabályokká alakítja a mondatot. Összefoglalót kap a gyűjteményedről — darabszámok, kiterjesztések, dátumtartomány, mappanevek —, a fájllistát soha. Nincs olyan kódútvonal, amely odaadná neki.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">3</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Folytasd a rendszert, amid már van</h3>
-                  <p class="text-secondary small mb-0">A Stow visszaolvassa a szerkezetet a mappafádból, és szabályokat ír, amelyek folytatják azt. Az elemzés bizonyítékokon alapul: egy 2019 nevű mappa csak akkor számít évmappának, ha a benne lévő fájlok valóban 2019-esek. Nincs modell, nincs letöltés.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">4</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Építsd meg magad a szabályokat</h3>
-                  <p class="text-secondary small mb-0">Ha egy fájl így néz ki, tedd abba a mappába. A szabályok fentről lefelé futnak, az első találat nyer. A feltételek lefedik a kiterjesztést, nevet, útvonalat, méretet, dátumokat, képméretet, címkéket, személyeket, helyeket és a vizuális hasonlóságot; a célhelyek olyan helyőrzőket fogadnak, mint a {{year}}, a {{month_name}} és a {{camera}}.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">5</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">Mentsd el receptként</h3>
-                  <p class="text-secondary small mb-0">Bármely szabálykészlet, amely eljutott egy előnézetig, elnevezhető és megőrizhető, újra futtatható, vagy átadható egy figyelt mappának. A mentés semmilyen kiváltságot nem ad neki: minden futtatáskor újrafordul, újra korlátozódik és újra ellenőrződik — és továbbra is olyan előnézetbe fut, amelyet jóvá kell hagynod.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Egy gomb mindent visszatesz</h2>
-          <p class="text-secondary fs-5 mb-0">Az előzmények felsorolják a Stow utolsó húsz műveletét, a legfrissebbel kezdve, és mindegyik pontosan visszafordítható. Minden rendezés után megjelenik egy sáv az ablak tetején egykattintásos visszavonással — soha nincs elrejtve egy menüben.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">A visszavonás szándékosan nem szimmetrikus a végrehajtással. Míg a végrehajtás megáll az első hibánál, a visszavonás minden műveletet megkísérel, és a problémákat együtt jelenti, mert egy helyreállítás félbehagyása két állapot között hagyna elakadva. Ha fájlok kikerülnek egy mappából, az kiürül, és csak a Stow tudja, mely mappák voltak azok — ezért utána felajánlja a kitakarításukat, és semmi többet nem tesz, mint felajánlja.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Újra megtalálni a dolgokat</h2>
-        <p class="text-secondary fs-5">Itt minden azt az indexet olvassa, amelyet a Stow amúgy is felépített, így a legtöbbjébe belenézni semmibe sem kerül.</p>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-search" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Keress a fájljaid között</h3>
-              </div>
-              <p class="text-secondary small mb-0">Egy kicsi, dokumentált szintaxis: kind:image, ext:pdf, size:&gt;10mb, older:1y, in:Downloads, tag:work, text:„kazán garancia”, és egy mínusz elöl a kizáráshoz. Teljes egészében működik akkor is, ha a Stow nem nyithatja meg a fájljaidat.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-image" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Keress fényképeket aszerint, mi van rajtuk</h3>
-              </div>
-              <p class="text-secondary small mb-0">Írd be, hogy „kutya a tengerparton”, és megkapod a tengerparti fotóidat, akár IMG_4821.jpg a nevük, akár egészen más. A képeket beolvassa, helyben vektorrá kódolja, majd elengedi: magukat a fényképeket soha nem másolja és nem őrzi meg.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-hdd-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Nézd meg, mi foglalja a helyet</h3>
-              </div>
-              <p class="text-secondary small mb-0">Összesítés fájltípusonként, a legteltebb mappáid a mélységig számolva, és a legnagyobb egyedi fájljaid. Minden megállapítás magával hozza a keresést, amely előállította, így a „18 GB videó, amelyet három éve senki nem nyitott meg” pontosan azt a lekérdezést adja a kezedbe, amellyel cselekedhetsz.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Helyek és emberek</h3>
-              </div>
-              <p class="text-secondary small mb-0">A fényképek aszerint csoportosulnak, hol készültek, és — csak ha ezt bekapcsolod — aszerint, mely arcok hasonlítanak egymásra. Ez hasonlóság szerinti csoportosítás, nem azonosítás: nincs személyazonossági adatbázis, és semmilyen képesség annak megállapítására, ki kicsoda. Minden nevet te adsz meg.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-tags-fill" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Címkék</h3>
-              </div>
-              <p class="text-secondary small mb-0">Egy saját szavad — „munka”, „adó”, „nyaralás” — bármely fájlhoz csatolva, amelyet szemmel akarsz tartani. A címkék a Stow indexében élnek, így a fájljaidat soha nem nevezi át és nem változtatja meg, és minden adatvédelmi módban működnek.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">Duplikátumok, egész mappákat is beleértve</h2>
-          <p class="text-secondary fs-5 mb-0">Az azonos fájlok tartalom szerint csoportosulnak, bárhol legyenek és bárhogy hívják őket. Ugyanígy az azonos mappák: a nevek egyáltalán nem vesznek részt az összehasonlításban, tehát a „Nyaralás 2019” és a „Nyaralás másolata” ugyanaz a mappa, ha a bájtjaik azok. Rendszerint itt van az igazi hely.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">A csaknem azonos fényképeket is megtalálja, ugyanazokkal a beágyazásokkal, mint a fotókeresés, így az újratömörített és átméretezett másolatok is előkerülnek, noha a bájtjaik teljesen eltérnek. Négy teljesen determinisztikus szabály választja ki, melyik példány maradjon — legjobb minőség, legrégebbi, legújabb, vagy amelyik az általad kijelölt mappában van —, és minden választás mellé jár az indoklása. Semmi nem törlődik; a fölös példányok a Lomtárba kerülnek.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">Három további dolog, amit tud</h2>
-      </div>
-      <div class="row g-4">
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Kötegelt átnevezés</h3>
-              </div>
-              <p class="text-secondary small mb-0">Szöveg cseréje, sorozat számozása, előtag vagy utótag hozzáadása, a kis- és nagybetűk rendbetétele, egy részlet eltávolítása. Az átnevezés egy hétköznapi szabálykészlet, amelynek célhelye a fájl saját mappája — így ugyanazt az előnézetet, ugyanazt az ellenőrzőt és ugyanazt a visszavonást kapja, mint minden más.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-eye" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Figyelt mappák</h3>
-              </div>
-              <p class="text-secondary small mb-0">A figyelt mappába érkező fájlokat észreveszi és átnézésre előkészíti, tetszés szerint egy mentett recepthez mérve. Amit szándékosan nem tesz, az a cselekvés: egy rendező, amely csendben, a háttérben mozgatná a fájlokat, sokkal kevésbé lenne megbízható termék, bármilyen kényelmes is.</p>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">Együtt tartani, ami összetartozik</h3>
-              </div>
-              <p class="text-secondary small mb-0">Egy fényképezőgépes RAW semmit sem ér a JPEG-je nélkül; egy felirat használhatatlan a videója nélkül. A motor és az ellenőrző közötti menet együtt tartja a kísérőfájlokat — óvatosan, mert a közös névelőtag önmagában nem bizonyítja, hogy két fájl egymáshoz tartozik.</p>
-            </div>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">Az adatvédelem a termék formája, nem utólag ráerősített szabályzat</h2>
-          <p class="text-secondary fs-5 mb-0">Nincs fiók, nincs háttérrendszer és nincs felhőadatbázis — így nincs mit kiszivárogtatni, nincs mit bírói úton lefoglalni, és nincs mit a fejlesztőnek a nevedben törölnie. A fejlesztő egyáltalán nem kap adatot az alkalmazásból.</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">Mindaz, amit a Stow származtat, egyetlen mappában él, szándékosan a felhővel szinkronizált helyeken kívül tartva, hogy az indexet soha ne másolja a felhőbe a fájlszinkronizálás vagy a Windows biztonsági mentése. A teljes indexet CSV-be exportálhatod és elolvashatod, törölheted külön az arcadatokat, törölheted külön a tárolt dokumentumszöveget, vagy eldobhatod az egész indexet és újraépítheted. Ezek egyike sem érinti egyetlen valódi fájlodat sem.</p>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Funkció és biztonsági garancia</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Stow (Dhinovatech)</th>
+                <th scope="col">Hagyományos eszközök / Szkriptek</th>
+                <th scope="col">Felhőszolgáltatások</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Adatvédelem és bizalmas kezelés</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">100% offline • Nulla telemetria, fiókok vagy felhőkiszolgálók nélkül</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Offline, de hiányzik az intelligens automatizálás és az AI</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>A fájlok és metaadatok távoli vállalati szerverekre kerülnek feltöltésre</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Szükséges-e felhőbe feltöltés</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Nulla feltöltött bájt (minden feldolgozás kizárólag a PC-n történik)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Nincs (kizárólag helyi)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kötelező szinkronizálás (gigabájtos adatforgalmat igényel)</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Eszközön futó helyi AI</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Helyi CPU-alapú gépi látás, OCR és Phi-4 nyelvi modellek az ONNX segítségével</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Nincs (statikus regex vagy alapvető parancsfájlok)</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kiszolgálóoldali, zárt, átláthatatlan feketedoboz modellek</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Kötelező előnézeti táblázat</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Garantált előnézeti táblázat, mielőtt bármely fájlhoz hozzányúlna</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Vak végrehajtás vagy kockázatos kötegelt szkriptek</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Átláthatatlan háttérszinkronizálás előzetes ellenőrzés nélkül</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Tranzakciós visszavonás 1 kattintással</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Azonnali visszaállítás a végrehajtás előtti atomi naplóból</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Kézi visszaállítás; a szkriptek működése nem fordítható vissza</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Bonyolult verziótörténet vagy végleges adatvesztés</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Felhőbeli helyőrzők biztonsága</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Felismeri a OneDrive/iCloud/Dropbox fájlokat; sosem kényszerít letöltést</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Nem ismeri fel; gyakran véletlen tömeges letöltést indít el</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Szolgáltatóhoz kötött, zárt felhőrendszerek</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Duplikátumszűrés és hasonló elemek</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Mappák bájtról bájtra, hasonló videók és fotóélesség elemzése</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Csak egyszerű fájlnév- vagy egyedi ellenőrzőösszeg-egyezések</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Csak alapvető fotóduplikátumok; nincs videó- vagy mappaszűrés</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Bit-rot és integritás-ellenőrző</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Beépített SHA-256 mentés-ellenőrzés a lemezhibák kiszűrésére</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Bonyolult manuális parancssori segédprogramokat igényel</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Átláthatatlan, zárt felhőtárhely</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">Árképzés és licencelés</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">Egyszeri vásárlás a Microsoft Store-ban • Élethosszig tartó birtoklás</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>Ingyenes egyszerű segédprogramok vagy különálló fizetős eszközök</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>Drága, ismétlődő havi vagy éves előfizetési díjak</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -785,6 +1231,129 @@
     </div>
   </section>
 
+  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> Egyértelmű válaszok
+        </span>
+        <h2 class="display-5 fw-bold text-white">Gyakran ismételt kérdések</h2>
+        <p class="text-secondary fs-5">Világos válaszok a Stow adatvédelmi felépítéséről, offline AI-járól, fájlbiztonságáról és kompatibilitásáról.</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  Q1: Hogyan garantálja a Stow, hogy egyetlen fájlom vagy adatom sem kerül a felhőbe?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  A Stow nem rendelkezik felhasználói fiókokkal, külső kiszolgálókkal, telemetriai keretrendszerekkel vagy háttérben futó analitikával. Minden gépi tanulási modell (SigLIP-2 a szemantikus fotókereséshez, YuNet és SFace az arccsoportosításhoz, helyi OCR a beolvasott iratokhoz és Phi-4-mini a természetes nyelvű szabályokhoz) szigorúan az Ön számítógépének processzorán fut az ONNX Runtime segítségével. Fényképei, dokumentumai, fájlnevei, mappastruktúrái és keresési lekérdezései soha nem hagyják el az Ön számítógépét.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Q2: Szükségem van erős videokártyára (GPU) vagy dedikált NPU-ra a Stow használatához?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nem. A Stow natívan Windows 10 és 11 rendszerekre készült (mind x64, mind ARM64 architektúrán), és a helyi következtetési motor kifejezetten a hétköznapi fogyasztói processzorokra lett optimalizálva, dedikált grafikus kártya vagy NPU igénye nélkül. Ezenfelül az olyan alapvető funkciók, mint az előbeállítások, a vizuális szabályok, az élő mappaméretek, a duplikátumkeresés, a szeméttisztítás, a differenciális szinkronizálás és az univerzális előnézet egyáltalán nem igényelnek AI-modelleket, és a telepítés után azonnal működnek.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                  Q3: Hogyan akadályozza meg a Stow a nem kívánt tömeges letöltéseket a OneDrive, iCloud vagy Dropbox mappákban?
+                </button>
+              </h2>
+              <div id="faq3" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  A Stow a felhőbeli helyőrző fájlok (cloud placeholders) teljes ismeretével készült. A OneDrive, Dropbox, Google Drive vagy iCloud által kezelt mappák beolvasásakor a Stow észleli a csak felhőben létező virtuális helyőrzőket. Nem indít el észrevétlen, nagyméretű fájlletöltéseket forgalomkorlátos vagy akkumulátoros kapcsolatokon, így felhőfájljai érintetlenek maradnak anélkül, hogy túlterhelnék a sávszélességet vagy váratlanul megtöltenék a helyi lemezt.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                  Q4: Mi történik, amikor a Stow szemetet takarít vagy duplikátumokat távolít el? Elveszhetnek véglegesen a fájlok?
+                </button>
+              </h2>
+              <div id="faq4" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  A Stow soha semmit nem töröl véglegesen. A szeméttisztítási műveletek (mint például a félbemaradt letöltések vagy a régi telepítők eltávolítása) és a duplikátumeltávolítási lépések biztonságosan a szabványos Windows Lomtárba mozgatják az elemeket. Ha később észreveszi, hogy tévedésből távolított el egy fájlt, azonnal visszaállíthatja közvetlenül a Lomtárból, vagy igénybe veheti a Stow 1 kattintásos Visszavonás funkcióját.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                  Q5: Hogyan működik az 1 kattintásos visszavonás funkció? Visszavonhatok egy rendszerezést napokkal később is?
+                </button>
+              </h2>
+              <div id="faq5" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Mielőtt bármely fájl elmozdulna, átnevezésre kerülne vagy törlődne a lemezen, a Stow egy atomi, megfordítható tranzakciós naplóbejegyzést rögzít, amely tartalmazza minden egyes elem pontos forrás- és célútvonalát. A művelet után azonnal megjelenik egy visszavonási értesítősáv, a Stow Előzmények központja pedig megőrzi a korábbi műveleteket, így órákkal, napokkal vagy hetekkel később is megbízhatóan visszaállíthatja a rendszerezési folyamatokat.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                  Q6: Hogyan készít rendszerezési szabályokat a Természetes Nyelvű AI helyben, az eszközön?
+                </button>
+              </h2>
+              <div id="faq6" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Amikor olyan utasítást ír be, mint például: &#x27;Helyezd át az összes számlát a Számlák mappába, és csoportosítsd a fényképezőgép fotóit év és hónap szerint&#x27;, a Stow helyi nyelvi modellje (Phi-4-mini) biztonságos, előnézetben megtekinthető rendszerezési szabályokká alakítja kérését. A modell kizárólag egy magas szintű sémát kap a könyvtárról (kiterjesztések száma, dátumtartományok és a legfelső szintű mappák nevei) — az Ön egyéni fájlneveit vagy azok tartalmát soha. Ezt követően auditálható programkód értékeli e szabályokat egy interaktív előnézeti táblázatban, amelyet Ön ellenőriz és jóváhagy.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                  Q7: Képes a Stow a fényképezőgépes RAW fájlokat és kísérőfájljaikat együtt tartani?
+                </button>
+              </h2>
+              <div id="faq7" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Igen. A Stow intelligens kísérőfájl-megőrzési technológiával rendelkezik. A fényképezőgépek RAW formátumai (mint a CR2, NEF, ARW, DNG) automatikusan hozzá vannak rendelve a megfelelő JPEG/HEIC előnézetekhez és a .xmp metaadatfájlokhoz. Hasonlóképpen a videofájlok is szorosan összekapcsolva maradnak a .srt vagy .vtt felirataikkal. Amikor a Stow rendszerez vagy áthelyez egy elsődleges fájlt, az összes kísérőfájl vele együtt mozog.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                  Q8: Milyen rendszerkövetelményei vannak a Stow-nak, és hogyan telepíthető?
+                </button>
+              </h2>
+              <div id="faq8" class="accordion-collapse collapse " data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  A Stow a Windows 10 (2004-es verziótól / 19041-es buildtől kezdődően) és a Windows 11 rendszereket támogatja mind a 64 bites Intel/AMD (x64), mind a Qualcomm Snapdragon (ARM64) architektúrákon. Közvetlenül a Microsoft Store-on keresztül tölthető le korszerű, homokozóban (sandbox) futó, csomagolt MSIX alkalmazásként, amely garantálja a tiszta telepítést, az automatikus frissítéseket és a háttérbeli terheléstől mentes működést.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -793,8 +1362,8 @@
           <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
             <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
-          <h2 class="display-6 fw-bold text-white mb-3">Stow: fotó- és fájlrendező</h2>
-          <p class="text-secondary fs-5 mb-4">Offline MI, amely rendet tesz a gépeden — és soha nem mozdít el fájlt kérdés nélkül.</p>
+          <h2 class="display-6 fw-bold text-white mb-3">Stow: AI fotó- és fájlrendszerező, duplikátumkereső</h2>
+          <p class="text-secondary fs-5 mb-4">A 100%-ban offline, adatvédelmet előtérbe helyező asztali fájlkezelő csomag, amely rendszerezi, duplikátumszűri, megtisztítja és védi fájljait anélkül, hogy egyetlen bájtot is a felhőbe töltene.</p>
           <div class="d-flex justify-content-center">
             <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
               <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
@@ -833,8 +1402,6 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
-            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
-            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
@@ -867,20 +1434,19 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-<div class="install-bar" role="complementary" aria-label="Stow">
-  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-  <div class="install-bar-text">
-    <div class="install-bar-title">Stow</div>
-    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
+    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+    <div class="install-bar-text">
+      <div class="install-bar-title">Stow</div>
+      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+    </div>
+    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
-  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener"
-     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Telepítés</a>
-</div>
-<button type="button" class="to-top" aria-label="Vissza a tetejére" title="Vissza a tetejére">
-  <i class="bi bi-arrow-up" aria-hidden="true"></i>
-</button>
-<script src="/assets/js/ux.js"></script>
-<!-- END generated UX block -->
+  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+  <script src="/assets/js/ux.js"></script>
+  <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
   <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>

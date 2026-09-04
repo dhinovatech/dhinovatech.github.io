@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate /stow/ - "Stow: Photo & File Organizer - Offline AI", the Microsoft
+Generate /stow/ - "Stow: AI Photo & File Organizer, Duplicate Finder", the Microsoft
 Store (WinUI 3) file organizer, in 23 languages.
 
 Like /glowcompare-windows/, this section keeps its own navigation: the language
@@ -21,15 +21,20 @@ Run:  python tools/build-stow.py
 Idempotent: every page is rewritten from the strings file on each run.
 """
 import html
+import io
 import json
 import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STRINGS = os.path.join(ROOT, "tools", "stow-strings.json")
+CONSENT_STRINGS = os.path.join(ROOT, "tools", "consent-strings.json")
 
 with open(STRINGS, encoding="utf-8") as _fh:
     L = json.load(_fh)
+
+with open(CONSENT_STRINGS, encoding="utf-8") as _fh:
+    CONSENT_L = json.load(_fh)
 
 SECTION = "stow"
 
@@ -41,7 +46,21 @@ STORE_UTM = STORE + "?ocid=dhinovatech_stow"
 ICON = "/assets/images/stow-icon.png"
 OGIMG = "/assets/images/stow-icon.png"
 OGW, OGH = 512, 512
-OGALT = "Stow photo and file organizer icon"
+OGALT = "Stow AI photo and file organizer icon"
+
+GA_ID = "G-T0S5ZW1QGM"
+HEAD_BEGIN = "  <!-- BEGIN generated analytics + consent block -->"
+HEAD_END = "  <!-- END generated analytics + consent block -->"
+BAR_BEGIN = "<!-- BEGIN generated consent banner -->"
+BAR_END = "<!-- END generated consent banner -->"
+
+DENIED_REGIONS = [
+    "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR",
+    "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL",
+    "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+    "IS", "LI", "NO",
+    "GB", "CH",
+]
 
 # code, menu label, dir, hreflang, og locale
 LANGS = [
@@ -73,18 +92,8 @@ LANGS = [
 BY_CODE = {c: (c, label, d, hl, og) for c, label, d, hl, og in LANGS}
 NLANG = len(LANGS)
 
-# The strings file is the source of truth for which locales have copy; the page
-# is only emitted for locales that actually have a block, so a partially
-# translated strings file still builds rather than raising KeyError.
-MISSING = set(BY_CODE) - set(L)
-EXTRA = set(L) - set(BY_CODE)
-assert not EXTRA, "strings for unknown locales: %s" % sorted(EXTRA)
-
 E = html.escape
 
-# The four model bundles. Names, licences and sizes are proper nouns and
-# figures, so they are identical in every locale; only the "what it does"
-# column comes from the strings file.
 MODELS = [
     ("SigLIP-2 base patch16-224", "Apache-2.0", "365 MB"),
     ("YuNet", "MIT", "227 KB"),
@@ -105,18 +114,74 @@ def built_langs():
     return [x for x in LANGS if x[0] in L]
 
 
+def _region_js(codes, per_row=10, indent=" " * 8):
+    rows = [", ".join("'%s'" % c for c in codes[i:i + per_row])
+            for i in range(0, len(codes), per_row)]
+    return (",\n" + indent).join(rows)
+
+
+def analytics_block():
+    return """%s
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        %s
+      ],
+      'wait_for_update': 500
+    });
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { }
+    })();
+    gtag('js', new Date());
+    gtag('config', '%s');
+  </script>
+%s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, HEAD_END)
+
+
+def consent_banner_html(code):
+    c = CONSENT_L.get(code) or CONSENT_L["en"]
+    return """%s
+<div class="consent-bar" id="consentBar" role="region" aria-label="%s" hidden>
+  <p class="consent-bar-text">%s <a href="/privacy.html" class="consent-bar-link">%s</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">%s</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">%s</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+%s""" % (BAR_BEGIN, E(c["aria"]), E(c["body"]),
+         E(CONSENT_L.get(code, CONSENT_L["en"]).get("privacy", "Privacy Policy")),
+         E(c["decline"]), E(c["accept"]), BAR_END)
+
+
 # --------------------------------------------------------------------------
 # Shared navigation - Stow owns its own language tree.
 # --------------------------------------------------------------------------
 
 def lang_items(active, icon):
-    """One <li> per locale for the language menus.
-
-    The selected row gets Bootstrap's .active, which paints a solid primary
-    background and sets its own foreground colour. Adding text-primary on top
-    of that would repaint the label and the icon blue on blue and make the row
-    unreadable, so the accent colour is applied only to the inactive rows.
-    """
     out = []
     for code, label, _d, _hl, _og in built_langs():
         cls = "dropdown-item py-1 small"
@@ -132,12 +197,13 @@ def lang_items(active, icon):
     return "".join(out)
 
 
-def navbar(code):
+def navbar(code, t):
     label = BY_CODE[code][1]
+    store_cta = t.get("cta_store", "Get on Microsoft Store")
     return """  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-        <img src="/assets/images/LogoWithText.png" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
       </a>
       <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="bi bi-list fs-2" aria-hidden="true"></i>
@@ -156,7 +222,7 @@ def navbar(code):
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="__ICON__" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</span>
+                  <span><img src="__ICON__" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View __N__ Languages">__N__ Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -194,7 +260,7 @@ def navbar(code):
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
             <a href="__STORE__" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> __STORE_CTA__
             </a>
           </li>
         </ul>
@@ -206,7 +272,8 @@ def navbar(code):
    .replace("__LANG_LABEL__", E(label)) \
    .replace("__ICON__", ICON) \
    .replace("__N__", str(len(built_langs()))) \
-   .replace("__STORE__", E(STORE_UTM))
+   .replace("__STORE__", E(STORE_UTM)) \
+   .replace("__STORE_CTA__", E(store_cta))
 
 
 FOOTER = """  <footer class="footer-dhin">
@@ -214,7 +281,7 @@ FOOTER = """  <footer class="footer-dhin">
       <div class="row gy-4 mb-5">
         <div class="col-lg-4">
           <a class="d-flex align-items-center gap-2 mb-3" href="/">
-            <img src="/assets/images/LogoWithText.png" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
           </a>
           <p class="text-secondary small pe-lg-4">
             Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
@@ -255,8 +322,7 @@ FOOTER = """  <footer class="footer-dhin">
 """
 
 PAGE_CSS = """  <style>
-    /* Scoped Stow accents - emerald/teal, to sit apart from the other
-       Microsoft Store pages on this site. */
+    /* Scoped Stow accents - emerald/teal palette */
     .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
@@ -271,9 +337,6 @@ PAGE_CSS = """  <style>
       font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
     }
     .stow-num-zero { color: #4ade80; }
-    /* The plan preview mock. It is decorative, so it is built from text rather
-       than an image - it stays sharp, translates with the page and costs
-       nothing to download. */
     .plan-table {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: .74rem; width: 100%; border-collapse: collapse;
@@ -288,13 +351,121 @@ PAGE_CSS = """  <style>
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
-      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: .9rem;
-      background: rgba(45,212,191,0.15); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.35);
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(45,212,191,0.18); color: #2dd4bf;
+      border: 1px solid rgba(45,212,191,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
+
+    /* Release banner */
+    .release-banner {
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+    .release-badge {
+      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .release-feature-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .release-feature-pill:hover {
+      background: rgba(45, 212, 191, 0.15);
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+    }
+
+    /* Invariant and Pillar Cards */
+    .invariant-card {
+      border-left: 3px solid #2dd4bf !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(45, 212, 191, 0.4) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #2dd4bf;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+
+    /* Comparison Table */
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.stow-col, .compare-table td.stow-col {
+      background: rgba(45, 212, 191, 0.06);
+      border-left: 1px solid rgba(45, 212, 191, 0.25);
+      border-right: 1px solid rgba(45, 212, 191, 0.25);
+    }
+    .compare-table thead th.stow-col {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      border-top: 2px solid #2dd4bf;
+    }
+
+    /* FAQ accordion styling */
+    .accordion-button:not(.collapsed) {
+      background: rgba(45, 212, 191, 0.08);
+      color: #2dd4bf;
+      box-shadow: none;
+    }
+    .accordion-button:focus {
+      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+    }
+    .accordion-button::after {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
   </style>
 """
 
@@ -321,8 +492,6 @@ def schema(code, t, desc):
          "url": abs_url(code),
          "inLanguage": [hl for _c, _l, _d, hl, _og in built_langs()],
          "image": SITE + ICON,
-         # Deliberately the https web listing, not ms-windows-store://: a custom
-         # scheme is not a crawlable URL and would invalidate the markup.
          "downloadUrl": STORE,
          "installUrl": STORE,
          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
@@ -338,15 +507,31 @@ def schema(code, t, desc):
         graph[2]["itemListElement"].append(
             {"@type": "ListItem", "position": 3,
              "name": "Stow Photo &amp; File Organizer (%s)" % code, "item": abs_url(code)})
+
+    faqs = t.get("faqs", [])
+    if faqs:
+        faq_entities = []
+        for f in faqs:
+            faq_entities.append({
+                "@type": "Question",
+                "name": f["q"],
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": f["a"]
+                }
+            })
+        graph.append({
+            "@type": "FAQPage",
+            "@id": abs_url(code) + "#faq",
+            "inLanguage": BY_CODE[code][3],
+            "mainEntity": faq_entities
+        })
+
     return json.dumps({"@context": "https://schema.org", "@graph": graph},
                       ensure_ascii=False, separators=(",", ":"))
 
 
-# ------------------------------------------------------------------ fragments
-
 def stat_cards(t):
-    """The five preview counters. The last one is the point of the screen, so it
-    is styled apart and always reads zero."""
     icons = ["bi-arrow-right-circle", "bi-folder-plus", "bi-pin-angle",
              "bi-shield-exclamation", "bi-trash"]
     out = []
@@ -366,40 +551,6 @@ def stat_cards(t):
                 " stow-num-zero" if last else "",
                 "0" if last else "&mdash;",
                 E(lab)))
-    return "\n".join(out)
-
-
-def numbered_cards(items, icons):
-    out = []
-    for i, it in enumerate(items):
-        out.append(
-            """          <div class="col-lg-4 col-md-6">
-            <div class="card card-glass h-100 p-4">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="stow-icon-box"><i class="bi %s" aria-hidden="true"></i></span>
-                <h3 class="h5 text-white fw-bold mb-0">%s</h3>
-              </div>
-              <p class="text-secondary small mb-0">%s</p>
-            </div>
-          </div>""" % (icons[i % len(icons)], E(it["t"]), E(it["b"])))
-    return "\n".join(out)
-
-
-def step_rows(items):
-    out = []
-    for i, it in enumerate(items):
-        out.append(
-            """          <div class="col-12">
-            <div class="card card-glass p-4">
-              <div class="d-flex gap-3 align-items-start">
-                <span class="stow-step">%d</span>
-                <div>
-                  <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-                  <p class="text-secondary small mb-0">%s</p>
-                </div>
-              </div>
-            </div>
-          </div>""" % (i + 1, E(it["t"]), E(it["b"])))
     return "\n".join(out)
 
 
@@ -427,8 +578,6 @@ def not_list(items):
     return "\n".join(out)
 
 
-# The decorative plan preview. File names and folders are language-neutral, so
-# only the column headings are translated.
 PLAN_ROWS = [
     ("IMG_20240315.jpg", "Pictures\\2024\\03 - March\\", "By year and month"),
     ("invoice-acme-0412.pdf", "Documents\\Invoices\\2024\\", "Invoices"),
@@ -448,8 +597,282 @@ def plan_table(t):
     return head, rows
 
 
+# ------------------------------------------------------------------ New Sections
+
+def render_release_banner(t):
+    rb = t.get("release_banner")
+    if not rb:
+        return ""
+    pills_html = []
+    for pill in rb.get("pills", []):
+        pills_html.append(
+            '<a href="%s" class="release-feature-pill">'
+            '<i class="bi %s text-primary" aria-hidden="true"></i>'
+            '<span>%s</span>'
+            '</a>' % (E(pill["href"]), E(pill["icon"]), E(pill["text"]))
+        )
+    return """  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>%s</span>
+              <span class="text-white-50 small fw-semibold">%s</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">%s</h2>
+            <p class="text-secondary small mb-0">%s</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> %s
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          %s
+        </div>
+      </div>
+    </div>
+  </section>""" % (E(rb["badge"]), E(rb.get("suite_name", "Stow 3.0 Desktop Suite")), E(rb["title"]), E(rb["sub"]), E(rb.get("cta", "Explore Latest Features")), "".join(pills_html))
+
+
+def render_invariants(t):
+    invs = t.get("invariants", [])
+    if not invs:
+        return ""
+    cards = []
+    for inv in invs:
+        badge_text = inv.get("badge", "Invariant %s" % inv["num"])
+        cards.append("""          <div class="col-lg-4 col-md-6">
+            <div class="card card-glass h-100 p-4 invariant-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="stow-icon-box"><i class="bi %s" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill extra-small px-2 py-0 mb-1">%s</span>
+                  <h3 class="h6 text-white fw-bold mb-0">%s</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0">%s</p>
+            </div>
+          </div>""" % (E(inv["icon"]), E(badge_text), E(inv["title"]), E(inv["desc"])))
+    return """  <!-- Five Invariants -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> %s
+        </span>
+        <h2 class="display-5 fw-bold text-white">%s</h2>
+        <p class="text-secondary fs-5">%s</p>
+      </div>
+      <div class="row g-4">
+%s
+      </div>
+    </div>
+  </section>""" % (E(t.get("invariants_badge", "Guaranteed by Architecture")),
+                   E(t.get("invariants_heading", "The Five Invariants")),
+                   E(t.get("invariants_sub", "Five non-negotiable architectural guarantees built into every layer of Stow.")),
+                   "\n".join(cards))
+
+
+def render_how_it_works(t):
+    steps = t.get("how_it_works_steps", [])
+    if not steps:
+        return ""
+    out = []
+    for s in steps:
+        out.append("""          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center position-relative">
+              <div class="stow-step mx-auto mb-3">%s</div>
+              <i class="bi %s text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">%s</h3>
+              <p class="text-secondary small mb-0">%s</p>
+            </div>
+          </div>""" % (E(s["step"]), E(s["icon"]), E(s["title"]), E(s["desc"])))
+    return """  <!-- How it Works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-gear-wide-connected me-1" aria-hidden="true"></i> %s
+        </span>
+        <h2 class="display-5 fw-bold text-white">%s</h2>
+        <p class="text-secondary fs-5">%s</p>
+      </div>
+      <div class="row g-4">
+%s
+      </div>
+    </div>
+  </section>""" % (E(t.get("how_it_works_badge", "Safe Execution Flow")),
+                   E(t.get("how_it_works_heading", "How It Works")),
+                   E(t.get("how_it_works_sub", "Three simple, transparent steps. Absolute control from start to finish.")),
+                   "\n".join(out))
+
+
+def render_pillars(t):
+    pillars = t.get("pillars", [])
+    if not pillars:
+        return ""
+    out = []
+    for p in pillars:
+        features_html = []
+        for feat in p["features"]:
+            bullets_html = "".join("<li>%s</li>" % E(b) for b in feat.get("bullets", []))
+            features_html.append("""              <div class="col-lg-4 col-md-6">
+                <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+                  <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="stow-icon-box" style="width:38px;height:38px;font-size:1.1rem;border-radius:10px;">
+                      <i class="bi %s" aria-hidden="true"></i>
+                    </span>
+                    <h3 class="h5 text-white fw-bold mb-0">%s</h3>
+                  </div>
+                  <p class="text-secondary small mb-3">%s</p>
+                  <ul class="list-unstyled feature-bullet-list mb-0">
+                    %s
+                  </ul>
+                </div>
+              </div>""" % (E(p["icon"]), E(feat["title"]), E(feat["desc"]), bullets_html))
+        
+        out.append("""  <!-- %s: %s -->
+  <section id="%s" class="py-5 border-top border-secondary-subtle">
+    <div class="container py-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 fw-semibold mb-2">
+            <i class="bi %s me-1" aria-hidden="true"></i> %s
+          </span>
+          <h2 class="display-6 fw-bold text-white mb-1">%s</h2>
+          <p class="text-secondary fs-5 mb-0">%s</p>
+        </div>
+      </div>
+      <div class="row g-4">
+%s
+      </div>
+    </div>
+  </section>""" % (E(p["tag"]), E(p["title"]), E(p["id"]), E(p["icon"]), E(p["tag"]), E(p["title"]), E(p["lead"]), "\n".join(features_html)))
+    return "\n".join(out)
+
+
+def render_comparison_table(t):
+    rows = t.get("comparison_rows", [])
+    if not rows:
+        return ""
+    headers = t.get("comparison_headers", ["Feature & Safety Guarantee", "Stow (Dhinovatech)", "Traditional Tools / Scripts", "Cloud Services"])
+    
+    rows_html = []
+    for r in rows:
+        rows_html.append("""                <tr>
+                  <td class="text-white fw-semibold small text-nowrap align-middle">%s</td>
+                  <td class="stow-col small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">%s</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0" aria-hidden="true"></i>
+                      <span>%s</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-center gap-2">
+                      <i class="bi bi-x-circle text-danger flex-shrink-0" aria-hidden="true"></i>
+                      <span>%s</span>
+                    </span>
+                  </td>
+                </tr>""" % (E(r["feature"]), E(r["stow"]), E(r["trad"]), E(r["cloud"])))
+    
+    return """  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> %s
+        </span>
+        <h2 class="display-5 fw-bold text-white">%s</h2>
+        <p class="text-secondary fs-5">%s</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">%s</th>
+                <th scope="col" class="stow-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>%s</th>
+                <th scope="col">%s</th>
+                <th scope="col">%s</th>
+              </tr>
+            </thead>
+            <tbody>
+%s
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>""" % (E(t.get("comparison_badge", "Uncompromising Privacy & Control")),
+                   E(t.get("comparison_heading", "How Stow Compares")),
+                   E(t.get("comparison_sub", "Why desktop users choose Stow over scriptable tools and cloud platforms.")),
+                   E(headers[0]), E(headers[1]), E(headers[2]), E(headers[3]),
+                   "\n".join(rows_html))
+
+
+def render_faq_accordion(t):
+    faqs = t.get("faqs", [])
+    if not faqs:
+        return ""
+    items = []
+    for i, f in enumerate(faqs):
+        num = i + 1
+        collapsed = "collapsed" if i > 0 else ""
+        show = "show" if i == 0 else ""
+        items.append("""            <!-- FAQ %d -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h2 class="accordion-header" id="faq%dHeading">
+                <button class="accordion-button %s bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq%d">
+                  Q%d: %s
+                </button>
+              </h2>
+              <div id="faq%d" class="accordion-collapse collapse %s" data-bs-parent="#stowFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  %s
+                </div>
+              </div>
+            </div>""" % (num, num, collapsed, num, num, E(f["q"]), num, show, E(f["a"])))
+    
+    return """  <!-- FAQ Section -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle me-1" aria-hidden="true"></i> %s
+        </span>
+        <h2 class="display-5 fw-bold text-white">%s</h2>
+        <p class="text-secondary fs-5">%s</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="stowFaqAccordion">
+%s
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>""" % (E(t.get("faqs_badge", "Clear Answers")),
+                   E(t.get("faqs_heading", "Frequently Asked Questions")),
+                   E(t.get("faqs_sub", "Everything you need to know about privacy, offline AI, file safety, and system compatibility.")),
+                   "\n".join(items))
+
+
 def build(code):
-    t = L[code]
+    # Fallback to English for any key that hasn't been localized yet
+    t = dict(L["en"])
+    if code in L:
+        t.update(L[code])
+
     _c, label, direction, hl, og = BY_CODE[code]
     title = "%s | Windows (Microsoft Store) | Dhinovatech" % t["name"]
     desc = ("%s %s" % (t["tagline"], t["intro1"]))[:300]
@@ -463,15 +886,7 @@ def build(code):
     doc = """<!DOCTYPE html>
 <html lang="{hl}" dir="{dir}" data-bs-theme="dark">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){{dataLayer.push(arguments);}}
-    gtag('js', new Date());
-
-    gtag('config', 'G-T0S5ZW1QGM');
-  </script>
+{analytics_block}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title}</title>
@@ -526,6 +941,8 @@ def build(code):
 {navbar}
 <main id="main">
 
+{release_banner}
+
   <!-- Hero -->
   <section class="hero-section py-5 position-relative overflow-hidden">
     <div class="container py-4">
@@ -534,7 +951,7 @@ def build(code):
           <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
             <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
             <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> No ads</span>
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
           </div>
           <h1 class="hero-title mb-3">{name}</h1>
           <p class="lead text-gradient fw-semibold mb-3 fs-4">{tagline}</p>
@@ -542,23 +959,25 @@ def build(code):
           <p class="text-secondary mb-4 pe-lg-4">{intro2}</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="{store}" target="_blank" rel="noopener" class="btn btn-store btn-store-ms">
+            <a href="{store}" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
             </a>
-            <a href="#the-preview" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
-              <i class="bi bi-table me-2" aria-hidden="true"></i> {cta_see}
+            <a href="#how-it-works" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-play-circle me-2" aria-hidden="true"></i> {cta_see}
             </a>
           </div>
 
           <div class="stow-badge-row pt-2">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> One-click undo</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-success me-1" aria-hidden="true"></i> x64 &amp; ARM64</span>
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-translate text-warning me-1" aria-hidden="true"></i> {nlang} languages</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> {badge_offline}</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> {badge_preview}</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> {badge_recycle}</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-success me-1" aria-hidden="true"></i> {badge_undo}</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> {badge_cloud}</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-info me-1" aria-hidden="true"></i> {badge_arch}</span>
           </div>
         </div>
 
@@ -574,8 +993,9 @@ def build(code):
               <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: {store_id}</p>
 
               <a href="{store}" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Get on Microsoft Store
+                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> {cta_store}
               </a>
+              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
             </div>
           </div>
         </div>
@@ -583,29 +1003,15 @@ def build(code):
     </div>
   </section>
 
-  <!-- The problem -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-folder2-open me-1" aria-hidden="true"></i> The backlog
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">{h_problem}</h2>
-          <p class="text-secondary fs-5 mb-0">{problem1}</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">{problem2}</p>
-        </div>
-      </div>
-    </div>
-  </section>
+{invariants_section}
+
+{how_it_works_section}
 
   <!-- The preview -->
   <section id="the-preview" class="py-5">
     <div class="container py-4">
       <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="text-gradient fw-bold text-uppercase tracking-wider">Nothing has moved yet</span>
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">Complete Transparency</span>
         <h2 class="display-5 fw-bold text-white mt-2">{h_preview}</h2>
         <p class="text-secondary fs-5">{preview1}</p>
       </div>
@@ -635,111 +1041,12 @@ def build(code):
     </div>
   </section>
 
-  <!-- Five principles -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> By design
-        </span>
-        <h2 class="display-5 fw-bold text-white">{h_principles}</h2>
-      </div>
-      <div class="row g-4">
-{principle_cards}
-      </div>
-    </div>
-  </section>
+{pillars_section}
 
-  <!-- Five ways in -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">{h_ways}</h2>
-        <p class="text-secondary fs-5">{ways}</p>
-      </div>
-      <div class="row g-3">
-{way_rows}
-      </div>
-    </div>
-  </section>
-
-  <!-- Undo -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">{h_undo}</h2>
-          <p class="text-secondary fs-5 mb-0">{undo1}</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">{undo2}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Finding things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">{h_find}</h2>
-        <p class="text-secondary fs-5">{find}</p>
-      </div>
-      <div class="row g-4">
-{find_cards}
-      </div>
-    </div>
-  </section>
-
-  <!-- Duplicates -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <div class="stow-icon-box mb-3"><i class="bi bi-files" aria-hidden="true"></i></div>
-          <h2 class="display-6 fw-bold text-white mb-3">{h_dupes}</h2>
-          <p class="text-secondary fs-5 mb-0">{dupes1}</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">{dupes2}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Three more things -->
-  <section class="py-5">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <h2 class="display-5 fw-bold text-white">{h_more}</h2>
-      </div>
-      <div class="row g-4">
-{more_cards}
-      </div>
-    </div>
-  </section>
-
-  <!-- Privacy -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle">
-    <div class="container py-4">
-      <div class="row align-items-center gy-4">
-        <div class="col-lg-6">
-          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-wifi-off me-1" aria-hidden="true"></i> No account &middot; no server &middot; no telemetry
-          </span>
-          <h2 class="display-6 fw-bold text-white mb-3">{h_privacy}</h2>
-          <p class="text-secondary fs-5 mb-0">{privacy1}</p>
-        </div>
-        <div class="col-lg-6">
-          <p class="text-secondary mb-0">{privacy2}</p>
-        </div>
-      </div>
-    </div>
-  </section>
+{comparison_section}
 
   <!-- Models -->
-  <section class="py-5">
+  <section class="py-5" id="models">
     <div class="container py-4">
       <div class="row gy-5">
         <div class="col-lg-5">
@@ -794,6 +1101,8 @@ def build(code):
     </div>
   </section>
 
+{faq_section}
+
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
@@ -837,13 +1146,14 @@ def build(code):
       <div class="install-bar-title">Stow</div>
       <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
     </div>
-    <a href="{store}" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
+    <a href="{store}" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">{cta_install}</a>
   </div>
   <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
     <i class="bi bi-arrow-up" aria-hidden="true"></i>
   </button>
   <script src="/assets/js/ux.js"></script>
   <!-- END generated UX block -->
+{consent_banner}
 </body>
 </html>
 """.format(
@@ -851,6 +1161,7 @@ def build(code):
         dir=direction,
         title=E(title),
         desc=E(desc),
+        analytics_block=analytics_block(),
         page_css=PAGE_CSS,
         hreflang=hreflang_block(code),
         canonical=abs_url(code),
@@ -859,8 +1170,15 @@ def build(code):
         og=og,
         og_alts=og_alts,
         schema=schema(code, t, desc),
-        navbar=navbar(code),
+        navbar=navbar(code, t),
+        release_banner=render_release_banner(t),
+        invariants_section=render_invariants(t),
+        how_it_works_section=render_how_it_works(t),
+        pillars_section=render_pillars(t),
+        comparison_section=render_comparison_table(t),
+        faq_section=render_faq_accordion(t),
         footer=FOOTER,
+        consent_banner=consent_banner_html(code),
         store=E(STORE_UTM),
         store_id=STORE_ID,
         icon=ICON,
@@ -869,24 +1187,23 @@ def build(code):
         tagline=E(t["tagline"]),
         intro1=E(t["intro1"]),
         intro2=E(t["intro2"]),
-        cta_see=E(t["cta_see"]),
+        cta_store=E(t.get("cta_store", "Get on Microsoft Store")),
+        cta_see=E(t.get("cta_see", "See how it works")),
+        cta_install=E(t.get("cta_install", "Install")),
+        badge_offline=E(t.get("badge_offline", "100% Offline")),
+        badge_preview=E(t.get("badge_preview", "Approved Preview First")),
+        badge_recycle=E(t.get("badge_recycle", "Never Permanently Deletes")),
+        badge_undo=E(t.get("badge_undo", "1-Click Undo")),
+        badge_cloud=E(t.get("badge_cloud", "Safe with Cloud Folders")),
+        badge_arch=E(t.get("badge_arch", "x64 & ARM64")),
         h_problem=E(t["h_problem"]), problem1=E(t["problem1"]), problem2=E(t["problem2"]),
         h_preview=E(t["h_preview"]), preview1=E(t["preview1"]), preview2=E(t["preview2"]),
         stat_cards=stat_cards(t), stats_note=E(t["stats_note"]),
         plan_head=plan_head, plan_body=plan_body,
         h_principles=E(t["h_principles"]),
-        principle_cards=numbered_cards(t["principles"], [
-            "bi-wifi-off", "bi-table", "bi-trash", "bi-arrow-counterclockwise", "bi-diagram-3"]),
-        h_ways=E(t["h_ways"]), ways=E(t["ways"]),
-        way_rows=step_rows(t["way_items"]),
         h_undo=E(t["h_undo"]), undo1=E(t["undo1"]), undo2=E(t["undo2"]),
-        h_find=E(t["h_find"]), find=E(t["find"]),
-        find_cards=numbered_cards(t["find_items"], [
-            "bi-search", "bi-image", "bi-hdd-fill", "bi-geo-alt-fill", "bi-tags-fill"]),
         h_dupes=E(t["h_dupes"]), dupes1=E(t["dupes1"]), dupes2=E(t["dupes2"]),
         h_more=E(t["h_more"]),
-        more_cards=numbered_cards(t["more_items"], [
-            "bi-input-cursor-text", "bi-eye", "bi-link-45deg"]),
         h_privacy=E(t["h_privacy"]), privacy1=E(t["privacy1"]), privacy2=E(t["privacy2"]),
         h_models=E(t["h_models"]), models1=E(t["models1"]), models2=E(t["models2"]),
         th_model=E(t["th_model"]), th_does=E(t["th_does"]),
@@ -908,8 +1225,6 @@ def main():
         with open(path, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(build(code))
         print("wrote", path)
-    if MISSING:
-        print("\nno copy yet (page not emitted): %s" % " ".join(sorted(MISSING)))
 
 
 if __name__ == "__main__":
