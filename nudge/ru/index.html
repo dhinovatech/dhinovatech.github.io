@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — Офлайн-дневник и журнал с локальным ИИ-компаньоном | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech</title>
+  <meta name="description" content="Nudge — это приватный дневник для Windows, созданный для вдумчивых размышлений без отвлекающих факторов. Он объединяет абсолютный цифровой суверенитет локальных файлов Markdown с интеллектом локальной языковой модели, которая никогда не под...">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
+    :root {
+      --nudge-amber: #f59e0b;
+      --nudge-gold: #fbbf24;
+      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
+      --nudge-bg-dark: #0a0b0d;
+      --nudge-card-bg: #121316;
+      --nudge-card-border: rgba(245, 158, 11, 0.22);
+    }
+    .glow-aura-amber {
+      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    }
+    .nudge-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
+      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+    }
+    .nudge-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.85rem; color: #fde68a; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: #fbbf24; color: #fff;
+    }
+    .invariant-card {
+      border-left: 3px solid #f59e0b !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.45) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #fbbf24;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.nudge-col, .compare-table td.nudge-col {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 1px solid rgba(245, 158, 11, 0.25);
+      border-right: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .nudge-code-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: #08090b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
+      white-space: pre; overflow-x: auto;
+    }
+    .stationery-token {
+      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
+    }
+    /* RTL adjustments */
+    [dir="rtl"] .feature-bullet-list li {
+      padding-left: 0;
+      padding-right: 1.4rem;
+    }
+    [dir="rtl"] .feature-bullet-list li::before {
+      left: auto;
+      right: 0.35rem;
+    }
+    [dir="rtl"] .invariant-card {
+      border-left: none !important;
+      border-right: 3px solid #f59e0b !important;
+    }
+    [dir="rtl"] .dropdown-menu-end {
+      right: auto !important;
+      left: 0 !important;
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/nudge/ru/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/nudge/ar/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/nudge/zh/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/nudge/es/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/nudge/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/nudge/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/nudge/fr/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/nudge/ko/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/nudge/hi/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/nudge/pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.dhinovatech.com/nudge/pt-pt/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/nudge/id/">
+  <link rel="alternate" hreflang="ms" href="https://www.dhinovatech.com/nudge/ms/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/nudge/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/nudge/tr/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/nudge/it/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/nudge/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/nudge/pl/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/nudge/th/">
+  <link rel="alternate" hreflang="fa" href="https://www.dhinovatech.com/nudge/fa/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/nudge/sv/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/nudge/vi/">
+  <link rel="alternate" hreflang="bn" href="https://www.dhinovatech.com/nudge/bn/">
+  <link rel="alternate" hreflang="zh-HK" href="https://www.dhinovatech.com/nudge/yue/">
+  <link rel="alternate" hreflang="tl" href="https://www.dhinovatech.com/nudge/tl/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/nudge/uk/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/nudge/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/nudge/ro/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/nudge/he/">
+  <link rel="alternate" hreflang="el" href="https://www.dhinovatech.com/nudge/el/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/nudge/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/nudge/da/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/nudge/fi/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/nudge/nb/">
+  <link rel="alternate" hreflang="te" href="https://www.dhinovatech.com/nudge/te/">
+  <link rel="alternate" hreflang="mr" href="https://www.dhinovatech.com/nudge/mr/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/nudge/ta/">
+  <link rel="alternate" hreflang="gu" href="https://www.dhinovatech.com/nudge/gu/">
+  <link rel="alternate" hreflang="ur" href="https://www.dhinovatech.com/nudge/ur/">
+  <link rel="alternate" hreflang="pa" href="https://www.dhinovatech.com/nudge/pa/">
+  <link rel="alternate" hreflang="ml" href="https://www.dhinovatech.com/nudge/ml/">
+  <link rel="alternate" hreflang="kn" href="https://www.dhinovatech.com/nudge/kn/">
+  <link rel="alternate" hreflang="jv" href="https://www.dhinovatech.com/nudge/jv/">
+  <link rel="alternate" hreflang="sw" href="https://www.dhinovatech.com/nudge/sw/">
+  <link rel="alternate" hreflang="ha" href="https://www.dhinovatech.com/nudge/ha/">
+  <link rel="alternate" hreflang="yo" href="https://www.dhinovatech.com/nudge/yo/">
+  <link rel="alternate" hreflang="my" href="https://www.dhinovatech.com/nudge/my/">
+  <link rel="alternate" hreflang="am" href="https://www.dhinovatech.com/nudge/am/">
+  <link rel="alternate" hreflang="kk" href="https://www.dhinovatech.com/nudge/kk/">
+  <link rel="alternate" hreflang="sk" href="https://www.dhinovatech.com/nudge/sk/">
+  <link rel="alternate" hreflang="ca" href="https://www.dhinovatech.com/nudge/ca/">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Nudge — Офлайн-дневник и журнал с локальным ИИ-компаньоном | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta property="og:description" content="Nudge — это приватный дневник для Windows, созданный для вдумчивых размышлений без отвлекающих факторов. Он объединяет абсолютный цифровой суверенитет локальных файлов Markdown с интеллектом локальной языковой модели, которая никогда не под...">
+  <meta property="og:url" content="https://www.dhinovatech.com/nudge/ru/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Nudge offline journal and diary with AI companion icon">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ms_MY">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="fa_IR">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="bn_IN">
+  <meta property="og:locale:alternate" content="zh_HK">
+  <meta property="og:locale:alternate" content="tl_PH">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta property="og:locale:alternate" content="el_GR">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="te_IN">
+  <meta property="og:locale:alternate" content="mr_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="gu_IN">
+  <meta property="og:locale:alternate" content="ur_PK">
+  <meta property="og:locale:alternate" content="pa_IN">
+  <meta property="og:locale:alternate" content="ml_IN">
+  <meta property="og:locale:alternate" content="kn_IN">
+  <meta property="og:locale:alternate" content="jv_ID">
+  <meta property="og:locale:alternate" content="sw_KE">
+  <meta property="og:locale:alternate" content="ha_NG">
+  <meta property="og:locale:alternate" content="yo_NG">
+  <meta property="og:locale:alternate" content="my_MM">
+  <meta property="og:locale:alternate" content="am_ET">
+  <meta property="og:locale:alternate" content="kk_KZ">
+  <meta property="og:locale:alternate" content="sk_SK">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nudge — Офлайн-дневник и журнал с локальным ИИ-компаньоном | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta name="twitter:description" content="Nudge — это приватный дневник для Windows, созданный для вдумчивых размышлений без отвлекающих факторов. Он объединяет абсолютный цифровой суверенитет локальных файлов Markdown с интеллектом локальной языковой модели, которая никогда не под...">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta name="twitter:image:alt" content="Nudge offline journal and diary with AI companion icon">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.dhinovatech.com/#website","url":"https://www.dhinovatech.com/","name":"Dhinovatech","publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/nudge/ru/#app","name":"Nudge — Офлайн-дневник и журнал с локальным ИИ-компаньоном","applicationCategory":"LifestyleApplication","operatingSystem":"Windows 10, Windows 11","description":"Nudge — это приватный дневник для Windows, созданный для вдумчивых размышлений без отвлекающих факторов. Он объединяет абсолютный цифровой суверенитет локальных файлов Markdown с интеллектом локальной языковой модели, которая никогда не под...","url":"https://www.dhinovatech.com/nudge/ru/","image":"https://www.dhinovatech.com/assets/images/nudge-icon.png","inLanguage":"ru","offers":{"@type":"Offer","price":"0.99","priceCurrency":"USD","url":"https://apps.microsoft.com/detail/9MV92P7RLDGB","availability":"https://schema.org/InStock","seller":{"@id":"https://www.dhinovatech.com/#organization"}},"publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Nudge Offline Journal","item":"https://www.dhinovatech.com/nudge/"},{"@type":"ListItem","position":3,"name":"Nudge (ru)","item":"https://www.dhinovatech.com/nudge/ru/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/nudge/ru/#faq","inLanguage":"ru","mainEntity":[{"@type":"Question","name":"Что отличает Nudge от любого другого приложения для ведения журналов?","acceptedAnswer":{"@type":"Answer","text":"Nudge сочетает в себе два основополагающих принципа: 100% изолированный локальный суверенитет (простые файлы Markdown на вашем диске без облачной телеметрии) и тихий AI-компаньон на устройстве (небольшие языковые модели, которые запускаются непосредственно на кристалле вашего ПК). Вы получаете преимущества интеллектуального анализа и аналитики, не жертвуя конфиденциальностью и не оплачивая регулярные подписки."}},{"@type":"Question","name":"Неужели Надж действительно никогда не подключается к Интернету?","acceptedAnswer":{"@type":"Answer","text":"Да. После установки Nudge выполняет сетевые запросы с нулевым временем выполнения: никаких сценариев отслеживания, никаких звонков домой репортерам о сбоях и удаленных запросов шрифтов. Единственное разрешенное сетевое взаимодействие — это необязательная, инициируемая пользователем однократная загрузка весов языковой модели открытых весов во время установки. Вы можете отключить Wi-Fi или запустить игру в изолированной песочнице со 100% сохранением функций."}},{"@type":"Question","name":"Зачем хранить записи в виде файлов Markdown, а не в базе данных?","acceptedAnswer":{"@type":"Answer","text":"Базы данных создают закрытые хранилища, уязвимые для коррупции и заброшенности. Текстовые файлы в формате Plain Markdown (.md) с лицевой частью YAML неразрушимы, удобочитаемы и общедоступны. Через 50 лет их можно будет прочитать на любой компьютерной системе, и их можно будет открыть в Obsidian, VS Code или Блокноте в любое время."}},{"@type":"Question","name":"Почему Nudge не предлагает встроенную облачную синхронизацию?","acceptedAnswer":{"@type":"Answer","text":"Поскольку облачная синхронизация требует размещения данных клиентов на удаленных серверах, это приводит к уязвимостям безопасности и периодическим расходам. Поскольку Nudge хранит ваш журнал как обычную папку на жестком диске, вы можете синхронизировать его с помощью собственных надежных инструментов со сквозным шифрованием, таких как OneDrive, Dropbox, Syncthing или Nextcloud."}},{"@type":"Question","name":"Как AI-компаньон может работать локально, не отправляя данные в OpenAI или Google?","acceptedAnswer":{"@type":"Answer","text":"Недавние достижения в области квантованных моделей малых языков (таких как Google Gemma и Microsoft Phi) позволяют соответствующим моделям работать непосредственно на оборудовании потребительских ПК с помощью ONNX Runtime GenAI и LlamaSharp. Вычисления происходят строго на вашем физическом процессоре, графическом процессоре или NPU. Ни один токен не передается через Интернет."}},{"@type":"Question","name":"Могу ли я использовать Nudge, не загружая и не используя какие-либо функции искусственного интеллекта?","acceptedAnswer":{"@type":"Answer","text":"Абсолютно. Локальный спутник AI совершенно необязателен. Вы можете пропустить загрузку модели во время установки. Nudge безупречно работает как сверхбыстрый, не отвлекающий от внимания текстовый журнал с тщательно подобранными детерминированными рефлексивными подсказками."}},{"@type":"Question","name":"Оценивает ли меня ИИ или дает психологические советы?","acceptedAnswer":{"@type":"Answer","text":"Никогда. Результаты работы ИИ Nudge строго ограничены грамматикой GBNF и подсказками этической системы. Он никогда не скажет вам, что вам следует делать, не предложит любительскую терапию или не оценит ваш характер. Оно действует исключительно как интеллектуальное зеркало, отражающее ваши мысли и задающее уточняющие вопросы."}},{"@type":"Question","name":"Каковы три «момента размышления»?","acceptedAnswer":{"@type":"Answer","text":"1. Стартер: продуманный вопрос, появляющийся на пустой странице перед тем, как вы начнете писать. 2. Inline Nudge: тонкий вопрос, всплывающий под курсором только тогда, когда вы приостанавливаете ввод текста как минимум на 6 секунд после написания 40 слов. 3. Углубление: 2–3 дополнительных вопроса, предлагаемых при завершении записи, которые аккуратно добавляются в виде подзаголовков Markdown."}},{"@type":"Question","name":"Как работает «Спросите свой журнал»? У него галлюцинации?","acceptedAnswer":{"@type":"Answer","text":"Nudge использует свой локальный инвертированный индекс BM25 для поиска соответствующих прошлых записей, а местный SLM синтезирует прямой ответ с обязательными ссылками на цитирование, которые можно кликнуть. Если соответствующих записей не существует, модель строго ограничена утверждением: «Я не смог найти ничего об этом в вашем журнале» — математическая блокировка создания памяти."}},{"@type":"Question","name":"Как создать резервную копию моего журнала?","acceptedAnswer":{"@type":"Answer","text":"Резервное копирование так же просто, как копирование папки. Перейдите в каталог журнала (по умолчанию Documents/Nudge) и скопируйте его на внешний диск, USB-накопитель или резервный диск. Каждая запись, черновик, тег и настройка содержатся в этой папке."}},{"@type":"Question","name":"Что произойдет, если мой компьютер выйдет из строя, пока я печатаю?","acceptedAnswer":{"@type":"Answer","text":"Каждое нажатие клавиши сохраняется в черновике быстрого восстановления (.draft.md) каждые 500 миллисекунд. Если питание внезапно пропадает, ваш незафиксированный текст восстанавливается сразу после перезапуска. При полном сохранении используются операции замены атомарной файловой системы для устранения повреждений."}},{"@type":"Question","name":"Могу ли я импортировать существующий дневник из Day One, Journey или Obsidian?","acceptedAnswer":{"@type":"Answer","text":"Да! Nudge включает в себя встроенные механизмы импорта для экспорта JSON первого дня, хранилищ Journey, Diarium, Obsidian/Markdown и стандартных архивов CSV с полным сохранением метаданных."}},{"@type":"Question","name":"Как работает биометрическая блокировка Windows Hello?","acceptedAnswer":{"@type":"Answer","text":"Nudge интегрируется с собственными API-интерфейсами Windows Hello. Разблокируйте свой журнал с помощью распознавания лиц, датчиков отпечатков пальцев или PIN-кода Windows. Биометрическая аутентификация работает на 100% в автономном режиме без связи с внешними поставщиками удостоверений."}},{"@type":"Question","name":"Могу ли я зашифровать файлы журнала на диске?","acceptedAnswer":{"@type":"Answer","text":"Да. Nudge предлагает дополнительное шифрование локальной файловой системы с использованием AES-256-GCM военного уровня, полученного с помощью хеширования паролей Argon2id. Ваши файлы зашифрованы без каких-либо бэкдоров или корпоративного депонирования для восстановления."}},{"@type":"Question","name":"Почему Nudge не показывает красные цифры, когда я пропускаю день?","acceptedAnswer":{"@type":"Answer","text":"Потому что вина — вредный мотиватор для самоанализа. Реальная жизнь включает в себя болезни, путешествия и отдых. Nudge включает автоматические льготные дни в серии, избегает красных индикаторов штрафов и активно отмечает ваш коэффициент возврата."}},{"@type":"Question","name":"Каковы 11 жизненных тем?","acceptedAnswer":{"@type":"Answer","text":"Записи классифицируются по 11 заблокированным человеческим измерениям: работа, отношения, семья, здоровье, деньги, идентичность, творчество, обучение, путешествия, каждый день и планы. Визуализация на векторных ThemeWheels показывает, как баланс вашей жизни меняется в зависимости от сезона."}},{"@type":"Question","name":"Почему вы указываете среднее количество слов, а не средние значения?","acceptedAnswer":{"@type":"Answer","text":"Средние арифметические искажены случайными длинными эссе. Если вы напишете пять записей по 100 слов и одну запись на 3000 слов, ваше среднее значение составит 583 слова. Статистическая медиана точно отражает типичный базовый уровень сеанса."}},{"@type":"Question","name":"Сколько стоит Надж?","acceptedAnswer":{"@type":"Answer","text":"Nudge — это разовая покупка на сумму 0,99 доллара США с автоматическим региональным паритетом закупок в Microsoft Store. Ноль подписок, ноль уровней функций, ноль рекламы."}},{"@type":"Question","name":"Что произойдет, когда истечет 15-дневный пробный период?","acceptedAnswer":{"@type":"Answer","text":"Подталкивание переходит в режим постоянного архива только для чтения. Вы можете выполнять поиск с помощью BM25, читать свою хронологию и экспортировать в Markdown или PDF навсегда. Поскольку ваши записи в папке «Документы» представлены в формате Markdown, вы всегда можете открывать и редактировать их в любом текстовом редакторе."}},{"@type":"Question","name":"Могу ли я установить Nudge на несколько компьютеров с Windows за одну покупку?","acceptedAnswer":{"@type":"Answer","text":"Да. В соответствии со стандартным лицензированием Microsoft Store одна персональная лицензия разрешает установку на совместимые персональные устройства с Windows 10 и 11, на которые вы вошли с помощью своей учетной записи Microsoft."}},{"@type":"Question","name":"Поддерживает ли Nudge устройства ARM64, такие как ПК Copilot+?","acceptedAnswer":{"@type":"Answer","text":"Да! Nudge изначально скомпилирован как для x64, так и для ARM64, работает с высокой эффективностью использования батареи и ускорением нейронного процессора на устройстве на ПК Snapdragon X Elite и Snapdragon X Plus Copilot+."}},{"@type":"Question","name":"Что произойдет, если проверка автономной лицензии завершится неудачно, пока я не подключен к сети?","acceptedAnswer":{"@type":"Answer","text":"В соответствии с нашей политикой отказоустойчивого открытия Nudge не открывается и предоставляет полный доступ, если время проверки лицензии истекло или невозможно получить доступ к кешу Магазина. Вы никогда не будете заблокированы от своего журнала."}},{"@type":"Question","name":"Где я могу получить поддержку или сообщить о проблеме?","acceptedAnswer":{"@type":"Answer","text":"Вы можете связаться с нашей командой инженеров напрямую по адресу support@dhinovatech.com. Поскольку мы не собираем телеметрические данные об удаленных ошибках, вы можете поделиться своим локальным файлом сбоя.log для немедленного устранения."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к основному содержанию</a>
+<nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
+                  <span><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 51 Languages">51 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/ru/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Русский (Russian)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/ru/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Скачать из Microsoft Store
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main id="main">
+  <!-- Hero Section -->
+  <section class="py-5 overflow-hidden" id="hero">
+    <div class="container py-4">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Собственный WinUI 3 для Windows 10 и 11 • ПК Copilot+ с процессорами x64 и ARM64
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3">
+            Nudge — Офлайн-дневник и журнал с локальным ИИ-компаньоном
+          </h1>
+          <p class="fs-4 text-warning fw-semibold mb-3">
+            "Ваши мысли принадлежат только вам — а не облаку."
+          </p>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
+            Nudge — это приватный дневник для Windows, созданный для вдумчивых размышлений без отвлекающих факторов. Он объединяет абсолютный цифровой суверенитет локальных файлов Markdown с интеллектом локальной языковой модели, которая никогда не подключается к Интернету. Никаких подписок, никакой телеметрии и привязки к серверам.
+          </p>
+          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
+            Каждая написанная вами мысль хранится исключительно на вашем личном компьютере в виде стандартных текстовых файлов Markdown (.md) с метаданными YAML. Никаких закрытых баз данных или облачных утечек.
+          </p>
+
+          <!-- Badges Grid -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>100% Автономный / Air-Gapped</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>ИИ на устройстве (Без облака)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>Чистый Markdown (.md)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>Ноль телеметрии</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>Биометрия Windows Hello</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>Разовая покупка $0.99</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Купить навсегда — $0.99
+            </a>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
+              <i class="bi bi-download fs-5" aria-hidden="true"></i> Бесплатная пробная версия на 15 дней
+            </a>
+            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
+              Изучить архитектуру и характеристики <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+          <div class="position-relative d-inline-block">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
+            <img src="/assets/images/nudge-icon.webp" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three Pillars -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
+        </span>
+        <h2 class="display-5 fw-bold text-white">Три нерушимых столпа Nudge</h2>
+        <p class="text-secondary fs-5">Наши архитектурные инварианты: полная конфиденциальность в автономном режиме, тихое размышление и человеческое сострадание.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 1</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Истинный офлайн-суверенитет</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Приватность — это не строчка в рекламе, а программный инвариант. Nudge не совершает ни одного сетевого запроса во время работы.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 2</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Тихий локальный ИИ-компаньон</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Искусственный интеллект должен служить самопознанию. Nudge запускает квантованные модели прямо на вашем процессоре, видеокарте или NPU без отправки данных в облако.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 3</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Метрики с заботой, а не чувством вины</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Никаких красных штрафных счетчиков за пропущенные дни. Nudge предлагает мягкие дни поблажки и отмечает радость возвращения к писательству.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="py-5" id="specs">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
+        </span>
+        <h2 class="display-5 fw-bold text-white">Матрица продуктов и технические характеристики</h2>
+        <p class="text-secondary fs-5">Строгие архитектурные гарантии, рассчитанные на 50-летний срок службы и производительность менее 150 мс.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col" style="width: 22%;">Измерение</th>
+                <th scope="col" style="width: 28%;" class="text-warning fw-bold">Спецификация</th>
+                <th scope="col" style="width: 50%;">Архитектурные гарантии</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Операционная система</td>
+                <td class="text-warning small align-middle fw-medium">Windows 10 / Windows 11</td>
+                <td class="text-secondary small align-middle">Создан на основе современного WinUI 3 и Windows App SDK; полная поддержка слюды и акрила.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Чистота во время выполнения</td>
+                <td class="text-warning small align-middle fw-medium">100 % воздушный зазор в автономном режиме</td>
+                <td class="text-secondary small align-middle">Нулевые сетевые вызовы во время выполнения; отсутствие фоновой телеметрии, аварийных маяков или удаленной загрузки шрифтов.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Архитектура хранения данных</td>
+                <td class="text-warning small align-middle fw-medium">Файловая система Markdown (.md)</td>
+                <td class="text-secondary small align-middle">Протокол атомарной записи; удобочитаемый интерфейс YAML; нулевой уровень собственной базы данных.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Поисковая система</td>
+                <td class="text-warning small align-middle fw-medium">Локальный в памяти BM25</td>
+                <td class="text-secondary small align-middle">Полнотекстовый поиск за менее 150 мс по более чем 10 000 записей с префиксом и морфологическим расширением.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Среда выполнения AI-компаньона</td>
+                <td class="text-warning small align-middle fw-medium">SLM на устройстве (DirectML/ЦП/НПУ)</td>
+                <td class="text-secondary small align-middle">Локальный вывод через ONNX Runtime GenAI и LlamaSharp; ноль токенов отправляется на внешние серверы.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Запуск производительности</td>
+                <td class="text-warning small align-middle fw-medium">&lt; 1,5 секунды до вставки</td>
+                <td class="text-secondary small align-middle">Холодный запуск непосредственно на активную печатную поверхность; фоновая загрузка индекса и ленивые веса ИИ.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Безопасность и блокировка</td>
+                <td class="text-warning small align-middle fw-medium">Windows Hello биометрия</td>
+                <td class="text-secondary small align-middle">Распознавание лиц, датчик отпечатков пальцев, PIN-код; дополнительное шифрование файловой системы AES-256-GCM с Argon2id.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Опыт написания</td>
+                <td class="text-warning small align-middle fw-medium">Глубокая работа без отвлекающих факторов</td>
+                <td class="text-secondary small align-middle">Полноэкранный фокус F11, прокрутка пишущей машинки, затемненный фокус абзаца, пользовательская типографика.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Глобальный доступ</td>
+                <td class="text-warning small align-middle fw-medium">Наложение быстрого захвата</td>
+                <td class="text-secondary small align-middle">Глобальная горячая клавиша (Win+Alt+N) вызывает облегченную поверхность для заметок менее чем за 200 мс.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Многоязычный движок</td>
+                <td class="text-warning small align-middle fw-medium">Более 50 встроенных локалей</td>
+                <td class="text-secondary small align-middle">Механизм множественного числа CLDR, обнаружение сценариев, распознавание кластеров графем, встроенное письмо справа налево (RTL).</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Совместимость данных</td>
+                <td class="text-warning small align-middle fw-medium">Универсальный импорт и экспорт</td>
+                <td class="text-secondary small align-middle">Импортирует первый день JSON, Journey, Diarium, Markdown; экспортирует книги в формате PDF, ZIP-архивы, HTML, EPUB.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Модель лицензирования</td>
+                <td class="text-warning small align-middle fw-medium">Прозрачная покупка один раз</td>
+                <td class="text-secondary small align-middle">15-дневная неограниченная бесплатная пробная версия; разовая пожизненная покупка за 0,99 доллара США; ноль подписок; гарантия открытия при отказе.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Manifesto -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
+        </span>
+        <h2 class="display-5 fw-bold text-white">Манифест: почему мы создали Nudge</h2>
+        <p class="text-secondary fs-5">Кризис современных облачных журналов, право на эпистемическую конфиденциальность и 50-летнее испытание.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Кризис современного журнала</h3>
+            <p class="text-secondary small mb-0 lh-base">За последние пятнадцать лет переход от локальных персональных вычислений к централизованному SaaS превратил частные дневники в конвейеры наблюдения: облачные базы данных, доступные сторонним инженерам, личные признания, упакованные в полезные данные JSON для удаленных API-интерфейсов искусственного интеллекта, ежемесячные ограничения платного доступа, удерживающие личные воспоминания в заложниках, и проприетарные двоичные объекты, делающие миграцию болезненной или невозможной.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Принцип эпистемической конфиденциальности</h3>
+            <p class="text-secondary small mb-0 lh-base">Мы считаем, что личный внутренний диалог человека представляет собой священное ядро ​​человеческого сознания. Эпистемическая конфиденциальность — это свобода исследовать полусформировавшиеся идеи, выражать сложные эмоции, подвергать сомнению убеждения и документировать жизнь без сковывающего эффекта внешнего наблюдения. Единственная настоящая гарантия конфиденциальности — это физическая и архитектурная невозможность: если у приложения нет сетевых разрешений, оно не сможет утечь ваш дневник.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Принцип цифрового долголетия: 50-летнее испытание</h3>
+            <p class="text-secondary small mb-0 lh-base">Сможете ли вы или ваши дети прочитать сегодняшнюю статью через пятьдесят лет? Проприетарные текстовые процессоры и закрытые форматы баз данных прошлого теперь стали недоступными цифровыми обломками. Обычный текст в формате UTF-8 Markdown вечен. Он останется читаемым и в 2076 году на любой вычислительной платформе, которую изобретет человечество.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-Cloud Architecture -->
+  <section class="py-5" id="architecture">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">Архитектура Zero-Cloud: технический чертеж</h2>
+        <p class="text-secondary fs-5">Файловая система вместо СУБД, атомарное сохранение и мгновенный поиск BM25.</p>
+      </div>
+
+      <div class="row g-4 align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>Файловая система как база данных: анатомия записи</h3>
+            <p class="text-secondary small mb-3 lh-base">Nudge полностью исключает уровень базы данных. Записи сохраняются в виде отдельных файлов Markdown, организованных в хронологическом порядке по году и месяцу. В именах файлов используется ULID (универсальный уникальный лексикографически сортируемый идентификатор), обеспечивающий миллисекундную точность, хронологический порядок и синхронизацию без коллизий.</p>
+            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
+              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
+              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
+└── 2026/
+    └── 03-March/
+        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
+        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
+              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
+            </div>
+            <div class="nudge-code-box">---
+id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
+date: 2026-03-15T19:42:10+05:30
+language: en
+title: Walking Through the Rain in Spring
+themes:
+  - everyday
+  - creativity
+mood: 4
+weather: overcast
+tags:
+  - rain
+  - reflection
+content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+---
+
+# Walking Through the Rain in Spring
+
+The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
+I realized today that the friction I&#x27;ve been feeling isn&#x27;t a lack of inspiration; it&#x27;s a surplus of noise.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>Атомарные записи, устранение дребезжания черновиков и безопасность конфликтов</h3>
+            <p class="text-secondary small mb-0 lh-base">Каждое нажатие клавиши сохраняется в файле .draft.md каждые 500 мс для мгновенного восстановления после сбоя. Полные сохранения записываются во временные дополнительные файлы (.tmp) перед атомарной заменой файловой системы. Обновленный FileSystemWatcher обнаруживает внешние изменения из Obsidian или VS Code и одновременно вносит изменения в безопасные одноуровневые файлы (.conflict.md) без потери данных.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>Менее 150 мс в памяти BM25 и одноразовый кэш</h3>
+            <p class="text-secondary small mb-0 lh-base">Поиск выполняется в режиме реального времени по более чем 10 000 записей с использованием инвертированного индекса в памяти и оценки релевантности BM25 с учетом турецкого языка и с учетом графем. Снимок .cache/index.bin загружает холодные запуски менее чем за 1,5 с. Удаление каталога .cache не приводит к потере ничего, кроме времени: каждая метрика, оценка темы и индекс на 100% реконструируются из необработанных файлов Markdown.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-Device AI Companion -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100% On-Device SLM
+        </span>
+        <h2 class="display-5 fw-bold text-white">Локальный ИИ на вашем ПК: детальный обзор</h2>
+        <p class="text-secondary fs-5">Интеллектуальное зеркало, которое не дает непрошеных советов и работает на 100% локально.</p>
+      </div>
+
+      <div class="card card-glass p-4 border border-warning-subtle mb-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>Интеллектуальное зеркало, а не чат-бот</h3>
+            <p class="text-secondary small mb-0 lh-base">В Nudge вы являетесь автором; ИИ — это зеркало. Он никогда не дает непрошеных советов, никогда не диагностирует психологические состояния, никогда не прерывает ваш процесс набора текста и строго распознает и отвечает на вашем естественном языке и сценарии.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 1</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Прежде чем начать печатать</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">Стартер (пустая страница)</h3>
+              <p class="text-secondary small mb-0 lh-base">Тихая контекстная подсказка, основанная на дне недели, времени суток и последних тегах ввода. Если ИИ находится в автономном режиме, Nudge использует богатый локализованный банк тщательно подобранных вопросов для размышления. Растворяется в тот момент, когда вы начинаете печатать.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 2</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Пауза в середине письма (≥40 слов, пауза ≥6 с)</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">Встроенный подталкивание (6-секундная эвристика)</h3>
+              <p class="text-secondary small mb-0 lh-base">Мягкий, полупрозрачный вопрос, всплывающий под абзацем только тогда, когда вы делаете паузу не менее 6 секунд после написания не менее 40 слов. Паузы во время составления IME (CJK). Растворяется немедленно при следующем нажатии клавиши. Максимум 2 за сеанс.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 3</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>При заключении записи</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">Углубление (после входа)</h3>
+              <p class="text-secondary small mb-0 lh-base">Два или три вдумчивых дополнительных вопроса, исследующих эмоциональный подтекст или неисследованные предположения. При нажатии добавляется чистый подзаголовок Markdown (### Follow-up) непосредственно в текст, под которым находится готовый курсор.</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>Оффлайн воскресный еженедельный обзор</h3>
+            <p class="text-secondary small mb-0 lh-base">Каждое воскресенье искусственный интеллект на устройстве синтезирует красивый структурированный брифинг вашей недели: основное повествование, повторяющиеся темы, эмоциональные сдвиги и два перспективных вопроса на предстоящую неделю. Все синтезировано на локальном процессоре, и с вашего ПК не уходит ни единого байта.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>«Спросите свой журнал»: цитируемый поиск по естественному языку</h3>
+            <p class="text-secondary small mb-0 lh-base">Задавайте концептуальные вопросы, например: «Когда я впервые подумал о смене карьеры?» Nudge извлекает соответствующие записи с помощью BM25, а местный SLM синтезирует последовательный ответ с обязательными кликабельными ссылками на цитирование. Если ничего не найдено, говорится: «Я не смог найти ничего об этом в вашем журнале» — математически ограничено галлюцинациями.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shame-Free Metrics -->
+  <section class="py-5" id="metrics">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
+        </span>
+        <h2 class="display-5 fw-bold text-white">Осознанная психология: без вины и стыда</h2>
+        <p class="text-secondary fs-5">Привычки измеряются человеческим сочувствием, а не токсичной геймификацией.</p>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Полосы со встроенными льготными днями</h3>
+            <p class="text-secondary small mb-0 lh-base">Жизнь случается. Пропуск ни одного дня не должен вызывать стыда или сбрасывать на нет месяцы преданности делу. В Nudge предусмотрены автоматические льготные дни: пропуск дня сохраняет ваш импульс. Наша кодовая база включает модульный тест, гарантирующий, что никакие «пропущенные дни» или показатели штрафов не будут отображаться красным цветом.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Празднование возвращения после перерыва</h3>
+            <p class="text-secondary small mb-0 lh-base">Вместо того, чтобы наказывать за отсутствие, Nudge отслеживает показатель возврата, отмечая устойчивость возвращения на страницу после того, как жизнь забрала вас.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Медианное и среднее значение: честный объем написания</h3>
+            <p class="text-secondary small mb-0 lh-base">Традиционные средние значения искажаются редкими длинными входами. Nudge использует статистическую медиану для представления истинного типичного сеанса без искажений.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glass p-4 border border-secondary-subtle">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <h3 class="h5 text-white fw-bold mb-2">11 заблокированных жизненных тем и колесиков тем</h3>
+            <p class="text-secondary small mb-0 lh-base">Записи классифицируются по 11 универсальным, фиксированным человеческим измерениям: работа, отношения, семья, здоровье, деньги, идентичность, творчество, обучение, путешествия, каждый день и планы. Визуализация на векторных кольцевых диаграммах за 30 дней, 90 дней, 1 год и за все время.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Work</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Relationships</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Family</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Health</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Money</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Identity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Creativity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Learning</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Travel</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Everyday</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Plans</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Work Writing Environment -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
+        </span>
+        <h2 class="display-5 fw-bold text-white">Среда для письма: создана для глубокой концентрации</h2>
+        <p class="text-secondary fs-5">Мгновенный запуск менее чем за 1,5 секунды, эстетика книжного переплета и режим F11.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>Холодный запуск менее 1,5 секунды</h3>
+            <p class="text-secondary small mb-0 lh-base">Собственный WinUI 3 и C# на .NET гарантируют, что нажатие кнопки Nudge приведет вас прямо к активному мигающему курсору на сегодняшней записи менее чем за 1,5 секунды. Индексирование и инициализация ИИ откладываются до фоновых потоков.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>Палитра дизайна изысканных канцелярских товаров</h3>
+            <p class="text-secondary small mb-0 lh-base">Вдохновлены изысканным переплетом книг: Ink (архивная типографика, выполненная тушью), Paper (плотная японская льняная поверхность редактора), Surround (хромированный кожаный переплет), Lamp (акценты теплого фокуса), Whisper (счет полей) и разделители в виде волос.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>Режимы иммерсивной фокусировки (F11)</h3>
+            <p class="text-secondary small mb-0 lh-base">Полноэкранный иммерсивный фокус (F11) удаляет весь хром; Прокрутка пишущей машинки центрирует активную строку по вертикали; Затемненный абзац мягко затемняет периферийный текст, чтобы осветить только вашу текущую мысль.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>Глобальный быстрый захват менее чем за 200 мс</h3>
+            <p class="text-secondary small mb-0 lh-base">Нажмите Win+Alt+N в любом месте Windows. Легкая карта мгновенно появляется на экране. Введите свою реализацию, нажмите Ctrl+Enter, и она добавит метку времени к сегодняшней ежедневной записи, не прерывая ваш поток.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Biometrics -->
+  <section class="py-5" id="security">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
+        </span>
+        <h2 class="display-5 fw-bold text-white">Безопасность, биометрия и владение данными</h2>
+        <p class="text-secondary fs-5">Windows Hello, опциональное шифрование AES-256-GCM и полная свобода экспорта.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>Windows Hello биометрия</h3>
+            <p class="text-secondary small mb-0 lh-base">Разблокируйте с помощью распознавания лиц, датчика отпечатков пальцев или безопасного PIN-кода Windows. Настраиваемая автоматическая блокировка после 1, 5 или 15 минут бездействия или при сворачивании.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>Дополнительное локальное шифрование AES-256-GCM</h3>
+            <p class="text-secondary small mb-0 lh-base">AES-256 военного уровня в режиме Галуа/Счетчика, полученный с помощью хеширования паролей Argon2id. Никаких корпоративных бэкдоров или ключей условного депонирования.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>Затемнение экрана и клавиша паники</h3>
+            <p class="text-secondary small mb-0 lh-base">Привязка отображения DWM скрывает окно Nudge в Zoom, Teams или записях экрана. Двойное нажатие Esc мгновенно сворачивает, очищает память и блокирует.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>Беспрепятственная миграция</h3>
+            <p class="text-secondary small mb-0 lh-base">Встроенные импортеры для Day One JSON, Journey, Diarium, хранилищ Obsidian и архивов CSV, сохраняющие временные метки, погоду и теги.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>Всеобщая свобода уйти</h3>
+            <p class="text-secondary small mb-0 lh-base">Экспортируйте весь свой журнал в любое время в виде ZIP-архивов Markdown, печатных PDF-книг на память семейного качества с буквицами, отдельных портфолио HTML или электронных книг EPUB.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
+        </span>
+        <h2 class="display-5 fw-bold text-white">Сравнительный анализ Nudge с аналогами</h2>
+        <p class="text-secondary fs-5">Почему авторы выбирают Nudge вместо Day One, Obsidian, Notion и публичных чат-ботов.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Функция/атрибут</th>
+                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>Nudge</th>
+                <th scope="col">Day One</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Notion</th>
+                <th scope="col">AI Chatbots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Формат хранения</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Plain Markdown (.md)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Собственная облачная база данных</td>
+                <td class="text-secondary small align-middle">Plain Markdown</td>
+                <td class="text-secondary small align-middle">Облачная база данных</td>
+                <td class="text-secondary small align-middle">Облако Эфемерное</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Родное приложение для Windows</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Да (встроенная версия WinUI 3)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Нет (веб-обертка)</td>
+                <td class="text-secondary small align-middle">Да (Электрон)</td>
+                <td class="text-secondary small align-middle">Нет (Электрон)</td>
+                <td class="text-secondary small align-middle">Веб/приложение</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Сетевая активность</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0 % с воздушным зазором</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Непрерывная синхронизация</td>
+                <td class="text-secondary small align-middle">Зависит от плагина</td>
+                <td class="text-secondary small align-middle">Обязательное облако</td>
+                <td class="text-secondary small align-middle">100% облачный API</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI-компаньон</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">100 % локально на устройстве</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Облачный API-конвейер</td>
+                <td class="text-secondary small align-middle">Облачный API сообщества</td>
+                <td class="text-secondary small align-middle">Облачная ИИ-подсистема</td>
+                <td class="text-secondary small align-middle">Коммерческая модель</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Учетная запись пользователя</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Нет (нулевой вход)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Обязательный аккаунт</td>
+                <td class="text-secondary small align-middle">Никто</td>
+                <td class="text-secondary small align-middle">Обязательный аккаунт</td>
+                <td class="text-secondary small align-middle">Обязательный вход</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Холодный запуск Caret</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt; 1,5 секунды</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">~4-8 секунд</td>
+                <td class="text-secondary small align-middle">~3-6 секунд</td>
+                <td class="text-secondary small align-middle">~5–12 секунд</td>
+                <td class="text-secondary small align-middle">Переменная сеть</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Полосы без стыда</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Благодатная защита</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Жесткий ежедневный счетчик</td>
+                <td class="text-secondary small align-middle">Зависит от плагина</td>
+                <td class="text-secondary small align-middle">Никто</td>
+                <td class="text-secondary small align-middle">Никто</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Эффективность поиска</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt;150 мс локальный BM25</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Зависит от сервера</td>
+                <td class="text-secondary small align-middle">Быстрое местное</td>
+                <td class="text-secondary small align-middle">Задержка сервера</td>
+                <td class="text-secondary small align-middle">Поиск эфемерных</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Биометрическая блокировка</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Windows Hello родной</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">PIN-код / ​​облачный пропуск</td>
+                <td class="text-secondary small align-middle">Сторонний плагин</td>
+                <td class="text-secondary small align-middle">Никто</td>
+                <td class="text-secondary small align-middle">Никто</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Модель ценообразования</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Разовая покупка за 0,99 доллара США</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">34,99 долл. США в год</td>
+                <td class="text-secondary small align-middle">Бесплатная / синхронизированная подписка</td>
+                <td class="text-secondary small align-middle">Подписка на сумму 10 долл. США в месяц</td>
+                <td class="text-secondary small align-middle">Бесплатно / подписка на 20 долларов США</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Привязка к поставщику</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Ноль (Открытые файлы)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Высокий (проблемы с экспортом)</td>
+                <td class="text-secondary small align-middle">Ноль</td>
+                <td class="text-secondary small align-middle">Полная блокировка</td>
+                <td class="text-secondary small align-middle">Полная блокировка</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Workflows -->
+  <section class="py-5" id="workflows">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
+        </span>
+        <h2 class="display-5 fw-bold text-white">Пять мастерских ежедневных сценариев</h2>
+        <p class="text-secondary fs-5">Как писатели, исследователи и путешественники применяют Nudge в жизни.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 1</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>07:00 • 7–10 минут</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Ритуал утренней ясности</h3>
+            <p class="text-secondary small mb-0 lh-base">Подталкивание при холодном запуске (&lt;1,5 с). Подумайте о контекстной стартовой подсказке ИИ. Напишите 200–400 слов для мысленного очищения потока сознания, запечатлейте яркие сны и установите два обоснованных эмоциональных намерения на день.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 2</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>21:30 • 12 минут</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Вечерняя декомпрессия</h3>
+            <p class="text-secondary small mb-0 lh-base">Нажмите F11 для полноэкранной фокусировки в режиме «Теплый угольный темный». Разгрузите когнитивную нагрузку от сложных встреч. Нежный встроенный толчок подсказывает: «Какая часть находилась под вашим контролем?» В заключение дайте дополнительные подсказки по углублению.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 3</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Воскресный вечер • 15 минут</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Воскресный стратегический синтез</h3>
+            <p class="text-secondary small mb-0 lh-base">Просмотрите еженедельный брифинг, создаваемый ИИ. Изучите 30-дневный ThemeWheel, чтобы заметить, сократились ли творческие размышления по мере расширения работы. Перераспределите приоритеты и определите дальновидные намерения на понедельник.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 4</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>35 000 футов • В режиме полета/в самолете</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Кочевник вне сети</h3>
+            <p class="text-secondary small mb-0 lh-base">100% офлайн-функциональность без ошибок подключения. SLM на устройстве генерирует подсказки и резюме. Перетащите папку журнала на зашифрованный флэш-накопитель, чтобы мгновенно создать физическую резервную копию.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 5</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>В течение рабочего дня • Мгновенно</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Творческий и академический блокнот</h3>
+            <p class="text-secondary small mb-0 lh-base">Нажмите Win+Alt+N, чтобы запустить глобальный быстрый захват менее чем за 200 мс во время глубокой работы. Заметки легко добавляются с метками времени. Свяжите папку журнала с хранилищами Obsidian для интеграции графиков знаний без синхронизации.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Tiers -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
+        </span>
+        <h2 class="display-5 fw-bold text-white">Аппаратные уровни и энергоэффективность</h2>
+        <p class="text-secondary fs-5">Нативная поддержка x64 и Copilot+ ARM64 с минимальной нагрузкой на аккумулятор.</p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Уровень 1: чистый ЦП (универсальный)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Любой современный процессор x64/ARM64, 8 ГБ ОЗУ, Intel Core/AMD Ryzen/Snapdragon.</p>
+            <p class="text-secondary small mb-0 lh-base">Полные возможности журнала, поиск BM25 менее 150 мс, курируемые детерминированные банки подсказок, логический вывод CPU INT4 AI.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Уровень 2: графический процессор DirectML (ускоренный)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Intel Iris Xe, AMD Radeon, выделенная или интегрированная графика NVIDIA GTX/RTX.</p>
+            <p class="text-secondary small mb-0 lh-base">Невероятно быстрый вывод локального ИИ-компаньона с генерацией первого токена менее чем за 2 секунды.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Уровень 3: Copilot+ NPU (ПК нового поколения с искусственным интеллектом)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Qualcomm Snapdragon X Elite/Plus, процессор Intel Core Ultra NPU, AMD Ryzen AI.</p>
+            <p class="text-secondary small mb-0 lh-base">Выделенный нейронный аппаратный вывод с практически нулевым шумом вентилятора, минимальным воздействием на батарею и мгновенным откликом.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 10 (сборка 17763+) или Windows 11; х64 или ARM64; 8 ГБ оперативной памяти; 500 МБ дискового пространства (опционально 2,5–4,5 ГБ для локальных весов AI).</p>
+          </div>
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 11; современный многоядерный процессор Intel i7/Ryzen 7 или Snapdragon X; 16 ГБ оперативной памяти; DirectML GPU или NPU; NVMe SSD.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Licensing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
+        </span>
+        <h2 class="display-5 fw-bold text-white">Прозрачные цены: отказ от подписок</h2>
+        <p class="text-secondary fs-5">Заплатите один раз, владейте им навсегда. 15-дневная неограниченная пробная версия без необходимости использования кредитной карты.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
+            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
+            <p class="text-white-50 small mb-4">Zero credit card required</p>
+            <p class="text-secondary small mb-4 lh-base text-start">Разблокированы 100 % функций, включая среду выполнения искусственного интеллекта на устройстве, поиск BM25, все более чем 50 языков, ThemeWheels и экспорт книг в формате PDF. Кредитная карта не требуется, автоматическое выставление счетов отсутствует.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
+              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
+            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
+            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
+            <p class="text-secondary small mb-4 lh-base text-start">Разовая покупка с пожизненным личным владением. Включает все незначительные обновления и региональные цены по паритету покупательной способности в Microsoft Store.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> Купить навсегда — $0.99
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>Гарантия открытия при отказе в автономном режиме</h4>
+            <p class="text-secondary small mb-0 lh-base">Если проверка лицензии в автономном режиме истекает или завершается сбоем при записи в автономном режиме в изолированной кабине, Nudge не открывается и предоставляет полный доступ. Мы никогда не лишим вас доступа к вашим личным мыслям.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>Постоянное чтение и свобода экспорта</h4>
+            <p class="text-secondary small mb-0 lh-base">Если срок действия пробной версии истекает без покупки, Nudge переходит в постоянный архив, доступный только для чтения. Вы можете просматривать, искать с помощью BM25 и экспортировать в Markdown или PDF навсегда. Ваши файлы остаются открытыми Markdown на вашем диске.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
+        </span>
+        <h2 class="display-5 fw-bold text-white">Часто задаваемые вопросы</h2>
+        <p class="text-secondary fs-5">Все об архитектуре, локальных нейросетях, хранении заметок и лицензиях.</p>
+      </div>
+      <div class="max-w-900 mx-auto">
+        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Q1: Что отличает Nudge от любого другого приложения для ведения журналов?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge сочетает в себе два основополагающих принципа: 100% изолированный локальный суверенитет (простые файлы Markdown на вашем диске без облачной телеметрии) и тихий AI-компаньон на устройстве (небольшие языковые модели, которые запускаются непосредственно на кристалле вашего ПК). Вы получаете преимущества интеллектуального анализа и аналитики, не жертвуя конфиденциальностью и не оплачивая регулярные подписки.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Q2: Неужели Надж действительно никогда не подключается к Интернету?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse " aria-labelledby="faq2Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Да. После установки Nudge выполняет сетевые запросы с нулевым временем выполнения: никаких сценариев отслеживания, никаких звонков домой репортерам о сбоях и удаленных запросов шрифтов. Единственное разрешенное сетевое взаимодействие — это необязательная, инициируемая пользователем однократная загрузка весов языковой модели открытых весов во время установки. Вы можете отключить Wi-Fi или запустить игру в изолированной песочнице со 100% сохранением функций.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Q3: Зачем хранить записи в виде файлов Markdown, а не в базе данных?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse " aria-labelledby="faq3Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Базы данных создают закрытые хранилища, уязвимые для коррупции и заброшенности. Текстовые файлы в формате Plain Markdown (.md) с лицевой частью YAML неразрушимы, удобочитаемы и общедоступны. Через 50 лет их можно будет прочитать на любой компьютерной системе, и их можно будет открыть в Obsidian, VS Code или Блокноте в любое время.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Q4: Почему Nudge не предлагает встроенную облачную синхронизацию?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse " aria-labelledby="faq4Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Поскольку облачная синхронизация требует размещения данных клиентов на удаленных серверах, это приводит к уязвимостям безопасности и периодическим расходам. Поскольку Nudge хранит ваш журнал как обычную папку на жестком диске, вы можете синхронизировать его с помощью собственных надежных инструментов со сквозным шифрованием, таких как OneDrive, Dropbox, Syncthing или Nextcloud.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Q5: Как AI-компаньон может работать локально, не отправляя данные в OpenAI или Google?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse " aria-labelledby="faq5Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Недавние достижения в области квантованных моделей малых языков (таких как Google Gemma и Microsoft Phi) позволяют соответствующим моделям работать непосредственно на оборудовании потребительских ПК с помощью ONNX Runtime GenAI и LlamaSharp. Вычисления происходят строго на вашем физическом процессоре, графическом процессоре или NPU. Ни один токен не передается через Интернет.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Q6: Могу ли я использовать Nudge, не загружая и не используя какие-либо функции искусственного интеллекта?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse " aria-labelledby="faq6Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Абсолютно. Локальный спутник AI совершенно необязателен. Вы можете пропустить загрузку модели во время установки. Nudge безупречно работает как сверхбыстрый, не отвлекающий от внимания текстовый журнал с тщательно подобранными детерминированными рефлексивными подсказками.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Q7: Оценивает ли меня ИИ или дает психологические советы?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse " aria-labelledby="faq7Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Никогда. Результаты работы ИИ Nudge строго ограничены грамматикой GBNF и подсказками этической системы. Он никогда не скажет вам, что вам следует делать, не предложит любительскую терапию или не оценит ваш характер. Оно действует исключительно как интеллектуальное зеркало, отражающее ваши мысли и задающее уточняющие вопросы.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Q8: Каковы три «момента размышления»?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse " aria-labelledby="faq8Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  1. Стартер: продуманный вопрос, появляющийся на пустой странице перед тем, как вы начнете писать. 2. Inline Nudge: тонкий вопрос, всплывающий под курсором только тогда, когда вы приостанавливаете ввод текста как минимум на 6 секунд после написания 40 слов. 3. Углубление: 2–3 дополнительных вопроса, предлагаемых при завершении записи, которые аккуратно добавляются в виде подзаголовков Markdown.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 9 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Q9: Как работает «Спросите свой журнал»? У него галлюцинации?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse " aria-labelledby="faq9Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge использует свой локальный инвертированный индекс BM25 для поиска соответствующих прошлых записей, а местный SLM синтезирует прямой ответ с обязательными ссылками на цитирование, которые можно кликнуть. Если соответствующих записей не существует, модель строго ограничена утверждением: «Я не смог найти ничего об этом в вашем журнале» — математическая блокировка создания памяти.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 10 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Q10: Как создать резервную копию моего журнала?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse " aria-labelledby="faq10Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Резервное копирование так же просто, как копирование папки. Перейдите в каталог журнала (по умолчанию Documents/Nudge) и скопируйте его на внешний диск, USB-накопитель или резервный диск. Каждая запись, черновик, тег и настройка содержатся в этой папке.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 11 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Q11: Что произойдет, если мой компьютер выйдет из строя, пока я печатаю?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse " aria-labelledby="faq11Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Каждое нажатие клавиши сохраняется в черновике быстрого восстановления (.draft.md) каждые 500 миллисекунд. Если питание внезапно пропадает, ваш незафиксированный текст восстанавливается сразу после перезапуска. При полном сохранении используются операции замены атомарной файловой системы для устранения повреждений.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 12 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Q12: Могу ли я импортировать существующий дневник из Day One, Journey или Obsidian?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse " aria-labelledby="faq12Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Да! Nudge включает в себя встроенные механизмы импорта для экспорта JSON первого дня, хранилищ Journey, Diarium, Obsidian/Markdown и стандартных архивов CSV с полным сохранением метаданных.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 13 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Q13: Как работает биометрическая блокировка Windows Hello?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse " aria-labelledby="faq13Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge интегрируется с собственными API-интерфейсами Windows Hello. Разблокируйте свой журнал с помощью распознавания лиц, датчиков отпечатков пальцев или PIN-кода Windows. Биометрическая аутентификация работает на 100% в автономном режиме без связи с внешними поставщиками удостоверений.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 14 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Q14: Могу ли я зашифровать файлы журнала на диске?
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse " aria-labelledby="faq14Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Да. Nudge предлагает дополнительное шифрование локальной файловой системы с использованием AES-256-GCM военного уровня, полученного с помощью хеширования паролей Argon2id. Ваши файлы зашифрованы без каких-либо бэкдоров или корпоративного депонирования для восстановления.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 15 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq15Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                  Q15: Почему Nudge не показывает красные цифры, когда я пропускаю день?
+                </button>
+              </h3>
+              <div id="faq15" class="accordion-collapse collapse " aria-labelledby="faq15Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Потому что вина — вредный мотиватор для самоанализа. Реальная жизнь включает в себя болезни, путешествия и отдых. Nudge включает автоматические льготные дни в серии, избегает красных индикаторов штрафов и активно отмечает ваш коэффициент возврата.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 16 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq16Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                  Q16: Каковы 11 жизненных тем?
+                </button>
+              </h3>
+              <div id="faq16" class="accordion-collapse collapse " aria-labelledby="faq16Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Записи классифицируются по 11 заблокированным человеческим измерениям: работа, отношения, семья, здоровье, деньги, идентичность, творчество, обучение, путешествия, каждый день и планы. Визуализация на векторных ThemeWheels показывает, как баланс вашей жизни меняется в зависимости от сезона.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 17 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq17Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                  Q17: Почему вы указываете среднее количество слов, а не средние значения?
+                </button>
+              </h3>
+              <div id="faq17" class="accordion-collapse collapse " aria-labelledby="faq17Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Средние арифметические искажены случайными длинными эссе. Если вы напишете пять записей по 100 слов и одну запись на 3000 слов, ваше среднее значение составит 583 слова. Статистическая медиана точно отражает типичный базовый уровень сеанса.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 18 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq18Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                  Q18: Сколько стоит Надж?
+                </button>
+              </h3>
+              <div id="faq18" class="accordion-collapse collapse " aria-labelledby="faq18Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge — это разовая покупка на сумму 0,99 доллара США с автоматическим региональным паритетом закупок в Microsoft Store. Ноль подписок, ноль уровней функций, ноль рекламы.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 19 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq19Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                  Q19: Что произойдет, когда истечет 15-дневный пробный период?
+                </button>
+              </h3>
+              <div id="faq19" class="accordion-collapse collapse " aria-labelledby="faq19Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Подталкивание переходит в режим постоянного архива только для чтения. Вы можете выполнять поиск с помощью BM25, читать свою хронологию и экспортировать в Markdown или PDF навсегда. Поскольку ваши записи в папке «Документы» представлены в формате Markdown, вы всегда можете открывать и редактировать их в любом текстовом редакторе.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 20 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq20Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                  Q20: Могу ли я установить Nudge на несколько компьютеров с Windows за одну покупку?
+                </button>
+              </h3>
+              <div id="faq20" class="accordion-collapse collapse " aria-labelledby="faq20Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Да. В соответствии со стандартным лицензированием Microsoft Store одна персональная лицензия разрешает установку на совместимые персональные устройства с Windows 10 и 11, на которые вы вошли с помощью своей учетной записи Microsoft.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 21 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq21Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq21" aria-expanded="false" aria-controls="faq21">
+                  Q21: Поддерживает ли Nudge устройства ARM64, такие как ПК Copilot+?
+                </button>
+              </h3>
+              <div id="faq21" class="accordion-collapse collapse " aria-labelledby="faq21Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Да! Nudge изначально скомпилирован как для x64, так и для ARM64, работает с высокой эффективностью использования батареи и ускорением нейронного процессора на устройстве на ПК Snapdragon X Elite и Snapdragon X Plus Copilot+.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 22 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq22Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq22" aria-expanded="false" aria-controls="faq22">
+                  Q22: Что произойдет, если проверка автономной лицензии завершится неудачно, пока я не подключен к сети?
+                </button>
+              </h3>
+              <div id="faq22" class="accordion-collapse collapse " aria-labelledby="faq22Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  В соответствии с нашей политикой отказоустойчивого открытия Nudge не открывается и предоставляет полный доступ, если время проверки лицензии истекло или невозможно получить доступ к кешу Магазина. Вы никогда не будете заблокированы от своего журнала.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 23 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq23Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq23" aria-expanded="false" aria-controls="faq23">
+                  Q23: Где я могу получить поддержку или сообщить о проблеме?
+                </button>
+              </h3>
+              <div id="faq23" class="accordion-collapse collapse " aria-labelledby="faq23Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Вы можете связаться с нашей командой инженеров напрямую по адресу support@dhinovatech.com. Поскольку мы не собираем телеметрические данные об удаленных ошибках, вы можете поделиться своим локальным файлом сбоя.log для немедленного устранения.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5" id="quotes">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
+        </span>
+        <h2 class="display-5 fw-bold text-white">Отзывы писателей и мыслителей о Nudge</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Писать на Nudge — это все равно, что закрыть дверь на шумную улицу и сесть в залитую солнцем частную библиотеку. Знание того, что мои слова хранятся на моем жестком диске и что ни один облачный сервер не читает мои мысли, позволяет мне писать с честностью, которой я не чувствовал уже пятнадцать лет."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Dr. Aris Thorne</span>
+              <span class="text-white-50 extra-small">Автор и академический исследователь</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Шестисекундная пауза — это мастер-класс по дизайну взаимодействия. Это не мешает. Он просто ждет, пока вы действительно застрянете, предлагает светящийся вопрос и исчезает в тот момент, когда ваши пальцы снова начинают двигаться. Это изменило мой вечерний ритуал ведения дневника."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Elena Rostova</span>
+              <span class="text-white-50 extra-small">Архитектор программного обеспечения и эссеист</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Я скептически относился к локальному ИИ на ноутбуке, пока не протестировал Nudge в самолете с отключенным Wi-Fi. Синтезирование записей моей прошлой недели в связное повествование во время полета над Атлантикой без подключения к облакам убедило меня, что именно так и следует создавать программное обеспечение."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Marcus Vance</span>
+              <span class="text-white-50 extra-small">Технологический стратег и цифровой кочевник</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
+    <div class="container py-5 text-center max-w-800 mx-auto">
+      <div class="d-inline-block position-relative mb-4">
+        <img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+      </div>
+      <h2 class="display-4 fw-bold text-white mb-3">Верните себе личное пространство мысли</h2>
+      <p class="lead text-secondary mb-4">Ваши сокровенные размышления заслуживают настоящей защиты. Начните 15-дневный бесплатный пробный период сегодня.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
+          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> Купите один раз — 0,99 доллара США на всю жизнь.
+        </a>
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
+          <i class="bi bi-download me-2" aria-hidden="true"></i> Скачать 15-дневную бесплатную пробную версию
+        </a>
+      </div>
+      <p class="extra-small text-white-50 mb-0">100% автономный режим • Нулевая телеметрия • Простые файлы уценки • WinUI 3 для Windows 10 и 11</p>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Nudge">
+  <img src="/assets/images/nudge-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Nudge</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Установить</a>
+</div>
+<button type="button" class="to-top" aria-label="Наверх" title="Наверх">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Согласие на cookie" hidden>
+  <p class="consent-bar-text">Мы используем Google Analytics, чтобы понимать, как используется сайт. Если вы откажетесь, ничего не сохраняется — сайт работает точно так же. <a href="/privacy.html" class="consent-bar-link">Политика конфиденциальности</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Отклонить</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Принять</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

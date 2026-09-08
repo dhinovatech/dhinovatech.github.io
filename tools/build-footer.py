@@ -28,6 +28,8 @@ SKIP_DIRS = {".git", "tools", "_src"}
 
 # href -> default link text, in the order the column should read.
 APP_ORDER = [
+    ("/nudge/",                           "Nudge Offline Journal & AI"),
+    ("/stow/",                            "Stow Photo & File Organizer"),
     ("/glowcompare/",                     "GlowCompare"),
     ("/glowcompare-windows/",             "GlowCompare for Windows"),
     ("/milk-monthly-expense-calendar/",   "Milk Calendar"),
@@ -101,8 +103,16 @@ def main():
 
         new_foot = UL.sub(fix, foot)
         if new_foot != foot:
-            with open(path, "w", encoding="utf-8", newline="") as fh:
-                fh.write(head + new_foot)
+            for attempt in range(5):
+                try:
+                    with open(path, "w", encoding="utf-8", newline="") as fh:
+                        fh.write(head + new_foot)
+                    break
+                except OSError:
+                    if attempt == 4:
+                        raise
+                    import time
+                    time.sleep(0.15)
             changed += 1
 
     print("footer columns completed on %d pages" % changed)

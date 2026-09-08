@@ -39,6 +39,13 @@ STRINGS = os.path.join(ROOT, "tools", "consent-strings.json")
 
 GA_ID = "G-T0S5ZW1QGM"
 
+# Google Ads. Conversion tracking for the campaigns that point at the app
+# pages. It is configured through the same gtag.js instance and the same
+# Consent Mode defaults as Analytics - loading the second snippet Google's
+# setup page hands you would pull in a second copy of gtag.js and, far worse,
+# would run it before the consent defaults below are armed.
+ADS_ID = "AW-18122344867"
+
 HEAD_BEGIN = "  <!-- BEGIN generated analytics + consent block -->"
 HEAD_END = "  <!-- END generated analytics + consent block -->"
 BAR_BEGIN = "<!-- BEGIN generated consent banner -->"
@@ -100,7 +107,16 @@ HEAD_BLOCK = """%s
     });
     /* Everywhere else: analytics is on and the notice is an opt-out rather
        than a gate. Section 2 of /privacy.html says so in as many words.
-       Ad storage stays denied in every region - the site carries no ads. */
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -123,8 +139,9 @@ HEAD_BLOCK = """%s
     })();
     gtag('js', new Date());
     gtag('config', '%s');
+    gtag('config', '%s');
   </script>
-%s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, HEAD_END)
+%s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, ADS_ID, HEAD_END)
 
 # The exact snippet this replaces, as it appears on all 167 pages that had one.
 OLD_GA = re.compile(
@@ -202,8 +219,16 @@ def main():
             n_bar += 1
 
         if doc != before:
-            with io.open(path, "w", encoding="utf-8", newline="") as fh:
-                fh.write(doc)
+            for attempt in range(5):
+                try:
+                    with io.open(path, "w", encoding="utf-8", newline="") as fh:
+                        fh.write(doc)
+                    break
+                except OSError:
+                    if attempt == 4:
+                        raise
+                    import time
+                    time.sleep(0.15)
 
     print("consent head block : %d pages (%d gained analytics they lacked)"
           % (n_head, n_new))

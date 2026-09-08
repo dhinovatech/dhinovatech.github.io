@@ -44,9 +44,40 @@ STORE = "https://apps.microsoft.com/detail/" + STORE_ID
 STORE_UTM = STORE + "?ocid=dhinovatech_stow"
 
 ICON = "/assets/images/stow-icon.png"
-OGIMG = "/assets/images/stow-icon.png"
-OGW, OGH = 512, 512
-OGALT = "Stow AI photo and file organizer icon"
+
+# The link-preview card. This used to be the 512x512 app icon under
+# twitter:card=summary_large_image, which every scraper either letterboxes or
+# drops; tools/build-stow-shots.py draws a real 1200x630 card instead.
+OGIMG = "/assets/images/stow-og.png"
+OGW, OGH = 1200, 630
+OGALT = "Stow - photo and file organizer for Windows, on the Microsoft Store"
+
+# Stow is a paid application with a trial, and the page has to say the same
+# thing the store listing and the application itself say. The Offer below is
+# the machine-readable half of that; t["price_badge"] / t["price_note"] are the
+# half a reader sees, and both sit next to every primary call to action.
+PRICE = "9.99"
+PRICE_CCY = "USD"
+
+# The localised screenshots tools/build-stow-shots.py writes, each paired with
+# the already-translated string that best describes it. Reusing existing copy
+# rather than inventing seven new captions is what keeps the gallery fully
+# translated in all 23 languages on the day it ships.
+#
+# HERO is the dashboard, and it is deliberately not one of the six in the
+# gallery: the heading over that grid says "six screens", and a reader who
+# counts five of them, one of which they have already seen, has been given a
+# reason to doubt everything else the page claims.
+HERO = ("home", lambda t: t["pillars"][0]["features"][0]["title"])
+SHOTS = [
+    ("find",       "bi-search",            lambda t: t["find_items"][0]["t"]),
+    ("space",      "bi-hdd",               lambda t: t["find_items"][2]["t"]),
+    ("duplicates", "bi-copy",              lambda t: t["h_dupes"]),
+    ("undo",       "bi-arrow-counterclockwise", lambda t: t["h_undo"]),
+    ("photos",     "bi-image",             lambda t: t["find_items"][1]["t"]),
+    ("privacy",    "bi-shield-lock",       lambda t: t["principles"][0]["t"]),
+]
+SHOT_W, SHOT_H = 1100, 619
 
 GA_ID = "G-T0S5ZW1QGM"
 HEAD_BEGIN = "  <!-- BEGIN generated analytics + consent block -->"
@@ -108,6 +139,20 @@ def url_for(code):
 
 def abs_url(code):
     return SITE + url_for(code)
+
+
+def shot_url(code, slug):
+    """Path to one localised screenshot, falling back to the English capture.
+
+    tools/build-stow-shots.py writes a full set per locale, but it only runs
+    where the application repository is checked out. Everywhere else this has
+    to resolve to a file that is actually committed, or a locale page ends up
+    with six broken images.
+    """
+    rel = "assets/images/stow/%s/%s.webp" % (code, slug)
+    if code != "en" and not os.path.exists(os.path.join(ROOT, rel)):
+        rel = "assets/images/stow/en/%s.webp" % slug
+    return "/" + rel
 
 
 def built_langs():
@@ -220,6 +265,7 @@ def navbar(code, t):
               Our Apps
             </a>
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.png" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Nudge Offline Journal</a></li>
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
                   <span><img src="__ICON__" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
@@ -322,19 +368,61 @@ FOOTER = """  <footer class="footer-dhin">
 """
 
 PAGE_CSS = """  <style>
-    /* Scoped Stow accents - emerald/teal palette */
-    .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
+    /* Stow is the one section that does not use the site's cyan accent.
+       The application itself is a WinUI 3 window with an amber-gold accent on
+       warm charcoal, and every screenshot on this page is a real capture of
+       it - a cyan page wrapped around amber screenshots reads as two products
+       rather than one. The four custom properties below are declared
+       site-wide in custom.css, so re-declaring them here re-keys the shared
+       chrome (buttons, focus rings, card hover, footer links) without a
+       single !important and without touching any other section. */
+    :root {
+      --dhin-accent-blue: #ffb634;
+      --dhin-border-glow: rgba(255, 182, 52, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(255, 182, 52, 0.22);
+      --dhin-gradient-primary: linear-gradient(135deg, #ffb634 0%, #f0930d 100%);
+      --stow-amber: #ffb634;
+      --stow-ink: #1a1204;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 255, 182, 52;
+      --bs-primary-bg-subtle: rgba(255, 182, 52, 0.12);
+      --bs-primary-border-subtle: rgba(255, 182, 52, 0.32);
+      --bs-primary-text-emphasis: #ffc861;
+    }
+    /* .text-gradient hardcodes the cyan ramp, so it needs its own override.
+       The clip and fill have to be repeated: the `background` shorthand resets
+       background-clip, and in custom.css the clip is declared after it. Set
+       the ramp alone and every eyebrow on the page turns into a solid amber
+       block with invisible text inside it. */
+    .text-gradient {
+      background: linear-gradient(135deg, #ffc861 0%, #ffb634 55%, #f0930d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(255, 182, 52, 0.28); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(255, 182, 52, 0.42); }
+    .btn-dhin-outline:hover { background: rgba(255, 182, 52, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(255, 182, 52, 0.14) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+
+    .glow-aura-teal { box-shadow: 0 0 45px rgba(255, 182, 52, 0.26); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.4rem; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(45,212,191,0.18), rgba(56,189,248,0.16));
-      color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3);
+      background: linear-gradient(135deg, rgba(255,182,52,0.18), rgba(240,147,13,0.12));
+      color: var(--stow-amber); border: 1px solid rgba(255,182,52,0.3);
     }
     .stow-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
     .stow-num {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
+      font-size: 1.6rem; font-weight: 700; line-height: 1;
+      color: #64748b;
     }
     .stow-num-zero { color: #4ade80; }
     .plan-table {
@@ -347,29 +435,69 @@ PAGE_CSS = """  <style>
     }
     .plan-table th { color: #94a3b8; font-weight: 600; }
     .plan-table td { color: #cbd5e1; }
-    .plan-table .plan-dest { color: #2dd4bf; }
+    .plan-table .plan-dest { color: var(--stow-amber); }
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
       width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 1.1rem;
-      background: rgba(45,212,191,0.18); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.4);
+      background: rgba(255,182,52,0.18); color: var(--stow-amber);
+      border: 1px solid rgba(255,182,52,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
 
-    /* Release banner */
+    /* Hero -------------------------------------------------------------- */
+    .stow-hero-icon {
+      width: 60px; height: 60px; border-radius: 15px; overflow: hidden;
+      flex-shrink: 0; border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 24px rgba(0,0,0,.45);
+    }
+    .stow-hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .stow-hero-name { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
+    .stow-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .stow-price strong { color: #fff; }
+    .stow-price-tag {
+      background: rgba(255, 182, 52, .14); color: #ffc861;
+      border: 1px solid rgba(255, 182, 52, .34);
+      border-radius: 20px; padding: 2px 10px; font-size: .8rem; font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* The hero screenshot. Border and shadow only - the capture supplies its
+       own Windows chrome. */
+    .stow-window {
+      border-radius: 14px; overflow: hidden; background: #1f2021;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .stow-window img { display: block; width: 100%; height: auto; }
+
+    /* Screenshot gallery ------------------------------------------------- */
+    .stow-shot { overflow: hidden; margin: 0; }
+    .stow-shot img {
+      display: block; width: 100%; height: auto;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .stow-shot figcaption {
+      padding: .85rem 1rem; font-size: .9rem; font-weight: 600; color: #e2e8f0;
+    }
+    .stow-shot figcaption i { color: var(--stow-amber); }
+
+    /* Release banner ----------------------------------------------------- */
     .release-banner {
-      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
-      border: 1px solid rgba(45, 212, 191, 0.35);
+      background: linear-gradient(135deg, rgba(255, 182, 52, 0.1) 0%, rgba(240, 147, 13, 0.05) 100%);
+      border: 1px solid rgba(255, 182, 52, 0.3);
       border-radius: 16px;
       position: relative;
       overflow: hidden;
     }
     .release-badge {
-      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
-      color: #080c14;
+      background: linear-gradient(135deg, #ffb634 0%, #f0930d 100%);
+      color: var(--stow-ink);
       font-weight: 800;
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -391,26 +519,26 @@ PAGE_CSS = """  <style>
       transition: all 0.2s ease;
     }
     .release-feature-pill:hover {
-      background: rgba(45, 212, 191, 0.15);
-      border-color: rgba(45, 212, 191, 0.4);
-      color: #2dd4bf;
+      background: rgba(255, 182, 52, 0.15);
+      border-color: rgba(255, 182, 52, 0.4);
+      color: var(--stow-amber);
     }
 
     /* Invariant and Pillar Cards */
     .invariant-card {
-      border-left: 3px solid #2dd4bf !important;
+      border-left: 3px solid var(--stow-amber) !important;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .invariant-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+      box-shadow: 0 10px 30px rgba(255, 182, 52, 0.14);
     }
     .pillar-card {
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .pillar-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(45, 212, 191, 0.4) !important;
+      border-color: rgba(255, 182, 52, 0.4) !important;
     }
     .feature-bullet-list li {
       position: relative;
@@ -420,10 +548,10 @@ PAGE_CSS = """  <style>
       color: #94a3b8;
     }
     .feature-bullet-list li::before {
-      content: "\u2022";
+      content: "•";
       position: absolute;
       left: 0.35rem;
-      color: #2dd4bf;
+      color: var(--stow-amber);
       font-size: 1.1rem;
       line-height: 1.2;
     }
@@ -444,27 +572,33 @@ PAGE_CSS = """  <style>
       font-weight: 600;
     }
     .compare-table th.stow-col, .compare-table td.stow-col {
-      background: rgba(45, 212, 191, 0.06);
-      border-left: 1px solid rgba(45, 212, 191, 0.25);
-      border-right: 1px solid rgba(45, 212, 191, 0.25);
+      background: rgba(255, 182, 52, 0.06);
+      border-left: 1px solid rgba(255, 182, 52, 0.25);
+      border-right: 1px solid rgba(255, 182, 52, 0.25);
     }
     .compare-table thead th.stow-col {
-      background: rgba(45, 212, 191, 0.15);
-      color: #2dd4bf;
-      border-top: 2px solid #2dd4bf;
+      background: rgba(255, 182, 52, 0.14);
+      color: var(--stow-amber);
+      border-top: 2px solid var(--stow-amber);
     }
 
     /* FAQ accordion styling */
     .accordion-button:not(.collapsed) {
-      background: rgba(45, 212, 191, 0.08);
-      color: #2dd4bf;
+      background: rgba(255, 182, 52, 0.08);
+      color: var(--stow-amber);
       box-shadow: none;
     }
     .accordion-button:focus {
-      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+      box-shadow: 0 0 0 0.2rem rgba(255, 182, 52, 0.25);
     }
     .accordion-button::after {
       filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    /* The site honours reduced motion globally, but the hero art's float is
+       introduced on this page, so it has to opt out on this page. */
+    @media (prefers-reduced-motion: reduce) {
+      .animated-float { animation: none !important; }
     }
   </style>
 """
@@ -494,7 +628,10 @@ def schema(code, t, desc):
          "image": SITE + ICON,
          "downloadUrl": STORE,
          "installUrl": STORE,
-         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+         "offers": {"@type": "Offer", "price": PRICE, "priceCurrency": PRICE_CCY,
+                    "availability": "https://schema.org/InStock", "url": STORE},
+         "screenshot": ([SITE + shot_url(code, HERO[0])]
+                        + [SITE + shot_url(code, slug) for slug, _i, _c in SHOTS]),
          "publisher": {"@id": SITE + "/#organization"},
          "author": {"@id": SITE + "/#organization"}},
         {"@type": "BreadcrumbList", "itemListElement": [
@@ -547,7 +684,7 @@ def stat_cards(t):
             </div>""" % (
                 " border border-success border-opacity-25" if last else "",
                 icons[i],
-                "text-success" if last else "text-primary",
+                "text-success" if last else "text-secondary",
                 " stow-num-zero" if last else "",
                 "0" if last else "&mdash;",
                 E(lab)))
@@ -599,6 +736,84 @@ def plan_table(t):
 
 # ------------------------------------------------------------------ New Sections
 
+def render_problem(t):
+    """The reason a cold visitor should keep reading.
+
+    An advertisement drops somebody onto this page who has never heard of
+    Stow, and the hero can only afford one promise. This section is where the
+    problem gets named before the feature list starts - and the copy for it
+    was already written and translated into all 23 languages, it had simply
+    never been rendered: h_problem / problem1 / problem2 were passed to
+    .format() by a template that did not reference them.
+
+    intro1 and intro2 close the section. They used to be the hero's third and
+    fourth paragraphs, which is what pushed the button off a laptop screen;
+    they answer "so what does it do about it", which is exactly what a reader
+    wants directly after the problem.
+    """
+    return """  <!-- The problem -->
+  <section class="py-5" id="the-problem">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-9 text-center">
+          <h2 class="display-6 fw-bold text-white mb-4">%s</h2>
+          <p class="fs-5 text-secondary mb-3">%s</p>
+          <p class="text-secondary mb-0">%s</p>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-5 pt-4 border-top border-secondary-subtle g-4">
+        <div class="col-md-6 col-lg-5">
+          <p class="text-secondary mb-0">%s</p>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <p class="text-secondary mb-0">%s</p>
+        </div>
+      </div>
+    </div>
+  </section>
+""" % (E(t["h_problem"]), E(t["problem1"]), E(t["problem2"]),
+       E(t["intro1"]), E(t["intro2"]))
+
+
+def render_gallery(code, t):
+    """Six real captures of the running application, in the reader's language."""
+    cards = []
+    for slug, icon, caption in SHOTS:
+        cards.append(
+            """        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d">
+            <figcaption><i class="bi %s me-2" aria-hidden="true"></i>%s</figcaption>
+          </figure>
+        </div>""" % (shot_url(code, slug), E(caption(t)), SHOT_W, SHOT_H,
+                     E(icon), E(caption(t))))
+
+    return """  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">%s</span>
+        <h2 class="display-5 fw-bold text-white mt-2">%s</h2>
+        <p class="text-secondary fs-5">%s</p>
+      </div>
+      <div class="row g-4">
+%s
+      </div>
+    </div>
+  </section>
+""" % (E(t["gallery_badge"]), E(t["gallery_heading"]), E(t["gallery_sub"]),
+       "\n".join(cards))
+
+
+def render_price(t, centred=False):
+    """The price, in the same eyeful as the button, with the trial after it."""
+    return ('<p class="stow-price mt-3 mb-0%s"><span class="stow-price-tag">'
+            '<i class="bi bi-tag-fill me-1" aria-hidden="true"></i>%s</span>'
+            '<span>%s</span></p>'
+            % (" justify-content-center" if centred else "",
+               E(t["price_badge"]), E(t["price_note"])))
+
+
 def render_release_banner(t):
     rb = t.get("release_banner")
     if not rb:
@@ -625,7 +840,7 @@ def render_release_banner(t):
             <p class="text-secondary small mb-0">%s</p>
           </div>
           <div class="col-lg-4 text-lg-end">
-            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
+            <a href="#pillar-explorer" class="btn btn-sm btn-dhin-primary rounded-pill px-3 py-2 fw-semibold shadow">
               <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> %s
             </a>
           </div>
@@ -926,6 +1141,7 @@ def build(code):
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="{hero_shot}" fetchpriority="high">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -941,24 +1157,36 @@ def build(code):
 {navbar}
 <main id="main">
 
-{release_banner}
+  <!-- Hero.
 
-  <!-- Hero -->
-  <section class="hero-section py-5 position-relative overflow-hidden">
-    <div class="container py-4">
+       An advertisement pays for the first screenful, so everything that has
+       to survive a five-second read is in it: what this is, who it runs on,
+       what it costs, the button, and a photograph of the actual application.
+       The 3.0 release banner used to sit above all of this and pushed the
+       button below the fold on a 1366x768 laptop; it now runs underneath,
+       where a returning visitor still finds it and a first-time one is not
+       asked to care about a version number before they know what the product
+       does. -->
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
       <div class="row align-items-center gy-5">
-        <div class="col-lg-7">
-          <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-            <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="stow-hero-icon">
+              <img src="{icon}" alt="" decoding="async" width="512" height="512">
+            </span>
+            <span>
+              <span class="d-block stow-hero-name text-white">Stow</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
           </div>
-          <h1 class="hero-title mb-3">{name}</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">{tagline}</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">{intro1}</p>
-          <p class="text-secondary mb-4 pe-lg-4">{intro2}</p>
 
-          <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+          <h1 class="hero-title mb-3">{name}</h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">{tagline}</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
             <a href="{store}" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
@@ -970,8 +1198,9 @@ def build(code):
               <i class="bi bi-play-circle me-2" aria-hidden="true"></i> {cta_see}
             </a>
           </div>
+          {price_line}
 
-          <div class="stow-badge-row pt-2">
+          <div class="stow-badge-row pt-4 mt-2">
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> {badge_offline}</span>
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> {badge_preview}</span>
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> {badge_recycle}</span>
@@ -981,21 +1210,14 @@ def build(code):
           </div>
         </div>
 
-        <div class="col-lg-5 text-center">
-          <div class="position-relative d-inline-block p-4 w-100">
-            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-teal"></div>
-
-            <div class="card card-glass p-4 text-center border-0 animated-float position-relative" style="background: rgba(17, 24, 39, 0.85);">
-              <div class="mx-auto mb-3" style="width: 140px; height: 140px; border-radius: 30px; overflow: hidden; border: 3px solid rgba(45,212,191,0.5); box-shadow: 0 15px 35px rgba(45,212,191,0.3);">
-                <img src="{icon}" alt="Stow App Icon" class="w-100 h-100 object-fit-cover" decoding="async" fetchpriority="high" width="512" height="512">
-              </div>
-              <p class="h4 text-white fw-bold mb-1">Stow</p>
-              <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: {store_id}</p>
-
-              <a href="{store}" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> {cta_store}
-              </a>
-              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-teal" aria-hidden="true"></div>
+            <!-- No drawn window chrome around this: the capture already
+                 contains the real Windows title bar, and a second one on top
+                 of it reads as a mock-up of the thing it is evidence for. -->
+            <div class="stow-window position-relative">
+              <img src="{hero_shot}" alt="{hero_shot_alt}" decoding="async" fetchpriority="high" width="{shot_w}" height="{shot_h}">
             </div>
           </div>
         </div>
@@ -1003,9 +1225,13 @@ def build(code):
     </div>
   </section>
 
+{problem_section}
+
 {invariants_section}
 
 {how_it_works_section}
+
+{gallery_section}
 
   <!-- The preview -->
   <section id="the-preview" class="py-5">
@@ -1040,6 +1266,8 @@ def build(code):
       </div>
     </div>
   </section>
+
+{release_banner}
 
 {pillars_section}
 
@@ -1106,18 +1334,23 @@ def build(code):
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
-      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(45,212,191,0.14) 0%, rgba(56,189,248,0.16) 100%);">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(255,182,52,0.13) 0%, rgba(240,147,13,0.08) 100%);">
         <div class="max-w-700 mx-auto position-relative" style="z-index: 2;">
-          <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.14);">
             <img src="{icon}" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
           <h2 class="display-6 fw-bold text-white mb-3">{name}</h2>
           <p class="text-secondary fs-5 mb-4">{tagline}</p>
           <div class="d-flex justify-content-center">
-            <a href="{store}" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
-              <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
+            <a href="{store}" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Get it from</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
             </a>
           </div>
+          {price_line_centred}
         </div>
       </div>
 
@@ -1172,6 +1405,13 @@ def build(code):
         schema=schema(code, t, desc),
         navbar=navbar(code, t),
         release_banner=render_release_banner(t),
+        problem_section=render_problem(t),
+        gallery_section=render_gallery(code, t),
+        price_line=render_price(t),
+        price_line_centred=render_price(t, centred=True),
+        hero_shot=shot_url(code, HERO[0]),
+        hero_shot_alt=E(HERO[1](t)),
+        shot_w=SHOT_W, shot_h=SHOT_H,
         invariants_section=render_invariants(t),
         how_it_works_section=render_how_it_works(t),
         pillars_section=render_pillars(t),

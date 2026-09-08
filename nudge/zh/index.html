@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — 离线日记本与端侧本地 AI 伴侣 | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech</title>
+  <meta name="description" content="Nudge 是一款专为 Windows 原生打造的沉浸式、无干扰桌面日记软件。它将纯本地 Markdown 文件的绝对数字主权与绝不联网的端侧小语言模型（SLM）智能融为一体。零订阅费、零遥测上传、零后台追踪，彻底告别云端绑架。...">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
+    :root {
+      --nudge-amber: #f59e0b;
+      --nudge-gold: #fbbf24;
+      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
+      --nudge-bg-dark: #0a0b0d;
+      --nudge-card-bg: #121316;
+      --nudge-card-border: rgba(245, 158, 11, 0.22);
+    }
+    .glow-aura-amber {
+      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    }
+    .nudge-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
+      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+    }
+    .nudge-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.85rem; color: #fde68a; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: #fbbf24; color: #fff;
+    }
+    .invariant-card {
+      border-left: 3px solid #f59e0b !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.45) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #fbbf24;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.nudge-col, .compare-table td.nudge-col {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 1px solid rgba(245, 158, 11, 0.25);
+      border-right: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .nudge-code-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: #08090b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
+      white-space: pre; overflow-x: auto;
+    }
+    .stationery-token {
+      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
+    }
+    /* RTL adjustments */
+    [dir="rtl"] .feature-bullet-list li {
+      padding-left: 0;
+      padding-right: 1.4rem;
+    }
+    [dir="rtl"] .feature-bullet-list li::before {
+      left: auto;
+      right: 0.35rem;
+    }
+    [dir="rtl"] .invariant-card {
+      border-left: none !important;
+      border-right: 3px solid #f59e0b !important;
+    }
+    [dir="rtl"] .dropdown-menu-end {
+      right: auto !important;
+      left: 0 !important;
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/nudge/zh/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/nudge/ar/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/nudge/zh/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/nudge/es/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/nudge/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/nudge/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/nudge/fr/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/nudge/ko/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/nudge/hi/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/nudge/pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.dhinovatech.com/nudge/pt-pt/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/nudge/id/">
+  <link rel="alternate" hreflang="ms" href="https://www.dhinovatech.com/nudge/ms/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/nudge/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/nudge/tr/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/nudge/it/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/nudge/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/nudge/pl/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/nudge/th/">
+  <link rel="alternate" hreflang="fa" href="https://www.dhinovatech.com/nudge/fa/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/nudge/sv/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/nudge/vi/">
+  <link rel="alternate" hreflang="bn" href="https://www.dhinovatech.com/nudge/bn/">
+  <link rel="alternate" hreflang="zh-HK" href="https://www.dhinovatech.com/nudge/yue/">
+  <link rel="alternate" hreflang="tl" href="https://www.dhinovatech.com/nudge/tl/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/nudge/uk/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/nudge/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/nudge/ro/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/nudge/he/">
+  <link rel="alternate" hreflang="el" href="https://www.dhinovatech.com/nudge/el/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/nudge/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/nudge/da/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/nudge/fi/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/nudge/nb/">
+  <link rel="alternate" hreflang="te" href="https://www.dhinovatech.com/nudge/te/">
+  <link rel="alternate" hreflang="mr" href="https://www.dhinovatech.com/nudge/mr/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/nudge/ta/">
+  <link rel="alternate" hreflang="gu" href="https://www.dhinovatech.com/nudge/gu/">
+  <link rel="alternate" hreflang="ur" href="https://www.dhinovatech.com/nudge/ur/">
+  <link rel="alternate" hreflang="pa" href="https://www.dhinovatech.com/nudge/pa/">
+  <link rel="alternate" hreflang="ml" href="https://www.dhinovatech.com/nudge/ml/">
+  <link rel="alternate" hreflang="kn" href="https://www.dhinovatech.com/nudge/kn/">
+  <link rel="alternate" hreflang="jv" href="https://www.dhinovatech.com/nudge/jv/">
+  <link rel="alternate" hreflang="sw" href="https://www.dhinovatech.com/nudge/sw/">
+  <link rel="alternate" hreflang="ha" href="https://www.dhinovatech.com/nudge/ha/">
+  <link rel="alternate" hreflang="yo" href="https://www.dhinovatech.com/nudge/yo/">
+  <link rel="alternate" hreflang="my" href="https://www.dhinovatech.com/nudge/my/">
+  <link rel="alternate" hreflang="am" href="https://www.dhinovatech.com/nudge/am/">
+  <link rel="alternate" hreflang="kk" href="https://www.dhinovatech.com/nudge/kk/">
+  <link rel="alternate" hreflang="sk" href="https://www.dhinovatech.com/nudge/sk/">
+  <link rel="alternate" hreflang="ca" href="https://www.dhinovatech.com/nudge/ca/">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Nudge — 离线日记本与端侧本地 AI 伴侣 | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta property="og:description" content="Nudge 是一款专为 Windows 原生打造的沉浸式、无干扰桌面日记软件。它将纯本地 Markdown 文件的绝对数字主权与绝不联网的端侧小语言模型（SLM）智能融为一体。零订阅费、零遥测上传、零后台追踪，彻底告别云端绑架。...">
+  <meta property="og:url" content="https://www.dhinovatech.com/nudge/zh/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Nudge offline journal and diary with AI companion icon">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ms_MY">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="fa_IR">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="bn_IN">
+  <meta property="og:locale:alternate" content="zh_HK">
+  <meta property="og:locale:alternate" content="tl_PH">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta property="og:locale:alternate" content="el_GR">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="te_IN">
+  <meta property="og:locale:alternate" content="mr_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="gu_IN">
+  <meta property="og:locale:alternate" content="ur_PK">
+  <meta property="og:locale:alternate" content="pa_IN">
+  <meta property="og:locale:alternate" content="ml_IN">
+  <meta property="og:locale:alternate" content="kn_IN">
+  <meta property="og:locale:alternate" content="jv_ID">
+  <meta property="og:locale:alternate" content="sw_KE">
+  <meta property="og:locale:alternate" content="ha_NG">
+  <meta property="og:locale:alternate" content="yo_NG">
+  <meta property="og:locale:alternate" content="my_MM">
+  <meta property="og:locale:alternate" content="am_ET">
+  <meta property="og:locale:alternate" content="kk_KZ">
+  <meta property="og:locale:alternate" content="sk_SK">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nudge — 离线日记本与端侧本地 AI 伴侣 | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta name="twitter:description" content="Nudge 是一款专为 Windows 原生打造的沉浸式、无干扰桌面日记软件。它将纯本地 Markdown 文件的绝对数字主权与绝不联网的端侧小语言模型（SLM）智能融为一体。零订阅费、零遥测上传、零后台追踪，彻底告别云端绑架。...">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta name="twitter:image:alt" content="Nudge offline journal and diary with AI companion icon">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.dhinovatech.com/#website","url":"https://www.dhinovatech.com/","name":"Dhinovatech","publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/nudge/zh/#app","name":"Nudge — 离线日记本与端侧本地 AI 伴侣","applicationCategory":"LifestyleApplication","operatingSystem":"Windows 10, Windows 11","description":"Nudge 是一款专为 Windows 原生打造的沉浸式、无干扰桌面日记软件。它将纯本地 Markdown 文件的绝对数字主权与绝不联网的端侧小语言模型（SLM）智能融为一体。零订阅费、零遥测上传、零后台追踪，彻底告别云端绑架。...","url":"https://www.dhinovatech.com/nudge/zh/","image":"https://www.dhinovatech.com/assets/images/nudge-icon.png","inLanguage":"zh-Hans","offers":{"@type":"Offer","price":"0.99","priceCurrency":"USD","url":"https://apps.microsoft.com/detail/9MV92P7RLDGB","availability":"https://schema.org/InStock","seller":{"@id":"https://www.dhinovatech.com/#organization"}},"publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Nudge Offline Journal","item":"https://www.dhinovatech.com/nudge/"},{"@type":"ListItem","position":3,"name":"Nudge (zh)","item":"https://www.dhinovatech.com/nudge/zh/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/nudge/zh/#faq","inLanguage":"zh-Hans","mainEntity":[{"@type":"Question","name":"Nudge 与其他日记应用程序有何不同？","acceptedAnswer":{"@type":"Answer","text":"Nudge 结合了两个基本原则：100% 隔离的本地主权（磁盘上的纯 Markdown 文件，具有零云遥测）和安静的设备上 AI 伴侣（直接在 PC 芯片上运行的小语言模型）。您可以享受智能反思和分析的好处，而无需牺牲隐私或支付定期订阅费用。"}},{"@type":"Question","name":"Nudge 真的从不连接到互联网吗？","acceptedAnswer":{"@type":"Answer","text":"是的。安装后，Nudge 执行零运行时网络请求：没有跟踪脚本，没有崩溃报告者打电话回家，也没有远程字体请求。唯一允许的网络交互是在设置过程中可选的、由用户启动的开放权重语言模型权重的一次性下载。您可以断开 Wi-Fi 或在气隙沙箱中运行，且功能 100% 完好无损。"}},{"@type":"Question","name":"为什么将条目存储为 Markdown 文件而不是数据库？","acceptedAnswer":{"@type":"Answer","text":"数据库创建了容易受到损坏和遗弃的专有孤岛。带有 YAML 标题的纯 Markdown (.md) 文本文件是坚不可摧的、人类可读的且普遍可访问的。 50 年后，它们将在任何计算机系统上可读，并且可以随时在 Obsidian、VS Code 或记事本中打开。"}},{"@type":"Question","name":"为什么 Nudge 不提供内置云同步功能？","acceptedAnswer":{"@type":"Answer","text":"因为云同步需要在远程服务器上托管客户数据，从而引入安全漏洞和经常性费用。由于 Nudge 将您的日记存储为硬盘驱动器上的普通文件夹，因此您可以使用您自己信任的端到端加密工具（例如 OneDrive、Dropbox、Syncthing 或 Nextcloud）对其进行同步。"}},{"@type":"Question","name":"AI 伴侣如何在本地运行而不向 OpenAI 或 Google 发送数据？","acceptedAnswer":{"@type":"Answer","text":"量化小语言模型（例如 Google Gemma 和 Microsoft Phi）的最新突破允许有能力的模型通过 ONNX Runtime GenAI 和 LlamaSharp 直接在消费者 PC 硬件上运行。计算严格在物理 CPU、GPU 或 NPU 上进行。没有一个令牌通过互联网传输。"}},{"@type":"Question","name":"我可以在不下载或使用任何 AI 功能的情况下使用 Nudge 吗？","acceptedAnswer":{"@type":"Answer","text":"绝对地。本地人工智能伴侣完全是可选的。您可以在设置过程中跳过模型下载。 Nudge 作为一款超快速、无干扰的纯文本日记，具有精心策划的确定性反思提示，运行完美。"}},{"@type":"Question","name":"人工智能会评估我或提供心理建议吗？","acceptedAnswer":{"@type":"Answer","text":"绝不。 Nudge 的 AI 输出受到 GBNF 语法和道德系统提示的严格约束。它永远不会告诉你应该做什么、提供业余治疗或评估你的性格。它纯粹是一个智力镜子，反映你的想法并提出澄清的问题。"}},{"@type":"Question","name":"什么是三个“反思时刻”？","acceptedAnswer":{"@type":"Answer","text":"1. 开头：在写作之前出现在空白页上的深思熟虑的问题。 2. Inline Nudge：仅当您在写完 40 个单词后暂停打字至少 6 秒时，才会在光标下方浮动一个微妙的问题。 3. 深化：在结束条目时提供 2-3 个后续问题，干净地附加为 Markdown 副标题。"}},{"@type":"Question","name":"“询问你的日记”如何运作？难道是产生幻觉了？","acceptedAnswer":{"@type":"Answer","text":"Nudge 使用其本地 BM25 倒排索引来检索相关的过去条目，本地 SLM 会通过强制可点击的引用链接合成直接答案。如果不存在相关条目，则该模型将严格限制为：“我在你的日记中找不到任何相关内容”——从数学上阻止了内存制造。"}},{"@type":"Question","name":"如何备份我的日记？","acceptedAnswer":{"@type":"Answer","text":"备份就像复制文件夹一样简单。导航到您的日记目录（默认为 Documents/Nudge）并将其复制到外部驱动器、USB 记忆棒或备份驱动器。每个条目、草稿、标签和设置都包含在该文件夹中。"}},{"@type":"Question","name":"如果我在打字时电脑崩溃了怎么办？","acceptedAnswer":{"@type":"Answer","text":"每 500 毫秒将每次击键保存到快速恢复草稿 (.draft.md) 中。如果突然断电，您未提交的文本将在重新启动后立即恢复。完整保存利用原子文件系统替换操作来消除损坏。"}},{"@type":"Question","name":"我可以导入 Day One、Journey 或 Obsidian 中的现有日记吗？","acceptedAnswer":{"@type":"Answer","text":"是的！ Nudge 包括用于 Day One JSON 导出、Journey、Diarium、Obsidian / MarkdownVaults 的本机内置导入引擎以及具有完整元数据保存的标准 CSV 存档。"}},{"@type":"Question","name":"Windows Hello 生物识别锁定如何工作？","acceptedAnswer":{"@type":"Answer","text":"Nudge 与本机 Windows Hello API 集成。使用面部识别、指纹传感器或 Windows PIN 解锁您的日记。生物识别身份验证功能 100% 离线，无需与外部身份提供商通信。"}},{"@type":"Question","name":"我可以加密磁盘上的日志文件吗？","acceptedAnswer":{"@type":"Answer","text":"是的。 Nudge 使用由 Argon2id 密码散列衍生的军用级 AES-256-GCM 提供可选的本地文件系统加密。您的文件静态加密，零后门或公司恢复托管。"}},{"@type":"Question","name":"当我错过一天时，为什么 Nudge 不显示红色数字？","acceptedAnswer":{"@type":"Answer","text":"因为内疚是内省的有害动力。现实生活涉及疾病、旅行和休息。 Nudge 将自动宽限期纳入连续性，避免红色处罚指标，并积极庆祝您的回报率。"}},{"@type":"Question","name":"11个人生主题是什么？","acceptedAnswer":{"@type":"Answer","text":"条目按 11 个锁定的人类维度进行分类：工作、人际关系、家庭、健康、金钱、身份、创造力、学习、旅行、日常和计划。在矢量 ThemeWheels 上进行可视化，揭示您的生活平衡如何随季节变化。"}},{"@type":"Question","name":"为什么您报告字数中位数而不是平均值？","acceptedAnswer":{"@type":"Answer","text":"偶尔的长论文会扭曲算术方法。如果您写了 5 个 100 字的条目和一个 3,000 字的条目，则您的平均值是 583 个字。统计中位数准确地反映了您的典型会话基线。"}},{"@type":"Question","name":"助推要花多少钱？","acceptedAnswer":{"@type":"Answer","text":"Nudge 是一次一次性购买，价格为 0.99 美元，在 Microsoft Store 中具有自动区域购买平价定价。零订阅、零功能层、零广告。"}},{"@type":"Question","name":"15 天试用期结束后会发生什么？","acceptedAnswer":{"@type":"Answer","text":"微移转换为永久只读存档模式。您可以使用 BM25 进行搜索、阅读时间线并永久导出为 Markdown 或 PDF。由于您的条目在文档文件夹中是纯 Markdown，因此您始终可以在任何文本编辑器中打开和编辑它们。"}},{"@type":"Question","name":"我可以一次购买在多台 Windows 计算机上安装 Nudge 吗？","acceptedAnswer":{"@type":"Answer","text":"是的。根据标准 Microsoft Store 许可，单个个人许可证允许在使用 Microsoft 帐户登录的兼容个人 Windows 10 和 11 设备上进行安装。"}},{"@type":"Question","name":"Nudge 是否支持 Copilot+ PC 等 ARM64 设备？","acceptedAnswer":{"@type":"Answer","text":"是的！ Nudge 是针对 x64 和 ARM64 进行原生编译的，可在 Snapdragon X Elite 和 Snapdragon X Plus Copilot+ PC 上以高电池效率和设备上神经 NPU 加速运行。"}},{"@type":"Question","name":"如果我在离网时离线许可证检查失败，会发生什么情况？","acceptedAnswer":{"@type":"Answer","text":"根据我们的失败打开策略，如果许可证验证检查超时或无法到达应用商店缓存，Nudge 将无法打开并授予完全访问权限。您永远不会被锁在日记之外。"}},{"@type":"Question","name":"我在哪里可以获得支持或报告问题？","acceptedAnswer":{"@type":"Answer","text":"您可以通过 support@dhinovatech.com 直接联系我们的工程团队。由于我们收集零远程错误遥测数据，因此您可以共享本地 crash.log 文件以立即解决问题。"}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
+                  <span><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 51 Languages">51 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/zh/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>简体中文 (Simplified Chinese)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/zh/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 前往微软应用商店获取
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main id="main">
+  <!-- Hero Section -->
+  <section class="py-5 overflow-hidden" id="hero">
+    <div class="container py-4">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> 适用于 Windows 10 和 11 的本机 WinUI 3 • x64 和 ARM64 Copilot+ PC
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3">
+            Nudge — 离线日记本与端侧本地 AI 伴侣
+          </h1>
+          <p class="fs-4 text-warning fw-semibold mb-3">
+            "你的思绪归你所有，绝不上云。"
+          </p>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
+            Nudge 是一款专为 Windows 原生打造的沉浸式、无干扰桌面日记软件。它将纯本地 Markdown 文件的绝对数字主权与绝不联网的端侧小语言模型（SLM）智能融为一体。零订阅费、零遥测上传、零后台追踪，彻底告别云端绑架。
+          </p>
+          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
+            当当今个人软件蜕变为数据收割通道时，Nudge 选择坚守本心：你在 Nudge 中写下的每个字、每句话和每个草稿，均以标准 UTF-8 Markdown（.md）格式及 YAML 元数据保存在你的个人硬盘中。没有私有数据库，没有格式锁定。
+          </p>
+
+          <!-- Badges Grid -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>100% 物理完全离线</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>端侧本地 SLM 智能 (零云端)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>纯 Markdown 格式 (.md)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>零遥测零分析</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>Windows Hello 生物识别锁</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>0.99 美元一次买断</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 一次买断 — 0.99 美元终身授权
+            </a>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
+              <i class="bi bi-download fs-5" aria-hidden="true"></i> 下载 15 天无限制免费试用版
+            </a>
+            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
+              探索核心架构与技术参数 <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+          <div class="position-relative d-inline-block">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
+            <img src="/assets/images/nudge-icon.webp" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three Pillars -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
+        </span>
+        <h2 class="display-5 fw-bold text-white">Nudge 的三大不可动摇基石</h2>
+        <p class="text-secondary fs-5">我们的建筑不变性：完全的离线隐私、安静的反思和人类的同情心。</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 1</span>
+                  <h3 class="h5 text-white fw-bold mb-0">真正的纯离线数据主权</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">绝对隐私绝非营销口号，而是程序代码的绝对不变式。Nudge 运行时零网络请求，无崩溃回传，无远程字体加载，本地目录完全在你的掌控之下。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 2</span>
+                  <h3 class="h5 text-white fw-bold mb-0">静默克制的端侧 AI 伴侣</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">人工智能应当服务于人类的反思，而非绑架注意力。Nudge 采用本地量化语言模型直接运行在 CPU、DirectML GPU 或 NPU 上，绝不进行说教或心理诊断，只做忠实的思考镜像。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 3</span>
+                  <h3 class="h5 text-white fw-bold mb-0">充满温情、无负罪感的数据统计</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">传统打卡软件用断签红字制造焦虑，Nudge 则引入连续打卡宽限期、回归鼓励机制、更客观的中位数统计，以及直观的 11 大人生主题环形轮盘。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="py-5" id="specs">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
+        </span>
+        <h2 class="display-5 fw-bold text-white">产品矩阵和技术规格</h2>
+        <p class="text-secondary fs-5">严格的架构保证旨在实现 50 年的使用寿命和低于 150 毫秒的性能。</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col" style="width: 22%;">方面</th>
+                <th scope="col" style="width: 28%;" class="text-warning fw-bold">规格</th>
+                <th scope="col" style="width: 50%;">建筑保证</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">操作系统</td>
+                <td class="text-warning small align-middle fw-medium">Windows 10 / Windows 11</td>
+                <td class="text-secondary small align-middle">基于现代 WinUI 3 和 Windows App SDK 原生构建；完整的云母和丙烯酸支持。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">运行时纯度</td>
+                <td class="text-warning small align-middle fw-medium">100% 气隙离线</td>
+                <td class="text-secondary small align-middle">运行时零网络调用；零后台遥测、崩溃信标或远程字体加载。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">存储架构</td>
+                <td class="text-warning small align-middle fw-medium">文件系统 Markdown (.md)</td>
+                <td class="text-secondary small align-middle">原子写协议；人类可读的 YAML 前言；零专有数据库层。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">搜索引擎</td>
+                <td class="text-warning small align-middle fw-medium">本地内存 BM25</td>
+                <td class="text-secondary small align-middle">通过前缀和词法扩展，可在 10,000 多个条目中进行不到 150 毫秒的全文检索。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI 伴侣运行时</td>
+                <td class="text-warning small align-middle fw-medium">设备上 SLM（DirectML/CPU/NPU）</td>
+                <td class="text-secondary small align-middle">通过 ONNX Runtime GenAI 和 LlamaSharp 进行本地推理；发送到外部服务器的令牌为零。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">发射性能</td>
+                <td class="text-warning small align-middle fw-medium">&lt; 1.5 秒插入符号</td>
+                <td class="text-secondary small align-middle">直接冷发射到活动打字表面；后台索引加载和惰性 AI 权重。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">安全与锁定</td>
+                <td class="text-warning small align-middle fw-medium">Windows Hello 生物识别</td>
+                <td class="text-secondary small align-middle">面部识别、指纹传感器、PIN；可选的 AES-256-GCM 文件系统加密与 Argon2id。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">写作经历</td>
+                <td class="text-warning small align-middle fw-medium">无干扰的深度工作</td>
+                <td class="text-secondary small align-middle">F11 全屏焦点、打字机滚动、变暗段落焦点、自定义排版。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">全球访问</td>
+                <td class="text-warning small align-middle fw-medium">快速捕捉叠加</td>
+                <td class="text-secondary small align-middle">全局热键（Win+Alt+N）可在 200 毫秒内弹出轻量级笔记界面。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">多语言引擎</td>
+                <td class="text-warning small align-middle fw-medium">50 多个本地发布的语言环境</td>
+                <td class="text-secondary small align-middle">CLDR 复数引擎、脚本检测、字形簇感知、本机从右到左 (RTL)。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">数据互操作性</td>
+                <td class="text-warning small align-middle fw-medium">通用导入和导出</td>
+                <td class="text-secondary small align-middle">导入 Day One JSON、Journey、Diarium、Markdown；导出 PDF 书籍、ZIP 档案、HTML、EPUB。</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">授权模式</td>
+                <td class="text-warning small align-middle fw-medium">透明的一次性购买</td>
+                <td class="text-secondary small align-middle">15天无限制免费试用；单次终身购买 0.99 美元；零订阅；故障开放保证。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Manifesto -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
+        </span>
+        <h2 class="display-5 fw-bold text-white">产品宣言：我们为何打造 Nudge</h2>
+        <p class="text-secondary fs-5">现代云期刊的危机、认知隐私权和 50 年测试。</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">现代期刊的危机</h3>
+            <p class="text-secondary small mb-0 lh-base">在过去的十五年里，从本地个人计算到集中式 SaaS 的转变已经将私人日记变成了监视管道：第三方工程师可以访问的云数据库、打包到远程 AI API 的 JSON 有效负载中的亲密忏悔、扣押个人记忆的按月付费墙以及使迁移变得痛苦或不可能的专有二进制 blob。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">认知隐私原则</h3>
+            <p class="text-secondary small mb-0 lh-base">我们相信个人的私人内心对话代表了人类意识的神圣核心。认知隐私是探索半成形想法、表达困难情绪、质疑信念和记录生活的自由，而不会受到外部观察的寒蝉效应。隐私的唯一真正保证是物理和架构上的不可能：如果应用程序没有网络权限，它就无法泄露您的日记。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">数字长寿原则：50 年测试</h3>
+            <p class="text-secondary small mb-0 lh-base">五十年后，您或您的孩子还能阅读今天的文章吗？过去的专有文字处理器和封闭数据库格式现在已成为无法访问的数字残骸。 UTF-8 Markdown 中的纯文本是永恒的。到 2076 年，它仍将在人类发明的任何计算平台上立即可读。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-Cloud Architecture -->
+  <section class="py-5" id="architecture">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">零云端核心架构：技术蓝图与底层设计</h2>
+        <p class="text-secondary fs-5">以文件系统为数据库、毫秒级原子写入保护、亚 150 毫秒 BM25 内存即时搜索。</p>
+      </div>
+
+      <div class="row g-4 align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>文件系统作为数据库：条目剖析</h3>
+            <p class="text-secondary small mb-3 lh-base">Nudge 完全消除了数据库层。条目保存为按年和月按时间顺序组织的单独 Markdown 文件。文件名利用 ULID（通用唯一词典可排序标识符）确保毫秒精度、时间顺序和无冲突同步。</p>
+            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
+              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
+              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
+└── 2026/
+    └── 03-March/
+        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
+        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
+              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
+            </div>
+            <div class="nudge-code-box">---
+id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
+date: 2026-03-15T19:42:10+05:30
+language: en
+title: Walking Through the Rain in Spring
+themes:
+  - everyday
+  - creativity
+mood: 4
+weather: overcast
+tags:
+  - rain
+  - reflection
+content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+---
+
+# Walking Through the Rain in Spring
+
+The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
+I realized today that the friction I&#x27;ve been feeling isn&#x27;t a lack of inspiration; it&#x27;s a surplus of noise.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>原子写入、草稿去抖动和冲突安全</h3>
+            <p class="text-secondary small mb-0 lh-base">每次击键每 500 毫秒都会去抖到 .draft.md 文件，以实现即时崩溃恢复。在原子文件系统替换之前，将写入完全保存到临时 sidecar (.tmp)。去抖动的 FileSystemWatcher 检测来自 Obsidian 或 VS Code 的外部编辑，并将同步编辑分叉到安全同级文件 (.conflict.md) 中，而不会丢失数据。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>低于 150 毫秒的内存 BM25 和一次性缓存</h3>
+            <p class="text-secondary small mb-0 lh-base">使用内存倒排索引和 BM25 相关性评分以及土耳其语感知和字素敏感折叠，实时填充 10,000 多个条目。 .cache/index.bin 快照在 &lt;1.5 秒内加载冷启动。删除 .cache 目录只会损失时间：每个指标、主题分数和索引都可以从原始 Markdown 文件 100% 重建。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-Device AI Companion -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100% On-Device SLM
+        </span>
+        <h2 class="display-5 fw-bold text-white">深度解析：运行在本地芯片上的 AI 伴侣</h2>
+        <p class="text-secondary fs-5">绝不打断打字心流、绝不提供居高临下的建议，100% 在本机闭环生成。</p>
+      </div>
+
+      <div class="card card-glass p-4 border border-warning-subtle mb-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>智能镜子，而不是聊天机器人</h3>
+            <p class="text-secondary small mb-0 lh-base">在《Nudge》中，你是作者； AI是一面镜子。它永远不会主动提供建议，永远不会诊断心理状况，永远不会中断您的打字流程，并严格检测并以您的自然语言和脚本进行响应。</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 1</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>开始打字之前</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">入门（空白页）</h3>
+              <p class="text-secondary small mb-0 lh-base">基于一周中的某一天、一天中的时间和最近的条目标签的安静的上下文提示。如果人工智能处于离线状态，Nudge 会使用丰富的本地化反思性问题库。在您开始打字的那一刻就消失了。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 2</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>写作中途停顿（≥40字，停顿≥6秒）</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">内联轻推（6 秒启发式）</h3>
+              <p class="text-secondary small mb-0 lh-base">仅当您在写下至少 40 个单词后暂停至少 6 秒时，才会在段落下方浮动一个柔和、半透明的问题。 IME 合成 (CJK) 期间暂停。在您下一次击键时立即消失。每节最多 2 次。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 3</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>结束条目时</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">深化（进入后）</h3>
+              <p class="text-secondary small mb-0 lh-base">两到三个深思熟虑的后续问题，检查情感潜台词或未探索的假设。点击可将干净的 Markdown 子标题（### Follow-up）直接附加到文本中，并将光标置于其下方。</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>线下周日每周回顾</h3>
+            <p class="text-secondary small mb-0 lh-base">每个周日，设备上的人工智能都会合成一份精美的、结构化的一周简报：中心叙述、反复出现的线索、情绪变化以及未来一周的两个前瞻性问题。所有这些都在本地芯片上合成，没有一个字节离开您的 PC。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>“Ask Your Journal”：被引自然语言检索</h3>
+            <p class="text-secondary small mb-0 lh-base">问一些概念性问题，例如“我什么时候第一次考虑转行？” Nudge 使用 BM25 检索相关条目，本地 SLM 会通过强制可点击的引用链接合成连贯的答案。如果什么也没找到，它会说“我在你的日记中找不到任何相关内容”——从数学上讲，这是对幻觉的限制。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shame-Free Metrics -->
+  <section class="py-5" id="metrics">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
+        </span>
+        <h2 class="display-5 fw-bold text-white">正念心理学设计：远离内疚与羞耻感</h2>
+        <p class="text-secondary fs-5">用人类的同理心而不是有毒的游戏化来衡量习惯。</p>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">具有内置宽限期的条纹</h3>
+            <p class="text-secondary small mb-0 lh-base">生活发生了。错过一天不应导致羞耻或重置数月的奉献精神。 Nudge 包含自动宽限日：跳过一天可以保持您的动力。我们的代码库包括一个单元测试，确保“错过的天数”或惩罚指标不会呈现为红色。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">庆祝休息后回归</h3>
+            <p class="text-secondary small mb-0 lh-base">Nudge 并没有惩罚缺勤，而是跟踪回归率——庆祝生活带你离开后返回页面的弹性。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">中位数与平均值：诚实写作量</h3>
+            <p class="text-secondary small mb-0 lh-base">传统的平均值会因罕见的长条目而产生偏差。 Nudge 使用统计中位数来代表您真实的典型会话，不存在失真。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glass p-4 border border-secondary-subtle">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <h3 class="h5 text-white fw-bold mb-2">11 个锁定的生活主题和主题轮</h3>
+            <p class="text-secondary small mb-0 lh-base">参赛作品按照 11 个普遍的、固定的人类维度进行分类：工作、人际关系、家庭、健康、金钱、身份、创造力、学习、旅行、日常和计划。以 30 天、90 天、1 年和所有时间视图的矢量圆环图进行可视化。</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Work</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Relationships</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Family</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Health</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Money</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Identity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Creativity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Learning</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Travel</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Everyday</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Plans</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Work Writing Environment -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
+        </span>
+        <h2 class="display-5 fw-bold text-white">沉浸式写作环境：为深度思考与心流而生</h2>
+        <p class="text-secondary fs-5">冷启动至光标响应 &lt;1.5 秒、复古装帧设计美学、F11 全屏专注模式。</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>低于 1.5 秒的冷发射</h3>
+            <p class="text-secondary small mb-0 lh-base">.NET 上的本机 WinUI 3 和 C# 确保单击“微移”可在 1.5 秒内将您直接带到当前条目上的活动闪烁光标。索引和 AI 初始化被推迟到后台线程。</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>精美文具设计调色板</h3>
+            <p class="text-secondary small mb-0 lh-base">灵感来自精美的书籍装订：墨水（档案钢笔墨水排版）、纸张（厚重的日本亚麻编辑器表面）、环绕（皮革装订镀铬）、灯（温暖的焦点强调）、耳语（页边距计数）和细线分隔线。</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>沉浸式对焦模式 (F11)</h3>
+            <p class="text-secondary small mb-0 lh-base">全屏沉浸式对焦 (F11) 去除所有镀铬；打字机滚动使您的活动行垂直居中；变暗的段落焦点会轻轻淡出外围文本，仅阐明您当前的想法。</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>&lt; 200 毫秒内进行全局快速捕获</h3>
+            <p class="text-secondary small mb-0 lh-base">在 Windows 中的任意位置按 Win+Alt+N。一张轻质卡片立即漂浮在您的屏幕上。输入您的实现，按 Ctrl+Enter，它就会将时间戳附加到今天的每日条目中，而不会中断您的流程。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Biometrics -->
+  <section class="py-5" id="security">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
+        </span>
+        <h2 class="display-5 fw-bold text-white">安全防护、生物识别与数据主权</h2>
+        <p class="text-secondary fs-5">原生 Windows Hello、可选本地 AES-256-GCM 高强度加密、全能通用导入与导出。</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>Windows Hello 生物识别</h3>
+            <p class="text-secondary small mb-0 lh-base">使用面部识别、指纹传感器或安全 Windows PIN 解锁。可配置在闲置 1、5 或 15 分钟后或最小化时自动锁定。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>可选本地 AES-256-GCM 加密</h3>
+            <p class="text-secondary small mb-0 lh-base">Galois/Counter 模式下的军用级 AES-256 通过 Argon2id 密码散列导出。零公司后门或托管密钥。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>屏幕共享遮挡和紧急键</h3>
+            <p class="text-secondary small mb-0 lh-base">DWM 显示关联性会遮挡 Zoom、Teams 或屏幕录制中的 Nudge 窗口。按 Esc 两次可立即最小化、清除内存并锁定。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>无摩擦迁移</h3>
+            <p class="text-secondary small mb-0 lh-base">Day One JSON、Journey、Diarium、ObsidianVaults 和 CSV 档案的内置导入器 - 保留时间戳、天气和标签。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>普遍的走开自由</h3>
+            <p class="text-secondary small mb-0 lh-base">随时将整个日记导出为 Markdown ZIP 存档、传家宝品质的可打印 PDF 纪念品书籍（带首字下沉）、独立的 HTML 组合或 EPUB 电子书。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
+        </span>
+        <h2 class="display-5 fw-bold text-white">横向对比：Nudge 与市面主流日记工具</h2>
+        <p class="text-secondary fs-5">全面对比 Day One、Obsidian、Notion 以及在线 AI 聊天机器人的本质区别。</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">特征/属性</th>
+                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>Nudge</th>
+                <th scope="col">Day One</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Notion</th>
+                <th scope="col">AI Chatbots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">存储格式</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Plain Markdown (.md)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">专有云数据库</td>
+                <td class="text-secondary small align-middle">Plain Markdown</td>
+                <td class="text-secondary small align-middle">云数据库</td>
+                <td class="text-secondary small align-middle">云短暂</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">本机 Windows 应用程序</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">是（WinUI 3 本机）</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">否（网络包装）</td>
+                <td class="text-secondary small align-middle">是（电子）</td>
+                <td class="text-secondary small align-middle">否（电子）</td>
+                <td class="text-secondary small align-middle">网页/应用程序</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">网络活动</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0% 气隙</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">连续同步</td>
+                <td class="text-secondary small align-middle">依赖插件</td>
+                <td class="text-secondary small align-middle">强制云</td>
+                <td class="text-secondary small align-middle">100% 云API</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">人工智能伴侣</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">100% 本地设备上</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">云API管道</td>
+                <td class="text-secondary small align-middle">社区云API</td>
+                <td class="text-secondary small align-middle">云AI子系统</td>
+                <td class="text-secondary small align-middle">商业模式</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">用户帐户</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">无（零登录）</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">强制账户</td>
+                <td class="text-secondary small align-middle">没有任何</td>
+                <td class="text-secondary small align-middle">强制账户</td>
+                <td class="text-secondary small align-middle">强制登录</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">冷启动至插入符</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt; 1.5 秒</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">~4-8 秒</td>
+                <td class="text-secondary small align-middle">~3-6 秒</td>
+                <td class="text-secondary small align-middle">~5-12 秒</td>
+                <td class="text-secondary small align-middle">可变网</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">无耻条纹</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">宽限期保护</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">严格的每日计数器</td>
+                <td class="text-secondary small align-middle">依赖插件</td>
+                <td class="text-secondary small align-middle">没有任何</td>
+                <td class="text-secondary small align-middle">没有任何</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">搜索性能</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt;150ms 本地 BM25</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">依赖于服务器</td>
+                <td class="text-secondary small align-middle">快速本地</td>
+                <td class="text-secondary small align-middle">服务器延迟</td>
+                <td class="text-secondary small align-middle">搜索短暂的</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">生物识别锁定</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Windows Hello 本机</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">PIN / 云通行证</td>
+                <td class="text-secondary small align-middle">第三方插件</td>
+                <td class="text-secondary small align-middle">没有任何</td>
+                <td class="text-secondary small align-middle">没有任何</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">定价模型</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">一次性购买 0.99 美元</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">$34.99 / 年订阅</td>
+                <td class="text-secondary small align-middle">免费/同步子</td>
+                <td class="text-secondary small align-middle">$10+/月订阅费</td>
+                <td class="text-secondary small align-middle">免费 / 20 美元辅助</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">供应商锁定</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">零（打开文件）</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">高（出口麻烦）</td>
+                <td class="text-secondary small align-middle">零</td>
+                <td class="text-secondary small align-middle">完全锁定</td>
+                <td class="text-secondary small align-middle">完全锁定</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Workflows -->
+  <section class="py-5" id="workflows">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
+        </span>
+        <h2 class="display-5 fw-bold text-white">五大经典大师级日常反思工作流</h2>
+        <p class="text-secondary fs-5">作家、思考者与数字游民如何将 Nudge 融入早晚日常生活。</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 1</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>07:00 AM • 7–10 分钟</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">早晨清醒仪式</h3>
+            <p class="text-secondary small mb-0 lh-base">冷启动微移（&lt;1.5 秒）。思考上下文 AI 启动提示。写下 200-400 字的意识流心理清理内容，捕捉生动的梦境，并为当天设定两个扎根的情感意图。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 2</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>09:30 PM • 12 分钟</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">晚上减压</h3>
+            <p class="text-secondary small mb-0 lh-base">按 F11 可在暖木炭深色模式下进行全屏对焦。减轻艰难会议中的认知负担。轻轻的内嵌提示：“哪一部分在你的控制范围之内？”最后以后续深化提示结束。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 3</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>周日晚上 • 15 分钟</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">周日战略综合</h3>
+            <p class="text-secondary small mb-0 lh-base">查看人工智能生成的每周简报。检查 30 天的 ThemeWheel，看看创意思考是否在工作扩展的同时减少了。周一重新调整优先事项并设定前瞻性意图。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 4</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>35,000 英尺 • 飞行/飞行模式</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">离网游牧者</h3>
+            <p class="text-secondary small mb-0 lh-base">100% 离线功能，零连接错误。设备上的 SLM 会生成提示和回顾。将日志文件夹拖至加密闪存驱动器以进行即时物理备份。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 5</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>整个工作日 • 即时</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">创意与学术便签本</h3>
+            <p class="text-secondary small mb-0 lh-base">深度工作时，按Win+Alt+N可在&lt;200ms内触发全局快速捕获。注释与时间戳无缝附加。将日志文件夹链接到黑曜石保险库以实现零同步知识图集成。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Tiers -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
+        </span>
+        <h2 class="display-5 fw-bold text-white">硬件分级支持与资源消耗预算</h2>
+        <p class="text-secondary fs-5">原生适配 x64 及 ARM64 Copilot+ PC，空闲内存低于 250MB，电池零负担。</p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>第 1 层：纯 CPU（通用）</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">任何现代 x64 / ARM64 处理器、8 GB RAM、Intel Core / AMD Ryzen / Snapdragon。</p>
+            <p class="text-secondary small mb-0 lh-base">完整的日志功能、低于 150 毫秒的 BM25 搜索、精心策划的确定性提示库、CPU INT4 AI 推理。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>第 2 层：DirectML GPU（加速）</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Intel Iris Xe、AMD Radeon、NVIDIA GTX/RTX 专用或集成显卡。</p>
+            <p class="text-secondary small mb-0 lh-base">极速本地 AI 同伴推理，第一代币生成时间不到 2 秒。</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>第 3 层：Copilot+ NPU（下一代 AI PC）</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">高通 Snapdragon X Elite/Plus、英特尔酷睿 Ultra NPU、AMD 锐龙 AI。</p>
+            <p class="text-secondary small mb-0 lh-base">专用神经硬件推理，具有几乎零风扇噪音、微小的电池影响和即时响应。</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 10（内部版本 17763+）或 Windows 11； x64 或 ARM64； 8 GB 内存； 500 MB 磁盘空间（本地 AI 权重可选 2.5–4.5 GB）。</p>
+          </div>
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 11；现代多核 Intel i7/Ryzen 7 或 Snapdragon X； 16 GB 内存； DirectML GPU 或 NPU； NVMe 固态硬盘。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Licensing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
+        </span>
+        <h2 class="display-5 fw-bold text-white">透明买断制政策：反订阅制契约</h2>
+        <p class="text-secondary fs-5">一次付费，永久拥有。 15 天无限制试用，零信用卡要求。</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
+            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
+            <p class="text-white-50 small mb-4">Zero credit card required</p>
+            <p class="text-secondary small mb-4 lh-base text-start">100% 已解锁的功能，包括设备上的 AI 运行时、BM25 搜索、所有 50 多种语言、ThemeWheels 和 PDF 图书导出。无需信用卡，零自动计费。</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
+              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
+            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
+            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
+            <p class="text-secondary small mb-4 lh-base text-start">一次性购买，终身个人所有权。包括 Microsoft Store 中的所有次要更新和区域购买力平价定价。</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> 一次买断 — 0.99 美元终身授权
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>“故障打开”离线保证</h4>
+            <p class="text-secondary small mb-0 lh-base">如果离线许可证检查超时或在隔离小屋离网写入时失败，Nudge 将无法打开并授予完全访问权限。我们永远不会阻止您了解您的私人想法。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>永久读取和导出自由</h4>
+            <p class="text-secondary small mb-0 lh-base">如果您的试用版到期而未购买，Nudge 会转换为永久只读存档。您可以使用 BM25 浏览、搜索，并永久导出为 Markdown 或 PDF。您的文件在磁盘上保持打开的 Markdown 状态。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
+        </span>
+        <h2 class="display-5 fw-bold text-white">常见问题与解答</h2>
+        <p class="text-secondary fs-5">关于数据隐私、本地大模型算力、文件存储及授权的一切解答。</p>
+      </div>
+      <div class="max-w-900 mx-auto">
+        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Q1: Nudge 与其他日记应用程序有何不同？
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge 结合了两个基本原则：100% 隔离的本地主权（磁盘上的纯 Markdown 文件，具有零云遥测）和安静的设备上 AI 伴侣（直接在 PC 芯片上运行的小语言模型）。您可以享受智能反思和分析的好处，而无需牺牲隐私或支付定期订阅费用。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Q2: Nudge 真的从不连接到互联网吗？
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse " aria-labelledby="faq2Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  是的。安装后，Nudge 执行零运行时网络请求：没有跟踪脚本，没有崩溃报告者打电话回家，也没有远程字体请求。唯一允许的网络交互是在设置过程中可选的、由用户启动的开放权重语言模型权重的一次性下载。您可以断开 Wi-Fi 或在气隙沙箱中运行，且功能 100% 完好无损。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Q3: 为什么将条目存储为 Markdown 文件而不是数据库？
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse " aria-labelledby="faq3Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  数据库创建了容易受到损坏和遗弃的专有孤岛。带有 YAML 标题的纯 Markdown (.md) 文本文件是坚不可摧的、人类可读的且普遍可访问的。 50 年后，它们将在任何计算机系统上可读，并且可以随时在 Obsidian、VS Code 或记事本中打开。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Q4: 为什么 Nudge 不提供内置云同步功能？
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse " aria-labelledby="faq4Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  因为云同步需要在远程服务器上托管客户数据，从而引入安全漏洞和经常性费用。由于 Nudge 将您的日记存储为硬盘驱动器上的普通文件夹，因此您可以使用您自己信任的端到端加密工具（例如 OneDrive、Dropbox、Syncthing 或 Nextcloud）对其进行同步。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Q5: AI 伴侣如何在本地运行而不向 OpenAI 或 Google 发送数据？
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse " aria-labelledby="faq5Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  量化小语言模型（例如 Google Gemma 和 Microsoft Phi）的最新突破允许有能力的模型通过 ONNX Runtime GenAI 和 LlamaSharp 直接在消费者 PC 硬件上运行。计算严格在物理 CPU、GPU 或 NPU 上进行。没有一个令牌通过互联网传输。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Q6: 我可以在不下载或使用任何 AI 功能的情况下使用 Nudge 吗？
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse " aria-labelledby="faq6Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  绝对地。本地人工智能伴侣完全是可选的。您可以在设置过程中跳过模型下载。 Nudge 作为一款超快速、无干扰的纯文本日记，具有精心策划的确定性反思提示，运行完美。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Q7: 人工智能会评估我或提供心理建议吗？
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse " aria-labelledby="faq7Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  绝不。 Nudge 的 AI 输出受到 GBNF 语法和道德系统提示的严格约束。它永远不会告诉你应该做什么、提供业余治疗或评估你的性格。它纯粹是一个智力镜子，反映你的想法并提出澄清的问题。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Q8: 什么是三个“反思时刻”？
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse " aria-labelledby="faq8Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  1. 开头：在写作之前出现在空白页上的深思熟虑的问题。 2. Inline Nudge：仅当您在写完 40 个单词后暂停打字至少 6 秒时，才会在光标下方浮动一个微妙的问题。 3. 深化：在结束条目时提供 2-3 个后续问题，干净地附加为 Markdown 副标题。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 9 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Q9: “询问你的日记”如何运作？难道是产生幻觉了？
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse " aria-labelledby="faq9Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge 使用其本地 BM25 倒排索引来检索相关的过去条目，本地 SLM 会通过强制可点击的引用链接合成直接答案。如果不存在相关条目，则该模型将严格限制为：“我在你的日记中找不到任何相关内容”——从数学上阻止了内存制造。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 10 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Q10: 如何备份我的日记？
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse " aria-labelledby="faq10Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  备份就像复制文件夹一样简单。导航到您的日记目录（默认为 Documents/Nudge）并将其复制到外部驱动器、USB 记忆棒或备份驱动器。每个条目、草稿、标签和设置都包含在该文件夹中。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 11 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Q11: 如果我在打字时电脑崩溃了怎么办？
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse " aria-labelledby="faq11Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  每 500 毫秒将每次击键保存到快速恢复草稿 (.draft.md) 中。如果突然断电，您未提交的文本将在重新启动后立即恢复。完整保存利用原子文件系统替换操作来消除损坏。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 12 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Q12: 我可以导入 Day One、Journey 或 Obsidian 中的现有日记吗？
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse " aria-labelledby="faq12Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  是的！ Nudge 包括用于 Day One JSON 导出、Journey、Diarium、Obsidian / MarkdownVaults 的本机内置导入引擎以及具有完整元数据保存的标准 CSV 存档。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 13 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Q13: Windows Hello 生物识别锁定如何工作？
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse " aria-labelledby="faq13Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge 与本机 Windows Hello API 集成。使用面部识别、指纹传感器或 Windows PIN 解锁您的日记。生物识别身份验证功能 100% 离线，无需与外部身份提供商通信。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 14 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Q14: 我可以加密磁盘上的日志文件吗？
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse " aria-labelledby="faq14Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  是的。 Nudge 使用由 Argon2id 密码散列衍生的军用级 AES-256-GCM 提供可选的本地文件系统加密。您的文件静态加密，零后门或公司恢复托管。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 15 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq15Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                  Q15: 当我错过一天时，为什么 Nudge 不显示红色数字？
+                </button>
+              </h3>
+              <div id="faq15" class="accordion-collapse collapse " aria-labelledby="faq15Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  因为内疚是内省的有害动力。现实生活涉及疾病、旅行和休息。 Nudge 将自动宽限期纳入连续性，避免红色处罚指标，并积极庆祝您的回报率。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 16 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq16Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                  Q16: 11个人生主题是什么？
+                </button>
+              </h3>
+              <div id="faq16" class="accordion-collapse collapse " aria-labelledby="faq16Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  条目按 11 个锁定的人类维度进行分类：工作、人际关系、家庭、健康、金钱、身份、创造力、学习、旅行、日常和计划。在矢量 ThemeWheels 上进行可视化，揭示您的生活平衡如何随季节变化。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 17 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq17Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                  Q17: 为什么您报告字数中位数而不是平均值？
+                </button>
+              </h3>
+              <div id="faq17" class="accordion-collapse collapse " aria-labelledby="faq17Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  偶尔的长论文会扭曲算术方法。如果您写了 5 个 100 字的条目和一个 3,000 字的条目，则您的平均值是 583 个字。统计中位数准确地反映了您的典型会话基线。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 18 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq18Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                  Q18: 助推要花多少钱？
+                </button>
+              </h3>
+              <div id="faq18" class="accordion-collapse collapse " aria-labelledby="faq18Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge 是一次一次性购买，价格为 0.99 美元，在 Microsoft Store 中具有自动区域购买平价定价。零订阅、零功能层、零广告。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 19 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq19Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                  Q19: 15 天试用期结束后会发生什么？
+                </button>
+              </h3>
+              <div id="faq19" class="accordion-collapse collapse " aria-labelledby="faq19Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  微移转换为永久只读存档模式。您可以使用 BM25 进行搜索、阅读时间线并永久导出为 Markdown 或 PDF。由于您的条目在文档文件夹中是纯 Markdown，因此您始终可以在任何文本编辑器中打开和编辑它们。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 20 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq20Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                  Q20: 我可以一次购买在多台 Windows 计算机上安装 Nudge 吗？
+                </button>
+              </h3>
+              <div id="faq20" class="accordion-collapse collapse " aria-labelledby="faq20Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  是的。根据标准 Microsoft Store 许可，单个个人许可证允许在使用 Microsoft 帐户登录的兼容个人 Windows 10 和 11 设备上进行安装。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 21 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq21Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq21" aria-expanded="false" aria-controls="faq21">
+                  Q21: Nudge 是否支持 Copilot+ PC 等 ARM64 设备？
+                </button>
+              </h3>
+              <div id="faq21" class="accordion-collapse collapse " aria-labelledby="faq21Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  是的！ Nudge 是针对 x64 和 ARM64 进行原生编译的，可在 Snapdragon X Elite 和 Snapdragon X Plus Copilot+ PC 上以高电池效率和设备上神经 NPU 加速运行。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 22 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq22Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq22" aria-expanded="false" aria-controls="faq22">
+                  Q22: 如果我在离网时离线许可证检查失败，会发生什么情况？
+                </button>
+              </h3>
+              <div id="faq22" class="accordion-collapse collapse " aria-labelledby="faq22Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  根据我们的失败打开策略，如果许可证验证检查超时或无法到达应用商店缓存，Nudge 将无法打开并授予完全访问权限。您永远不会被锁在日记之外。
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 23 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq23Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq23" aria-expanded="false" aria-controls="faq23">
+                  Q23: 我在哪里可以获得支持或报告问题？
+                </button>
+              </h3>
+              <div id="faq23" class="accordion-collapse collapse " aria-labelledby="faq23Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  您可以通过 support@dhinovatech.com 直接联系我们的工程团队。由于我们收集零远程错误遥测数据，因此您可以共享本地 crash.log 文件以立即解决问题。
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5" id="quotes">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
+        </span>
+        <h2 class="display-5 fw-bold text-white">作家与学者对 Nudge 的真实评价</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"在 Nudge 中写作感觉就像关上喧闹街道的门，坐在阳光明媚的私人图书馆里。知道我的文字存储在我自己的硬盘上，并且没有云服务器读取我的想法，这让我能够以十五年来从未感受到的诚实来写作。"</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Dr. Aris Thorne</span>
+              <span class="text-white-50 extra-small">作者兼学术研究员</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"6 秒暂停轻推是交互设计的大师级作品。它不会中断。它只是等待，直到你真正陷入困境，提出一个发光的问题，并在你的手指再次开始移动时消失。它改变了我晚上写日记的习惯。"</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Elena Rostova</span>
+              <span class="text-white-50 extra-small">软件架构师和散文家</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"在我在关闭 Wi-Fi 的飞机上测试 Nudge 之前，我对笔记本电脑上的本地 AI 持怀疑态度。当我飞越大西洋时，零云连接将我过去一周的条目综合成一个连贯的叙述，这让我相信这就是软件应该如何构建的。"</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Marcus Vance</span>
+              <span class="text-white-50 extra-small">技术策略师和数字游牧者</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
+    <div class="container py-5 text-center max-w-800 mx-auto">
+      <div class="d-inline-block position-relative mb-4">
+        <img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+      </div>
+      <h2 class="display-4 fw-bold text-white mb-3">重归内心的宁静圣地</h2>
+      <p class="lead text-secondary mb-4">在充斥着算法推送与云端监控的时代，你的私人思绪是最珍贵的领地。立即开启 15 天免费体验。</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
+          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> 购买一次 — 终生 0.99 美元
+        </a>
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
+          <i class="bi bi-download me-2" aria-hidden="true"></i> 下载 15 天免费试用版
+        </a>
+      </div>
+      <p class="extra-small text-white-50 mb-0">100% 离线 • 零遥测 • 纯 Markdown 文件 • 适用于 Windows 10 和 11 的 WinUI 3</p>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Nudge">
+  <img src="/assets/images/nudge-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Nudge</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">安装</a>
+</div>
+<button type="button" class="to-top" aria-label="返回顶部" title="返回顶部">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie 同意" hidden>
+  <p class="consent-bar-text">我们使用 Google Analytics 了解本站的使用情况。拒绝后不会存储任何内容 — 网站功能完全相同。 <a href="/privacy.html" class="consent-bar-link">隐私政策</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">拒绝</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">接受</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

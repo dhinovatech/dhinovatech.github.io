@@ -7,6 +7,20 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -22,6 +36,18 @@
       ],
       'wait_for_update': 500
     });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
     gtag('consent', 'default', {
       'ad_storage': 'denied',
       'ad_user_data': 'denied',
@@ -30,16 +56,21 @@
       'functionality_storage': 'granted',
       'security_storage': 'granted'
     });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
         if (answered === 'granted' || answered === 'denied') {
           gtag('consent', 'update', {'analytics_storage': answered});
         }
-      } catch (e) { }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
   </script>
   <!-- END generated analytics + consent block -->
   <meta charset="UTF-8">
@@ -58,19 +89,61 @@
   <link rel="apple-touch-icon" href="/favicon.png">
 
   <style>
-    /* Scoped Stow accents - emerald/teal palette */
-    .glow-aura-teal { box-shadow: 0 0 45px rgba(45, 212, 191, 0.32); }
+    /* Stow is the one section that does not use the site's cyan accent.
+       The application itself is a WinUI 3 window with an amber-gold accent on
+       warm charcoal, and every screenshot on this page is a real capture of
+       it - a cyan page wrapped around amber screenshots reads as two products
+       rather than one. The four custom properties below are declared
+       site-wide in custom.css, so re-declaring them here re-keys the shared
+       chrome (buttons, focus rings, card hover, footer links) without a
+       single !important and without touching any other section. */
+    :root {
+      --dhin-accent-blue: #ffb634;
+      --dhin-border-glow: rgba(255, 182, 52, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(255, 182, 52, 0.22);
+      --dhin-gradient-primary: linear-gradient(135deg, #ffb634 0%, #f0930d 100%);
+      --stow-amber: #ffb634;
+      --stow-ink: #1a1204;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 255, 182, 52;
+      --bs-primary-bg-subtle: rgba(255, 182, 52, 0.12);
+      --bs-primary-border-subtle: rgba(255, 182, 52, 0.32);
+      --bs-primary-text-emphasis: #ffc861;
+    }
+    /* .text-gradient hardcodes the cyan ramp, so it needs its own override.
+       The clip and fill have to be repeated: the `background` shorthand resets
+       background-clip, and in custom.css the clip is declared after it. Set
+       the ramp alone and every eyebrow on the page turns into a solid amber
+       block with invisible text inside it. */
+    .text-gradient {
+      background: linear-gradient(135deg, #ffc861 0%, #ffb634 55%, #f0930d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(255, 182, 52, 0.28); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(255, 182, 52, 0.42); }
+    .btn-dhin-outline:hover { background: rgba(255, 182, 52, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(255, 182, 52, 0.14) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+
+    .glow-aura-teal { box-shadow: 0 0 45px rgba(255, 182, 52, 0.26); }
     .stow-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.4rem; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(45,212,191,0.18), rgba(56,189,248,0.16));
-      color: #2dd4bf; border: 1px solid rgba(45,212,191,0.3);
+      background: linear-gradient(135deg, rgba(255,182,52,0.18), rgba(240,147,13,0.12));
+      color: var(--stow-amber); border: 1px solid rgba(255,182,52,0.3);
     }
     .stow-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
     .stow-num {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 1.6rem; font-weight: 700; color: #2dd4bf; line-height: 1;
+      font-size: 1.6rem; font-weight: 700; line-height: 1;
+      color: #64748b;
     }
     .stow-num-zero { color: #4ade80; }
     .plan-table {
@@ -83,29 +156,69 @@
     }
     .plan-table th { color: #94a3b8; font-weight: 600; }
     .plan-table td { color: #cbd5e1; }
-    .plan-table .plan-dest { color: #2dd4bf; }
+    .plan-table .plan-dest { color: var(--stow-amber); }
     .plan-table .plan-rule { color: #64748b; }
     .plan-scroll { overflow-x: auto; }
     .stow-step {
       width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 1.1rem;
-      background: rgba(45,212,191,0.18); color: #2dd4bf;
-      border: 1px solid rgba(45,212,191,0.4);
+      background: rgba(255,182,52,0.18); color: var(--stow-amber);
+      border: 1px solid rgba(255,182,52,0.4);
     }
     .model-table td, .model-table th { vertical-align: middle; }
 
-    /* Release banner */
+    /* Hero -------------------------------------------------------------- */
+    .stow-hero-icon {
+      width: 60px; height: 60px; border-radius: 15px; overflow: hidden;
+      flex-shrink: 0; border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 24px rgba(0,0,0,.45);
+    }
+    .stow-hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .stow-hero-name { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
+    .stow-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .stow-price strong { color: #fff; }
+    .stow-price-tag {
+      background: rgba(255, 182, 52, .14); color: #ffc861;
+      border: 1px solid rgba(255, 182, 52, .34);
+      border-radius: 20px; padding: 2px 10px; font-size: .8rem; font-weight: 700;
+      white-space: nowrap;
+    }
+
+    /* The hero screenshot. Border and shadow only - the capture supplies its
+       own Windows chrome. */
+    .stow-window {
+      border-radius: 14px; overflow: hidden; background: #1f2021;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .stow-window img { display: block; width: 100%; height: auto; }
+
+    /* Screenshot gallery ------------------------------------------------- */
+    .stow-shot { overflow: hidden; margin: 0; }
+    .stow-shot img {
+      display: block; width: 100%; height: auto;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .stow-shot figcaption {
+      padding: .85rem 1rem; font-size: .9rem; font-weight: 600; color: #e2e8f0;
+    }
+    .stow-shot figcaption i { color: var(--stow-amber); }
+
+    /* Release banner ----------------------------------------------------- */
     .release-banner {
-      background: linear-gradient(135deg, rgba(45, 212, 191, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%);
-      border: 1px solid rgba(45, 212, 191, 0.35);
+      background: linear-gradient(135deg, rgba(255, 182, 52, 0.1) 0%, rgba(240, 147, 13, 0.05) 100%);
+      border: 1px solid rgba(255, 182, 52, 0.3);
       border-radius: 16px;
       position: relative;
       overflow: hidden;
     }
     .release-badge {
-      background: linear-gradient(135deg, #2dd4bf 0%, #38bdf8 100%);
-      color: #080c14;
+      background: linear-gradient(135deg, #ffb634 0%, #f0930d 100%);
+      color: var(--stow-ink);
       font-weight: 800;
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -127,26 +240,26 @@
       transition: all 0.2s ease;
     }
     .release-feature-pill:hover {
-      background: rgba(45, 212, 191, 0.15);
-      border-color: rgba(45, 212, 191, 0.4);
-      color: #2dd4bf;
+      background: rgba(255, 182, 52, 0.15);
+      border-color: rgba(255, 182, 52, 0.4);
+      color: var(--stow-amber);
     }
 
     /* Invariant and Pillar Cards */
     .invariant-card {
-      border-left: 3px solid #2dd4bf !important;
+      border-left: 3px solid var(--stow-amber) !important;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .invariant-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(45, 212, 191, 0.15);
+      box-shadow: 0 10px 30px rgba(255, 182, 52, 0.14);
     }
     .pillar-card {
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .pillar-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(45, 212, 191, 0.4) !important;
+      border-color: rgba(255, 182, 52, 0.4) !important;
     }
     .feature-bullet-list li {
       position: relative;
@@ -159,7 +272,7 @@
       content: "•";
       position: absolute;
       left: 0.35rem;
-      color: #2dd4bf;
+      color: var(--stow-amber);
       font-size: 1.1rem;
       line-height: 1.2;
     }
@@ -180,27 +293,33 @@
       font-weight: 600;
     }
     .compare-table th.stow-col, .compare-table td.stow-col {
-      background: rgba(45, 212, 191, 0.06);
-      border-left: 1px solid rgba(45, 212, 191, 0.25);
-      border-right: 1px solid rgba(45, 212, 191, 0.25);
+      background: rgba(255, 182, 52, 0.06);
+      border-left: 1px solid rgba(255, 182, 52, 0.25);
+      border-right: 1px solid rgba(255, 182, 52, 0.25);
     }
     .compare-table thead th.stow-col {
-      background: rgba(45, 212, 191, 0.15);
-      color: #2dd4bf;
-      border-top: 2px solid #2dd4bf;
+      background: rgba(255, 182, 52, 0.14);
+      color: var(--stow-amber);
+      border-top: 2px solid var(--stow-amber);
     }
 
     /* FAQ accordion styling */
     .accordion-button:not(.collapsed) {
-      background: rgba(45, 212, 191, 0.08);
-      color: #2dd4bf;
+      background: rgba(255, 182, 52, 0.08);
+      color: var(--stow-amber);
       box-shadow: none;
     }
     .accordion-button:focus {
-      box-shadow: 0 0 0 0.2rem rgba(45, 212, 191, 0.25);
+      box-shadow: 0 0 0 0.2rem rgba(255, 182, 52, 0.25);
     }
     .accordion-button::after {
       filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    /* The site honours reduced motion globally, but the hero art's float is
+       introduced on this page, so it has to opt out on this page. */
+    @media (prefers-reduced-motion: reduce) {
+      .animated-float { animation: none !important; }
     }
   </style>
 
@@ -236,10 +355,10 @@
   <meta property="og:title" content="Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas | Windows (Microsoft Store) | Dhinovatech">
   <meta property="og:description" content="A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem. O Stow põe fim à pasta Downloads desorganizada, a bibliotecas de fotos espalhadas e a pastas misteriosas. Equipa">
   <meta property="og:url" content="https://www.dhinovatech.com/stow/pt/">
-  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
-  <meta property="og:image:alt" content="Stow AI photo and file organizer icon">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/stow-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Stow - photo and file organizer for Windows, on the Microsoft Store">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:locale:alternate" content="es_ES">
@@ -266,13 +385,14 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas | Windows (Microsoft Store) | Dhinovatech">
   <meta name="twitter:description" content="A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem. O Stow põe fim à pasta Downloads desorganizada, a bibliotecas de fotos espalhadas e a pastas misteriosas. Equipa">
-  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-icon.png">
-  <meta name="twitter:image:alt" content="Stow AI photo and file organizer icon">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/stow-og.png">
+  <meta name="twitter:image:alt" content="Stow - photo and file organizer for Windows, on the Microsoft Store">
   <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem. O Stow põe fim à pasta Downloads desorganizada, a bibliotecas de fotos espalhadas e a pastas misteriosas. Equipa","url":"https://www.dhinovatech.com/stow/pt/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (pt)","item":"https://www.dhinovatech.com/stow/pt/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/pt/#faq","inLanguage":"pt","mainEntity":[{"@type":"Question","name":"Como o Stow garante que nenhum arquivo ou dado meu seja enviado para a nuvem?","acceptedAnswer":{"@type":"Answer","text":"O Stow conta com zero sistemas de contas, zero servidores externos, zero SDKs de telemetria e zero análises em segundo plano. Todos os modelos de aprendizado de máquina (SigLIP-2 para busca semântica de fotos, YuNet e SFace para agrupamento facial, OCR local para documentos escaneados e Phi-4-mini para sintetizar regras em linguagem natural) rodam estritamente na CPU do seu computador via ONNX Runtime. Suas fotos, documentos, nomes de arquivo, estruturas de pastas e termos de busca nunca saem da sua máquina."}},{"@type":"Question","name":"Preciso de uma GPU potente ou de uma NPU dedicada para usar o Stow?","acceptedAnswer":{"@type":"Answer","text":"Não. O Stow foi desenvolvido nativamente para Windows 10 e 11 (x64 e ARM64), e seu mecanismo de inferência local é otimizado para processadores domésticos comuns, sem exigir placas de vídeo dedicadas ou NPUs. Além disso, os recursos fundamentais — como presets, regras visuais, tamanhos recursivos de pastas em tempo real, desduplicação de arquivos, limpeza de resíduos, sincronização diferencial e prévias universais — não necessitam de inteligência artificial e funcionam imediatamente após a instalação."}},{"@type":"Question","name":"Como o Stow evita downloads maciços indesejados em pastas do OneDrive, iCloud ou Dropbox?","acceptedAnswer":{"@type":"Answer","text":"O Stow foi projetado para reconhecer marcadores virtuais da nuvem. Ao escanear pastas gerenciadas por OneDrive, Dropbox, Google Drive ou iCloud, ele identifica arquivos que estão exclusivamente na nuvem e recusa o download silencioso e em massa por conexões limitadas ou no uso da bateria. Isso mantém seus arquivos em nuvem intactos, sem consumir sua banda ou esgotar de surpresa o espaço do disco local."}},{"@type":"Question","name":"O que acontece quando o Stow limpa resíduos ou remove duplicatas? Há risco de perder arquivos para sempre?","acceptedAnswer":{"@type":"Answer","text":"O Stow nunca exclui nada de forma definitiva. Limpezas de resíduos (como descartar downloads incompletos ou instaladores antigos) e ações de remoção de duplicatas movem tudo com segurança para a Lixeira padrão do Windows. Se notar que removeu um arquivo por engano, você pode restaurá-lo instantaneamente direto da Lixeira ou acionar o Desfazer em 1 clique do Stow."}},{"@type":"Question","name":"Como funciona o recurso Desfazer em 1 clique? Posso desfazer uma organização dias depois?","acceptedAnswer":{"@type":"Answer","text":"Antes de mover, renomear ou limpar qualquer arquivo no disco, o Stow grava uma transação atômica e reversível em log, documentando os caminhos exatos de origem e destino de cada item. Uma barra de notificação para Desfazer é exibida logo após a ação, e o painel de Histórico guarda as operações anteriores para que você possa reverter organizações com facilidade horas, dias ou até semanas depois."}},{"@type":"Question","name":"Como o comando de IA em linguagem natural cria regras de organização localmente?","acceptedAnswer":{"@type":"Answer","text":"Ao digitar pedidos como 'Mova todas as notas fiscais para Notas e organize as fotos da câmera por ano e mês', o modelo de linguagem local do Stow (Phi-4-mini) converte o pedido em regras de organização seguras e verificáveis. O modelo recebe apenas um esquema de alto nível da biblioteca (contagem de extensões, períodos de datas e nomes de pastas principais) — jamais seus nomes de arquivo individuais ou conteúdos. Um código auditável então aplica essas regras em uma tabela de prévia interativa que você mesmo confere e aprova."}},{"@type":"Question","name":"O Stow consegue manter arquivos RAW de câmera e arquivos associados juntos?","acceptedAnswer":{"@type":"Answer","text":"Sim. O Stow possui preservação inteligente de arquivos complementares. Formatos RAW de câmeras (como CR2, NEF, ARW, DNG) são associados automaticamente às suas prévias em JPEG/HEIC e arquivos de metadatos .xmp correspondentes. Da mesma forma, arquivos de vídeo permanecem vinculados às suas legendas .srt ou .vtt. Quando o Stow organiza ou move um arquivo principal, todos os arquivos associados são transferidos juntos."}},{"@type":"Question","name":"Quais são os requisitos de sistema e como o Stow é instalado?","acceptedAnswer":{"@type":"Answer","text":"O Stow é compatível com o Windows 10 (versão 2004 / compilação 19041 ou superior) e Windows 11, tanto em arquiteturas Intel/AMD de 64 bits (x64) quanto Qualcomm Snapdragon (ARM64). Ele é distribuído diretamente pela Microsoft Store como um aplicativo empacotado moderno em MSIX isolado em sandbox, garantindo instalação limpa, atualizações automáticas e nada de processos desnecessários em segundo plano."}}]}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/stow/#software","name":"Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"UtilitiesApplication","description":"A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem. O Stow põe fim à pasta Downloads desorganizada, a bibliotecas de fotos espalhadas e a pastas misteriosas. Equipa","url":"https://www.dhinovatech.com/stow/pt/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/stow-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","installUrl":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0","offers":{"@type":"Offer","price":"9.99","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9NHBR7SW2TZ0"},"screenshot":["https://www.dhinovatech.com/assets/images/stow/pt/home.webp","https://www.dhinovatech.com/assets/images/stow/pt/find.webp","https://www.dhinovatech.com/assets/images/stow/pt/space.webp","https://www.dhinovatech.com/assets/images/stow/pt/duplicates.webp","https://www.dhinovatech.com/assets/images/stow/pt/undo.webp","https://www.dhinovatech.com/assets/images/stow/pt/photos.webp","https://www.dhinovatech.com/assets/images/stow/pt/privacy.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Stow Photo &amp; File Organizer","item":"https://www.dhinovatech.com/stow/"},{"@type":"ListItem","position":3,"name":"Stow Photo &amp; File Organizer (pt)","item":"https://www.dhinovatech.com/stow/pt/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/stow/pt/#faq","inLanguage":"pt","mainEntity":[{"@type":"Question","name":"Como o Stow garante que nenhum arquivo ou dado meu seja enviado para a nuvem?","acceptedAnswer":{"@type":"Answer","text":"O Stow conta com zero sistemas de contas, zero servidores externos, zero SDKs de telemetria e zero análises em segundo plano. Todos os modelos de aprendizado de máquina (SigLIP-2 para busca semântica de fotos, YuNet e SFace para agrupamento facial, OCR local para documentos escaneados e Phi-4-mini para sintetizar regras em linguagem natural) rodam estritamente na CPU do seu computador via ONNX Runtime. Suas fotos, documentos, nomes de arquivo, estruturas de pastas e termos de busca nunca saem da sua máquina."}},{"@type":"Question","name":"Preciso de uma GPU potente ou de uma NPU dedicada para usar o Stow?","acceptedAnswer":{"@type":"Answer","text":"Não. O Stow foi desenvolvido nativamente para Windows 10 e 11 (x64 e ARM64), e seu mecanismo de inferência local é otimizado para processadores domésticos comuns, sem exigir placas de vídeo dedicadas ou NPUs. Além disso, os recursos fundamentais — como presets, regras visuais, tamanhos recursivos de pastas em tempo real, desduplicação de arquivos, limpeza de resíduos, sincronização diferencial e prévias universais — não necessitam de inteligência artificial e funcionam imediatamente após a instalação."}},{"@type":"Question","name":"Como o Stow evita downloads maciços indesejados em pastas do OneDrive, iCloud ou Dropbox?","acceptedAnswer":{"@type":"Answer","text":"O Stow foi projetado para reconhecer marcadores virtuais da nuvem. Ao escanear pastas gerenciadas por OneDrive, Dropbox, Google Drive ou iCloud, ele identifica arquivos que estão exclusivamente na nuvem e recusa o download silencioso e em massa por conexões limitadas ou no uso da bateria. Isso mantém seus arquivos em nuvem intactos, sem consumir sua banda ou esgotar de surpresa o espaço do disco local."}},{"@type":"Question","name":"O que acontece quando o Stow limpa resíduos ou remove duplicatas? Há risco de perder arquivos para sempre?","acceptedAnswer":{"@type":"Answer","text":"O Stow nunca exclui nada de forma definitiva. Limpezas de resíduos (como descartar downloads incompletos ou instaladores antigos) e ações de remoção de duplicatas movem tudo com segurança para a Lixeira padrão do Windows. Se notar que removeu um arquivo por engano, você pode restaurá-lo instantaneamente direto da Lixeira ou acionar o Desfazer em 1 clique do Stow."}},{"@type":"Question","name":"Como funciona o recurso Desfazer em 1 clique? Posso desfazer uma organização dias depois?","acceptedAnswer":{"@type":"Answer","text":"Antes de mover, renomear ou limpar qualquer arquivo no disco, o Stow grava uma transação atômica e reversível em log, documentando os caminhos exatos de origem e destino de cada item. Uma barra de notificação para Desfazer é exibida logo após a ação, e o painel de Histórico guarda as operações anteriores para que você possa reverter organizações com facilidade horas, dias ou até semanas depois."}},{"@type":"Question","name":"Como o comando de IA em linguagem natural cria regras de organização localmente?","acceptedAnswer":{"@type":"Answer","text":"Ao digitar pedidos como 'Mova todas as notas fiscais para Notas e organize as fotos da câmera por ano e mês', o modelo de linguagem local do Stow (Phi-4-mini) converte o pedido em regras de organização seguras e verificáveis. O modelo recebe apenas um esquema de alto nível da biblioteca (contagem de extensões, períodos de datas e nomes de pastas principais) — jamais seus nomes de arquivo individuais ou conteúdos. Um código auditável então aplica essas regras em uma tabela de prévia interativa que você mesmo confere e aprova."}},{"@type":"Question","name":"O Stow consegue manter arquivos RAW de câmera e arquivos associados juntos?","acceptedAnswer":{"@type":"Answer","text":"Sim. O Stow possui preservação inteligente de arquivos complementares. Formatos RAW de câmeras (como CR2, NEF, ARW, DNG) são associados automaticamente às suas prévias em JPEG/HEIC e arquivos de metadatos .xmp correspondentes. Da mesma forma, arquivos de vídeo permanecem vinculados às suas legendas .srt ou .vtt. Quando o Stow organiza ou move um arquivo principal, todos os arquivos associados são transferidos juntos."}},{"@type":"Question","name":"Quais são os requisitos de sistema e como o Stow é instalado?","acceptedAnswer":{"@type":"Answer","text":"O Stow é compatível com o Windows 10 (versão 2004 / compilação 19041 ou superior) e Windows 11, tanto em arquiteturas Intel/AMD de 64 bits (x64) quanto Qualcomm Snapdragon (ARM64). Ele é distribuído diretamente pela Microsoft Store como um aplicativo empacotado moderno em MSIX isolado em sandbox, garantindo instalação limpa, atualizações automáticas e nada de processos desnecessários em segundo plano."}}]}]}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/stow/pt/home.webp" fetchpriority="high">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -283,7 +403,7 @@
   <!-- END resource hints -->
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to main content</a>
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
 <!-- Navigation Bar (independent Stow tree) -->
   <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
@@ -305,9 +425,10 @@
               Our Apps
             </a>
             <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/stow/">
-                  <span><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
+                  <span><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Stow Photo &amp; File Organizer</span>
                   <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
@@ -344,7 +465,7 @@
 
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
               <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Obter na Microsoft Store
             </a>
           </li>
@@ -355,49 +476,37 @@
 
 <main id="main">
 
-  <!-- Release Banner -->
-  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+  <!-- Hero.
+
+       An advertisement pays for the first screenful, so everything that has
+       to survive a five-second read is in it: what this is, who it runs on,
+       what it costs, the button, and a photograph of the actual application.
+       The 3.0 release banner used to sit above all of this and pushed the
+       button below the fold on a 1366x768 laptop; it now runs underneath,
+       where a returning visitor still finds it and a first-time one is not
+       asked to care about a version number before they know what the product
+       does. -->
+  <section class="hero-section position-relative overflow-hidden">
     <div class="container">
-      <div class="release-banner p-3 p-md-4">
-        <div class="row align-items-center gy-3">
-          <div class="col-lg-8">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Último grande lançamento</span>
-              <span class="text-white-50 small fw-semibold">Suíte Desktop Stow 3.0</span>
-            </div>
-            <h2 class="h5 text-white fw-bold mb-1">Suíte Desktop Stow 3.0: Navegação e prévia, Limpeza de resíduos, Sincronização diferencial, OCR local e Central de backups</h2>
-            <p class="text-secondary small mb-0">Uma grande evolução de uma organização simples para uma potência completa e privada de gerenciamento de arquivos no desktop.</p>
-          </div>
-          <div class="col-lg-4 text-lg-end">
-            <a href="#pillar-explorer" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-semibold shadow">
-              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Explorar novos recursos
-            </a>
-          </div>
-        </div>
-        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
-          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Explorador de painel duplo e tamanhos em tempo real</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Varredor dedicado de resíduos</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Reconciliação direcionada de pastas</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>OCR de documentos para PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Backup e verificador de bit rot</span></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hero -->
-  <section class="hero-section py-5 position-relative overflow-hidden">
-    <div class="container py-4">
       <div class="row align-items-center gy-5">
-        <div class="col-lg-7">
-          <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-            <span class="badge-store-ms"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Microsoft Store</span>
-            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 small">WinUI 3 &middot; Windows 10 &amp; 11</span>
-            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1 small"><i class="bi bi-slash-circle me-1" aria-hidden="true"></i> Zero Telemetry &middot; No Ads</span>
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="stow-hero-icon">
+              <img src="/assets/images/stow-icon.webp" alt="" decoding="async" width="512" height="512">
+            </span>
+            <span>
+              <span class="d-block stow-hero-name text-white">Stow</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
           </div>
-          <h1 class="hero-title mb-3">Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas</h1>
-          <p class="lead text-gradient fw-semibold mb-3 fs-4">A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem.</p>
-          <p class="lead text-secondary mb-2 pe-lg-4 fs-5">O Stow põe fim à pasta Downloads desorganizada, a bibliotecas de fotos espalhadas e a pastas misteriosas. Equipado com visão computacional no dispositivo, OCR local de documentos e modelos de linguagem executados na CPU, o Stow calcula planos inteligentes de organização, caça arquivos duplicados e borrados e elimina o lixo oculto.</p>
-          <p class="text-secondary mb-4 pe-lg-4">Tudo roda estritamente no seu PC, com zero servidores em nuvem, zero telemetria e zero rastreamento em segundo plano. Nada se move sem uma prévia aprovada, nada é excluído permanentemente e qualquer operação pode ser revertida com um único clique.</p>
 
-          <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+          <h1 class="hero-title mb-3">Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas</h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem.</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
                 <span class="btn-store-pre">Get it from</span>
@@ -408,8 +517,9 @@
               <i class="bi bi-play-circle me-2" aria-hidden="true"></i> Veja como funciona
             </a>
           </div>
+          <p class="stow-price mt-3 mb-0"><span class="stow-price-tag"><i class="bi bi-tag-fill me-1" aria-hidden="true"></i>9,99 USD, compra única</span><span>Compre agora mesmo ou experimente antes o aplicativo completo grátis por 15 dias. Sem assinatura, sem conta.</span></p>
 
-          <div class="stow-badge-row pt-2">
+          <div class="stow-badge-row pt-4 mt-2">
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-wifi-off text-primary me-1" aria-hidden="true"></i> 100% offline</span>
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-table text-info me-1" aria-hidden="true"></i> Prévia aprovada primeiro</span>
             <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-trash3 text-danger me-1" aria-hidden="true"></i> Nunca exclui permanentemente</span>
@@ -419,27 +529,42 @@
           </div>
         </div>
 
-        <div class="col-lg-5 text-center">
-          <div class="position-relative d-inline-block p-4 w-100">
-            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-teal"></div>
-
-            <div class="card card-glass p-4 text-center border-0 animated-float position-relative" style="background: rgba(17, 24, 39, 0.85);">
-              <div class="mx-auto mb-3" style="width: 140px; height: 140px; border-radius: 30px; overflow: hidden; border: 3px solid rgba(45,212,191,0.5); box-shadow: 0 15px 35px rgba(45,212,191,0.3);">
-                <img src="/assets/images/stow-icon.png" alt="Stow App Icon" class="w-100 h-100 object-fit-cover" decoding="async" fetchpriority="high" width="512" height="512">
-              </div>
-              <p class="h4 text-white fw-bold mb-1">Stow</p>
-              <p class="small text-primary fw-semibold mb-3"><i class="bi bi-microsoft me-1" aria-hidden="true"></i> Store ID: 9NHBR7SW2TZ0</p>
-
-              <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-100 fw-bold rounded-3 shadow py-3 d-flex align-items-center justify-content-center gap-2">
-                <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Obter na Microsoft Store
-              </a>
-              <p class="extra-small text-secondary mt-3 mb-0"><i class="bi bi-shield-check text-success me-1" aria-hidden="true"></i>Native packaged MSIX &middot; Zero background telemetry</p>
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-teal" aria-hidden="true"></div>
+            <!-- No drawn window chrome around this: the capture already
+                 contains the real Windows title bar, and a second one on top
+                 of it reads as a mock-up of the thing it is evidence for. -->
+            <div class="stow-window position-relative">
+              <img src="/assets/images/stow/pt/home.webp" alt="Painel inteligente e central de integridade" decoding="async" fetchpriority="high" width="1100" height="619">
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- The problem -->
+  <section class="py-5" id="the-problem">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-9 text-center">
+          <h2 class="display-6 fw-bold text-white mb-4">Seu sistema de arquivamento não falhou. A vida aconteceu.</h2>
+          <p class="fs-5 text-secondary mb-3">Uma pasta de Downloads com quatro mil coisas dentro. Uma pasta de Imagens guardando três celulares, duas câmeras e uma década de capturas de tela. Pastas chamadas «Férias 2019», «Cópia de férias» e «férias (final)», sem como saber qual é qual.</p>
+          <p class="text-secondary mb-0">Fazer à mão funciona, mas ninguém termina. Os serviços de nuvem fazem por você — enviando toda a sua biblioteca pessoal para o computador de outra pessoa. Ferramentas programáveis fazem exatamente o que você mandar, se você estiver disposto a aprender uma sintaxe de regras e testá-la antes numa cópia. E todas elas, na hora da verdade, pedem que você confie que a operação prestes a percorrer dez mil arquivos é a que você queria.</p>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-5 pt-4 border-top border-secondary-subtle g-4">
+        <div class="col-md-6 col-lg-5">
+          <p class="text-secondary mb-0">O Stow põe fim à pasta Downloads desorganizada, a bibliotecas de fotos espalhadas e a pastas misteriosas. Equipado com visão computacional no dispositivo, OCR local de documentos e modelos de linguagem executados na CPU, o Stow calcula planos inteligentes de organização, caça arquivos duplicados e borrados e elimina o lixo oculto.</p>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <p class="text-secondary mb-0">Tudo roda estritamente no seu PC, com zero servidores em nuvem, zero telemetria e zero rastreamento em segundo plano. Nada se move sem uma prévia aprovada, nada é excluído permanentemente e qualquer operação pode ser revertida com um único clique.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!-- Five Invariants -->
   <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="invariants">
@@ -555,6 +680,56 @@
     </div>
   </section>
 
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="text-gradient fw-bold text-uppercase tracking-wider">O aplicativo real</span>
+        <h2 class="display-5 fw-bold text-white mt-2">Seis telas, nenhuma montagem</h2>
+        <p class="text-secondary fs-5">Cada imagem é o aplicativo real em execução no Windows. Aqui não há ilustrações.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="/assets/images/stow/pt/find.webp" alt="Busque seus arquivos" loading="lazy" decoding="async" width="1100" height="619">
+            <figcaption><i class="bi bi-search me-2" aria-hidden="true"></i>Busque seus arquivos</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="/assets/images/stow/pt/space.webp" alt="Veja o que está ocupando espaço" loading="lazy" decoding="async" width="1100" height="619">
+            <figcaption><i class="bi bi-hdd me-2" aria-hidden="true"></i>Veja o que está ocupando espaço</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="/assets/images/stow/pt/duplicates.webp" alt="Duplicados, inclusive pastas inteiras" loading="lazy" decoding="async" width="1100" height="619">
+            <figcaption><i class="bi bi-copy me-2" aria-hidden="true"></i>Duplicados, inclusive pastas inteiras</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="/assets/images/stow/pt/undo.webp" alt="Um botão devolve tudo ao lugar" loading="lazy" decoding="async" width="1100" height="619">
+            <figcaption><i class="bi bi-arrow-counterclockwise me-2" aria-hidden="true"></i>Um botão devolve tudo ao lugar</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="/assets/images/stow/pt/photos.webp" alt="Busque fotos pelo que há nelas" loading="lazy" decoding="async" width="1100" height="619">
+            <figcaption><i class="bi bi-image me-2" aria-hidden="true"></i>Busque fotos pelo que há nelas</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass stow-shot h-100">
+            <img src="/assets/images/stow/pt/privacy.webp" alt="Nada sai do PC" loading="lazy" decoding="async" width="1100" height="619">
+            <figcaption><i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Nada sai do PC</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- The preview -->
   <section id="the-preview" class="py-5">
     <div class="container py-4">
@@ -567,28 +742,28 @@
       <div class="row row-cols-2 row-cols-lg-5 g-3 mb-4">
             <div class="col">
               <div class="card card-glass h-100 p-3 text-center">
-                <i class="bi bi-arrow-right-circle text-primary mb-2" aria-hidden="true"></i>
+                <i class="bi bi-arrow-right-circle text-secondary mb-2" aria-hidden="true"></i>
                 <span class="stow-num">&mdash;</span>
                 <p class="extra-small text-secondary mb-0 mt-2">Arquivos movidos</p>
               </div>
             </div>
             <div class="col">
               <div class="card card-glass h-100 p-3 text-center">
-                <i class="bi bi-folder-plus text-primary mb-2" aria-hidden="true"></i>
+                <i class="bi bi-folder-plus text-secondary mb-2" aria-hidden="true"></i>
                 <span class="stow-num">&mdash;</span>
                 <p class="extra-small text-secondary mb-0 mt-2">Pastas criadas</p>
               </div>
             </div>
             <div class="col">
               <div class="card card-glass h-100 p-3 text-center">
-                <i class="bi bi-pin-angle text-primary mb-2" aria-hidden="true"></i>
+                <i class="bi bi-pin-angle text-secondary mb-2" aria-hidden="true"></i>
                 <span class="stow-num">&mdash;</span>
                 <p class="extra-small text-secondary mb-0 mt-2">Ficam onde estão</p>
               </div>
             </div>
             <div class="col">
               <div class="card card-glass h-100 p-3 text-center">
-                <i class="bi bi-shield-exclamation text-primary mb-2" aria-hidden="true"></i>
+                <i class="bi bi-shield-exclamation text-secondary mb-2" aria-hidden="true"></i>
                 <span class="stow-num">&mdash;</span>
                 <p class="extra-small text-secondary mb-0 mt-2">Deixados de fora por segurança</p>
               </div>
@@ -623,6 +798,32 @@
             </div>
           </div>
           <p class="text-secondary mt-4 mb-0">Desmarque qualquer linha que prefira deixar quieta. Filtre a lista. Exporte o plano inteiro em CSV ou HTML e confira com calma numa planilha. Ao lado fica a lista de recusas: tudo o que o validador rejeitou, cada caso com um motivo legível — porque «por que este arquivo foi deixado quieto» é exatamente a pergunta que uma prévia existe para responder.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Release Banner -->
+  <section class="py-3 bg-dark border-bottom border-secondary-subtle" id="whats-new">
+    <div class="container">
+      <div class="release-banner p-3 p-md-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="release-badge"><i class="bi bi-stars me-1" aria-hidden="true"></i>Último grande lançamento</span>
+              <span class="text-white-50 small fw-semibold">Suíte Desktop Stow 3.0</span>
+            </div>
+            <h2 class="h5 text-white fw-bold mb-1">Suíte Desktop Stow 3.0: Navegação e prévia, Limpeza de resíduos, Sincronização diferencial, OCR local e Central de backups</h2>
+            <p class="text-secondary small mb-0">Uma grande evolução de uma organização simples para uma potência completa e privada de gerenciamento de arquivos no desktop.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="#pillar-explorer" class="btn btn-sm btn-dhin-primary rounded-pill px-3 py-2 fw-semibold shadow">
+              <i class="bi bi-arrow-down-circle me-1" aria-hidden="true"></i> Explorar novos recursos
+            </a>
+          </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 pt-3 border-top border-secondary-subtle">
+          <a href="#pillar-explorer" class="release-feature-pill"><i class="bi bi-layout-split text-primary" aria-hidden="true"></i><span>Explorador de painel duplo e tamanhos em tempo real</span></a><a href="#pillar-cleanup" class="release-feature-pill"><i class="bi bi-trash2 text-primary" aria-hidden="true"></i><span>Varredor dedicado de resíduos</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-arrow-left-right text-primary" aria-hidden="true"></i><span>Reconciliação direcionada de pastas</span></a><a href="#pillar-docs" class="release-feature-pill"><i class="bi bi-file-earmark-pdf text-primary" aria-hidden="true"></i><span>OCR de documentos para PDF</span></a><a href="#pillar-storage" class="release-feature-pill"><i class="bi bi-shield-check text-primary" aria-hidden="true"></i><span>Backup e verificador de bit rot</span></a>
         </div>
       </div>
     </div>
@@ -1357,18 +1558,23 @@
   <!-- Final CTA + honest limits -->
   <section class="py-5">
     <div class="container py-4">
-      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(45,212,191,0.14) 0%, rgba(56,189,248,0.16) 100%);">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(255,182,52,0.13) 0%, rgba(240,147,13,0.08) 100%);">
         <div class="max-w-700 mx-auto position-relative" style="z-index: 2;">
-          <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 2px solid rgba(45,212,191,0.5);">
-            <img src="/assets/images/stow-icon.png" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.14);">
+            <img src="/assets/images/stow-icon.webp" alt="Stow Icon" class="w-100 h-100 object-fit-cover" loading="lazy" decoding="async" width="512" height="512">
           </div>
           <h2 class="display-6 fw-bold text-white mb-3">Stow: Organizador de fotos e arquivos com IA e localizador de duplicatas</h2>
           <p class="text-secondary fs-5 mb-4">A suíte de gerenciamento de arquivos para desktop 100% offline e focada em privacidade que organiza, desduplica, limpa e protege seus arquivos sem nunca enviar um único byte para a nuvem.</p>
           <div class="d-flex justify-content-center">
-            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-lg rounded-pill px-5 shadow">
-              <i class="bi bi-microsoft me-2 fs-5" aria-hidden="true"></i> Get on Microsoft Store
+            <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Get it from</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
             </a>
           </div>
+          <p class="stow-price mt-3 mb-0 justify-content-center"><span class="stow-price-tag"><i class="bi bi-tag-fill me-1" aria-hidden="true"></i>9,99 USD, compra única</span><span>Compre agora mesmo ou experimente antes o aplicativo completo grátis por 15 dias. Sem assinatura, sem conta.</span></p>
         </div>
       </div>
 
@@ -1402,17 +1608,20 @@
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>
             <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms</a></li>
           </ul>
         </div>
         <div class="col-lg-3 col-6">
           <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
           <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
-            <li><a href="/stow/" class="footer-link text-primary fw-semibold"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
-            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/nudge/" class="footer-link">Nudge Offline Journal & AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
             <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
             <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
             <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
-            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
             <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
             <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
           </ul>
@@ -1434,19 +1643,20 @@
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-  <div class="install-bar" role="complementary" aria-label="Stow Photo &amp; File Organizer">
-    <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
-    <div class="install-bar-text">
-      <div class="install-bar-title">Stow</div>
-      <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
-    </div>
-    <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
+<div class="install-bar" role="complementary" aria-label="Stow">
+  <img src="/assets/images/stow-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Stow</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
   </div>
-  <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
-    <i class="bi bi-arrow-up" aria-hidden="true"></i>
-  </button>
-  <script src="/assets/js/ux.js"></script>
-  <!-- END generated UX block -->
+  <a href="https://apps.microsoft.com/detail/9NHBR7SW2TZ0?ocid=dhinovatech_stow&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Instalar</a>
+</div>
+<button type="button" class="to-top" aria-label="Voltar ao topo" title="Voltar ao topo">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Consentimento de cookies" hidden>
   <p class="consent-bar-text">Usamos o Google Analytics para entender como este site é usado. Se recusar, nada é armazenado — o site funciona exatamente igual. <a href="/privacy.html" class="consent-bar-link">Política de privacidade</a></p>

@@ -44,6 +44,8 @@ APPS = {
     store="https://apps.microsoft.com/detail/9N4QM1FDQ1CB", kind='ms'),
  'stow': dict(name="Stow", icon="/assets/images/stow-icon.png",
     store="https://apps.microsoft.com/detail/9NHBR7SW2TZ0", kind='ms'),
+ 'nudge': dict(name="Nudge", icon="/assets/images/nudge-icon.png",
+    store="https://apps.microsoft.com/detail/9MV92P7RLDGB", kind='ms'),
  'aes-vault': dict(name="AES Vault", icon="/assets/images/aes-vault-icon.png",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ", kind='ms'),
 }
@@ -101,6 +103,13 @@ UI = {
  'fi':  ("Siirry pääsisältöön", "Takaisin ylös", "Asenna"),
  'hu':  ("Ugrás a fő tartalomra", "Vissza a tetejére", "Telepítés"),
  'he':  ("דלג לתוכן הראשי", "חזרה למעלה", "התקן"),
+ 'ro':  ("Treci la conținutul principal", "Înapoi sus", "Instalează"),
+ 'el':  ("Μετάβαση στο κύριο περιεχόμενο", "Επιστροφή στην κορυφή", "Εγκατάσταση"),
+ 'sk':  ("Prejsť na hlavný obsah", "Späť na začiatok", "Inštalovať"),
+ 'ca':  ("Salta al contingut principal", "Torna a dalt", "Instal·la"),
+ 'kk':  ("Негізгі мазмұнға өту", "Жоғарыға қайту", "Орнату"),
+ 'my':  ("ပင်မအကြောင်းအရာသို့ သွားရန်", "အပေါ်သို့ ပြန်သွားရန်", "ထည့်သွင်းပါ"),
+ 'ms':  ("Langkau ke kandungan utama", "Kembali ke atas", "Pasang"),
 }
 
 def ui(lang):
@@ -117,12 +126,44 @@ def ui(lang):
 def relpath(p):
     return os.path.relpath(p, ROOT).replace('\\', '/')
 
+# Partner Center's acquisition report breaks installs down by `cid`, and it is
+# one bucket for the whole site rather than one per app: the question it exists
+# to answer is "how many installs came from dhinovatech.com at all", which the
+# per-app `ocid` below already answers app by app.
+STORE_CID = "FromDhinoWebsite"
+
+
+def href_attr(url):
+    """Escape a tagged URL for an href attribute.
+
+    These are the only multi-parameter links on the site, and a bare `&` in an
+    attribute is an HTML parse error - harmless in practice, but this pass is
+    the one place that emits them, so it is the one place to get it right.
+
+    Pairs with unhref(): the pass re-reads its own output on every run, so
+    whatever this writes has to decode back to exactly what tag_store_url()
+    produced, or the [?&]cid= test below stops matching (`&amp;cid=` has a
+    semicolon before `cid`, not an ampersand) and a second cid is appended on
+    every build.
+    """
+    return url.replace('&', '&amp;')
+
+
+def unhref(url):
+    return url.replace('&amp;', '&')
+
+
 def tag_store_url(url, page_url, app_key):
     """Attach campaign attribution so installs can be traced back to the site.
 
     Google Play reads the `referrer` parameter (URL-encoded key=value pairs)
-    and surfaces it in Play Console acquisition reports. Microsoft Store uses
-    `ocid`. Existing parameters are preserved.
+    and surfaces it in Play Console acquisition reports.
+
+    Microsoft Store links carry two tags, because they are read by two
+    different systems: `ocid` is Microsoft's originating-campaign parameter and
+    is what assets/js/ux.js hands to the ms-windows-store:// protocol, and
+    `cid` is the custom campaign ID Partner Center reports acquisitions
+    against. Existing parameters are preserved.
     """
     campaign = app_key or 'site'
     if 'play.google.com' in url:
@@ -134,11 +175,19 @@ def tag_store_url(url, page_url, app_key):
         sep = '&' if '?' in url else '?'
         return f'{url}{sep}referrer={ref}'
     if 'apps.microsoft.com' in url:
-        if 'ocid=' in url:
+        if re.search(r'[?&]ocid=', url):
             # normalise the existing share ocid to our own campaign tag
-            return re.sub(r'ocid=[^&]*', f'ocid=dhinovatech_{campaign}', url)
-        sep = '&' if '?' in url else '?'
-        return f'{url}{sep}ocid=dhinovatech_{campaign}'
+            url = re.sub(r'ocid=[^&]*', f'ocid=dhinovatech_{campaign}', url)
+        else:
+            url += ('&' if '?' in url else '?') + f'ocid=dhinovatech_{campaign}'
+        # The boundary matters: 'cid=' is a substring of 'ocid=', so a plain
+        # containment test would decide cid was already there every time and
+        # this pass would never add it.
+        if re.search(r'[?&]cid=', url):
+            url = re.sub(r'([?&])cid=[^&]*', r'\1cid=' + STORE_CID, url)
+        else:
+            url += ('&' if '?' in url else '?') + 'cid=' + STORE_CID
+        return url
     return url
 
 def build_block(app_key, lang, is_rtl):
@@ -147,7 +196,7 @@ def build_block(app_key, lang, is_rtl):
     L = [BEGIN]
     if app_key:
         a = APPS[app_key]
-        store = tag_store_url(a['store'], None, app_key)
+        store = href_attr(tag_store_url(a['store'], None, app_key))
         icon = 'bi-google-play' if a['kind'] == 'play' else 'bi-microsoft'
         store_name = 'Google Play' if a['kind'] == 'play' else 'Microsoft Store'
         btn = 'btn-dhin-primary'
@@ -219,14 +268,24 @@ def process(path):
 
     # ---- store link attribution ------------------------------------------
     def store(m):
-        return 'href="' + tag_store_url(m.group(1), rel, app_key or 'site') + '"'
+        url = tag_store_url(unhref(m.group(1)), rel, app_key or 'site')
+        return 'href="' + href_attr(url) + '"'
     s = re.sub(r'href="(https://(?:play\.google\.com|apps\.microsoft\.com)/[^"]*)"',
                store, s)
 
     # ---- UX block before </body> -----------------------------------------
     s = s.replace('</body>', build_block(app_key, lang, is_rtl) + '\n</body>', 1)
 
-    open(path, 'w', encoding='utf-8', newline='').write(s)
+    for attempt in range(5):
+        try:
+            with open(path, 'w', encoding='utf-8', newline='') as fh:
+                fh.write(s)
+            break
+        except OSError:
+            if attempt == 4:
+                raise
+            import time
+            time.sleep(0.15)
     return app_key is not None
 
 def main():

@@ -26,9 +26,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STEPS = [
-    # 1. generators
     ("build-glowcompare-windows.py", "regenerate the Microsoft Store tree"),
     ("build-stow.py",                "regenerate the Stow tree"),
+    ("build-nudge.py",               "regenerate the Nudge offline journal tree"),
     ("build-privacy.py",             "regenerate policy pages"),
     # 2. section injectors
     ("build-ai-chat-section.py",     "GlowCompare AI chat section"),

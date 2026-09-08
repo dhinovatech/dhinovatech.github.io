@@ -139,6 +139,7 @@ def navbar(code):
               </li>
               <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
               <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.png" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Nudge Offline Journal</a></li>
               <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-primary me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
               <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
               <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>

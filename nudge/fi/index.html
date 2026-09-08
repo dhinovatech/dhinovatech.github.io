@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="fi" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — Täysin offline-päiväkirja paikallisella tekoälyllä | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech</title>
+  <meta name="description" content="Nudge on intiimi, häiriötön työpöytäpäiväkirja, joka on rakennettu Windowsille. Se yhdistää paikallisten tavallisten Markdown-tiedostojen absoluuttisen digitaalisen itsemääräämisoikeuden laitteella olevan tekoälykumppanin hiljaiseen älykkyy...">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
+    :root {
+      --nudge-amber: #f59e0b;
+      --nudge-gold: #fbbf24;
+      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
+      --nudge-bg-dark: #0a0b0d;
+      --nudge-card-bg: #121316;
+      --nudge-card-border: rgba(245, 158, 11, 0.22);
+    }
+    .glow-aura-amber {
+      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    }
+    .nudge-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
+      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+    }
+    .nudge-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.85rem; color: #fde68a; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: #fbbf24; color: #fff;
+    }
+    .invariant-card {
+      border-left: 3px solid #f59e0b !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.45) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #fbbf24;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.nudge-col, .compare-table td.nudge-col {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 1px solid rgba(245, 158, 11, 0.25);
+      border-right: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .nudge-code-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: #08090b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
+      white-space: pre; overflow-x: auto;
+    }
+    .stationery-token {
+      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
+    }
+    /* RTL adjustments */
+    [dir="rtl"] .feature-bullet-list li {
+      padding-left: 0;
+      padding-right: 1.4rem;
+    }
+    [dir="rtl"] .feature-bullet-list li::before {
+      left: auto;
+      right: 0.35rem;
+    }
+    [dir="rtl"] .invariant-card {
+      border-left: none !important;
+      border-right: 3px solid #f59e0b !important;
+    }
+    [dir="rtl"] .dropdown-menu-end {
+      right: auto !important;
+      left: 0 !important;
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/nudge/fi/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/nudge/ar/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/nudge/zh/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/nudge/es/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/nudge/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/nudge/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/nudge/fr/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/nudge/ko/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/nudge/hi/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/nudge/pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.dhinovatech.com/nudge/pt-pt/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/nudge/id/">
+  <link rel="alternate" hreflang="ms" href="https://www.dhinovatech.com/nudge/ms/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/nudge/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/nudge/tr/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/nudge/it/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/nudge/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/nudge/pl/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/nudge/th/">
+  <link rel="alternate" hreflang="fa" href="https://www.dhinovatech.com/nudge/fa/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/nudge/sv/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/nudge/vi/">
+  <link rel="alternate" hreflang="bn" href="https://www.dhinovatech.com/nudge/bn/">
+  <link rel="alternate" hreflang="zh-HK" href="https://www.dhinovatech.com/nudge/yue/">
+  <link rel="alternate" hreflang="tl" href="https://www.dhinovatech.com/nudge/tl/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/nudge/uk/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/nudge/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/nudge/ro/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/nudge/he/">
+  <link rel="alternate" hreflang="el" href="https://www.dhinovatech.com/nudge/el/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/nudge/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/nudge/da/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/nudge/fi/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/nudge/nb/">
+  <link rel="alternate" hreflang="te" href="https://www.dhinovatech.com/nudge/te/">
+  <link rel="alternate" hreflang="mr" href="https://www.dhinovatech.com/nudge/mr/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/nudge/ta/">
+  <link rel="alternate" hreflang="gu" href="https://www.dhinovatech.com/nudge/gu/">
+  <link rel="alternate" hreflang="ur" href="https://www.dhinovatech.com/nudge/ur/">
+  <link rel="alternate" hreflang="pa" href="https://www.dhinovatech.com/nudge/pa/">
+  <link rel="alternate" hreflang="ml" href="https://www.dhinovatech.com/nudge/ml/">
+  <link rel="alternate" hreflang="kn" href="https://www.dhinovatech.com/nudge/kn/">
+  <link rel="alternate" hreflang="jv" href="https://www.dhinovatech.com/nudge/jv/">
+  <link rel="alternate" hreflang="sw" href="https://www.dhinovatech.com/nudge/sw/">
+  <link rel="alternate" hreflang="ha" href="https://www.dhinovatech.com/nudge/ha/">
+  <link rel="alternate" hreflang="yo" href="https://www.dhinovatech.com/nudge/yo/">
+  <link rel="alternate" hreflang="my" href="https://www.dhinovatech.com/nudge/my/">
+  <link rel="alternate" hreflang="am" href="https://www.dhinovatech.com/nudge/am/">
+  <link rel="alternate" hreflang="kk" href="https://www.dhinovatech.com/nudge/kk/">
+  <link rel="alternate" hreflang="sk" href="https://www.dhinovatech.com/nudge/sk/">
+  <link rel="alternate" hreflang="ca" href="https://www.dhinovatech.com/nudge/ca/">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Nudge — Täysin offline-päiväkirja paikallisella tekoälyllä | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta property="og:description" content="Nudge on intiimi, häiriötön työpöytäpäiväkirja, joka on rakennettu Windowsille. Se yhdistää paikallisten tavallisten Markdown-tiedostojen absoluuttisen digitaalisen itsemääräämisoikeuden laitteella olevan tekoälykumppanin hiljaiseen älykkyy...">
+  <meta property="og:url" content="https://www.dhinovatech.com/nudge/fi/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Nudge offline journal and diary with AI companion icon">
+  <meta property="og:locale" content="fi_FI">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ms_MY">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="fa_IR">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="bn_IN">
+  <meta property="og:locale:alternate" content="zh_HK">
+  <meta property="og:locale:alternate" content="tl_PH">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta property="og:locale:alternate" content="el_GR">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="te_IN">
+  <meta property="og:locale:alternate" content="mr_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="gu_IN">
+  <meta property="og:locale:alternate" content="ur_PK">
+  <meta property="og:locale:alternate" content="pa_IN">
+  <meta property="og:locale:alternate" content="ml_IN">
+  <meta property="og:locale:alternate" content="kn_IN">
+  <meta property="og:locale:alternate" content="jv_ID">
+  <meta property="og:locale:alternate" content="sw_KE">
+  <meta property="og:locale:alternate" content="ha_NG">
+  <meta property="og:locale:alternate" content="yo_NG">
+  <meta property="og:locale:alternate" content="my_MM">
+  <meta property="og:locale:alternate" content="am_ET">
+  <meta property="og:locale:alternate" content="kk_KZ">
+  <meta property="og:locale:alternate" content="sk_SK">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nudge — Täysin offline-päiväkirja paikallisella tekoälyllä | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta name="twitter:description" content="Nudge on intiimi, häiriötön työpöytäpäiväkirja, joka on rakennettu Windowsille. Se yhdistää paikallisten tavallisten Markdown-tiedostojen absoluuttisen digitaalisen itsemääräämisoikeuden laitteella olevan tekoälykumppanin hiljaiseen älykkyy...">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta name="twitter:image:alt" content="Nudge offline journal and diary with AI companion icon">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.dhinovatech.com/#website","url":"https://www.dhinovatech.com/","name":"Dhinovatech","publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/nudge/fi/#app","name":"Nudge — Täysin offline-päiväkirja paikallisella tekoälyllä","applicationCategory":"LifestyleApplication","operatingSystem":"Windows 10, Windows 11","description":"Nudge on intiimi, häiriötön työpöytäpäiväkirja, joka on rakennettu Windowsille. Se yhdistää paikallisten tavallisten Markdown-tiedostojen absoluuttisen digitaalisen itsemääräämisoikeuden laitteella olevan tekoälykumppanin hiljaiseen älykkyy...","url":"https://www.dhinovatech.com/nudge/fi/","image":"https://www.dhinovatech.com/assets/images/nudge-icon.png","inLanguage":"fi","offers":{"@type":"Offer","price":"0.99","priceCurrency":"USD","url":"https://apps.microsoft.com/detail/9MV92P7RLDGB","availability":"https://schema.org/InStock","seller":{"@id":"https://www.dhinovatech.com/#organization"}},"publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Nudge Offline Journal","item":"https://www.dhinovatech.com/nudge/"},{"@type":"ListItem","position":3,"name":"Nudge (fi)","item":"https://www.dhinovatech.com/nudge/fi/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/nudge/fi/#faq","inLanguage":"fi","mainEntity":[{"@type":"Question","name":"Mikä tekee Nudgesta eron kaikista muista päiväkirjasovelluksista?","acceptedAnswer":{"@type":"Answer","text":"Nudge yhdistää kaksi perusperiaatetta: 100 %:n ilmarakoinen paikallinen itsemääräämisoikeus (pelkät Markdown-tiedostot levylläsi ilman pilvitelemetriaa) ja hiljaisen laitteessa olevan tekoälykumppanin (pienet kielimallit, jotka toimivat suoraan tietokoneesi piistä). Saat älykkään pohdinnan ja analytiikan edut tinkimättä yksityisyydestä tai maksamasta toistuvia tilauksia."}},{"@type":"Question","name":"Eikö Nudge todellakaan koskaan muodosta yhteyttä Internetiin?","acceptedAnswer":{"@type":"Answer","text":"Kyllä. Kun Nudge on asennettu, se suorittaa nolla ajonaikaista verkkopyyntöä: ei seurantakomentosarjat, ei kaatumistoimittajat soittavat kotiin eikä etäkirjasinpyyntöjä. Ainoa sallittu verkkovuorovaikutus on valinnainen, käyttäjän käynnistämä kertaluonteinen avoimen painotuksen kielimallipainojen lataus asennuksen aikana. Voit katkaista Wi-Fi-yhteyden tai ajaa ilmarakoisessa hiekkalaatikossa, jossa ominaisuudet ovat 100-prosenttisesti ehjät."}},{"@type":"Question","name":"Miksi tallentaa merkinnät Markdown-tiedostoina tietokannan sijaan?","acceptedAnswer":{"@type":"Answer","text":"Tietokannat luovat omia siiloita, jotka ovat alttiita korruptiolle ja hylkäämiselle. Plain Markdown (.md) -tekstitiedostot, joissa on YAML-etumateriaali, ovat tuhoutumattomia, ihmisen luettavia ja yleisesti saatavilla. Ne ovat luettavissa 50 vuoden kuluttua millä tahansa tietokonejärjestelmällä, ja ne voidaan avata milloin tahansa Obsidianissa, VS Codessa tai Notepadissa."}},{"@type":"Question","name":"Miksi Nudge ei tarjoa sisäänrakennettua pilvisynkronointia?","acceptedAnswer":{"@type":"Answer","text":"Koska pilvisynkronointi vaatii asiakastietojen isännöimistä etäpalvelimilla, tietoturva-aukkojen tuomista ja toistuvia maksuja. Koska Nudge tallentaa päiväkirjasi tavallisena kansiona kiintolevyllesi, voit synkronoida sen käyttämällä luotettavia, päästä päähän salattuja työkalujasi, kuten OneDrive, Dropbox, Syncthing tai Nextcloud."}},{"@type":"Question","name":"Kuinka tekoälykumppani voi toimia paikallisesti lähettämättä tietoja OpenAI:lle tai Googlelle?","acceptedAnswer":{"@type":"Answer","text":"Viimeaikaiset läpimurrot kvantisoiduissa pienissä kielimalleissa (kuten Google Gemma ja Microsoft Phi) mahdollistavat kykyisten mallien käytön suoraan kuluttajien PC-laitteistoissa ONNX Runtime GenAI:n ja LlamaSharpin kautta. Laskenta tapahtuu tiukasti fyysisellä CPU:lla, GPU:lla tai NPU:lla. Internetin kautta ei lähetetä yhtään merkkiä."}},{"@type":"Question","name":"Voinko käyttää Nudgea lataamatta tai käyttämättä tekoälyominaisuuksia?","acceptedAnswer":{"@type":"Answer","text":"Täysin. Paikallinen tekoälykumppani on täysin valinnainen. Voit ohittaa mallin lataamisen asennuksen aikana. Nudge toimii virheettömästi erittäin nopeana, häiriöttömänä pelkkätekstipäiväkirjana, jossa on kuratoituja deterministisiä heijastuskehotteita."}},{"@type":"Question","name":"Arvioiko tekoäly minut vai tarjoaako psykologisia neuvoja?","acceptedAnswer":{"@type":"Answer","text":"Ei koskaan. Nudgen tekoälytulosteita rajoittavat tiukasti GBNF:n kieliopit ja eettiset järjestelmäkehotteet. Se ei koskaan kerro sinulle, mitä sinun pitäisi tehdä, tarjota amatööriterapiaa tai arvioida luonnettasi. Se toimii puhtaasti älyllisenä peilinä, heijastaen ajatuksiasi ja esittäen selventäviä kysymyksiä."}},{"@type":"Question","name":"Mitkä ovat kolme \"Reflection Moment\" -hetkeä?","acceptedAnswer":{"@type":"Answer","text":"1. Aloittaja: harkittu kysymys ilmestyy tyhjälle sivulle ennen kirjoittamista. 2. Inline Nudge: hienovarainen kysymys, joka leijuu kohdistimen alapuolella vain, kun keskeytät kirjoittamisen vähintään 6 sekunniksi 40 sanan kirjoittamisen jälkeen. 3. The Deepen: 2–3 jatkokysymystä ehdotuksen päättämisen yhteydessä, jotka liitetään selkeästi Markdown-alaotsikoiksi."}},{"@type":"Question","name":"Miten \"Kysy päiväkirjasta\" toimii? Onko se hallusinaatioita?","acceptedAnswer":{"@type":"Answer","text":"Nudge käyttää paikallista käänteistä BM25-indeksiään noutaakseen asiaankuuluvat aiemmat merkinnät, ja paikallinen SLM syntetisoi suoran vastauksen pakollisilla napsautettavilla lainauslinkeillä. Jos asiaankuuluvia merkintöjä ei ole, malli on tiukasti pakotettu toteamaan: \"En löytänyt päiväkirjastasi mitään tästä\" - se estää matemaattisesti muistin valmistuksen."}},{"@type":"Question","name":"Miten varmuuskopioin päiväkirjani?","acceptedAnswer":{"@type":"Answer","text":"Varmuuskopiointi on yhtä helppoa kuin kansion kopioiminen. Siirry päiväkirjahakemistoosi (oletusarvoisesti Documents/Nudge) ja kopioi se ulkoiselle asemalle, USB-tikulle tai varmuuskopioasemaan. Jokainen merkintä, luonnos, tunniste ja asetus sisältyvät kyseiseen kansioon."}},{"@type":"Question","name":"Mitä tapahtuu, jos tietokoneeni kaatuu kirjoittaessani?","acceptedAnswer":{"@type":"Answer","text":"Jokainen näppäinpainallus tallennetaan nopeasti palautuvaan luonnokseen (.draft.md) 500 millisekunnin välein. Jos virta katkeaa äkillisesti, sitomaton teksti palautetaan välittömästi uudelleenkäynnistyksen jälkeen. Täydelliset tallennukset käyttävät atomitiedostojärjestelmän korvaustoimintoja korruption poistamiseksi."}},{"@type":"Question","name":"Voinko tuoda olemassa olevan päiväkirjani Day One-, Journey- tai Obsidianista?","acceptedAnswer":{"@type":"Answer","text":"Kyllä! Nudge sisältää natiivit, sisäänrakennetut tuontimoottorit Day One JSON-vientiä varten, Journey-, Diarium-, Obsidian/Markdown-holvit ja vakio-CSV-arkistot, joissa on täydellinen metatietojen säilytys."}},{"@type":"Question","name":"Kuinka Windows Hellon biometrinen lukitus toimii?","acceptedAnswer":{"@type":"Answer","text":"Nudge integroituu alkuperäisiin Windows Hello -sovellusliittymiin. Avaa päiväkirjasi kasvojentunnistuksen, sormenjälkitunnistimien tai Windowsin PIN-koodin avulla. Biometrinen todennus toimii 100 % offline-tilassa ilman yhteydenpitoa ulkoisten identiteetintarjoajien kanssa."}},{"@type":"Question","name":"Voinko salata päiväkirjatiedostoni levyllä?","acceptedAnswer":{"@type":"Answer","text":"Kyllä. Nudge tarjoaa valinnaisen paikallisen tiedostojärjestelmän salauksen käyttämällä sotilasluokan AES-256-GCM:ää, joka on johdettu Argon2id-salasanahajautustekniikalla. Tiedostosi on salattu ilman takaovea tai yrityksen palautustallettausta."}},{"@type":"Question","name":"Miksi Nudge ei näytä punaisia ​​numeroita, kun minulta puuttuu päivä?","acceptedAnswer":{"@type":"Answer","text":"Koska syyllisyys on haitallinen itsetutkiskelun motivaattori. Tosielämään kuuluu sairaus, matkustaminen ja lepo. Nudge yhdistää automaattiset armopäivät sarjoiksi, välttää punaisia ​​rangaistusosoittimia ja juhlii aktiivisesti palautusprosenttiasi."}},{"@type":"Question","name":"Mitkä ovat 11 elämänteemaa?","acceptedAnswer":{"@type":"Answer","text":"Kilpailuehdotukset luokitellaan 11 lukitun inhimillisen ulottuvuuden mukaan: työ, ihmissuhteet, perhe, terveys, raha, identiteetti, luovuus, oppiminen, matkustaminen, arki ja suunnitelmat. Visualisoitu vektoriteemapyörillä paljastamaan, kuinka elämäsi tasapainot muuttuvat vuodenaikojen välillä."}},{"@type":"Question","name":"Miksi ilmoitat sanamäärän mediaanien keskiarvojen sijaan?","acceptedAnswer":{"@type":"Answer","text":"Aritmeettisia keskiarvoja vääristävät satunnaiset pitkät esseet. Jos kirjoitat viisi 100 sanaa ja yhden 3 000 sanan, keskiarvo on 583 sanaa. Tilastollinen mediaani kuvastaa tarkasti tyypillistä istunnon lähtötasoa."}},{"@type":"Question","name":"Paljonko Nudge maksaa?","acceptedAnswer":{"@type":"Answer","text":"Nudge on kertaluonteinen 0,99 dollarin osto, jossa on automaattinen alueellinen ostopariteettihinnoittelu Microsoft Storessa. Nolla tilausta, nolla ominaisuustasoa, nolla mainoksia."}},{"@type":"Question","name":"Mitä tapahtuu, kun 15 päivän kokeilujakso päättyy?","acceptedAnswer":{"@type":"Answer","text":"Siirrä siirtymiä pysyvään vain luku -arkistointitilaan. Voit etsiä BM25:llä, lukea aikajanaasi ja viedä Markdown- tai PDF-muotoon ikuisesti. Koska merkinnäsi ovat vain Markdown-merkintöjä Asiakirjat-kansiossasi, voit aina avata ja muokata niitä missä tahansa tekstieditorissa."}},{"@type":"Question","name":"Voinko asentaa Nudgen useisiin Windows-tietokoneisiin yhdellä ostolla?","acceptedAnswer":{"@type":"Answer","text":"Kyllä. Tavallisen Microsoft Store -lisenssin mukaisesti yksi henkilökohtainen käyttöoikeus sallii asennuksen yhteensopiviin henkilökohtaisiin Windows 10- ja 11-laitteisiin, jotka olet kirjautunut sisään Microsoft-tililläsi."}},{"@type":"Question","name":"Tukeeko Nudge ARM64-laitteita, kuten Copilot+ -tietokoneita?","acceptedAnswer":{"@type":"Answer","text":"Kyllä! Nudge on käännetty natiivisti sekä x64- että ARM64-käyttöjärjestelmille, ja se toimii korkealla akun teholla ja laitteen hermo-NPU-kiihdytyksellä Snapdragon X Elite- ja Snapdragon X Plus Copilot+ -tietokoneissa."}},{"@type":"Question","name":"Mitä tapahtuu, jos offline-lisenssin tarkistus epäonnistuu ollessani off-grid?","acceptedAnswer":{"@type":"Answer","text":"Fail-Open-käytäntömme mukaan Nudge epäonnistuu avaamisessa ja antaa täyden käyttöoikeuden, jos lisenssin tarkistus vanhenee tai ei pääse myymälän välimuistiin. Sinua ei koskaan suljeta ulos päiväkirjastasi."}},{"@type":"Question","name":"Mistä saan tukea tai mistä voin ilmoittaa ongelmasta?","acceptedAnswer":{"@type":"Answer","text":"Voit ottaa yhteyttä suunnittelutiimiimme suoraan osoitteessa support@dhinovatech.com. Koska keräämme nollan etävirheen telemetriaa, voit jakaa paikallisen crash.log-tiedoston välitöntä ratkaisua varten."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Siirry pääsisältöön</a>
+<nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
+                  <span><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 51 Languages">51 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/fi/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Suomi (Finnish)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/fi/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Hanki Microsoft Storesta
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main id="main">
+  <!-- Hero Section -->
+  <section class="py-5 overflow-hidden" id="hero">
+    <div class="container py-4">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Natiivi WinUI 3 Windows 10:lle ja 11:lle • x64 &amp; ARM64 Copilot+ PC
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3">
+            Nudge — Täysin offline-päiväkirja paikallisella tekoälyllä
+          </h1>
+          <p class="fs-4 text-warning fw-semibold mb-3">
+            "Ajatuksesi kuuluvat sinulle — eivät pilveen."
+          </p>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
+            Nudge on intiimi, häiriötön työpöytäpäiväkirja, joka on rakennettu Windowsille. Se yhdistää paikallisten tavallisten Markdown-tiedostojen absoluuttisen digitaalisen itsemääräämisoikeuden laitteella olevan tekoälykumppanin hiljaiseen älykkyyteen, joka ei koskaan muodosta yhteyttä Internetiin. Ei toistuvia tilauksia, ei telemetriaa, ei seurantaa eikä pilvilukitusta.
+          </p>
+          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
+            Aikakaudella, jolloin henkilökohtaiset ohjelmistot on muutettu valvontaputkiksi, Nudge edustaa tarkoituksellista, periaatteellista paluuta ensimmäisten periaatteiden äärelle. Jokainen kirjoittamasi ajatus, lause ja luonnos elää tiukasti henkilökohtaisella koneellasi vakiomuotoisina, ihmisen luettavissa olevina Markdown-tiedostoina (.md) puhtaana YAML-edustajana. Ei omistettuja blobbeja, ei herkkiä tietokantoja.
+          </p>
+
+          <!-- Badges Grid -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>100% Offline / Air-Gapped</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>Laitteessa toimiva AI (Ei pilveä)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>Puhdas Markdown (.md)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>Nolla telemetriaa</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>Windows Hello -biometria</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>$0.99 Kertaostos</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Osta kerralla — $0.99 elinikäinen
+            </a>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
+              <i class="bi bi-download fs-5" aria-hidden="true"></i> Lataa 15 päivän ilmainen kokeilu
+            </a>
+            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
+              Tutustu arkkitehtuuriin <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+          <div class="position-relative d-inline-block">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
+            <img src="/assets/images/nudge-icon.webp" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three Pillars -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
+        </span>
+        <h2 class="display-5 fw-bold text-white">Nudgen kolme järkkymätöntä pilaria</h2>
+        <p class="text-secondary fs-5">Arkkitehtoniset muunnelmamme: täydellinen offline-yksityisyys, hiljainen heijastus ja inhimillinen myötätunto.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 1</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Aito offline-suvereniteetti</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Täydellinen yksityisyys on arkkitehtoninen sääntö. Nudge ei tee verkkoon pyyntöjä.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 2</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Hiljainen paikallinen tekoälykumppani</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Tekoälyn tulee tukea itsetutkiskelua. Mallit ajetaan täysin paikallisesti laitteellasi.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 3</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Myötätuntoiset tilastot ilman syyllisyyttä</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Ei punaisia rangaistusnumeroita: armopäivät ja paluun arvostaminen.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="py-5" id="specs">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
+        </span>
+        <h2 class="display-5 fw-bold text-white">Tuotematriisi ja tekniset tiedot</h2>
+        <p class="text-secondary fs-5">Tiukat arkkitehtoniset takuut on suunniteltu 50 vuoden pitkäikäisyyteen ja alle 150 ms:n suorituskykyyn.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col" style="width: 22%;">Ulottuvuus</th>
+                <th scope="col" style="width: 28%;" class="text-warning fw-bold">Erittely</th>
+                <th scope="col" style="width: 50%;">Arkkitehtoniset takuut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Käyttöjärjestelmä</td>
+                <td class="text-warning small align-middle fw-medium">Windows 10 / Windows 11</td>
+                <td class="text-secondary small align-middle">Rakennettu natiivisti nykyaikaiselle WinUI 3:lle ja Windows App SDK:lle; täysi kiille- ja akryylituki.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Runtime Purity</td>
+                <td class="text-warning small align-middle fw-medium">100 % ilmarakoinen offline-tilassa</td>
+                <td class="text-secondary small align-middle">Nolla verkkopuhelua ajon aikana; nolla taustatelemetriaa, kaatumismajakoita tai etälatauksia.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Varastointiarkkitehtuuri</td>
+                <td class="text-warning small align-middle fw-medium">Tiedostojärjestelmän merkintä (.md)</td>
+                <td class="text-secondary small align-middle">Atomic kirjoitusprotokolla; ihmisen luettava YAML etuosa; nolla omaa tietokantakerrosta.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Hakukone</td>
+                <td class="text-warning small align-middle fw-medium">Paikallinen muisti BM25</td>
+                <td class="text-secondary small align-middle">Alle 150 ms:n kokotekstihaku yli 10 000 merkinnästä etuliitteellä ja morfologisella laajennuksella.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion Runtime</td>
+                <td class="text-warning small align-middle fw-medium">Laitteessa oleva SLM (DirectML / CPU / NPU)</td>
+                <td class="text-secondary small align-middle">Paikallinen päättely ONNX Runtime GenAI:n ja LlamaSharpin kautta; nolla tokeneja lähetetty ulkoisille palvelimille.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Käynnistä Performance</td>
+                <td class="text-warning small align-middle fw-medium">&lt; 1,5 Seconds to Caret</td>
+                <td class="text-secondary small align-middle">Kylmälaukaisu suoraan aktiiviselle kirjoituspinnalle; taustaindeksin lataus ja laiska AI-painotus.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Turvallisuus &amp; Lukitus</td>
+                <td class="text-warning small align-middle fw-medium">Windows Hellon biometriikka</td>
+                <td class="text-secondary small align-middle">Kasvojentunnistus, sormenjälkitunnistin, PIN-koodi; valinnainen AES-256-GCM-tiedostojärjestelmän salaus Argon2id:llä.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Kirjoituskokemus</td>
+                <td class="text-warning small align-middle fw-medium">Häiriötöntä syvätyötä</td>
+                <td class="text-secondary small align-middle">F11 koko näytön tarkennus, kirjoituskoneen vieritys, himmennetty kappaletarkennus, mukautettu typografia.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Globaali pääsy</td>
+                <td class="text-warning small align-middle fw-medium">Pikakaappauspeittokuva</td>
+                <td class="text-secondary small align-middle">Globaali pikanäppäin (Win+Alt+N) avaa kevyen muistiinpanopinnan alle 200 ms:ssa.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Monikielinen moottori</td>
+                <td class="text-warning small align-middle fw-medium">Yli 50 kotimaista toimitusta</td>
+                <td class="text-secondary small align-middle">CLDR-monikkomoottori, komentosarjan tunnistus, grafeemiklusteritietoisuus, natiivi oikealta vasemmalle (RTL).</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Tietojen yhteentoimivuus</td>
+                <td class="text-warning small align-middle fw-medium">Universal Import &amp; Export</td>
+                <td class="text-secondary small align-middle">Tuo Day One JSON, Journey, Diarium, Markdown; vie PDF-kirjoja, ZIP-arkistoja, HTML-tiedostoja, EPUB-tiedostoja.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Lisenssimalli</td>
+                <td class="text-warning small align-middle fw-medium">Läpinäkyvä Buy-Once</td>
+                <td class="text-secondary small align-middle">15 päivän rajoittamaton ilmainen kokeilujakso; yksi 0,99 dollarin dollarin elinikäinen osto; nolla tilausta; viallinen takuu.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Manifesto -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
+        </span>
+        <h2 class="display-5 fw-bold text-white">Manifesti: Miksi rakensimme Nudgen</h2>
+        <p class="text-secondary fs-5">Nykyaikaisten pilvilehtien kriisi, oikeus episteemiseen yksityisyyteen ja 50-vuoden testi.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Modernin lehden kriisi</h3>
+            <p class="text-secondary small mb-0 lh-base">Viimeisen viidentoista vuoden aikana siirtyminen paikallisesta henkilökohtaisesta tietojenkäsittelystä keskitettyyn SaaS-järjestelmään on muuttanut yksityiset päiväkirjat valvontaputkiksi: pilvitietokannat, jotka ovat kolmansien osapuolien insinöörien käytettävissä, intiimejä tunnustuksia, jotka on pakattu JSON-hyötykuormiin etätetyn AI-sovellusliittymiä varten, kuukausittaiset maksumuurit, jotka pitävät henkilökohtaisia ​​muistoja panttivankeina, ja patentoidut binaariset siirrot, jotka tekevät tuskallisiksi tai mahdottomaksi.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Episteemisen yksityisyyden periaate</h3>
+            <p class="text-secondary small mb-0 lh-base">Uskomme, että yksilön yksityinen sisäinen dialogi edustaa ihmistietoisuuden pyhää ydintä. Episteeminen yksityisyys on vapautta tutkia puolimuotoisia ideoita, ilmaista vaikeita tunteita, kyseenalaistaa uskomuksia ja dokumentoida elämää ilman ulkoisen havainnon jäähdyttävää vaikutusta. Ainoa todellinen tietosuojan tae on fyysinen ja arkkitehtoninen mahdottomuus: jos sovelluksella ei ole verkkooikeuksia, se ei voi vuotaa päiväkirjaasi.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Digitaalinen pitkäikäisyysperiaate: 50 vuoden testi</h3>
+            <p class="text-secondary small mb-0 lh-base">Pystytkö sinä tai lapsesi lukemaan tämän päivän tekstiä viidenkymmenen vuoden kuluttua? Menneisyyden omat tekstinkäsittelyohjelmat ja suljetut tietokantamuodot ovat nyt saavuttamattomia digitaalisia romuja. Pelkkä teksti UTF-8 Markdownissa on ikuista. Se pysyy välittömästi luettavissa vuonna 2076 millä tahansa ihmiskunnan keksimällä tietokonealustalla.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-Cloud Architecture -->
+  <section class="py-5" id="architecture">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">Ydinarkkitehtuuri: Zero-Cloud Technical Blueprint</h2>
+        <p class="text-secondary fs-5">Syötteen anatomia, atomikirjoitusturva ja kertakäyttöiset indeksivälimuistit.</p>
+      </div>
+
+      <div class="row g-4 align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>Tiedostojärjestelmä tietokantana: merkinnän anatomia</h3>
+            <p class="text-secondary small mb-3 lh-base">Nudge poistaa tietokantakerroksen kokonaan. Merkinnät tallennetaan yksittäisinä Markdown-tiedostoina, jotka on järjestetty kronologisesti vuoden ja kuukauden mukaan. Tiedostonimet käyttävät ULID:ia (Universally Unique Lexicographically Sortable Identifier), mikä varmistaa millisekunnin tarkkuuden, kronologisen järjestyksen ja törmäysvapaan synkronoinnin.</p>
+            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
+              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
+              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
+└── 2026/
+    └── 03-March/
+        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
+        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
+              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
+            </div>
+            <div class="nudge-code-box">---
+id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
+date: 2026-03-15T19:42:10+05:30
+language: en
+title: Walking Through the Rain in Spring
+themes:
+  - everyday
+  - creativity
+mood: 4
+weather: overcast
+tags:
+  - rain
+  - reflection
+content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+---
+
+# Walking Through the Rain in Spring
+
+The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
+I realized today that the friction I&#x27;ve been feeling isn&#x27;t a lack of inspiration; it&#x27;s a surplus of noise.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>Atomic Writes, Draft Bouncing &amp; Conflict Safety</h3>
+            <p class="text-secondary small mb-0 lh-base">Jokainen näppäinpainallus palautetaan .draft.md-tiedostoksi 500 ms:n välein, jotta kaatumiset palautuvat välittömästi. Täysi tallentaa kirjoitus väliaikaisiin sivuvaunuihin (.tmp) ennen atomitiedostojärjestelmän korvaamista. Peruutettu FileSystemWatcher havaitsee ulkoiset muokkaukset Obsidianista tai VS Codesta ja muodostaa samanaikaiset muokkaukset turvallisiin sisartiedostoihin (.conflict.md) ilman tietojen menetystä.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>Alle 150 ms:n muisti BM25 ja kertakäyttöinen välimuisti</h3>
+            <p class="text-secondary small mb-0 lh-base">Haut täyttyvät reaaliajassa yli 10 000 merkinnällä käyttämällä muistissa olevaa käänteistä indeksiä ja BM25-relevanssipisteytystä sekä turkkilaista ja grafeemiherkkää taittoa. .cache/index.bin tilannekuva lataa kylmäkäynnistykset alle 1,5 sekunnissa. .cache-hakemiston poistaminen ei menetä muuta kuin aikaa: jokainen mittari, teemapisteet ja indeksi ovat 100-prosenttisesti rekonstruoitavissa raakamarkdown-tiedostoista.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-Device AI Companion -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100% On-Device SLM
+        </span>
+        <h2 class="display-5 fw-bold text-white">Laitteen AI-kumppani: Deep-Dive</h2>
+        <p class="text-secondary fs-5">Hiljainen älypeili, joka ei koskaan keskeytä, ei koskaan anna neuvoja ja toimii 100 % paikallisesti.</p>
+      </div>
+
+      <div class="card card-glass p-4 border border-warning-subtle mb-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>Älyllinen peili, ei chatbot</h3>
+            <p class="text-secondary small mb-0 lh-base">Nudgessa olet kirjoittaja; AI on peili. Se ei koskaan anna ei-toivottuja neuvoja, ei koskaan diagnosoi psyykkisiä tiloja, ei koskaan keskeytä kirjoituskulkuasi ja havaitsee ja vastaa tiukasti luonnollisella kielelläsi ja käsikirjoituksellasi.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 1</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Ennen kuin kirjoittaminen alkaa</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">Aloittaja (tyhjä sivu)</h3>
+              <p class="text-secondary small mb-0 lh-base">Hiljainen, asiayhteyteen kohdistettu kehote, joka perustuu viikonpäivään, vuorokaudenaikaan ja viimeisimpiin merkintöihin. Jos tekoäly on offline-tilassa, Nudge käyttää runsaasti lokalisoitua kuratoitujen heijastavien kysymyspankkia. Purkaa heti, kun alat kirjoittaa.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 2</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Kirjoitustauko puolivälissä (≥40 sanaa, ≥6s tauko)</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">Inline Nudge (6 sekunnin heuristinen)</h3>
+              <p class="text-secondary small mb-0 lh-base">Pehmeä, läpikuultava kysymys leijuu kappaleesi alapuolella vain, kun pidät tauon vähintään 6 sekuntia kirjoittaessasi vähintään 40 sanaa. Taukoja IME-sommittelun aikana (CJK). Liukenee heti seuraavan näppäimen painalluksen yhteydessä. Enintään 2 per istunto.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 3</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Päätettäessä ilmoittautumista</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Deepen (pääsyn jälkeen)</h3>
+              <p class="text-secondary small mb-0 lh-base">Kaksi tai kolme harkittua jatkokysymystä, jotka tutkivat emotionaalista alatekstiä tai tutkimattomia oletuksia. Napauttaminen liittää puhtaan Markdown-alaotsikon (### seuranta) suoraan tekstiisi ja kursori on valmiina sen alla.</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>Offline-sunnuntai viikoittainen yhteenveto</h3>
+            <p class="text-secondary small mb-0 lh-base">Laitteen tekoäly syntetisoi joka sunnuntai kauniin, jäsennellyn tiedotteen viikostasi: keskeisen kertomuksen, toistuvat säikeet, tunnemuutokset ja kaksi tulevaisuuteen suuntautuvaa kysymystä tulevalle viikolle. Kaikki syntetisoidaan paikallisella piillä ilman, että yksi tavu poistuu tietokoneeltasi.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>&quot;Kysy päiväkirjastasi&quot;: siteerattu luonnollisen kielen haku</h3>
+            <p class="text-secondary small mb-0 lh-base">Esitä käsitteellisiä kysymyksiä, kuten &quot;Milloin ajattelin ensimmäisen kerran vaihtaa uraa?&quot; Nudge hakee asiaankuuluvat merkinnät BM25:llä, ja paikallinen SLM syntetisoi johdonmukaisen vastauksen pakollisilla napsautettavilla lainauslinkeillä. Jos mitään ei löydy, siinä lukee &quot;En löytänyt päiväkirjastasi mitään tästä&quot; - matemaattisesti rajoitettu hallusinaatioita vastaan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shame-Free Metrics -->
+  <section class="py-5" id="metrics">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
+        </span>
+        <h2 class="display-5 fw-bold text-white">Mittareiden tietoinen psykologia: Ei syyllisyyttä, ei häpeää</h2>
+        <p class="text-secondary fs-5">Tottumukset mitataan inhimillisellä empatialla eikä myrkyllisellä pelillistymisellä.</p>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Viivoja sisäänrakennetuilla Grace Days -päivillä</h3>
+            <p class="text-secondary small mb-0 lh-base">Elämä tapahtuu. Päivän puuttumisen ei pitäisi aiheuttaa häpeää tai palauttaa kuukausien omistautumista. Nudge sisältää automaattiset armopäivät: päivän ohittaminen säilyttää vauhtisi. Kooditietokantaamme kuuluu yksikkötesti, jolla varmistetaan, että jääneet päivät tai rangaistustiedot eivät koskaan näy punaisina.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Juhlitaan Tauon jälkeistä paluuta</h3>
+            <p class="text-secondary small mb-0 lh-base">Sen sijaan, että rankaisisit poissaoloista, Nudge seuraa palautusprosenttia – juhlii sivulle palaamisen sietokykyä sen jälkeen, kun elämä vie sinut pois.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Mediaani vs. keskiarvo: Rehellinen kirjoitusmäärä</h3>
+            <p class="text-secondary small mb-0 lh-base">Harvinaiset pitkät merkinnät vääristävät perinteisiä keskiarvoja. Nudge käyttää tilastollista mediaania edustamaan todellista tyypillistä istuntoa ilman vääristymiä.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glass p-4 border border-secondary-subtle">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <h3 class="h5 text-white fw-bold mb-2">11 lukittua elämänteemaa ja teemapyörää</h3>
+            <p class="text-secondary small mb-0 lh-base">Kilpailuehdotukset luokitellaan 11 yleismaailmalliseen, kiinteään inhimilliseen ulottuvuuteen: työ, ihmissuhteet, perhe, terveys, raha, identiteetti, luovuus, oppiminen, matkustaminen, arkipäivä ja suunnitelmat. Visualisoitu vektoridonitsikaavioissa 30 päivän, 90 päivän, 1 vuoden ja kaikkien aikojen näkymin.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Work</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Relationships</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Family</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Health</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Money</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Identity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Creativity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Learning</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Travel</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Everyday</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Plans</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Work Writing Environment -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
+        </span>
+        <h2 class="display-5 fw-bold text-white">Kirjoitusympäristö: suunniteltu syvällistä työtä varten</h2>
+        <p class="text-secondary fs-5">Sub-1,5s kylmälaukaisu, hieno paperitavaraestetiikka ja häiriötön ergonomia.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>Sub-1,5 Toinen kylmälaukaisu</h3>
+            <p class="text-secondary small mb-0 lh-base">Native WinUI 3 ja C# .NET:ssä varmistavat, että Napsauttaminen vie sinut suoraan tämän päivän merkinnän aktiiviseen vilkkuvaan kohdistimeen alle 1,5 sekunnissa. Indeksointi ja tekoälyn alustus siirretään taustasäikeisiin.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>Hieno paperitavarasuunnittelupaletti</h3>
+            <p class="text-secondary small mb-0 lh-base">Hienon kirjansidon inspiraationa: Muste (arkistokynämustetypografia), Paperi (raskas japanilainen pellavaeditori), Surround (nahkasidottu kromi), Lamppu (lämpimät tarkennuskorostukset), Whisper (marginaalit) ja hiusrajanjakajat.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>Mukaansatempaavat tarkennustilat (F11)</h3>
+            <p class="text-secondary small mb-0 lh-base">Koko näytön mukaansatempaava tarkennus (F11) poistaa kaiken kromin; Kirjoituskone Vieritys keskittää aktiivisen rivin pystysuoraan; Himmennetty kappaletarkennus häivyttää varovasti oheistekstin valaisemaan vain tämänhetkisiä ajatuksiasi.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>Global Quick Capture &lt; 200 ms</h3>
+            <p class="text-secondary small mb-0 lh-base">Paina Win+Alt+N missä tahansa Windowsissa. Kevyt kortti kelluu välittömästi näytölle. Kirjoita toteutuksesi, paina Ctrl+Enter ja se lisää aikaleiman tämän päivän päivittäiseen merkintään keskeyttämättä kulkua.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Biometrics -->
+  <section class="py-5" id="security">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
+        </span>
+        <h2 class="display-5 fw-bold text-white">Turvallisuus, biometriset tiedot ja tietojen riippumattomuus</h2>
+        <p class="text-secondary fs-5">Paikalliset biometriset tiedot, valinnainen tiedostojärjestelmän salaus ja yleinen siirtymisvapaus.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>Windows Hellon biometriikka</h3>
+            <p class="text-secondary small mb-0 lh-base">Avaa lukitus kasvojentunnistuksen, sormenjälkitunnistimen tai suojatun Windowsin PIN-koodin avulla. Konfiguroitava automaattinen lukitus 1, 5 tai 15 minuutin käyttämättömyyden jälkeen tai kun se on minimoitu.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>Valinnainen paikallinen AES-256-GCM-salaus</h3>
+            <p class="text-secondary small mb-0 lh-base">Sotilasluokan AES-256 Galois/Counter-tilassa, joka on johdettu Argon2id-salasanahajautustekniikalla. Ei yrityksen takaovia tai sulkuavaimia.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>Näytön jaon hämärtäminen ja paniikkiavain</h3>
+            <p class="text-secondary small mb-0 lh-base">DWM-näytön affiniteetti peittää Nudgen ikkunan zoomauksessa, tiimissä tai näytön tallennuksissa. Esc-näppäimen painaminen kahdesti pienentää, tyhjentää muistin ja lukitsee sen välittömästi.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>Kitkaton siirto sisään</h3>
+            <p class="text-secondary small mb-0 lh-base">Sisäänrakennetut Day One JSON-, Journey-, Diarium-, Obsidian-holvien ja CSV-arkistojen maahantuojat, jotka säilyttävät aikaleimat, säätiedot ja tunnisteet.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>Universaali vapaus kävellä pois</h3>
+            <p class="text-secondary small mb-0 lh-base">Vie koko päiväkirjasi milloin tahansa Markdown ZIP -arkistona, perintölaatuisina tulostettavina PDF-muistokirjoina pudotuskorkein, itsenäisinä HTML-portfolioina tai EPUB-e-kirjoina.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
+        </span>
+        <h2 class="display-5 fw-bold text-white">Kuinka Nudge vertaa: Lopullinen tuotematriisi</h2>
+        <p class="text-secondary fs-5">Vertaamalla Nudgea Day One-, Obsidian-, Notion- ja kaupallisiin AI-chatboteihin.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Ominaisuus / Attribuutti</th>
+                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>Nudge</th>
+                <th scope="col">Day One</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Notion</th>
+                <th scope="col">AI Chatbots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Tallennusmuoto</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Plain Markdown (.md)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Oma Cloud DB</td>
+                <td class="text-secondary small align-middle">Plain Markdown</td>
+                <td class="text-secondary small align-middle">Pilvitietokanta</td>
+                <td class="text-secondary small align-middle">Pilvi lyhytaikainen</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Alkuperäinen Windows-sovellus</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Kyllä (WinUI 3 Native)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Ei (Web Wrapper)</td>
+                <td class="text-secondary small align-middle">Kyllä (elektroni)</td>
+                <td class="text-secondary small align-middle">Ei (elektroni)</td>
+                <td class="text-secondary small align-middle">Verkko / sovellus</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Verkkotoiminta</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0 % ilmarakoinen</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Jatkuva synkronointi</td>
+                <td class="text-secondary small align-middle">Plugin-riippuvainen</td>
+                <td class="text-secondary small align-middle">Pakollinen pilvi</td>
+                <td class="text-secondary small align-middle">100 % Cloud API</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI kumppani</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">100 % paikallinen laitteessa</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Cloud API Pipeline</td>
+                <td class="text-secondary small align-middle">Community Cloud API</td>
+                <td class="text-secondary small align-middle">Cloud AI Sub</td>
+                <td class="text-secondary small align-middle">Kaupallinen malli</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Käyttäjätili</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Ei mitään (nolla sisäänkirjautumista)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Pakollinen tili</td>
+                <td class="text-secondary small align-middle">Ei mitään</td>
+                <td class="text-secondary small align-middle">Pakollinen tili</td>
+                <td class="text-secondary small align-middle">Pakollinen kirjautuminen</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Kylmälaukaisu Caretiin</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt; 1,5 sekuntia</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">~4-8 sekuntia</td>
+                <td class="text-secondary small align-middle">~3-6 sekuntia</td>
+                <td class="text-secondary small align-middle">~5-12 sekuntia</td>
+                <td class="text-secondary small align-middle">Muuttuva Web</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Häpeättömät raidat</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Grace-Day Protection</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Jäykkä päivittäinen laskuri</td>
+                <td class="text-secondary small align-middle">Plugin-riippuvainen</td>
+                <td class="text-secondary small align-middle">Ei mitään</td>
+                <td class="text-secondary small align-middle">Ei mitään</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Haun tehokkuus</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt;150ms Paikallinen BM25</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Palvelinriippuvainen</td>
+                <td class="text-secondary small align-middle">Nopea paikallinen</td>
+                <td class="text-secondary small align-middle">Palvelimen viive</td>
+                <td class="text-secondary small align-middle">Haku Ephemeral</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Biometrinen lukitus</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Windows Hello Native</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">PIN / Cloud Pass</td>
+                <td class="text-secondary small align-middle">Kolmannen osapuolen laajennus</td>
+                <td class="text-secondary small align-middle">Ei mitään</td>
+                <td class="text-secondary small align-middle">Ei mitään</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Hinnoittelumalli</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0,99 $ Kertaostos</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">34,99 dollaria / vuosi sub</td>
+                <td class="text-secondary small align-middle">Ilmainen / Sync Sub</td>
+                <td class="text-secondary small align-middle">$10+ / kk tilaus</td>
+                <td class="text-secondary small align-middle">Ilmainen / $20 Sub</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Myyjän lukitus</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Nolla (avoimet tiedostot)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Korkea (vientiongelma)</td>
+                <td class="text-secondary small align-middle">Nolla</td>
+                <td class="text-secondary small align-middle">Täydellinen lukitus</td>
+                <td class="text-secondary small align-middle">Täydellinen lukitus</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Workflows -->
+  <section class="py-5" id="workflows">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
+        </span>
+        <h2 class="display-5 fw-bold text-white">Viisi yleistä päivittäistä työnkulkua</h2>
+        <p class="text-secondary fs-5">Kuinka kirjailijat, nomadit ja syvälliset ajattelijat integroivat Nudgen päivittäiseen rytmiinsä.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 1</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>07.00 • 7–10 minuuttia</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Aamuselkeyden rituaali</h3>
+            <p class="text-secondary small mb-0 lh-base">Kylmälaukaisu Nudge (&lt;1,5 s). Mieti kontekstuaalista tekoälyn aloituskehotetta. Kirjoita 200–400 sanaa tietoisuuden virran mielenpuhdistuksesta, vangitse eläviä unia ja aseta päivälle kaksi maadoitettua emotionaalista tarkoitusta.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 2</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>21:30 • 12 minuuttia</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Ilta Dekompressio</h3>
+            <p class="text-secondary small mb-0 lh-base">Paina F11 tarkentaaksesi koko näytön lämpimässä tummassa tilassa. Vapauta kognitiivinen kuormitus kovista kokouksista. Hellävarainen tönäyte kysyy: &quot;Mikä osa oli sinun hallinnassasi?&quot; Päätä jatkotoimien syventämiskehotuksiin.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 3</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Sunnuntai-ilta • 15 minuuttia</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Sunnuntain strateginen synteesi</h3>
+            <p class="text-secondary small mb-0 lh-base">Tutustu tekoälyn luomaan viikoittaiseen tiedotustilaisuuteen. Tutki 30 päivän teemapyörää ja huomaa, kutistuvatko luovat heijastukset työn laajenessa. Kohdista prioriteetit uudelleen ja aseta tulevaisuuteen suuntautuvat aikomukset maanantaille.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 4</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>35 000 jalkaa • Lento-/lentokonetilassa</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Off-Grid Nomad</h3>
+            <p class="text-secondary small mb-0 lh-base">100 % offline-toiminto ilman yhteysvirheitä. Laitteen SLM luo kehotteita ja yhteenvetoja. Vedä päiväkirjakansio salattuun flash-asemaan fyysistä varmuuskopiointia varten.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 5</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Koko työpäivän ajan • Välitön</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Creative &amp; Academic Scratchpad</h3>
+            <p class="text-secondary small mb-0 lh-base">Paina Win+Alt+N käynnistääksesi globaalin pikakaappauksen alle 200 ms syvän työn aikana. Muistiinpanot liitetään saumattomasti aikaleimoilla. Linkitä päiväkirjakansio Obsidian-varastoihin nollasynkronoitujen tietograafien integrointia varten.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Tiers -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
+        </span>
+        <h2 class="display-5 fw-bold text-white">Laitteistotasot ja laskennallinen tehokkuus</h2>
+        <p class="text-secondary fs-5">Alkuperäinen suoritus x64- ja ARM64 Copilot+ -tietokoneissa tiukoilla RAM- ja akkubudjeteilla.</p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Taso 1: Puhdas CPU (yleinen)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Mikä tahansa moderni x64 / ARM64-prosessori, 8 Gt RAM-muistia, Intel Core / AMD Ryzen / Snapdragon.</p>
+            <p class="text-secondary small mb-0 lh-base">Täysi päiväkirjaominaisuus, alle 150 ms BM25-haku, kuratoidut deterministiset kehotepankit, CPU INT4 AI -päätelmä.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Taso 2: DirectML GPU (kiihdytetty)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Intel Iris Xe, AMD Radeon, NVIDIA GTX/RTX omistettu tai integroitu näytönohjain.</p>
+            <p class="text-secondary small mb-0 lh-base">Äärimmäisen nopea paikallinen tekoälykumppani päättely alle 2 sekunnin ensimmäisen tunnuksen sukupolvella.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Taso 3: Copilot+ NPU (seuraavan sukupolven AI PC)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Qualcomm Snapdragon X Elite/Plus, Intel Core Ultra NPU, AMD Ryzen AI.</p>
+            <p class="text-secondary small mb-0 lh-base">Erikoistunut hermolaitteiston päättely käytännössä nollalla tuulettimen kohinalla, pienellä akun iskulla ja välittömällä vasteella.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 10 (Build 17763+) tai Windows 11; x64 tai ARM64; 8 Gt RAM-muistia; 500 Mt levytilaa (valinnainen 2,5–4,5 Gt paikallisille AI-painoille).</p>
+          </div>
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 11; moderni moniytiminen Intel i7/Ryzen 7 tai Snapdragon X; 16 Gt RAM-muistia; DirectML GPU tai NPU; NVMe SSD.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Licensing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
+        </span>
+        <h2 class="display-5 fw-bold text-white">Läpinäkyvä lisensointi: Anti-Subscription Contract</h2>
+        <p class="text-secondary fs-5">Maksa kerran, omista se ikuisesti. 15 päivän rajoittamaton kokeilujakso ilman luottokorttia.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
+            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
+            <p class="text-white-50 small mb-4">Zero credit card required</p>
+            <p class="text-secondary small mb-4 lh-base text-start">100 % ominaisuuksista avattu, mukaan lukien laitteen tekoälyn suoritusaika, BM25-haku, kaikki yli 50 kieltä, ThemeWheels ja PDF-kirjojen vienti. Luottokorttia ei vaadita, automaattinen laskutus nolla.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
+              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
+            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
+            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
+            <p class="text-secondary small mb-4 lh-base text-start">Yksi kertaostos elinikäisellä henkilökohtaisella omistuksella. Sisältää kaikki pienet päivitykset ja alueellisen ostovoimapariteettihinnan Microsoft Storessa.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> Osta kerralla — $0.99 elinikäinen
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>&quot;Fail-Open&quot; offline-takuu</h4>
+            <p class="text-secondary small mb-0 lh-base">Jos offline-lisenssin tarkistus aikakatkaistaan ​​tai epäonnistuu kirjoitettaessa verkkoon eristetyssä hytissä, Nudge epäonnistuu ja antaa täyden käyttöoikeuden. Emme koskaan sulje sinua pois yksityisistä ajatuksistasi.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>Pysyvä luku- ja vientivapaus</h4>
+            <p class="text-secondary small mb-0 lh-base">Jos kokeilujaksosi päättyy ilman ostoa, Nudge siirtyy pysyväksi vain luku -arkistoon. Voit selata, etsiä BM25:llä ja viedä Markdowniin tai PDF-muotoon ikuisesti. Tiedostosi pysyvät auki Markdown levylläsi.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
+        </span>
+        <h2 class="display-5 fw-bold text-white">Usein kysytyt kysymykset</h2>
+        <p class="text-secondary fs-5">Kaikki mitä sinun tulee tietää yksityisyydestä, paikallisesta tekoälystä, tallennustilasta ja lisensseistä.</p>
+      </div>
+      <div class="max-w-900 mx-auto">
+        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Q1: Mikä tekee Nudgesta eron kaikista muista päiväkirjasovelluksista?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge yhdistää kaksi perusperiaatetta: 100 %:n ilmarakoinen paikallinen itsemääräämisoikeus (pelkät Markdown-tiedostot levylläsi ilman pilvitelemetriaa) ja hiljaisen laitteessa olevan tekoälykumppanin (pienet kielimallit, jotka toimivat suoraan tietokoneesi piistä). Saat älykkään pohdinnan ja analytiikan edut tinkimättä yksityisyydestä tai maksamasta toistuvia tilauksia.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Q2: Eikö Nudge todellakaan koskaan muodosta yhteyttä Internetiin?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse " aria-labelledby="faq2Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Kyllä. Kun Nudge on asennettu, se suorittaa nolla ajonaikaista verkkopyyntöä: ei seurantakomentosarjat, ei kaatumistoimittajat soittavat kotiin eikä etäkirjasinpyyntöjä. Ainoa sallittu verkkovuorovaikutus on valinnainen, käyttäjän käynnistämä kertaluonteinen avoimen painotuksen kielimallipainojen lataus asennuksen aikana. Voit katkaista Wi-Fi-yhteyden tai ajaa ilmarakoisessa hiekkalaatikossa, jossa ominaisuudet ovat 100-prosenttisesti ehjät.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Q3: Miksi tallentaa merkinnät Markdown-tiedostoina tietokannan sijaan?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse " aria-labelledby="faq3Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Tietokannat luovat omia siiloita, jotka ovat alttiita korruptiolle ja hylkäämiselle. Plain Markdown (.md) -tekstitiedostot, joissa on YAML-etumateriaali, ovat tuhoutumattomia, ihmisen luettavia ja yleisesti saatavilla. Ne ovat luettavissa 50 vuoden kuluttua millä tahansa tietokonejärjestelmällä, ja ne voidaan avata milloin tahansa Obsidianissa, VS Codessa tai Notepadissa.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Q4: Miksi Nudge ei tarjoa sisäänrakennettua pilvisynkronointia?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse " aria-labelledby="faq4Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Koska pilvisynkronointi vaatii asiakastietojen isännöimistä etäpalvelimilla, tietoturva-aukkojen tuomista ja toistuvia maksuja. Koska Nudge tallentaa päiväkirjasi tavallisena kansiona kiintolevyllesi, voit synkronoida sen käyttämällä luotettavia, päästä päähän salattuja työkalujasi, kuten OneDrive, Dropbox, Syncthing tai Nextcloud.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Q5: Kuinka tekoälykumppani voi toimia paikallisesti lähettämättä tietoja OpenAI:lle tai Googlelle?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse " aria-labelledby="faq5Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Viimeaikaiset läpimurrot kvantisoiduissa pienissä kielimalleissa (kuten Google Gemma ja Microsoft Phi) mahdollistavat kykyisten mallien käytön suoraan kuluttajien PC-laitteistoissa ONNX Runtime GenAI:n ja LlamaSharpin kautta. Laskenta tapahtuu tiukasti fyysisellä CPU:lla, GPU:lla tai NPU:lla. Internetin kautta ei lähetetä yhtään merkkiä.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Q6: Voinko käyttää Nudgea lataamatta tai käyttämättä tekoälyominaisuuksia?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse " aria-labelledby="faq6Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Täysin. Paikallinen tekoälykumppani on täysin valinnainen. Voit ohittaa mallin lataamisen asennuksen aikana. Nudge toimii virheettömästi erittäin nopeana, häiriöttömänä pelkkätekstipäiväkirjana, jossa on kuratoituja deterministisiä heijastuskehotteita.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Q7: Arvioiko tekoäly minut vai tarjoaako psykologisia neuvoja?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse " aria-labelledby="faq7Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ei koskaan. Nudgen tekoälytulosteita rajoittavat tiukasti GBNF:n kieliopit ja eettiset järjestelmäkehotteet. Se ei koskaan kerro sinulle, mitä sinun pitäisi tehdä, tarjota amatööriterapiaa tai arvioida luonnettasi. Se toimii puhtaasti älyllisenä peilinä, heijastaen ajatuksiasi ja esittäen selventäviä kysymyksiä.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Q8: Mitkä ovat kolme &quot;Reflection Moment&quot; -hetkeä?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse " aria-labelledby="faq8Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  1. Aloittaja: harkittu kysymys ilmestyy tyhjälle sivulle ennen kirjoittamista. 2. Inline Nudge: hienovarainen kysymys, joka leijuu kohdistimen alapuolella vain, kun keskeytät kirjoittamisen vähintään 6 sekunniksi 40 sanan kirjoittamisen jälkeen. 3. The Deepen: 2–3 jatkokysymystä ehdotuksen päättämisen yhteydessä, jotka liitetään selkeästi Markdown-alaotsikoiksi.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 9 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Q9: Miten &quot;Kysy päiväkirjasta&quot; toimii? Onko se hallusinaatioita?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse " aria-labelledby="faq9Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge käyttää paikallista käänteistä BM25-indeksiään noutaakseen asiaankuuluvat aiemmat merkinnät, ja paikallinen SLM syntetisoi suoran vastauksen pakollisilla napsautettavilla lainauslinkeillä. Jos asiaankuuluvia merkintöjä ei ole, malli on tiukasti pakotettu toteamaan: &quot;En löytänyt päiväkirjastasi mitään tästä&quot; - se estää matemaattisesti muistin valmistuksen.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 10 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Q10: Miten varmuuskopioin päiväkirjani?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse " aria-labelledby="faq10Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Varmuuskopiointi on yhtä helppoa kuin kansion kopioiminen. Siirry päiväkirjahakemistoosi (oletusarvoisesti Documents/Nudge) ja kopioi se ulkoiselle asemalle, USB-tikulle tai varmuuskopioasemaan. Jokainen merkintä, luonnos, tunniste ja asetus sisältyvät kyseiseen kansioon.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 11 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Q11: Mitä tapahtuu, jos tietokoneeni kaatuu kirjoittaessani?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse " aria-labelledby="faq11Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Jokainen näppäinpainallus tallennetaan nopeasti palautuvaan luonnokseen (.draft.md) 500 millisekunnin välein. Jos virta katkeaa äkillisesti, sitomaton teksti palautetaan välittömästi uudelleenkäynnistyksen jälkeen. Täydelliset tallennukset käyttävät atomitiedostojärjestelmän korvaustoimintoja korruption poistamiseksi.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 12 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Q12: Voinko tuoda olemassa olevan päiväkirjani Day One-, Journey- tai Obsidianista?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse " aria-labelledby="faq12Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Kyllä! Nudge sisältää natiivit, sisäänrakennetut tuontimoottorit Day One JSON-vientiä varten, Journey-, Diarium-, Obsidian/Markdown-holvit ja vakio-CSV-arkistot, joissa on täydellinen metatietojen säilytys.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 13 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Q13: Kuinka Windows Hellon biometrinen lukitus toimii?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse " aria-labelledby="faq13Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge integroituu alkuperäisiin Windows Hello -sovellusliittymiin. Avaa päiväkirjasi kasvojentunnistuksen, sormenjälkitunnistimien tai Windowsin PIN-koodin avulla. Biometrinen todennus toimii 100 % offline-tilassa ilman yhteydenpitoa ulkoisten identiteetintarjoajien kanssa.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 14 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Q14: Voinko salata päiväkirjatiedostoni levyllä?
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse " aria-labelledby="faq14Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Kyllä. Nudge tarjoaa valinnaisen paikallisen tiedostojärjestelmän salauksen käyttämällä sotilasluokan AES-256-GCM:ää, joka on johdettu Argon2id-salasanahajautustekniikalla. Tiedostosi on salattu ilman takaovea tai yrityksen palautustallettausta.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 15 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq15Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                  Q15: Miksi Nudge ei näytä punaisia ​​numeroita, kun minulta puuttuu päivä?
+                </button>
+              </h3>
+              <div id="faq15" class="accordion-collapse collapse " aria-labelledby="faq15Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Koska syyllisyys on haitallinen itsetutkiskelun motivaattori. Tosielämään kuuluu sairaus, matkustaminen ja lepo. Nudge yhdistää automaattiset armopäivät sarjoiksi, välttää punaisia ​​rangaistusosoittimia ja juhlii aktiivisesti palautusprosenttiasi.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 16 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq16Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                  Q16: Mitkä ovat 11 elämänteemaa?
+                </button>
+              </h3>
+              <div id="faq16" class="accordion-collapse collapse " aria-labelledby="faq16Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Kilpailuehdotukset luokitellaan 11 lukitun inhimillisen ulottuvuuden mukaan: työ, ihmissuhteet, perhe, terveys, raha, identiteetti, luovuus, oppiminen, matkustaminen, arki ja suunnitelmat. Visualisoitu vektoriteemapyörillä paljastamaan, kuinka elämäsi tasapainot muuttuvat vuodenaikojen välillä.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 17 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq17Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                  Q17: Miksi ilmoitat sanamäärän mediaanien keskiarvojen sijaan?
+                </button>
+              </h3>
+              <div id="faq17" class="accordion-collapse collapse " aria-labelledby="faq17Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Aritmeettisia keskiarvoja vääristävät satunnaiset pitkät esseet. Jos kirjoitat viisi 100 sanaa ja yhden 3 000 sanan, keskiarvo on 583 sanaa. Tilastollinen mediaani kuvastaa tarkasti tyypillistä istunnon lähtötasoa.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 18 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq18Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                  Q18: Paljonko Nudge maksaa?
+                </button>
+              </h3>
+              <div id="faq18" class="accordion-collapse collapse " aria-labelledby="faq18Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge on kertaluonteinen 0,99 dollarin osto, jossa on automaattinen alueellinen ostopariteettihinnoittelu Microsoft Storessa. Nolla tilausta, nolla ominaisuustasoa, nolla mainoksia.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 19 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq19Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                  Q19: Mitä tapahtuu, kun 15 päivän kokeilujakso päättyy?
+                </button>
+              </h3>
+              <div id="faq19" class="accordion-collapse collapse " aria-labelledby="faq19Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Siirrä siirtymiä pysyvään vain luku -arkistointitilaan. Voit etsiä BM25:llä, lukea aikajanaasi ja viedä Markdown- tai PDF-muotoon ikuisesti. Koska merkinnäsi ovat vain Markdown-merkintöjä Asiakirjat-kansiossasi, voit aina avata ja muokata niitä missä tahansa tekstieditorissa.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 20 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq20Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                  Q20: Voinko asentaa Nudgen useisiin Windows-tietokoneisiin yhdellä ostolla?
+                </button>
+              </h3>
+              <div id="faq20" class="accordion-collapse collapse " aria-labelledby="faq20Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Kyllä. Tavallisen Microsoft Store -lisenssin mukaisesti yksi henkilökohtainen käyttöoikeus sallii asennuksen yhteensopiviin henkilökohtaisiin Windows 10- ja 11-laitteisiin, jotka olet kirjautunut sisään Microsoft-tililläsi.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 21 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq21Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq21" aria-expanded="false" aria-controls="faq21">
+                  Q21: Tukeeko Nudge ARM64-laitteita, kuten Copilot+ -tietokoneita?
+                </button>
+              </h3>
+              <div id="faq21" class="accordion-collapse collapse " aria-labelledby="faq21Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Kyllä! Nudge on käännetty natiivisti sekä x64- että ARM64-käyttöjärjestelmille, ja se toimii korkealla akun teholla ja laitteen hermo-NPU-kiihdytyksellä Snapdragon X Elite- ja Snapdragon X Plus Copilot+ -tietokoneissa.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 22 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq22Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq22" aria-expanded="false" aria-controls="faq22">
+                  Q22: Mitä tapahtuu, jos offline-lisenssin tarkistus epäonnistuu ollessani off-grid?
+                </button>
+              </h3>
+              <div id="faq22" class="accordion-collapse collapse " aria-labelledby="faq22Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Fail-Open-käytäntömme mukaan Nudge epäonnistuu avaamisessa ja antaa täyden käyttöoikeuden, jos lisenssin tarkistus vanhenee tai ei pääse myymälän välimuistiin. Sinua ei koskaan suljeta ulos päiväkirjastasi.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 23 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq23Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq23" aria-expanded="false" aria-controls="faq23">
+                  Q23: Mistä saan tukea tai mistä voin ilmoittaa ongelmasta?
+                </button>
+              </h3>
+              <div id="faq23" class="accordion-collapse collapse " aria-labelledby="faq23Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Voit ottaa yhteyttä suunnittelutiimiimme suoraan osoitteessa support@dhinovatech.com. Koska keräämme nollan etävirheen telemetriaa, voit jakaa paikallisen crash.log-tiedoston välitöntä ratkaisua varten.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5" id="quotes">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
+        </span>
+        <h2 class="display-5 fw-bold text-white">Mitä kirjoittajat ja ajattelijat sanovat Nudgesta</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Nudgella kirjoittaminen tuntuu kuin sulkeisit meluisan kadun oven ja istuisit auringonpaisteessa yksityisessä kirjastossa. Kun tiedän, että sanani on tallennettu omalle kovalevylleni ja ettei mikään pilvipalvelin lue ajatuksiani, voin kirjoittaa rehellisesti, mitä en ole tuntenut viiteentoista vuoteen."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Dr. Aris Thorne</span>
+              <span class="text-white-50 extra-small">Kirjoittaja ja akateeminen tutkija</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"6 sekunnin taukotyöntö on vuorovaikutuksen suunnittelun mestarikurssi. Se ei keskeytä. Se vain odottaa, kunnes olet aidosti jumissa, esittää valovoimaisen kysymyksen ja katoaa heti, kun sormesi alkavat jälleen liikkua. Se on muuttanut iltapäiväkirjarituaaliani."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Elena Rostova</span>
+              <span class="text-white-50 extra-small">Ohjelmistoarkkitehti ja esseisti</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Olin skeptinen kannettavan tietokoneen paikallisen tekoälyn suhteen, kunnes testasin Nudgea lentokoneessa, jossa Wi-Fi oli pois päältä. Viime viikon merkintöjeni syntetisoiminen yhtenäiseksi narratiiviksi lentäessään Atlantin yli, ilman pilviyhteyttä, sai minut vakuuttuneeksi siitä, miten ohjelmisto tulee rakentaa."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Marcus Vance</span>
+              <span class="text-white-50 extra-small">Teknologiastrategi &amp; Digital Nomad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
+    <div class="container py-5 text-center max-w-800 mx-auto">
+      <div class="d-inline-block position-relative mb-4">
+        <img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+      </div>
+      <h2 class="display-4 fw-bold text-white mb-3">Ota sisäinen elämäsi takaisin</h2>
+      <p class="lead text-secondary mb-4">Digitaalisessa maailmassa, jota hallitsevat yritysten pilvikorjaus ja jatkuvat tilaukset, yksityiset ajatuksesi ovat viimeinen todella pyhä raja. Aloita 15 päivän ilmainen matkasi tänään.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
+          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> Osta kerran – 0,99 dollaria elinikäinen
+        </a>
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
+          <i class="bi bi-download me-2" aria-hidden="true"></i> Lataa 15 päivän ilmainen kokeiluversio
+        </a>
+      </div>
+      <p class="extra-small text-white-50 mb-0">100 % offline-tilassa • Nolla telemetriaa • Pelkät merkintätiedostot • WinUI 3 Windows 10:lle ja 11:lle</p>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Nudge">
+  <img src="/assets/images/nudge-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Nudge</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Asenna</a>
+</div>
+<button type="button" class="to-top" aria-label="Takaisin ylös" title="Takaisin ylös">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

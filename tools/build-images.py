@@ -58,6 +58,13 @@ SPEC = {
     "mortgage-emi-icon.png":              dict(max_dim=256,  webp=True,  q=90, keep=True),
     "notelock-icon.png":                  dict(max_dim=256,  webp=True,  q=90, keep=True),
     "slouch-guard-icon.png":              dict(max_dim=256,  webp=True,  q=90, keep=True),
+    "nudge-icon.png":                     dict(max_dim=512,  webp=True,  q=90, keep=True),
+    # Stow's largest render is the 132px hero icon, so a 512 WebP still covers
+    # a 3x screen. The PNG survives only for the webmanifest-style consumers
+    # that will not take WebP, and none of those draws it above 256, so the
+    # 3D-rendered icon does not need to sit in the repo at 280 KB.
+    "stow-icon.png":                      dict(max_dim=256,  webp=True,  q=90,
+                                               webp_dim=512, keep=True),
 
     # hero / preview art. og:image wants >=1200px on the long edge, so the
     # JPEG fallback is not downscaled below that.
@@ -67,6 +74,11 @@ SPEC = {
     "milk-monthly-calendar-banner.jpg":   dict(max_dim=1200, webp=True,  q=82, keep=False),
     "milk-monthly-calendar-ui-preview.jpg": dict(max_dim=1200, webp=True, q=82, keep=True),
     "slouch-guard-ui-preview.jpg":        dict(max_dim=1200, webp=True,  q=82, keep=True),
+
+    # Social card, drawn by tools/build-stow-shots.py. No WebP sibling: the
+    # only thing that ever fetches it is a link-preview scraper, and those are
+    # exactly the clients that still do not all read WebP.
+    "stow-og.png":                        dict(max_dim=1200, webp=False),
 
     # store screenshots render at roughly 300 CSS px wide
     "glowcompare-screenshot-1.png":       dict(max_dim=592,  webp=True,  q=86, keep=False),
@@ -139,8 +151,16 @@ def rewrite_html(sizes):
 
         new_doc = IMG_TAG.sub(fix, doc)
         if new_doc != doc:
-            with open(path, "w", encoding="utf-8") as fh:
-                fh.write(new_doc)
+            for attempt in range(5):
+                try:
+                    with open(path, "w", encoding="utf-8") as fh:
+                        fh.write(new_doc)
+                    break
+                except OSError:
+                    if attempt == 4:
+                        raise
+                    import time
+                    time.sleep(0.15)
             touched += 1
     return touched
 

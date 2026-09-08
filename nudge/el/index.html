@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="el" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — Προσωπικό ημερολόγιο εκτός σύνδεσης με τοπικό AI | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech</title>
+  <meta name="description" content="Το Nudge είναι ένα οικείο, επιτραπέζιο περιοδικό χωρίς περισπασμούς που έχει δημιουργηθεί εγγενώς για Windows. Ενώνει την απόλυτη ψηφιακή κυριαρχία των τοπικών απλών αρχείων Markdown με την αθόρυβη νοημοσύνη ενός συνοδού τεχνητής νοημοσύνης...">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
+    :root {
+      --nudge-amber: #f59e0b;
+      --nudge-gold: #fbbf24;
+      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
+      --nudge-bg-dark: #0a0b0d;
+      --nudge-card-bg: #121316;
+      --nudge-card-border: rgba(245, 158, 11, 0.22);
+    }
+    .glow-aura-amber {
+      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    }
+    .nudge-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
+      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+    }
+    .nudge-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.85rem; color: #fde68a; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: #fbbf24; color: #fff;
+    }
+    .invariant-card {
+      border-left: 3px solid #f59e0b !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.45) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #fbbf24;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.nudge-col, .compare-table td.nudge-col {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 1px solid rgba(245, 158, 11, 0.25);
+      border-right: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .nudge-code-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: #08090b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
+      white-space: pre; overflow-x: auto;
+    }
+    .stationery-token {
+      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
+    }
+    /* RTL adjustments */
+    [dir="rtl"] .feature-bullet-list li {
+      padding-left: 0;
+      padding-right: 1.4rem;
+    }
+    [dir="rtl"] .feature-bullet-list li::before {
+      left: auto;
+      right: 0.35rem;
+    }
+    [dir="rtl"] .invariant-card {
+      border-left: none !important;
+      border-right: 3px solid #f59e0b !important;
+    }
+    [dir="rtl"] .dropdown-menu-end {
+      right: auto !important;
+      left: 0 !important;
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/nudge/el/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/nudge/ar/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/nudge/zh/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/nudge/es/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/nudge/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/nudge/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/nudge/fr/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/nudge/ko/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/nudge/hi/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/nudge/pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.dhinovatech.com/nudge/pt-pt/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/nudge/id/">
+  <link rel="alternate" hreflang="ms" href="https://www.dhinovatech.com/nudge/ms/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/nudge/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/nudge/tr/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/nudge/it/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/nudge/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/nudge/pl/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/nudge/th/">
+  <link rel="alternate" hreflang="fa" href="https://www.dhinovatech.com/nudge/fa/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/nudge/sv/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/nudge/vi/">
+  <link rel="alternate" hreflang="bn" href="https://www.dhinovatech.com/nudge/bn/">
+  <link rel="alternate" hreflang="zh-HK" href="https://www.dhinovatech.com/nudge/yue/">
+  <link rel="alternate" hreflang="tl" href="https://www.dhinovatech.com/nudge/tl/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/nudge/uk/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/nudge/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/nudge/ro/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/nudge/he/">
+  <link rel="alternate" hreflang="el" href="https://www.dhinovatech.com/nudge/el/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/nudge/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/nudge/da/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/nudge/fi/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/nudge/nb/">
+  <link rel="alternate" hreflang="te" href="https://www.dhinovatech.com/nudge/te/">
+  <link rel="alternate" hreflang="mr" href="https://www.dhinovatech.com/nudge/mr/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/nudge/ta/">
+  <link rel="alternate" hreflang="gu" href="https://www.dhinovatech.com/nudge/gu/">
+  <link rel="alternate" hreflang="ur" href="https://www.dhinovatech.com/nudge/ur/">
+  <link rel="alternate" hreflang="pa" href="https://www.dhinovatech.com/nudge/pa/">
+  <link rel="alternate" hreflang="ml" href="https://www.dhinovatech.com/nudge/ml/">
+  <link rel="alternate" hreflang="kn" href="https://www.dhinovatech.com/nudge/kn/">
+  <link rel="alternate" hreflang="jv" href="https://www.dhinovatech.com/nudge/jv/">
+  <link rel="alternate" hreflang="sw" href="https://www.dhinovatech.com/nudge/sw/">
+  <link rel="alternate" hreflang="ha" href="https://www.dhinovatech.com/nudge/ha/">
+  <link rel="alternate" hreflang="yo" href="https://www.dhinovatech.com/nudge/yo/">
+  <link rel="alternate" hreflang="my" href="https://www.dhinovatech.com/nudge/my/">
+  <link rel="alternate" hreflang="am" href="https://www.dhinovatech.com/nudge/am/">
+  <link rel="alternate" hreflang="kk" href="https://www.dhinovatech.com/nudge/kk/">
+  <link rel="alternate" hreflang="sk" href="https://www.dhinovatech.com/nudge/sk/">
+  <link rel="alternate" hreflang="ca" href="https://www.dhinovatech.com/nudge/ca/">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Nudge — Προσωπικό ημερολόγιο εκτός σύνδεσης με τοπικό AI | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta property="og:description" content="Το Nudge είναι ένα οικείο, επιτραπέζιο περιοδικό χωρίς περισπασμούς που έχει δημιουργηθεί εγγενώς για Windows. Ενώνει την απόλυτη ψηφιακή κυριαρχία των τοπικών απλών αρχείων Markdown με την αθόρυβη νοημοσύνη ενός συνοδού τεχνητής νοημοσύνης...">
+  <meta property="og:url" content="https://www.dhinovatech.com/nudge/el/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Nudge offline journal and diary with AI companion icon">
+  <meta property="og:locale" content="el_GR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ms_MY">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="fa_IR">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="bn_IN">
+  <meta property="og:locale:alternate" content="zh_HK">
+  <meta property="og:locale:alternate" content="tl_PH">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="te_IN">
+  <meta property="og:locale:alternate" content="mr_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="gu_IN">
+  <meta property="og:locale:alternate" content="ur_PK">
+  <meta property="og:locale:alternate" content="pa_IN">
+  <meta property="og:locale:alternate" content="ml_IN">
+  <meta property="og:locale:alternate" content="kn_IN">
+  <meta property="og:locale:alternate" content="jv_ID">
+  <meta property="og:locale:alternate" content="sw_KE">
+  <meta property="og:locale:alternate" content="ha_NG">
+  <meta property="og:locale:alternate" content="yo_NG">
+  <meta property="og:locale:alternate" content="my_MM">
+  <meta property="og:locale:alternate" content="am_ET">
+  <meta property="og:locale:alternate" content="kk_KZ">
+  <meta property="og:locale:alternate" content="sk_SK">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nudge — Προσωπικό ημερολόγιο εκτός σύνδεσης με τοπικό AI | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta name="twitter:description" content="Το Nudge είναι ένα οικείο, επιτραπέζιο περιοδικό χωρίς περισπασμούς που έχει δημιουργηθεί εγγενώς για Windows. Ενώνει την απόλυτη ψηφιακή κυριαρχία των τοπικών απλών αρχείων Markdown με την αθόρυβη νοημοσύνη ενός συνοδού τεχνητής νοημοσύνης...">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta name="twitter:image:alt" content="Nudge offline journal and diary with AI companion icon">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.dhinovatech.com/#website","url":"https://www.dhinovatech.com/","name":"Dhinovatech","publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/nudge/el/#app","name":"Nudge — Προσωπικό ημερολόγιο εκτός σύνδεσης με τοπικό AI","applicationCategory":"LifestyleApplication","operatingSystem":"Windows 10, Windows 11","description":"Το Nudge είναι ένα οικείο, επιτραπέζιο περιοδικό χωρίς περισπασμούς που έχει δημιουργηθεί εγγενώς για Windows. Ενώνει την απόλυτη ψηφιακή κυριαρχία των τοπικών απλών αρχείων Markdown με την αθόρυβη νοημοσύνη ενός συνοδού τεχνητής νοημοσύνης...","url":"https://www.dhinovatech.com/nudge/el/","image":"https://www.dhinovatech.com/assets/images/nudge-icon.png","inLanguage":"el","offers":{"@type":"Offer","price":"0.99","priceCurrency":"USD","url":"https://apps.microsoft.com/detail/9MV92P7RLDGB","availability":"https://schema.org/InStock","seller":{"@id":"https://www.dhinovatech.com/#organization"}},"publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Nudge Offline Journal","item":"https://www.dhinovatech.com/nudge/"},{"@type":"ListItem","position":3,"name":"Nudge (el)","item":"https://www.dhinovatech.com/nudge/el/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/nudge/el/#faq","inLanguage":"el","mainEntity":[{"@type":"Question","name":"Τι κάνει το Nudge διαφορετικό από κάθε άλλη εφαρμογή ημερολογίου;","acceptedAnswer":{"@type":"Answer","text":"Το Nudge συνδυάζει δύο θεμελιώδεις αρχές: 100% τοπική κυριαρχία με διάκενο αέρα (απλά αρχεία Markdown στο δίσκο σας με τηλεμετρία μηδενικού νέφους) και έναν αθόρυβο συνοδευτικό τεχνητής νοημοσύνης στη συσκευή (μοντέλα μικρής γλώσσας που τρέχουν απευθείας στο πυρίτιο του υπολογιστή σας). Αποκτάτε τα οφέλη του έξυπνου προβληματισμού και των αναλυτικών στοιχείων χωρίς να θυσιάζετε το απόρρητο ή να πληρώνετε επαναλαμβανόμενες συνδρομές."}},{"@type":"Question","name":"Το Nudge δεν συνδέεται πραγματικά ποτέ στο διαδίκτυο;","acceptedAnswer":{"@type":"Answer","text":"Ναί. Μόλις εγκατασταθεί, το Nudge εκτελεί μηδενικά αιτήματα δικτύου χρόνου εκτέλεσης: χωρίς σενάρια παρακολούθησης, χωρίς ρεπόρτερ σφαλμάτων που τηλεφωνούν στο σπίτι και χωρίς αιτήματα απομακρυσμένων γραμματοσειρών. Η μόνη επιτρεπόμενη αλληλεπίδραση δικτύου είναι η προαιρετική, εφάπαξ λήψη των βαρών μοντέλων γλώσσας ανοιχτών βαρών κατά τη διάρκεια της εγκατάστασης, με πρωτοβουλία του χρήστη. Μπορείτε να αποσυνδέσετε το Wi-Fi ή να τρέξετε σε ένα sandbox με διάκενο αέρα με 100% ανέπαφες λειτουργίες."}},{"@type":"Question","name":"Γιατί να αποθηκεύονται καταχωρήσεις ως αρχεία Markdown αντί για βάση δεδομένων;","acceptedAnswer":{"@type":"Answer","text":"Οι βάσεις δεδομένων δημιουργούν ιδιόκτητα σιλό ευάλωτα στη διαφθορά και την εγκατάλειψη. Τα απλά αρχεία κειμένου Markdown (.md) με μπροστινή ύλη YAML είναι άφθαρτα, αναγνώσιμα από τον άνθρωπο και καθολικά προσβάσιμα. Θα είναι ευανάγνωστα σε 50 χρόνια από τώρα και σε οποιοδήποτε σύστημα υπολογιστή και μπορούν να ανοίξουν σε Obsidian, VS Code ή Σημειωματάριο ανά πάσα στιγμή."}},{"@type":"Question","name":"Γιατί το Nudge δεν προσφέρει ενσωματωμένο συγχρονισμό cloud;","acceptedAnswer":{"@type":"Answer","text":"Επειδή ο συγχρονισμός cloud απαιτεί τη φιλοξενία δεδομένων πελατών σε απομακρυσμένους διακομιστές, την εισαγωγή τρωτών σημείων ασφαλείας και επαναλαμβανόμενες χρεώσεις. Επειδή το Nudge αποθηκεύει το ημερολόγιό σας ως έναν συνηθισμένο φάκελο στον σκληρό σας δίσκο, μπορείτε να το συγχρονίσετε χρησιμοποιώντας τα δικά σας αξιόπιστα, κρυπτογραφημένα από άκρο σε άκρο εργαλεία—όπως το OneDrive, το Dropbox, το Syncthing ή το Nextcloud."}},{"@type":"Question","name":"Πώς μπορεί ένας σύντροφος AI να τρέξει τοπικά χωρίς να στείλει δεδομένα στο OpenAI ή στην Google;","acceptedAnswer":{"@type":"Answer","text":"Οι πρόσφατες ανακαλύψεις σε μοντέλα κβαντισμένων μικρών γλωσσών (όπως το Google Gemma και το Microsoft Phi) επιτρέπουν σε ικανά μοντέλα να εκτελούνται απευθείας σε καταναλωτικό υλικό υπολογιστών μέσω του ONNX Runtime GenAI και του LlamaSharp. Ο υπολογισμός γίνεται αυστηρά στη φυσική σας CPU, GPU ή NPU. Ούτε ένα διακριτικό δεν μεταδίδεται στο διαδίκτυο."}},{"@type":"Question","name":"Μπορώ να χρησιμοποιήσω το Nudge χωρίς λήψη ή χρήση λειτουργιών AI;","acceptedAnswer":{"@type":"Answer","text":"Απολύτως. Ο τοπικός σύντροφος AI είναι εντελώς προαιρετικός. Μπορείτε να παραλείψετε τη λήψη του μοντέλου κατά τη ρύθμιση. Το Nudge λειτουργεί άψογα ως ένα εξαιρετικά γρήγορο, χωρίς περισπασμούς ημερολόγιο απλού κειμένου με επιμελημένα ντετερμινιστικά αντανακλαστικά μηνύματα."}},{"@type":"Question","name":"Η τεχνητή νοημοσύνη με αξιολογεί ή προσφέρει ψυχολογικές συμβουλές;","acceptedAnswer":{"@type":"Answer","text":"Ποτέ. Οι έξοδοι τεχνητής νοημοσύνης του Nudge περιορίζονται αυστηρά από τις γραμματικές του GBNF και τις προτροπές ηθικού συστήματος. Δεν θα σας πει ποτέ τι πρέπει να κάνετε, να προσφέρετε ερασιτεχνική θεραπεία ή να αξιολογήσετε τον χαρακτήρα σας. Λειτουργεί καθαρά ως διανοητικός καθρέφτης, αντικατοπτρίζοντας τις σκέψεις σας και θέτοντας διευκρινιστικές ερωτήσεις."}},{"@type":"Question","name":"Ποιες είναι οι τρεις «Στιγμές Αντανάκλασης»;","acceptedAnswer":{"@type":"Answer","text":"1. The Starter: μια στοχαστική ερώτηση που εμφανίζεται στην κενή σελίδα πριν γράψετε. 2. The Inline Nudge: μια ανεπαίσθητη ερώτηση που αιωρείται κάτω από τον κέρσορα μόνο όταν διακόπτετε την πληκτρολόγηση για τουλάχιστον 6 δευτερόλεπτα αφού γράψετε 40 λέξεις. 3. The Deepen: 2–3 επακόλουθες ερωτήσεις που προσφέρονται κατά την ολοκλήρωση μιας καταχώρισης, προσαρτημένες καθαρά ως υποκεφαλίδες Markdown."}},{"@type":"Question","name":"Πώς λειτουργεί το «Ask Your Journal»; Έχει παραισθήσεις;","acceptedAnswer":{"@type":"Answer","text":"Το Nudge χρησιμοποιεί το τοπικό του ανεστραμμένο ευρετήριο BM25 για να ανακτήσει σχετικές προηγούμενες εγγραφές και το τοπικό SLM συνθέτει μια άμεση απάντηση με υποχρεωτικούς συνδέσμους παραπομπών με δυνατότητα κλικ. Εάν δεν υπάρχουν σχετικές καταχωρήσεις, το μοντέλο περιορίζεται αυστηρά να δηλώσει: «Δεν μπόρεσα να βρω τίποτα στο ημερολόγιό σας σχετικά με αυτό»—μπλοκάροντας μαθηματικά την κατασκευή μνήμης."}},{"@type":"Question","name":"Πώς μπορώ να δημιουργήσω αντίγραφα ασφαλείας του ημερολογίου μου;","acceptedAnswer":{"@type":"Answer","text":"Η δημιουργία αντιγράφων ασφαλείας είναι τόσο απλή όσο η αντιγραφή ενός φακέλου. Πλοηγηθείτε στον κατάλογο του ημερολογίου σας (από προεπιλογή Documents/Nudge) και αντιγράψτε τον σε μια εξωτερική μονάδα δίσκου, USB stick ή εφεδρική μονάδα. Κάθε καταχώρηση, προσχέδιο, ετικέτα και ρύθμιση περιέχεται σε αυτόν τον φάκελο."}},{"@type":"Question","name":"Τι συμβαίνει εάν ο υπολογιστής μου κολλήσει ενώ πληκτρολογώ;","acceptedAnswer":{"@type":"Answer","text":"Κάθε πάτημα πλήκτρων αποθηκεύεται σε ένα πρόχειρο γρήγορης ανάκτησης (.draft.md) κάθε 500 χιλιοστά του δευτερολέπτου. Εάν διακοπεί απότομα η τροφοδοσία, το μη δεσμευμένο κείμενό σας αποκαθίσταται αμέσως μετά την επανεκκίνηση. Οι πλήρεις αποθηκεύσεις χρησιμοποιούν λειτουργίες αντικατάστασης ατομικού συστήματος αρχείων για την εξάλειψη της διαφθοράς."}},{"@type":"Question","name":"Μπορώ να εισάγω το υπάρχον ημερολόγιό μου από το Day One, το Journey ή το Obsidian;","acceptedAnswer":{"@type":"Answer","text":"Ναί! Το Nudge περιλαμβάνει εγγενείς, ενσωματωμένους μηχανισμούς εισαγωγής για εξαγωγές JSON της πρώτης ημέρας, θησαυροφυλάκια Journey, Diarium, Obsidian / Markdown και τυπικά αρχεία CSV με πλήρη διατήρηση μεταδεδομένων."}},{"@type":"Question","name":"Πώς λειτουργεί το βιομετρικό κλείδωμα των Windows Hello;","acceptedAnswer":{"@type":"Answer","text":"Το Nudge ενσωματώνεται με εγγενή Windows Hello API. Ξεκλειδώστε το ημερολόγιό σας με Αναγνώριση Προσώπου, Αισθητήρες δακτυλικών αποτυπωμάτων ή το PIN των Windows. Ο βιομετρικός έλεγχος ταυτότητας λειτουργεί 100% εκτός σύνδεσης χωρίς να επικοινωνεί με εξωτερικούς παρόχους ταυτότητας."}},{"@type":"Question","name":"Μπορώ να κρυπτογραφήσω τα αρχεία ημερολογίου μου στο δίσκο;","acceptedAnswer":{"@type":"Answer","text":"Ναί. Το Nudge προσφέρει προαιρετική κρυπτογράφηση τοπικού συστήματος αρχείων χρησιμοποιώντας AES-256-GCM στρατιωτικής ποιότητας που προέρχεται με κατακερματισμό κωδικού πρόσβασης Argon2id. Τα αρχεία σας είναι κρυπτογραφημένα σε κατάσταση ηρεμίας με μηδενικές κερκόπορτες ή εταιρική μεσεγγύηση ανάκτησης."}},{"@type":"Question","name":"Γιατί το Nudge δεν εμφανίζει κόκκινους αριθμούς όταν χάνω μια μέρα;","acceptedAnswer":{"@type":"Answer","text":"Γιατί η ενοχή είναι ένα επιβλαβές κίνητρο για ενδοσκόπηση. Η πραγματική ζωή περιλαμβάνει ασθένειες, ταξίδια και ξεκούραση. Το Nudge ενσωματώνει τις αυτόματες ημέρες χάριτος σε σερί, αποφεύγει τους κόκκινους δείκτες ποινής και γιορτάζει ενεργά το ποσοστό απόδοσης."}},{"@type":"Question","name":"Ποια είναι τα 11 θέματα ζωής;","acceptedAnswer":{"@type":"Answer","text":"Οι συμμετοχές ταξινομούνται σε 11 κλειδωμένες ανθρώπινες διαστάσεις: Εργασία, Σχέσεις, Οικογένεια, Υγεία, Χρήματα, Ταυτότητα, Δημιουργικότητα, Μάθηση, Ταξίδια, Καθημερινά και Σχέδια. Οπτικοποιήθηκε σε διανυσματικά ThemeWheels για να αποκαλύψει πώς οι ισορροπίες της ζωής σας αλλάζουν μεταξύ των εποχών."}},{"@type":"Question","name":"Γιατί αναφέρετε τον μέσο αριθμό λέξεων αντί για τους μέσους όρους;","acceptedAnswer":{"@type":"Answer","text":"Τα αριθμητικά μέσα παραμορφώνονται από περιστασιακά μακροσκελή δοκίμια. Εάν γράψετε πέντε καταχωρήσεις 100 λέξεων και μία καταχώρηση 3.000 λέξεων, ο μέσος όρος σας είναι 583 λέξεις. Η στατιστική διάμεσος αντικατοπτρίζει με ακρίβεια την τυπική γραμμή βάσης της περιόδου σύνδεσης."}},{"@type":"Question","name":"Πόσο κοστίζει το Nudge;","acceptedAnswer":{"@type":"Answer","text":"Το Nudge είναι μια εφάπαξ αγορά 0,99 $ USD με αυτόματη τιμολόγηση τοπικής ισοτιμίας αγορών στο Microsoft Store. Μηδενικές συνδρομές, μηδενικά επίπεδα χαρακτηριστικών, μηδενικές διαφημίσεις."}},{"@type":"Question","name":"Τι συμβαίνει όταν λήξει η δοκιμαστική περίοδος των 15 ημερών;","acceptedAnswer":{"@type":"Answer","text":"Η ώθηση μεταβαίνει σε μόνιμη λειτουργία αρχειοθέτησης μόνο για ανάγνωση. Μπορείτε να κάνετε αναζήτηση με το BM25, να διαβάσετε το χρονοδιάγραμμά σας και να κάνετε εξαγωγή σε Markdown ή PDF για πάντα. Επειδή οι καταχωρίσεις σας είναι απλά Markdown στο φάκελο Documents, μπορείτε πάντα να τις ανοίξετε και να τις επεξεργαστείτε σε οποιοδήποτε πρόγραμμα επεξεργασίας κειμένου."}},{"@type":"Question","name":"Μπορώ να εγκαταστήσω το Nudge σε πολλούς υπολογιστές με Windows με μία αγορά;","acceptedAnswer":{"@type":"Answer","text":"Ναί. Σύμφωνα με την τυπική αδειοδότηση του Microsoft Store, μια μεμονωμένη προσωπική άδεια επιτρέπει την εγκατάσταση σε συμβατές προσωπικές συσκευές Windows 10 και 11 που είναι συνδεδεμένες με τον λογαριασμό σας Microsoft."}},{"@type":"Question","name":"Το Nudge υποστηρίζει συσκευές ARM64 όπως υπολογιστές Copilot+;","acceptedAnswer":{"@type":"Answer","text":"Ναί! Το Nudge έχει μεταγλωττιστεί εγγενώς τόσο για x64 όσο και για ARM64, τρέχοντας με υψηλή απόδοση μπαταρίας και νευρική επιτάχυνση NPU στη συσκευή σε υπολογιστές Snapdragon X Elite και Snapdragon X Plus Copilot+."}},{"@type":"Question","name":"Τι συμβαίνει εάν ένας έλεγχος άδειας χρήσης εκτός σύνδεσης αποτύχει ενώ είμαι εκτός δικτύου;","acceptedAnswer":{"@type":"Answer","text":"Σύμφωνα με την Πολιτική μας Fail-Open, το Nudge αποτυγχάνει να ανοίξει και παρέχει πλήρη πρόσβαση εάν ο έλεγχος επαλήθευσης άδειας λήξει ή δεν μπορεί να φτάσει στην προσωρινή μνήμη του Store. Ποτέ δεν θα κλειδωθείτε έξω από το ημερολόγιό σας."}},{"@type":"Question","name":"Πού μπορώ να λάβω υποστήριξη ή να αναφέρω ένα πρόβλημα;","acceptedAnswer":{"@type":"Answer","text":"Μπορείτε να επικοινωνήσετε με την ομάδα μηχανικών μας απευθείας στη διεύθυνση support@dhinovatech.com. Επειδή συλλέγουμε μηδενική τηλεμετρία απομακρυσμένων σφαλμάτων, μπορείτε να μοιραστείτε το τοπικό σας αρχείο crash.log για άμεση επίλυση."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Μετάβαση στο κύριο περιεχόμενο</a>
+<nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
+                  <span><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 51 Languages">51 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/el/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Ελληνικά (Greek)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/el/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Αποκτήστε το στο Microsoft Store
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main id="main">
+  <!-- Hero Section -->
+  <section class="py-5 overflow-hidden" id="hero">
+    <div class="container py-4">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Native WinUI 3 για Windows 10 &amp; 11 • x64 &amp; ARM64 Copilot+ PC
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3">
+            Nudge — Προσωπικό ημερολόγιο εκτός σύνδεσης με τοπικό AI
+          </h1>
+          <p class="fs-4 text-warning fw-semibold mb-3">
+            "Οι σκέψεις σας ανήκουν σε εσάς — όχι στο cloud."
+          </p>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
+            Το Nudge είναι ένα οικείο, επιτραπέζιο περιοδικό χωρίς περισπασμούς που έχει δημιουργηθεί εγγενώς για Windows. Ενώνει την απόλυτη ψηφιακή κυριαρχία των τοπικών απλών αρχείων Markdown με την αθόρυβη νοημοσύνη ενός συνοδού τεχνητής νοημοσύνης στη συσκευή που δεν συνδέεται ποτέ στο διαδίκτυο. Χωρίς επαναλαμβανόμενες συνδρομές, χωρίς τηλεμετρία, χωρίς παρακολούθηση και χωρίς κλείδωμα στο cloud.
+          </p>
+          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
+            Σε μια εποχή όπου το προσωπικό λογισμικό έχει μετατραπεί σε αγωγό επιτήρησης, το Nudge αντιπροσωπεύει μια σκόπιμη, βασισμένη στις αρχές επιστροφή στις πρώτες αρχές. Κάθε σκέψη, πρόταση και σχέδιο που γράφετε ζει αυστηρά στον προσωπικό σας υπολογιστή ως τυπικά, αναγνώσιμα από τον άνθρωπο αρχεία Markdown (.md) που συνοδεύονται από καθαρό μπροστινό υλικό YAML. Χωρίς ιδιόκτητες σταγόνες, χωρίς εύθραυστες βάσεις δεδομένων.
+          </p>
+
+          <!-- Badges Grid -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>100% Εκτός σύνδεσης / Air-Gapped</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>Τοπικό AI στη συσκευή (Χωρίς cloud)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>Απλό Markdown (.md)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>Μηδενική τηλεμετρία</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>Βιομετρικά Windows Hello</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>0,99 $ Εφάπαξ αγορά</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Αγοράστε μία φορά — 0,99 $ για πάντα
+            </a>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
+              <i class="bi bi-download fs-5" aria-hidden="true"></i> Δωρεάν δοκιμή 15 ημερών
+            </a>
+            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
+              Αρχιτεκτονική &amp; Προδιαγραφές <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+          <div class="position-relative d-inline-block">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
+            <img src="/assets/images/nudge-icon.webp" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three Pillars -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
+        </span>
+        <h2 class="display-5 fw-bold text-white">Οι τρεις αναλλοίωτοι πυλώνες του Nudge</h2>
+        <p class="text-secondary fs-5">Τα αρχιτεκτονικά μας αμετάβλητα: πλήρης ιδιωτικότητα εκτός σύνδεσης, ήσυχος προβληματισμός και ανθρώπινη συμπόνια.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 1</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Απόλυτη κυριαρχία εκτός σύνδεσης</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Η προστασία προσωπικών δεδομένων είναι αρχιτεκτονικός κανόνας. Μηδενικές κλήσεις δικτύου.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 2</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Διακριτικός σύντροφος AI στη συσκευή</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Το AI υπηρετεί την ανθρώπινη περισυλλογή. Τα μοντέλα εκτελούνται τοπικά στο υλικό σας.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 3</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Στατιστικά με κατανόηση, χωρίς ενοχές</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Χωρίς κόκκινες ενδείξεις ποινής: Το Nudge περιλαμβάνει ημέρες χάριτος για τις σειρές γραφής.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="py-5" id="specs">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
+        </span>
+        <h2 class="display-5 fw-bold text-white">Πίνακας Προϊόντος &amp; Τεχνικές Προδιαγραφές</h2>
+        <p class="text-secondary fs-5">Αυστηρές αρχιτεκτονικές εγγυήσεις σχεδιασμένες για μακροζωία 50 ετών και απόδοση κάτω των 150 ms.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col" style="width: 22%;">Διάσταση</th>
+                <th scope="col" style="width: 28%;" class="text-warning fw-bold">Προσδιορισμός</th>
+                <th scope="col" style="width: 50%;">Αρχιτεκτονικές Εγγυήσεις</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Λειτουργικό σύστημα</td>
+                <td class="text-warning small align-middle fw-medium">Windows 10 / Windows 11</td>
+                <td class="text-secondary small align-middle">Εγγενής κατασκευή σε σύγχρονο WinUI 3 και Windows App SDK. Πλήρης υποστήριξη Mica &amp; Acrylic.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Καθαρότητα χρόνου εκτέλεσης</td>
+                <td class="text-warning small align-middle fw-medium">100% Air-Gapped εκτός σύνδεσης</td>
+                <td class="text-secondary small align-middle">Μηδενικές κλήσεις δικτύου κατά το χρόνο εκτέλεσης. μηδενική τηλεμετρία φόντου, φάροι σφαλμάτων ή απομακρυσμένες φορτώσεις γραμματοσειρών.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Αρχιτεκτονική αποθήκευσης</td>
+                <td class="text-warning small align-middle fw-medium">Σημείωση συστήματος αρχείων (.md)</td>
+                <td class="text-secondary small align-middle">Πρωτόκολλο ατομικής εγγραφής; αναγνώσιμη από τον άνθρωπο μπροστινή ύλη YAML. μηδενικό ιδιόκτητο επίπεδο βάσης δεδομένων.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Μηχανή Αναζήτησης</td>
+                <td class="text-warning small align-middle fw-medium">Τοπική μνήμη BM25</td>
+                <td class="text-secondary small align-middle">Ανάκτηση πλήρους κειμένου κάτω από 150 ms σε 10.000+ καταχωρήσεις με πρόθεμα και μορφολογική επέκταση.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion Runtime</td>
+                <td class="text-warning small align-middle fw-medium">SLM στη συσκευή (DirectML / CPU / NPU)</td>
+                <td class="text-secondary small align-middle">Τοπικό συμπέρασμα μέσω ONNX Runtime GenAI &amp; LlamaSharp; μηδέν διακριτικά που αποστέλλονται σε εξωτερικούς διακομιστές.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Εκκίνηση απόδοσης</td>
+                <td class="text-warning small align-middle fw-medium">&lt; 1,5 δευτερόλεπτα στο Caret</td>
+                <td class="text-secondary small align-middle">Ψυχρή εκτόξευση απευθείας στην ενεργή επιφάνεια πληκτρολόγησης. φόρτωση ευρετηρίου φόντου και τεμπέλικα βάρη AI.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Ασφάλεια &amp; Κλείδωμα</td>
+                <td class="text-warning small align-middle fw-medium">Windows Hello Biometrics</td>
+                <td class="text-secondary small align-middle">Αναγνώριση προσώπου, αισθητήρας δακτυλικών αποτυπωμάτων, PIN; προαιρετική κρυπτογράφηση συστήματος αρχείων AES-256-GCM με Argon2id.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Συγγραφική Εμπειρία</td>
+                <td class="text-warning small align-middle fw-medium">Βαθιά εργασία χωρίς περισπασμούς</td>
+                <td class="text-secondary small align-middle">Εστίαση πλήρους οθόνης F11, κύλιση σε γραφομηχανή, εστίαση παραγράφου με φωτεινότητα, προσαρμοσμένη τυπογραφία.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Παγκόσμια πρόσβαση</td>
+                <td class="text-warning small align-middle fw-medium">Επικάλυψη Quick-Capture</td>
+                <td class="text-secondary small align-middle">Το παγκόσμιο πλήκτρο πρόσβασης (Win+Alt+N) εμφανίζει μια ελαφριά επιφάνεια λήψης σημειώσεων σε λιγότερο από 200 ms.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Πολύγλωσσος κινητήρας</td>
+                <td class="text-warning small align-middle fw-medium">50+ τοπικές αποστολές εγγενώς</td>
+                <td class="text-secondary small align-middle">Μηχανή πληθυντικού CLDR, ανίχνευση σεναρίων, ευαισθητοποίηση συμπλέγματος γραφημάτων, εγγενής από δεξιά προς τα αριστερά (RTL).</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Διαλειτουργικότητα δεδομένων</td>
+                <td class="text-warning small align-middle fw-medium">Universal Import &amp; Export</td>
+                <td class="text-secondary small align-middle">Imports Day One JSON, Journey, Diarium, Markdown; εξάγει βιβλία PDF, αρχεία ZIP, HTML, EPUB.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Μοντέλο αδειοδότησης</td>
+                <td class="text-warning small align-middle fw-medium">Διαφανές Αγορά-Μία φορά</td>
+                <td class="text-secondary small align-middle">Δωρεάν δοκιμή 15 ημερών χωρίς περιορισμούς. εφάπαξ αγορά 0,99 $ USD εφ&#x27; όρου ζωής. μηδενικές συνδρομές? εγγύηση ανοιχτής αστοχίας.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Manifesto -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
+        </span>
+        <h2 class="display-5 fw-bold text-white">The Manifesto: Why We Built Nudge</h2>
+        <p class="text-secondary fs-5">Η κρίση των σύγχρονων περιοδικών cloud, το δικαίωμα στην επιστημική ιδιωτικότητα και το 50-Year Test.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">The Crisis of the Modern Journal</h3>
+            <p class="text-secondary small mb-0 lh-base">Τα τελευταία δεκαπέντε χρόνια, η μετάβαση από τον τοπικό προσωπικό υπολογιστή στο κεντρικό SaaS έχει μετατρέψει τα ιδιωτικά ημερολόγια σε αγωγούς επιτήρησης: βάσεις δεδομένων cloud προσβάσιμες σε μηχανικούς τρίτων, προσωπικές εξομολογήσεις συσκευασμένες σε ωφέλιμα φορτία JSON για απομακρυσμένα API AI, μηνιαία τοιχώματα πληρωμής που κρατούν όμηρες προσωπικές αναμνήσεις ή επώδυνες μεταναστεύσεις.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Η Αρχή της Επιστημικής Ιδιωτικότητας</h3>
+            <p class="text-secondary small mb-0 lh-base">Πιστεύουμε ότι ο ιδιωτικός εσωτερικός διάλογος ενός ατόμου αντιπροσωπεύει τον ιερό πυρήνα της ανθρώπινης συνείδησης. Η επιστημική ιδιωτικότητα είναι η ελευθερία να εξερευνάς μισοσχηματισμένες ιδέες, να εκφράζεις δύσκολα συναισθήματα, να αμφισβητείς τις πεποιθήσεις και να τεκμηριώνεις τη ζωή χωρίς την ανατριχιαστική επίδραση της εξωτερικής παρατήρησης. Η μόνη αληθινή εγγύηση απορρήτου είναι η φυσική και αρχιτεκτονική αδυναμία: εάν μια εφαρμογή δεν έχει δικαιώματα δικτύου, δεν μπορεί να διαρρεύσει το ημερολόγιό σας.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Η Αρχή της Ψηφιακής Μακροζωίας: Η δοκιμή 50 ετών</h3>
+            <p class="text-secondary small mb-0 lh-base">Θα μπορείτε εσείς ή τα παιδιά σας να διαβάζετε το σημερινό λήμμα σε πενήντα χρόνια από τώρα; Οι ιδιόκτητοι επεξεργαστές κειμένου και οι μορφές κλειστών βάσεων δεδομένων του παρελθόντος είναι πλέον απρόσιτα ψηφιακά συντρίμμια. Το απλό κείμενο στο UTF-8 Markdown είναι αιώνιο. Θα παραμείνει άμεσα αναγνώσιμο το 2076 σε οποιαδήποτε υπολογιστική πλατφόρμα εφεύρει η ανθρωπότητα.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-Cloud Architecture -->
+  <section class="py-5" id="architecture">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">Core Architecture: The Zero-Cloud Technical Blueprint</h2>
+        <p class="text-secondary fs-5">Ανατομία μιας καταχώρισης, ασφάλεια ατομικής εγγραφής και κρυφές μνήμες ευρετηρίου μιας χρήσης.</p>
+      </div>
+
+      <div class="row g-4 align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>Το σύστημα αρχείων ως βάση δεδομένων: Ανατομία μιας καταχώρισης</h3>
+            <p class="text-secondary small mb-3 lh-base">Το Nudge εξαλείφει εντελώς το επίπεδο βάσης δεδομένων. Οι καταχωρήσεις αποθηκεύονται ως μεμονωμένα αρχεία Markdown οργανωμένα χρονολογικά ανά έτος και μήνα. Τα ονόματα αρχείων χρησιμοποιούν το ULID (Universally Unique Lexicographically Sortable Identifier) ​​διασφαλίζοντας ακρίβεια χιλιοστών του δευτερολέπτου, χρονολογική σειρά και συγχρονισμό χωρίς σύγκρουση.</p>
+            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
+              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
+              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
+└── 2026/
+    └── 03-March/
+        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
+        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
+              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
+            </div>
+            <div class="nudge-code-box">---
+id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
+date: 2026-03-15T19:42:10+05:30
+language: en
+title: Walking Through the Rain in Spring
+themes:
+  - everyday
+  - creativity
+mood: 4
+weather: overcast
+tags:
+  - rain
+  - reflection
+content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+---
+
+# Walking Through the Rain in Spring
+
+The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
+I realized today that the friction I&#x27;ve been feeling isn&#x27;t a lack of inspiration; it&#x27;s a surplus of noise.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>Atomic Writes, Draft Debouncing &amp; Conflict Safety</h3>
+            <p class="text-secondary small mb-0 lh-base">Κάθε πάτημα πλήκτρων αποσπάται σε ένα αρχείο .draft.md κάθε 500ms για άμεση ανάκτηση σφαλμάτων. Πλήρης αποθήκευση εγγραφής σε προσωρινά sidecars (.tmp) πριν από την αντικατάσταση ατομικού συστήματος αρχείων. Ένα FileSystemWatcher που δεν αναπηδά εντοπίζει εξωτερικές επεξεργασίες από το Obsidian ή τον κώδικα VS και διαχωρίζει ταυτόχρονες επεξεργασίες σε ασφαλή αρχεία αδελφών (.conflict.md) χωρίς απώλεια δεδομένων.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>Υπό-150ms In-Memory BM25 &amp; Μνήμη μιας χρήσης</h3>
+            <p class="text-secondary small mb-0 lh-base">Οι αναζητήσεις συμπληρώνονται σε πραγματικό χρόνο σε 10.000+ καταχωρήσεις χρησιμοποιώντας έναν ανεστραμμένο ευρετήριο στη μνήμη και τη βαθμολογία συνάφειας BM25 με αναδίπλωση με τουρκική επίγνωση και ευαισθησία στα γραφήματα. Το στιγμιότυπο .cache/index.bin φορτώνει ψυχρές εκκινήσεις σε &lt;1,5 δευτερόλεπτα. Η διαγραφή του καταλόγου .cache δεν χάνει τίποτα παρά μόνο χρόνο: κάθε μεμονωμένη μέτρηση, βαθμολογία θέματος και ευρετήριο είναι 100% ανακατασκευήσιμα από τα ακατέργαστα αρχεία Markdown.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-Device AI Companion -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100% On-Device SLM
+        </span>
+        <h2 class="display-5 fw-bold text-white">The On-Device AI Companion: Deep-Dive</h2>
+        <p class="text-secondary fs-5">Ένας ήσυχος πνευματικός καθρέφτης που δεν διακόπτει ποτέ, δεν δίνει συμβουλές και λειτουργεί 100% τοπικά.</p>
+      </div>
+
+      <div class="card card-glass p-4 border border-warning-subtle mb-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>Ένας πνευματικός καθρέφτης, όχι ένα chatbot</h3>
+            <p class="text-secondary small mb-0 lh-base">Στο Nudge, είστε ο συγγραφέας. το AI είναι ο καθρέφτης. Ποτέ δεν δίνει αυτόκλητες συμβουλές, ποτέ δεν διαγιγνώσκει ψυχολογικές καταστάσεις, δεν διακόπτει ποτέ τη ροή πληκτρολόγησης και εντοπίζει αυστηρά και απαντά στη φυσική σας γλώσσα και σενάριο.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 1</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Πριν ξεκινήσει η πληκτρολόγηση</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Starter (Κενή σελίδα)</h3>
+              <p class="text-secondary small mb-0 lh-base">Μια αθόρυβη, συμφραζόμενη προτροπή με βάση την ημέρα της εβδομάδας, την ώρα της ημέρας και τις πρόσφατες ετικέτες εισόδου. Εάν η τεχνητή νοημοσύνη είναι εκτός σύνδεσης, το Nudge χρησιμοποιεί μια πλούσια τοπική τράπεζα επιμελημένων στοχαστικών ερωτήσεων. Διαλύει τη στιγμή που ξεκινάτε να πληκτρολογείτε.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 2</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Παύση στη μέση της γραφής (≥40 λέξεις, παύση ≥6 δευτερολέπτων)</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Inline Nudge (ευρετικό 6 δευτερολέπτων)</h3>
+              <p class="text-secondary small mb-0 lh-base">Μια απαλή, ημιδιαφανής ερώτηση που αιωρείται κάτω από την παράγραφο σας μόνο όταν κάνετε παύση για τουλάχιστον 6 δευτερόλεπτα αφού γράψετε τουλάχιστον 40 λέξεις. Παύει κατά τη σύνθεση IME (CJK). Διαλύεται αμέσως στο επόμενο πάτημα του πλήκτρου. Το πολύ 2 ανά συνεδρία.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 3</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Κατά τη σύναψη μιας καταχώρισης</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Deepen (Μετά την είσοδο)</h3>
+              <p class="text-secondary small mb-0 lh-base">Δύο ή τρεις στοχαστικές επακόλουθες ερωτήσεις που εξετάζουν συναισθηματικό υποκείμενο ή ανεξερεύνητες υποθέσεις. Πατώντας προστίθεται μια καθαρή υποεπικεφαλίδα Markdown (### Παρακολούθηση) απευθείας στο κείμενό σας με τον κέρσορα έτοιμο από κάτω.</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>Εκτός σύνδεσης Κυριακή Εβδομαδιαία Ανακεφαλαίωση</h3>
+            <p class="text-secondary small mb-0 lh-base">Κάθε Κυριακή, η τεχνητή νοημοσύνη στη συσκευή συνθέτει μια όμορφη, δομημένη ενημέρωση της εβδομάδας σας: την κεντρική αφήγηση, τα επαναλαμβανόμενα νήματα, τις συναισθηματικές αλλαγές και δύο μελλοντικές ερωτήσεις για την εβδομάδα που ακολουθεί. Όλα συντίθενται σε τοπικό πυρίτιο χωρίς να φεύγει ούτε ένα byte από τον υπολογιστή σας.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>&quot;Ask Your Journal&quot;: Αναφορά φυσικής γλώσσας</h3>
+            <p class="text-secondary small mb-0 lh-base">Κάντε εννοιολογικές ερωτήσεις όπως &quot;Πότε σκέφτηκα για πρώτη φορά να αλλάξω καριέρα;&quot; Το Nudge ανακτά σχετικές εγγραφές με το BM25 και το τοπικό SLM συνθέτει μια συνεκτική απάντηση με υποχρεωτικούς συνδέσμους παραπομπών με δυνατότητα κλικ. Εάν δεν βρεθεί τίποτα, δηλώνει &quot;Δεν μπόρεσα να βρω τίποτα στο ημερολόγιό σας σχετικά με αυτό&quot; - μαθηματικά περιορισμένος έναντι των παραισθήσεων.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shame-Free Metrics -->
+  <section class="py-5" id="metrics">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
+        </span>
+        <h2 class="display-5 fw-bold text-white">The Mindful Psychology of Metrics: No Guilt, No Shame</h2>
+        <p class="text-secondary fs-5">Συνήθειες που μετρώνται με την ανθρώπινη ενσυναίσθηση και όχι με τοξική παιχνιδοποίηση.</p>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Ραβδώσεις με ενσωματωμένα Grace Days</h3>
+            <p class="text-secondary small mb-0 lh-base">Η ζωή γίνεται. Η απώλεια μιας ημέρας δεν πρέπει να προκαλεί ντροπή ή επαναφορά μηνών αφοσίωσης. Το Nudge ενσωματώνει αυτόματες ημέρες χάριτος: η παράλειψη μιας ημέρας διατηρεί την ορμή σας. Η βάση κωδίκων μας περιλαμβάνει μια δοκιμή μονάδας που διασφαλίζει ότι οι μετρήσεις «χαμένων ημερών» ή ποινών δεν μπορούν ποτέ να αποδοθούν με κόκκινο χρώμα.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Εορτασμός της επιστροφής-μετά-διάλειμμα</h3>
+            <p class="text-secondary small mb-0 lh-base">Αντί να τιμωρεί τις απουσίες, το Nudge παρακολουθεί το ποσοστό επιστροφής — γιορτάζοντας την ανθεκτικότητα της επιστροφής στη σελίδα αφού η ζωή σας απομακρύνει.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Διάμεσος εναντίον Μέσου: Τίμιος Όγκος Γραφής</h3>
+            <p class="text-secondary small mb-0 lh-base">Οι παραδοσιακοί μέσοι όροι παραμορφώνονται από σπάνιες μακροσκελείς καταχωρήσεις. Το Nudge χρησιμοποιεί τη στατιστική διάμεσο για να αναπαραστήσει την πραγματική τυπική συνεδρία σας, χωρίς παραμόρφωση.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glass p-4 border border-secondary-subtle">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <h3 class="h5 text-white fw-bold mb-2">The 11 Locked Life Themes &amp; ThemeWheels</h3>
+            <p class="text-secondary small mb-0 lh-base">Οι συμμετοχές ταξινομούνται σε 11 καθολικές, σταθερές ανθρώπινες διαστάσεις: Εργασία, Σχέσεις, Οικογένεια, Υγεία, Χρήματα, Ταυτότητα, Δημιουργικότητα, Μάθηση, Ταξίδια, Καθημερινά και Σχέδια. Οπτικοποιήθηκε σε διανυσματικά γραφήματα ντόνατ για 30 ημέρες, 90 ημέρες, 1 έτος και προβολές όλων των εποχών.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Work</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Relationships</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Family</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Health</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Money</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Identity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Creativity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Learning</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Travel</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Everyday</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Plans</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Work Writing Environment -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
+        </span>
+        <h2 class="display-5 fw-bold text-white">The Writing Environment: Crafted for Deep Work</h2>
+        <p class="text-secondary fs-5">Εν ψυχρώ εκτόξευση Sub-1,5s, εξαιρετική αισθητική γραφικής ύλης και εργονομία χωρίς περισπασμούς.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>Υπο-1,5 Δεύτερη Ψυχρή Εκτόξευση</h3>
+            <p class="text-secondary small mb-0 lh-base">Το Native WinUI 3 και το C# στο .NET διασφαλίζουν ότι κάνοντας κλικ στο Nudge θα μεταβείτε απευθείας σε έναν ενεργό δρομέα που αναβοσβήνει στη σημερινή καταχώριση σε λιγότερο από 1,5 δευτερόλεπτο. Η ευρετηρίαση και η προετοιμασία AI αναβάλλονται σε νήματα φόντου.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>Παλέτα σχεδίασης εκλεκτής γραφικής ύλης</h3>
+            <p class="text-secondary small mb-0 lh-base">Εμπνευσμένο από τη λεπτή βιβλιοδεσία: Μελάνι (τυπογραφία με μελάνι αρχειακού στυλό), Χαρτί (βαριά επιφάνεια επεξεργασίας λινών Ιαπωνικών), Surround (δερματόδετο χρώμιο), Λάμπα (θερμές πινελιές εστίασης), Whisper (μετρήσεις περιθωρίων) και διαχωριστικά γραμμής μαλλιών.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>Λειτουργίες καθηλωτικής εστίασης (F11)</h3>
+            <p class="text-secondary small mb-0 lh-base">Το Full-Screen Immersive Focus (F11) αφαιρεί όλο το χρώμιο. Γραφομηχανή Η κύλιση κεντράρει την ενεργή γραμμή σας κατακόρυφα. Το Dimmed Paragraph Focus εξασθενίζει απαλά το περιφερειακό κείμενο για να φωτίσει μόνο την τρέχουσα σκέψη σας.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>Παγκόσμια γρήγορη λήψη σε &lt; 200 ms</h3>
+            <p class="text-secondary small mb-0 lh-base">Πατήστε Win+Alt+N οπουδήποτε στα Windows. Μια ελαφριά κάρτα επιπλέει αμέσως στην οθόνη σας. Πληκτρολογήστε την πραγματοποίησή σας, πατήστε Ctrl+Enter και προστίθεται με χρονική σήμανση στη σημερινή καθημερινή καταχώριση χωρίς να διακόπτεται η ροή σας.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Biometrics -->
+  <section class="py-5" id="security">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
+        </span>
+        <h2 class="display-5 fw-bold text-white">Ασφάλεια, Βιομετρία &amp; Κυριαρχία Δεδομένων</h2>
+        <p class="text-secondary fs-5">Τοπικά βιομετρικά στοιχεία, προαιρετική κρυπτογράφηση συστήματος αρχείων και καθολική ελευθερία μετανάστευσης.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>Windows Hello Biometrics</h3>
+            <p class="text-secondary small mb-0 lh-base">Ξεκλειδώστε με αναγνώριση προσώπου, αισθητήρα δακτυλικών αποτυπωμάτων ή ασφαλές PIN των Windows. Αυτόματο κλείδωμα με δυνατότητα διαμόρφωσης μετά από 1, 5 ή 15 λεπτά αδράνειας ή όταν ελαχιστοποιείται.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>Προαιρετική τοπική κρυπτογράφηση AES-256-GCM</h3>
+            <p class="text-secondary small mb-0 lh-base">Στρατιωτικής ποιότητας AES-256 σε λειτουργία Galois/Counter που προέρχεται με κατακερματισμό κωδικού πρόσβασης Argon2id. Μηδενικές εταιρικές κερκόπορτες ή κλειδιά μεσεγγύησης.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>Screen-Share Obscuration &amp; Panic Key</h3>
+            <p class="text-secondary small mb-0 lh-base">Η συνάφεια εμφάνισης DWM κρύβει το παράθυρο του Nudge στο ζουμ, τις ομάδες ή τις εγγραφές οθόνης. Πατώντας δύο φορές το Esc ελαχιστοποιεί, διαγράφει τη μνήμη και κλειδώνει.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>Μετανάστευση χωρίς τριβές σε</h3>
+            <p class="text-secondary small mb-0 lh-base">Ενσωματωμένοι εισαγωγείς για τα αρχεία JSON, Journey, Diarium, Obsidian και CSV Day One — διατηρώντας χρονικές σημάνσεις, καιρό και ετικέτες.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>Παγκόσμια Ελευθερία να Απομακρυνθείτε</h3>
+            <p class="text-secondary small mb-0 lh-base">Εξάγετε ολόκληρο το ημερολόγιό σας ανά πάσα στιγμή ως αρχεία Markdown ZIP, εκτυπώσιμα βιβλία PDF Keepsake σε ποιότητα κειμήλιο με κεφαλαία, μεμονωμένα χαρτοφυλάκια HTML ή ηλεκτρονικά βιβλία EPUB.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
+        </span>
+        <h2 class="display-5 fw-bold text-white">Πώς συγκρίνεται το Nudge: Η οριστική μήτρα προϊόντων</h2>
+        <p class="text-secondary fs-5">Σύγκριση Nudge με chatbots Day One, Obsidian, Notion και εμπορικών AI.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Χαρακτηριστικό / Χαρακτηριστικό</th>
+                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>Nudge</th>
+                <th scope="col">Day One</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Notion</th>
+                <th scope="col">AI Chatbots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Μορφή αποθήκευσης</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Plain Markdown (.md)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Ιδιόκτητο Cloud DB</td>
+                <td class="text-secondary small align-middle">Plain Markdown</td>
+                <td class="text-secondary small align-middle">Cloud Database</td>
+                <td class="text-secondary small align-middle">Σύννεφο Εφήμερο</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Εγγενής εφαρμογή Windows</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Ναι (WinUI 3 Native)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Όχι (Web Wrapper)</td>
+                <td class="text-secondary small align-middle">Ναι (ηλεκτρόνιο)</td>
+                <td class="text-secondary small align-middle">Όχι (ηλεκτρόνιο)</td>
+                <td class="text-secondary small align-middle">Ιστός / Εφαρμογή</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Δραστηριότητα δικτύου</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0% Air-Gapped</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Συνεχής συγχρονισμός</td>
+                <td class="text-secondary small align-middle">Εξαρτημένο από πρόσθετο</td>
+                <td class="text-secondary small align-middle">Υποχρεωτικό Cloud</td>
+                <td class="text-secondary small align-middle">100% Cloud API</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">100% Τοπικό στη συσκευή</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Cloud API Pipeline</td>
+                <td class="text-secondary small align-middle">Community Cloud API</td>
+                <td class="text-secondary small align-middle">Cloud AI Sub</td>
+                <td class="text-secondary small align-middle">Εμπορικό μοντέλο</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Λογαριασμός χρήστη</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Κανένα (Μηδενική σύνδεση)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Υποχρεωτικός Λογαριασμός</td>
+                <td class="text-secondary small align-middle">Κανένας</td>
+                <td class="text-secondary small align-middle">Υποχρεωτικός Λογαριασμός</td>
+                <td class="text-secondary small align-middle">Υποχρεωτική Είσοδος</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Cold Launch to Caret</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt; 1,5 δευτερόλεπτα</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">~4-8 δευτερόλεπτα</td>
+                <td class="text-secondary small align-middle">~ 3-6 δευτερόλεπτα</td>
+                <td class="text-secondary small align-middle">~5-12 δευτερόλεπτα</td>
+                <td class="text-secondary small align-middle">Μεταβλητός Ιστός</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Ραβδώσεις χωρίς ντροπή</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Προστασία της Ημέρας Χάριτος</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Άκαμπτος ημερήσιος μετρητής</td>
+                <td class="text-secondary small align-middle">Εξαρτημένο από πρόσθετο</td>
+                <td class="text-secondary small align-middle">Κανένας</td>
+                <td class="text-secondary small align-middle">Κανένας</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Απόδοση αναζήτησης</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt;150ms Τοπικό BM25</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Εξαρτάται από τον διακομιστή</td>
+                <td class="text-secondary small align-middle">Γρήγορο Τοπικό</td>
+                <td class="text-secondary small align-middle">Καθυστέρηση διακομιστή</td>
+                <td class="text-secondary small align-middle">Αναζήτηση Εφήμερο</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Βιομετρικό κλείδωμα</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Windows Hello Native</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">PIN / Cloud Pass</td>
+                <td class="text-secondary small align-middle">Πρόσθετο τρίτου μέρους</td>
+                <td class="text-secondary small align-middle">Κανένας</td>
+                <td class="text-secondary small align-middle">Κανένας</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Μοντέλο τιμολόγησης</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0,99 $ Εφάπαξ Αγορά</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">34,99 $ / Έτος Υπ</td>
+                <td class="text-secondary small align-middle">Δωρεάν / Συγχρονισμός υπο</td>
+                <td class="text-secondary small align-middle">$10+ / Μήνας Υπ</td>
+                <td class="text-secondary small align-middle">Δωρεάν / 20 $ Υπ</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Κλείδωμα πωλητή</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Μηδέν (Άνοιγμα αρχείων)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Υψηλό (Εξαγωγική ταλαιπωρία)</td>
+                <td class="text-secondary small align-middle">Μηδέν</td>
+                <td class="text-secondary small align-middle">Συνολικό κλείδωμα</td>
+                <td class="text-secondary small align-middle">Συνολικό κλείδωμα</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Workflows -->
+  <section class="py-5" id="workflows">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
+        </span>
+        <h2 class="display-5 fw-bold text-white">Πέντε κύριες καθημερινές ροές εργασίας</h2>
+        <p class="text-secondary fs-5">Πώς συγγραφείς, νομάδες και βαθύς στοχαστές ενσωματώνουν το Nudge στους καθημερινούς τους ρυθμούς.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 1</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>07:00 π.μ. • 7–10 λεπτά</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">The Morning Clarity Ritual</h3>
+            <p class="text-secondary small mb-0 lh-base">Cold launch Nudge (&lt;1,5s). Αναλογιστείτε τη συμφραζόμενη προτροπή εκκίνησης AI. Γράψτε 200–400 λέξεις πνευματικής κάθαρσης ροής της συνείδησης, αποτυπώστε ζωντανά όνειρα και ορίστε δύο θεμελιωμένες συναισθηματικές προθέσεις για την ημέρα.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 2</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>21:30 • 12 Λεπτά</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Η βραδινή αποσυμπίεση</h3>
+            <p class="text-secondary small mb-0 lh-base">Πατήστε F11 για εστίαση σε πλήρη οθόνη σε λειτουργία ζεστού σκούρου άνθρακα. Απαλλαγή από το γνωστικό φορτίο από δύσκολες συναντήσεις. Μια απαλή ενσωματωμένη ώθηση προτρέπει: &quot;Ποιο μέρος ήταν στον έλεγχό σας;&quot; Ολοκληρώστε με επακόλουθες προτροπές εμβάθυνσης.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 3</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Κυριακή βράδυ • 15 Λεπτά</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Η Κυριακάτικη Στρατηγική Σύνθεση</h3>
+            <p class="text-secondary small mb-0 lh-base">Εξετάστε την εβδομαδιαία ενημέρωση που δημιουργήθηκε από την τεχνητή νοημοσύνη. Εξετάστε το ThemeWheel 30 ημερών για να παρατηρήσετε εάν οι δημιουργικοί προβληματισμοί συρρικνώθηκαν ενώ επεκτάθηκε η εργασία. Ευθυγραμμίστε εκ νέου τις προτεραιότητες και θέστε μακροπρόθεσμες προθέσεις για τη Δευτέρα.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 4</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>35.000 πόδια • Σε λειτουργία πτήσης/αεροπλάνου</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">The Off-Grid Nomad</h3>
+            <p class="text-secondary small mb-0 lh-base">100% λειτουργικότητα εκτός σύνδεσης με μηδενικά σφάλματα συνδεσιμότητας. Το SLM της συσκευής δημιουργεί προτροπές και ανακεφαλαιώνει. Σύρετε το φάκελο ημερολογίου σε μια κρυπτογραφημένη μονάδα flash για ένα άμεσο φυσικό αντίγραφο ασφαλείας.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 5</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Καθ&#x27; όλη τη διάρκεια της εργάσιμης ημέρας • Instant</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Το Creative &amp; Academic Scratchpad</h3>
+            <p class="text-secondary small mb-0 lh-base">Πατήστε Win+Alt+N για να ενεργοποιήσετε την παγκόσμια γρήγορη λήψη σε &lt;200ms κατά τη διάρκεια της βαθιάς εργασίας. Οι σημειώσεις προσαρτώνται άψογα με χρονικές σημάνσεις. Συνδέστε το φάκελο του περιοδικού σε θησαυροφυλάκια Obsidian για ενσωμάτωση γραφήματος γνώσης μηδενικού συγχρονισμού.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Tiers -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
+        </span>
+        <h2 class="display-5 fw-bold text-white">Επίπεδα Υλικού &amp; Υπολογιστική Αποδοτικότητα</h2>
+        <p class="text-secondary fs-5">Εγγενής εκτέλεση σε υπολογιστές x64 και ARM64 Copilot+ με αυστηρούς προϋπολογισμούς RAM και μπαταρία.</p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Tier 1: Pure CPU (Universal)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Οποιοσδήποτε σύγχρονος επεξεργαστής x64 / ARM64, 8 GB RAM, Intel Core / AMD Ryzen / Snapdragon.</p>
+            <p class="text-secondary small mb-0 lh-base">Πλήρης δυνατότητα ημερολογίου, αναζήτηση BM25 κάτω των 150 ms, επιμελημένες ντετερμινιστικές τράπεζες προτροπής, συμπέρασμα CPU INT4 AI.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Βαθμίδα 2: DirectML GPU (Επιταχυνόμενη)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Intel Iris Xe, AMD Radeon, NVIDIA GTX/RTX αποκλειστικά ή ενσωματωμένα γραφικά.</p>
+            <p class="text-secondary small mb-0 lh-base">Καταπληκτικό γρήγορο τοπικό συνοδευτικό συμπέρασμα τεχνητής νοημοσύνης με δευτερεύουσα δεύτερη πρώτη γενιά διακριτικών.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>Επίπεδο 3: Copilot+ NPU (Υπολογιστής AI επόμενης γενιάς)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Qualcomm Snapdragon X Elite/Plus, Intel Core Ultra NPU, AMD Ryzen AI.</p>
+            <p class="text-secondary small mb-0 lh-base">Αποκλειστικά συμπεράσματα νευρωνικού υλικού με σχεδόν μηδενικό θόρυβο ανεμιστήρα, μικροσκοπικό αντίκτυπο της μπαταρίας και άμεση απόκριση.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 10 (Build 17763+) ή Windows 11. x64 ή ARM64; 8 GB RAM? 500 MB χώρος στο δίσκο (προαιρετικά 2,5–4,5 GB για τοπικά βάρη AI).</p>
+          </div>
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 11; σύγχρονο πολυπύρηνο Intel i7/Ryzen 7 ή Snapdragon X. 16 GB RAM; DirectML GPU ή NPU. NVMe SSD.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Licensing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
+        </span>
+        <h2 class="display-5 fw-bold text-white">Διαφανής Αδειοδότηση: Το Αντισυνδρομητικό Συμβόλαιο</h2>
+        <p class="text-secondary fs-5">Πληρώστε μια φορά, κατέχετε για πάντα. Απαιτείται απεριόριστη δοκιμή 15 ημερών με μηδενική πιστωτική κάρτα.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
+            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
+            <p class="text-white-50 small mb-4">Zero credit card required</p>
+            <p class="text-secondary small mb-4 lh-base text-start">Ξεκλείδωσε το 100% των λειτουργιών, συμπεριλαμβανομένου του χρόνου εκτέλεσης AI στη συσκευή, της αναζήτησης BM25, και των 50+ γλωσσών, των ThemeWheels και των εξαγωγών βιβλίων PDF. Δεν απαιτείται πιστωτική κάρτα, μηδενική αυτόματη χρέωση.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
+              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
+            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
+            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
+            <p class="text-secondary small mb-4 lh-base text-start">Μία εφάπαξ αγορά με προσωπική ιδιοκτησία εφ&#x27; όρου ζωής. Περιλαμβάνει όλες τις δευτερεύουσες ενημερώσεις και την περιφερειακή τιμολόγηση της ισοτιμίας αγοραστικής δύναμης στο Microsoft Store.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> Αγοράστε μία φορά — 0,99 $ για πάντα
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>Η εγγύηση εκτός σύνδεσης &quot;Αποτυχία ανοίγματος&quot;.</h4>
+            <p class="text-secondary small mb-0 lh-base">Εάν ο έλεγχος άδειας εκτός σύνδεσης λήξει ή αποτύχει κατά την εγγραφή εκτός δικτύου σε μια απομονωμένη καμπίνα, το Nudge αποτυγχάνει να ανοίξει και να παραχωρήσει πλήρη πρόσβαση. Δεν θα σας κλειδώσουμε ποτέ από τις προσωπικές σας σκέψεις.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>Μόνιμη ελευθερία ανάγνωσης και εξαγωγής</h4>
+            <p class="text-secondary small mb-0 lh-base">Εάν η δοκιμή σας λήξει χωρίς αγορά, το Nudge μεταβαίνει σε ένα μόνιμο αρχείο μόνο για ανάγνωση. Μπορείτε να περιηγηθείτε, να κάνετε αναζήτηση με το BM25 και να κάνετε εξαγωγή σε Markdown ή PDF για πάντα. Τα αρχεία σας παραμένουν ανοιχτά Markdown στο δίσκο σας.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
+        </span>
+        <h2 class="display-5 fw-bold text-white">Συχνές Ερωτήσεις</h2>
+        <p class="text-secondary fs-5">Όλα όσα πρέπει να γνωρίζετε για το απόρρητο, την τοπική τεχνητή νοημοσύνη, την αποθήκευση και την αδειοδότηση.</p>
+      </div>
+      <div class="max-w-900 mx-auto">
+        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Q1: Τι κάνει το Nudge διαφορετικό από κάθε άλλη εφαρμογή ημερολογίου;
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Το Nudge συνδυάζει δύο θεμελιώδεις αρχές: 100% τοπική κυριαρχία με διάκενο αέρα (απλά αρχεία Markdown στο δίσκο σας με τηλεμετρία μηδενικού νέφους) και έναν αθόρυβο συνοδευτικό τεχνητής νοημοσύνης στη συσκευή (μοντέλα μικρής γλώσσας που τρέχουν απευθείας στο πυρίτιο του υπολογιστή σας). Αποκτάτε τα οφέλη του έξυπνου προβληματισμού και των αναλυτικών στοιχείων χωρίς να θυσιάζετε το απόρρητο ή να πληρώνετε επαναλαμβανόμενες συνδρομές.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Q2: Το Nudge δεν συνδέεται πραγματικά ποτέ στο διαδίκτυο;
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse " aria-labelledby="faq2Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ναί. Μόλις εγκατασταθεί, το Nudge εκτελεί μηδενικά αιτήματα δικτύου χρόνου εκτέλεσης: χωρίς σενάρια παρακολούθησης, χωρίς ρεπόρτερ σφαλμάτων που τηλεφωνούν στο σπίτι και χωρίς αιτήματα απομακρυσμένων γραμματοσειρών. Η μόνη επιτρεπόμενη αλληλεπίδραση δικτύου είναι η προαιρετική, εφάπαξ λήψη των βαρών μοντέλων γλώσσας ανοιχτών βαρών κατά τη διάρκεια της εγκατάστασης, με πρωτοβουλία του χρήστη. Μπορείτε να αποσυνδέσετε το Wi-Fi ή να τρέξετε σε ένα sandbox με διάκενο αέρα με 100% ανέπαφες λειτουργίες.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Q3: Γιατί να αποθηκεύονται καταχωρήσεις ως αρχεία Markdown αντί για βάση δεδομένων;
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse " aria-labelledby="faq3Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Οι βάσεις δεδομένων δημιουργούν ιδιόκτητα σιλό ευάλωτα στη διαφθορά και την εγκατάλειψη. Τα απλά αρχεία κειμένου Markdown (.md) με μπροστινή ύλη YAML είναι άφθαρτα, αναγνώσιμα από τον άνθρωπο και καθολικά προσβάσιμα. Θα είναι ευανάγνωστα σε 50 χρόνια από τώρα και σε οποιοδήποτε σύστημα υπολογιστή και μπορούν να ανοίξουν σε Obsidian, VS Code ή Σημειωματάριο ανά πάσα στιγμή.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Q4: Γιατί το Nudge δεν προσφέρει ενσωματωμένο συγχρονισμό cloud;
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse " aria-labelledby="faq4Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Επειδή ο συγχρονισμός cloud απαιτεί τη φιλοξενία δεδομένων πελατών σε απομακρυσμένους διακομιστές, την εισαγωγή τρωτών σημείων ασφαλείας και επαναλαμβανόμενες χρεώσεις. Επειδή το Nudge αποθηκεύει το ημερολόγιό σας ως έναν συνηθισμένο φάκελο στον σκληρό σας δίσκο, μπορείτε να το συγχρονίσετε χρησιμοποιώντας τα δικά σας αξιόπιστα, κρυπτογραφημένα από άκρο σε άκρο εργαλεία—όπως το OneDrive, το Dropbox, το Syncthing ή το Nextcloud.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Q5: Πώς μπορεί ένας σύντροφος AI να τρέξει τοπικά χωρίς να στείλει δεδομένα στο OpenAI ή στην Google;
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse " aria-labelledby="faq5Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Οι πρόσφατες ανακαλύψεις σε μοντέλα κβαντισμένων μικρών γλωσσών (όπως το Google Gemma και το Microsoft Phi) επιτρέπουν σε ικανά μοντέλα να εκτελούνται απευθείας σε καταναλωτικό υλικό υπολογιστών μέσω του ONNX Runtime GenAI και του LlamaSharp. Ο υπολογισμός γίνεται αυστηρά στη φυσική σας CPU, GPU ή NPU. Ούτε ένα διακριτικό δεν μεταδίδεται στο διαδίκτυο.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Q6: Μπορώ να χρησιμοποιήσω το Nudge χωρίς λήψη ή χρήση λειτουργιών AI;
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse " aria-labelledby="faq6Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Απολύτως. Ο τοπικός σύντροφος AI είναι εντελώς προαιρετικός. Μπορείτε να παραλείψετε τη λήψη του μοντέλου κατά τη ρύθμιση. Το Nudge λειτουργεί άψογα ως ένα εξαιρετικά γρήγορο, χωρίς περισπασμούς ημερολόγιο απλού κειμένου με επιμελημένα ντετερμινιστικά αντανακλαστικά μηνύματα.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Q7: Η τεχνητή νοημοσύνη με αξιολογεί ή προσφέρει ψυχολογικές συμβουλές;
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse " aria-labelledby="faq7Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ποτέ. Οι έξοδοι τεχνητής νοημοσύνης του Nudge περιορίζονται αυστηρά από τις γραμματικές του GBNF και τις προτροπές ηθικού συστήματος. Δεν θα σας πει ποτέ τι πρέπει να κάνετε, να προσφέρετε ερασιτεχνική θεραπεία ή να αξιολογήσετε τον χαρακτήρα σας. Λειτουργεί καθαρά ως διανοητικός καθρέφτης, αντικατοπτρίζοντας τις σκέψεις σας και θέτοντας διευκρινιστικές ερωτήσεις.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Q8: Ποιες είναι οι τρεις «Στιγμές Αντανάκλασης»;
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse " aria-labelledby="faq8Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  1. The Starter: μια στοχαστική ερώτηση που εμφανίζεται στην κενή σελίδα πριν γράψετε. 2. The Inline Nudge: μια ανεπαίσθητη ερώτηση που αιωρείται κάτω από τον κέρσορα μόνο όταν διακόπτετε την πληκτρολόγηση για τουλάχιστον 6 δευτερόλεπτα αφού γράψετε 40 λέξεις. 3. The Deepen: 2–3 επακόλουθες ερωτήσεις που προσφέρονται κατά την ολοκλήρωση μιας καταχώρισης, προσαρτημένες καθαρά ως υποκεφαλίδες Markdown.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 9 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Q9: Πώς λειτουργεί το «Ask Your Journal»; Έχει παραισθήσεις;
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse " aria-labelledby="faq9Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Το Nudge χρησιμοποιεί το τοπικό του ανεστραμμένο ευρετήριο BM25 για να ανακτήσει σχετικές προηγούμενες εγγραφές και το τοπικό SLM συνθέτει μια άμεση απάντηση με υποχρεωτικούς συνδέσμους παραπομπών με δυνατότητα κλικ. Εάν δεν υπάρχουν σχετικές καταχωρήσεις, το μοντέλο περιορίζεται αυστηρά να δηλώσει: «Δεν μπόρεσα να βρω τίποτα στο ημερολόγιό σας σχετικά με αυτό»—μπλοκάροντας μαθηματικά την κατασκευή μνήμης.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 10 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Q10: Πώς μπορώ να δημιουργήσω αντίγραφα ασφαλείας του ημερολογίου μου;
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse " aria-labelledby="faq10Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Η δημιουργία αντιγράφων ασφαλείας είναι τόσο απλή όσο η αντιγραφή ενός φακέλου. Πλοηγηθείτε στον κατάλογο του ημερολογίου σας (από προεπιλογή Documents/Nudge) και αντιγράψτε τον σε μια εξωτερική μονάδα δίσκου, USB stick ή εφεδρική μονάδα. Κάθε καταχώρηση, προσχέδιο, ετικέτα και ρύθμιση περιέχεται σε αυτόν τον φάκελο.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 11 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Q11: Τι συμβαίνει εάν ο υπολογιστής μου κολλήσει ενώ πληκτρολογώ;
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse " aria-labelledby="faq11Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Κάθε πάτημα πλήκτρων αποθηκεύεται σε ένα πρόχειρο γρήγορης ανάκτησης (.draft.md) κάθε 500 χιλιοστά του δευτερολέπτου. Εάν διακοπεί απότομα η τροφοδοσία, το μη δεσμευμένο κείμενό σας αποκαθίσταται αμέσως μετά την επανεκκίνηση. Οι πλήρεις αποθηκεύσεις χρησιμοποιούν λειτουργίες αντικατάστασης ατομικού συστήματος αρχείων για την εξάλειψη της διαφθοράς.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 12 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Q12: Μπορώ να εισάγω το υπάρχον ημερολόγιό μου από το Day One, το Journey ή το Obsidian;
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse " aria-labelledby="faq12Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ναί! Το Nudge περιλαμβάνει εγγενείς, ενσωματωμένους μηχανισμούς εισαγωγής για εξαγωγές JSON της πρώτης ημέρας, θησαυροφυλάκια Journey, Diarium, Obsidian / Markdown και τυπικά αρχεία CSV με πλήρη διατήρηση μεταδεδομένων.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 13 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Q13: Πώς λειτουργεί το βιομετρικό κλείδωμα των Windows Hello;
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse " aria-labelledby="faq13Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Το Nudge ενσωματώνεται με εγγενή Windows Hello API. Ξεκλειδώστε το ημερολόγιό σας με Αναγνώριση Προσώπου, Αισθητήρες δακτυλικών αποτυπωμάτων ή το PIN των Windows. Ο βιομετρικός έλεγχος ταυτότητας λειτουργεί 100% εκτός σύνδεσης χωρίς να επικοινωνεί με εξωτερικούς παρόχους ταυτότητας.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 14 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Q14: Μπορώ να κρυπτογραφήσω τα αρχεία ημερολογίου μου στο δίσκο;
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse " aria-labelledby="faq14Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ναί. Το Nudge προσφέρει προαιρετική κρυπτογράφηση τοπικού συστήματος αρχείων χρησιμοποιώντας AES-256-GCM στρατιωτικής ποιότητας που προέρχεται με κατακερματισμό κωδικού πρόσβασης Argon2id. Τα αρχεία σας είναι κρυπτογραφημένα σε κατάσταση ηρεμίας με μηδενικές κερκόπορτες ή εταιρική μεσεγγύηση ανάκτησης.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 15 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq15Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                  Q15: Γιατί το Nudge δεν εμφανίζει κόκκινους αριθμούς όταν χάνω μια μέρα;
+                </button>
+              </h3>
+              <div id="faq15" class="accordion-collapse collapse " aria-labelledby="faq15Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Γιατί η ενοχή είναι ένα επιβλαβές κίνητρο για ενδοσκόπηση. Η πραγματική ζωή περιλαμβάνει ασθένειες, ταξίδια και ξεκούραση. Το Nudge ενσωματώνει τις αυτόματες ημέρες χάριτος σε σερί, αποφεύγει τους κόκκινους δείκτες ποινής και γιορτάζει ενεργά το ποσοστό απόδοσης.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 16 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq16Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                  Q16: Ποια είναι τα 11 θέματα ζωής;
+                </button>
+              </h3>
+              <div id="faq16" class="accordion-collapse collapse " aria-labelledby="faq16Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Οι συμμετοχές ταξινομούνται σε 11 κλειδωμένες ανθρώπινες διαστάσεις: Εργασία, Σχέσεις, Οικογένεια, Υγεία, Χρήματα, Ταυτότητα, Δημιουργικότητα, Μάθηση, Ταξίδια, Καθημερινά και Σχέδια. Οπτικοποιήθηκε σε διανυσματικά ThemeWheels για να αποκαλύψει πώς οι ισορροπίες της ζωής σας αλλάζουν μεταξύ των εποχών.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 17 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq17Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                  Q17: Γιατί αναφέρετε τον μέσο αριθμό λέξεων αντί για τους μέσους όρους;
+                </button>
+              </h3>
+              <div id="faq17" class="accordion-collapse collapse " aria-labelledby="faq17Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Τα αριθμητικά μέσα παραμορφώνονται από περιστασιακά μακροσκελή δοκίμια. Εάν γράψετε πέντε καταχωρήσεις 100 λέξεων και μία καταχώρηση 3.000 λέξεων, ο μέσος όρος σας είναι 583 λέξεις. Η στατιστική διάμεσος αντικατοπτρίζει με ακρίβεια την τυπική γραμμή βάσης της περιόδου σύνδεσης.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 18 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq18Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                  Q18: Πόσο κοστίζει το Nudge;
+                </button>
+              </h3>
+              <div id="faq18" class="accordion-collapse collapse " aria-labelledby="faq18Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Το Nudge είναι μια εφάπαξ αγορά 0,99 $ USD με αυτόματη τιμολόγηση τοπικής ισοτιμίας αγορών στο Microsoft Store. Μηδενικές συνδρομές, μηδενικά επίπεδα χαρακτηριστικών, μηδενικές διαφημίσεις.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 19 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq19Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                  Q19: Τι συμβαίνει όταν λήξει η δοκιμαστική περίοδος των 15 ημερών;
+                </button>
+              </h3>
+              <div id="faq19" class="accordion-collapse collapse " aria-labelledby="faq19Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Η ώθηση μεταβαίνει σε μόνιμη λειτουργία αρχειοθέτησης μόνο για ανάγνωση. Μπορείτε να κάνετε αναζήτηση με το BM25, να διαβάσετε το χρονοδιάγραμμά σας και να κάνετε εξαγωγή σε Markdown ή PDF για πάντα. Επειδή οι καταχωρίσεις σας είναι απλά Markdown στο φάκελο Documents, μπορείτε πάντα να τις ανοίξετε και να τις επεξεργαστείτε σε οποιοδήποτε πρόγραμμα επεξεργασίας κειμένου.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 20 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq20Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                  Q20: Μπορώ να εγκαταστήσω το Nudge σε πολλούς υπολογιστές με Windows με μία αγορά;
+                </button>
+              </h3>
+              <div id="faq20" class="accordion-collapse collapse " aria-labelledby="faq20Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ναί. Σύμφωνα με την τυπική αδειοδότηση του Microsoft Store, μια μεμονωμένη προσωπική άδεια επιτρέπει την εγκατάσταση σε συμβατές προσωπικές συσκευές Windows 10 και 11 που είναι συνδεδεμένες με τον λογαριασμό σας Microsoft.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 21 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq21Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq21" aria-expanded="false" aria-controls="faq21">
+                  Q21: Το Nudge υποστηρίζει συσκευές ARM64 όπως υπολογιστές Copilot+;
+                </button>
+              </h3>
+              <div id="faq21" class="accordion-collapse collapse " aria-labelledby="faq21Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Ναί! Το Nudge έχει μεταγλωττιστεί εγγενώς τόσο για x64 όσο και για ARM64, τρέχοντας με υψηλή απόδοση μπαταρίας και νευρική επιτάχυνση NPU στη συσκευή σε υπολογιστές Snapdragon X Elite και Snapdragon X Plus Copilot+.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 22 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq22Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq22" aria-expanded="false" aria-controls="faq22">
+                  Q22: Τι συμβαίνει εάν ένας έλεγχος άδειας χρήσης εκτός σύνδεσης αποτύχει ενώ είμαι εκτός δικτύου;
+                </button>
+              </h3>
+              <div id="faq22" class="accordion-collapse collapse " aria-labelledby="faq22Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Σύμφωνα με την Πολιτική μας Fail-Open, το Nudge αποτυγχάνει να ανοίξει και παρέχει πλήρη πρόσβαση εάν ο έλεγχος επαλήθευσης άδειας λήξει ή δεν μπορεί να φτάσει στην προσωρινή μνήμη του Store. Ποτέ δεν θα κλειδωθείτε έξω από το ημερολόγιό σας.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 23 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq23Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq23" aria-expanded="false" aria-controls="faq23">
+                  Q23: Πού μπορώ να λάβω υποστήριξη ή να αναφέρω ένα πρόβλημα;
+                </button>
+              </h3>
+              <div id="faq23" class="accordion-collapse collapse " aria-labelledby="faq23Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Μπορείτε να επικοινωνήσετε με την ομάδα μηχανικών μας απευθείας στη διεύθυνση support@dhinovatech.com. Επειδή συλλέγουμε μηδενική τηλεμετρία απομακρυσμένων σφαλμάτων, μπορείτε να μοιραστείτε το τοπικό σας αρχείο crash.log για άμεση επίλυση.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5" id="quotes">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
+        </span>
+        <h2 class="display-5 fw-bold text-white">Τι λένε οι συγγραφείς και οι στοχαστές για το Nudge</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Το να γράφεις στο Nudge είναι σαν να κλείνεις την πόρτα σε έναν θορυβώδη δρόμο και να κάθεσαι σε μια ηλιόλουστη ιδιωτική βιβλιοθήκη. Γνωρίζοντας ότι τα λόγια μου είναι αποθηκευμένα στον δικό μου σκληρό δίσκο και ότι κανένας διακομιστής cloud δεν διαβάζει τις σκέψεις μου, μου επιτρέπει να γράφω με μια ειλικρίνεια που δεν ένιωθα εδώ και δεκαπέντε χρόνια."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Dr. Aris Thorne</span>
+              <span class="text-white-50 extra-small">Συγγραφέας &amp; Ακαδημαϊκός Ερευνητής</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Η ώθηση παύσης 6 δευτερολέπτων είναι ένα masterclass στο σχεδιασμό αλληλεπίδρασης. Δεν διακόπτει. Απλώς περιμένει μέχρι να κολλήσετε πραγματικά, προσφέρει μια φωτεινή ερώτηση και εξαφανίζεται τη στιγμή που τα δάχτυλά σας αρχίζουν να κινούνται ξανά. Έχει μεταμορφώσει το βραδινό μου τελετουργικό ημερολογίου."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Elena Rostova</span>
+              <span class="text-white-50 extra-small">Αρχιτέκτονας Λογισμικού &amp; Δοκιμιογράφος</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Ήμουν δύσπιστος για την τοπική τεχνητή νοημοσύνη σε φορητό υπολογιστή μέχρι που δοκίμασα το Nudge σε ένα αεροπλάνο με απενεργοποιημένο το Wi-Fi. Έχοντας συνθέσει τις καταχωρήσεις μου της περασμένης εβδομάδας σε μια συνεκτική αφήγηση ενώ πετούσα πάνω από τον Ατλαντικό, με μηδενική σύνδεση cloud, με έπεισε ότι έτσι πρέπει να κατασκευαστεί το λογισμικό."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Marcus Vance</span>
+              <span class="text-white-50 extra-small">Στρατηγός τεχνολογίας &amp; Digital Nomad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
+    <div class="container py-5 text-center max-w-800 mx-auto">
+      <div class="d-inline-block position-relative mb-4">
+        <img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+      </div>
+      <h2 class="display-4 fw-bold text-white mb-3">Πάρτε πίσω την εσωτερική σας ζωή</h2>
+      <p class="lead text-secondary mb-4">Σε έναν ψηφιακό κόσμο που κυριαρχείται από την εταιρική συλλογή cloud και τις αέναες συνδρομές, οι προσωπικές σας σκέψεις είναι το τελευταίο πραγματικά ιερό σύνορο. Ξεκινήστε σήμερα το δωρεάν ταξίδι σας 15 ημερών.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
+          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> Αγοράστε μία φορά — 0,99 $ Διάρκεια ζωής
+        </a>
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
+          <i class="bi bi-download me-2" aria-hidden="true"></i> Λήψη δωρεάν δοκιμής 15 ημερών
+        </a>
+      </div>
+      <p class="extra-small text-white-50 mb-0">100% εκτός σύνδεσης • Μηδενική τηλεμετρία • Απλά αρχεία σήμανσης • WinUI 3 για Windows 10 &amp; 11</p>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Nudge">
+  <img src="/assets/images/nudge-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Nudge</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Εγκατάσταση</a>
+</div>
+<button type="button" class="to-top" aria-label="Επιστροφή στην κορυφή" title="Επιστροφή στην κορυφή">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

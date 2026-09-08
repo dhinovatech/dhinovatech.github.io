@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="hu" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — Offline napló és jegyzetfüzet helyi AI-társsal | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech</title>
+  <meta name="description" content="A Nudge egy meghitt, figyelemeltereléstől mentes asztali napló, amely natívan a Windows számára készült. Egyesíti a helyi sima Markdown fájlok abszolút digitális szuverenitását egy eszközön lévő mesterséges intelligenciatárs csendes intelli...">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
+    :root {
+      --nudge-amber: #f59e0b;
+      --nudge-gold: #fbbf24;
+      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
+      --nudge-bg-dark: #0a0b0d;
+      --nudge-card-bg: #121316;
+      --nudge-card-border: rgba(245, 158, 11, 0.22);
+    }
+    .glow-aura-amber {
+      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    }
+    .nudge-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
+      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+    }
+    .nudge-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.85rem; color: #fde68a; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: #fbbf24; color: #fff;
+    }
+    .invariant-card {
+      border-left: 3px solid #f59e0b !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.45) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #fbbf24;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.nudge-col, .compare-table td.nudge-col {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 1px solid rgba(245, 158, 11, 0.25);
+      border-right: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .nudge-code-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: #08090b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
+      white-space: pre; overflow-x: auto;
+    }
+    .stationery-token {
+      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
+    }
+    /* RTL adjustments */
+    [dir="rtl"] .feature-bullet-list li {
+      padding-left: 0;
+      padding-right: 1.4rem;
+    }
+    [dir="rtl"] .feature-bullet-list li::before {
+      left: auto;
+      right: 0.35rem;
+    }
+    [dir="rtl"] .invariant-card {
+      border-left: none !important;
+      border-right: 3px solid #f59e0b !important;
+    }
+    [dir="rtl"] .dropdown-menu-end {
+      right: auto !important;
+      left: 0 !important;
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/nudge/hu/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/nudge/ar/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/nudge/zh/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/nudge/es/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/nudge/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/nudge/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/nudge/fr/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/nudge/ko/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/nudge/hi/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/nudge/pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.dhinovatech.com/nudge/pt-pt/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/nudge/id/">
+  <link rel="alternate" hreflang="ms" href="https://www.dhinovatech.com/nudge/ms/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/nudge/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/nudge/tr/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/nudge/it/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/nudge/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/nudge/pl/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/nudge/th/">
+  <link rel="alternate" hreflang="fa" href="https://www.dhinovatech.com/nudge/fa/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/nudge/sv/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/nudge/vi/">
+  <link rel="alternate" hreflang="bn" href="https://www.dhinovatech.com/nudge/bn/">
+  <link rel="alternate" hreflang="zh-HK" href="https://www.dhinovatech.com/nudge/yue/">
+  <link rel="alternate" hreflang="tl" href="https://www.dhinovatech.com/nudge/tl/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/nudge/uk/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/nudge/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/nudge/ro/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/nudge/he/">
+  <link rel="alternate" hreflang="el" href="https://www.dhinovatech.com/nudge/el/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/nudge/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/nudge/da/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/nudge/fi/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/nudge/nb/">
+  <link rel="alternate" hreflang="te" href="https://www.dhinovatech.com/nudge/te/">
+  <link rel="alternate" hreflang="mr" href="https://www.dhinovatech.com/nudge/mr/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/nudge/ta/">
+  <link rel="alternate" hreflang="gu" href="https://www.dhinovatech.com/nudge/gu/">
+  <link rel="alternate" hreflang="ur" href="https://www.dhinovatech.com/nudge/ur/">
+  <link rel="alternate" hreflang="pa" href="https://www.dhinovatech.com/nudge/pa/">
+  <link rel="alternate" hreflang="ml" href="https://www.dhinovatech.com/nudge/ml/">
+  <link rel="alternate" hreflang="kn" href="https://www.dhinovatech.com/nudge/kn/">
+  <link rel="alternate" hreflang="jv" href="https://www.dhinovatech.com/nudge/jv/">
+  <link rel="alternate" hreflang="sw" href="https://www.dhinovatech.com/nudge/sw/">
+  <link rel="alternate" hreflang="ha" href="https://www.dhinovatech.com/nudge/ha/">
+  <link rel="alternate" hreflang="yo" href="https://www.dhinovatech.com/nudge/yo/">
+  <link rel="alternate" hreflang="my" href="https://www.dhinovatech.com/nudge/my/">
+  <link rel="alternate" hreflang="am" href="https://www.dhinovatech.com/nudge/am/">
+  <link rel="alternate" hreflang="kk" href="https://www.dhinovatech.com/nudge/kk/">
+  <link rel="alternate" hreflang="sk" href="https://www.dhinovatech.com/nudge/sk/">
+  <link rel="alternate" hreflang="ca" href="https://www.dhinovatech.com/nudge/ca/">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Nudge — Offline napló és jegyzetfüzet helyi AI-társsal | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta property="og:description" content="A Nudge egy meghitt, figyelemeltereléstől mentes asztali napló, amely natívan a Windows számára készült. Egyesíti a helyi sima Markdown fájlok abszolút digitális szuverenitását egy eszközön lévő mesterséges intelligenciatárs csendes intelli...">
+  <meta property="og:url" content="https://www.dhinovatech.com/nudge/hu/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Nudge offline journal and diary with AI companion icon">
+  <meta property="og:locale" content="hu_HU">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ms_MY">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="fa_IR">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="bn_IN">
+  <meta property="og:locale:alternate" content="zh_HK">
+  <meta property="og:locale:alternate" content="tl_PH">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta property="og:locale:alternate" content="el_GR">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="te_IN">
+  <meta property="og:locale:alternate" content="mr_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="gu_IN">
+  <meta property="og:locale:alternate" content="ur_PK">
+  <meta property="og:locale:alternate" content="pa_IN">
+  <meta property="og:locale:alternate" content="ml_IN">
+  <meta property="og:locale:alternate" content="kn_IN">
+  <meta property="og:locale:alternate" content="jv_ID">
+  <meta property="og:locale:alternate" content="sw_KE">
+  <meta property="og:locale:alternate" content="ha_NG">
+  <meta property="og:locale:alternate" content="yo_NG">
+  <meta property="og:locale:alternate" content="my_MM">
+  <meta property="og:locale:alternate" content="am_ET">
+  <meta property="og:locale:alternate" content="kk_KZ">
+  <meta property="og:locale:alternate" content="sk_SK">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nudge — Offline napló és jegyzetfüzet helyi AI-társsal | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta name="twitter:description" content="A Nudge egy meghitt, figyelemeltereléstől mentes asztali napló, amely natívan a Windows számára készült. Egyesíti a helyi sima Markdown fájlok abszolút digitális szuverenitását egy eszközön lévő mesterséges intelligenciatárs csendes intelli...">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta name="twitter:image:alt" content="Nudge offline journal and diary with AI companion icon">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.dhinovatech.com/#website","url":"https://www.dhinovatech.com/","name":"Dhinovatech","publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/nudge/hu/#app","name":"Nudge — Offline napló és jegyzetfüzet helyi AI-társsal","applicationCategory":"LifestyleApplication","operatingSystem":"Windows 10, Windows 11","description":"A Nudge egy meghitt, figyelemeltereléstől mentes asztali napló, amely natívan a Windows számára készült. Egyesíti a helyi sima Markdown fájlok abszolút digitális szuverenitását egy eszközön lévő mesterséges intelligenciatárs csendes intelli...","url":"https://www.dhinovatech.com/nudge/hu/","image":"https://www.dhinovatech.com/assets/images/nudge-icon.png","inLanguage":"hu","offers":{"@type":"Offer","price":"0.99","priceCurrency":"USD","url":"https://apps.microsoft.com/detail/9MV92P7RLDGB","availability":"https://schema.org/InStock","seller":{"@id":"https://www.dhinovatech.com/#organization"}},"publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Nudge Offline Journal","item":"https://www.dhinovatech.com/nudge/"},{"@type":"ListItem","position":3,"name":"Nudge (hu)","item":"https://www.dhinovatech.com/nudge/hu/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/nudge/hu/#faq","inLanguage":"hu","mainEntity":[{"@type":"Question","name":"Miben különbözik a Nudge minden más naplóíró alkalmazástól?","acceptedAnswer":{"@type":"Answer","text":"A Nudge két alapelvet egyesít: a 100%-ban légrés nélküli helyi szuverenitást (sima Markdown fájlok a lemezen nulla felhő telemetriával) és egy csendes, eszközön lévő AI-társat (kis nyelvű modellek, amelyek közvetlenül a számítógép szilíciumán futnak). A magánélet feláldozása vagy az ismétlődő előfizetések fizetése nélkül élvezheti az intelligens gondolkodás és elemzés előnyeit."}},{"@type":"Question","name":"A Nudge tényleg soha nem csatlakozik az internethez?","acceptedAnswer":{"@type":"Answer","text":"Igen. A telepítést követően a Nudge nulla futásidejű hálózati kérést hajt végre: nincsenek nyomkövetési szkriptek, nem telefonálnak összeomlási riporterek, és nincsenek távoli betűtípuskérések. Az egyetlen engedélyezett hálózati interakció a nyílt súlyozású nyelvi modellsúlyok opcionális, felhasználó által kezdeményezett egyszeri letöltése a beállítás során. Lekapcsolhatja a Wi-Fi-t, vagy futhat egy légrés homokozóban, ahol a funkciók 100%-ban sértetlenek."}},{"@type":"Question","name":"Miért tárolja a bejegyzéseket Markdown fájlként adatbázis helyett?","acceptedAnswer":{"@type":"Answer","text":"Az adatbázisok saját tulajdonú silókat hoznak létre, amelyek ki vannak téve a korrupciónak és az elhagyásnak. A Sima Markdown (.md) szövegfájlok a YAML előlappal elpusztíthatatlanok, ember által olvashatók és általánosan hozzáférhetőek. 50 év múlva bármely számítógépes rendszeren olvashatóak lesznek, és bármikor megnyithatók Obsidian, VS Code vagy Notepad segítségével."}},{"@type":"Question","name":"Miért nem kínál a Nudge beépített felhőszinkronizálást?","acceptedAnswer":{"@type":"Answer","text":"Mivel a felhőalapú szinkronizálás megköveteli az ügyféladatok távoli szervereken történő tárolását, biztonsági réseket és ismétlődő díjakat. Mivel a Nudge a naplót egy közönséges mappaként tárolja a merevlemezen, szinkronizálhatja saját megbízható, végpontok közötti titkosított eszközeivel – például a OneDrive, a Dropbox, a Syncthing vagy a Nextcloud segítségével."}},{"@type":"Question","name":"Hogyan futhat egy AI-társ helyben anélkül, hogy adatokat küldene az OpenAI-nak vagy a Google-nak?","acceptedAnswer":{"@type":"Answer","text":"A kvantált kis nyelvi modellek (például a Google Gemma és a Microsoft Phi) legújabb áttörései lehetővé teszik, hogy a megfelelő modellek közvetlenül futhassanak a fogyasztói PC-hardvereken az ONNX Runtime GenAI és a LlamaSharp segítségével. A számítás szigorúan a fizikai CPU-n, GPU-n vagy NPU-n történik. Egyetlen tokent sem továbbítanak az interneten."}},{"@type":"Question","name":"Használhatom a Nudge-ot letöltés vagy mesterséges intelligencia funkció használata nélkül?","acceptedAnswer":{"@type":"Answer","text":"Teljesen. A helyi AI-társ teljes mértékben opcionális. A beállítás során kihagyhatja a modell letöltését. A Nudge hibátlanul működik ultragyors, figyelemeltereléstől mentes, egyszerű szöveges naplóként, válogatott determinisztikus reflektív felszólításokkal."}},{"@type":"Question","name":"Az MI értékel engem, vagy pszichológiai tanácsot ad?","acceptedAnswer":{"@type":"Answer","text":"Soha. A Nudge mesterséges intelligencia kimeneteit szigorúan korlátozzák a GBNF nyelvtanai és etikai rendszerkérdései. Soha nem fogja megmondani, mit kell tenned, nem ajánlja fel amatőr terápiát, vagy értékeli a karakteredet. Pusztán intellektuális tükörként működik, tükrözi gondolatait, és tisztázó kérdéseket tesz fel."}},{"@type":"Question","name":"Mi az a három „Reflexiós pillanat”?","acceptedAnswer":{"@type":"Answer","text":"1. Az indító: egy átgondolt kérdés, amely az üres oldalon jelenik meg, mielőtt ír. 2. Az Inline Nudge: egy finom kérdés, amely csak akkor lebeg a kurzor alatt, ha 40 szó beírása után legalább 6 másodpercre szünetelteti a gépelést. 3. The Deepen: 2-3 utókérdés, amelyet a bejegyzés lezárásakor felkínálnak, egyértelműen hozzáfűzve Markdown alcímekként."}},{"@type":"Question","name":"Hogyan működik az „Ask Your Journal”? Vajon hallucinál?","acceptedAnswer":{"@type":"Answer","text":"A Nudge a helyi BM25 fordított indexét használja a releváns múltbeli bejegyzések lekéréséhez, a helyi SLM pedig szintetizálja a közvetlen választ kötelező kattintható hivatkozásokkal. Ha nem léteznek releváns bejegyzések, a modell szigorúan kijelenti: „Nem találtam erről semmit a naplójában” – ez matematikailag blokkolja a memóriagyártást."}},{"@type":"Question","name":"Hogyan készítsek biztonsági másolatot a naplómról?","acceptedAnswer":{"@type":"Answer","text":"A biztonsági mentés olyan egyszerű, mint egy mappa másolása. Keresse meg a naplókönyvtárat (alapértelmezés szerint a Documents/Nudge), és másolja át egy külső meghajtóra, USB-meghajtóra vagy biztonsági mentési meghajtóra. Minden bejegyzés, piszkozat, címke és beállítás ebben a mappában található."}},{"@type":"Question","name":"Mi történik, ha gépelés közben összeomlik a számítógépem?","acceptedAnswer":{"@type":"Answer","text":"Minden billentyűleütés egy gyors-helyreállítási piszkozatba (.draft.md) kerül mentésre 500 ezredmásodpercenként. Ha az áramellátás hirtelen megszakad, a nem véglegesített szöveg az újraindítás után azonnal visszaáll. A teljes mentések atomi fájlrendszer-csere műveleteket használnak a korrupció kiküszöbölésére."}},{"@type":"Question","name":"Importálhatom a meglévő naplómat a Day One, Journey vagy Obsidian programból?","acceptedAnswer":{"@type":"Answer","text":"Igen! A Nudge natív, beépített importmotorokat tartalmaz a Day One JSON-exportokhoz, Journey, Diarium, Obsidian/Markdown tárolókhoz, valamint szabványos CSV-archívumok teljes metaadat-megőrzéssel."}},{"@type":"Question","name":"Hogyan működik a Windows Hello biometrikus zárolása?","acceptedAnswer":{"@type":"Answer","text":"A Nudge integrálható a natív Windows Hello API-kkal. Oldja fel naplóját az arcfelismeréssel, az ujjlenyomat-érzékelőkkel vagy a Windows PIN-kódjával. A biometrikus hitelesítés 100%-ban offline módban működik anélkül, hogy külső identitásszolgáltatókkal kommunikálna."}},{"@type":"Question","name":"Titkosíthatom a naplófájljaimat a lemezen?","acceptedAnswer":{"@type":"Answer","text":"Igen. A Nudge opcionális helyi fájlrendszer-titkosítást kínál katonai minőségű AES-256-GCM használatával, amely Argon2id jelszókivonatból származik. A fájlok nyugalmi állapotban nulla hátsó ajtóval vagy vállalati helyreállítási letéttel vannak titkosítva."}},{"@type":"Question","name":"Miért nem mutat a Nudge piros számokat, ha kihagyok egy napot?","acceptedAnswer":{"@type":"Answer","text":"Mert a bűntudat káros motivációja az önvizsgálatnak. A valódi élethez tartozik a betegség, az utazás és a pihenés. A Nudge az automatikus türelmi napokat sorozatokká építi be, elkerüli a piros büntetés-jelzőket, és aktívan ünnepli a megtérülési arányt."}},{"@type":"Question","name":"Mi az a 11 élettéma?","acceptedAnswer":{"@type":"Answer","text":"A bejegyzések 11 zárt emberi dimenzióba vannak besorolva: Munka, Kapcsolatok, Család, Egészség, Pénz, Identitás, Kreativitás, Tanulás, Utazás, Mindennap és Tervek. A vektoros ThemeWheels megjeleníti, hogy feltárja, hogyan változnak élete egyensúlyai ​​az évszakok között."}},{"@type":"Question","name":"Miért a medián szószámot jelenti az átlagok helyett?","acceptedAnswer":{"@type":"Answer","text":"Az időnkénti hosszú esszék torzítják a számtani átlagokat. Ha öt 100 szavas bejegyzést és egy 3000 szavas bejegyzést ír, akkor az átlag 583 szó. A statisztikai medián pontosan tükrözi a tipikus munkamenet alapvonalát."}},{"@type":"Question","name":"Mennyibe kerül a Nudge?","acceptedAnswer":{"@type":"Answer","text":"A Nudge egyszeri 0,99 USD értékű vásárlás, automatikus regionális vásárlási paritásos árképzéssel a Microsoft Store-ban. Nulla előfizetés, nulla funkciószint, nulla hirdetés."}},{"@type":"Question","name":"Mi történik, ha lejár a 15 napos próbaidőszak?","acceptedAnswer":{"@type":"Answer","text":"Állandó csak olvasható archiválási módba tolja az átmeneteket. Kereshet a BM25 segítségével, elolvashatja az idővonalat, és örökre exportálhat Markdown vagy PDF formátumba. Mivel a bejegyzések sima Markdown a Dokumentumok mappában, bármikor megnyithatja és szerkesztheti őket bármely szövegszerkesztőben."}},{"@type":"Question","name":"Telepíthetem a Nudge-ot több Windows számítógépre egy vásárlással?","acceptedAnswer":{"@type":"Answer","text":"Igen. A Microsoft Store szabványos licence alapján egyetlen személyes licenc lehetővé teszi a telepítést a Microsoft-fiókjával bejelentkezett, kompatibilis személyes Windows 10 és 11 eszközökön."}},{"@type":"Question","name":"A Nudge támogatja az ARM64 eszközöket, például a Copilot+ PC-ket?","acceptedAnswer":{"@type":"Answer","text":"Igen! A Nudge natív x64-re és ARM64-re is össze van állítva, nagy akkumulátor-hatékonysággal és az eszközön található neurális NPU-gyorsítással működik Snapdragon X Elite és Snapdragon X Plus Copilot+ PC-ken."}},{"@type":"Question","name":"Mi történik, ha az offline licencellenőrzés meghiúsul, miközben a hálózaton kívül vagyok?","acceptedAnswer":{"@type":"Answer","text":"Sikertelen megnyitási szabályzatunk értelmében a Nudge meghiúsul, és teljes hozzáférést biztosít, ha a licencellenőrzés lejár, vagy nem éri el a Store gyorsítótárat. Soha nem leszel kizárva a naplódból."}},{"@type":"Question","name":"Hol kaphatok támogatást vagy jelenthetek be problémát?","acceptedAnswer":{"@type":"Answer","text":"Mérnöki csapatunkat közvetlenül a support@dhinovatech.com címen érheti el. Mivel nulla távoli hiba telemetriát gyűjtünk, megoszthatja helyi crash.log fájlját az azonnali megoldás érdekében."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Ugrás a fő tartalomra</a>
+<nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
+                  <span><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 51 Languages">51 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/hu/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Magyar (Hungarian)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/hu/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Letöltés a Microsoft Store-ból
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main id="main">
+  <!-- Hero Section -->
+  <section class="py-5 overflow-hidden" id="hero">
+    <div class="container py-4">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> Natív WinUI 3 Windows 10 és 11 rendszerhez • x64 és ARM64 Copilot+ PC
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3">
+            Nudge — Offline napló és jegyzetfüzet helyi AI-társsal
+          </h1>
+          <p class="fs-4 text-warning fw-semibold mb-3">
+            "Gondolatai az önéi — nem a felhőé."
+          </p>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
+            A Nudge egy meghitt, figyelemeltereléstől mentes asztali napló, amely natívan a Windows számára készült. Egyesíti a helyi sima Markdown fájlok abszolút digitális szuverenitását egy eszközön lévő mesterséges intelligenciatárs csendes intelligenciájával, amely soha nem csatlakozik az internethez. Nincs ismétlődő előfizetés, nincs telemetria, nincs nyomon követés és nincs felhőalapú zárolás.
+          </p>
+          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
+            Egy olyan korszakban, amikor a személyes szoftvereket felügyeleti csővezetékké alakították, a Nudge szándékos, elvszerű visszatérést jelent az első elvekhez. Minden egyes gondolat, mondat és piszkozat, amit írsz, szigorúan a személyes gépeden él normál, ember által olvasható Markdown (.md) fájlként, tiszta YAML frontanyagként. Nincsenek szabadalmaztatott blobok, nincsenek törékeny adatbázisok.
+          </p>
+
+          <!-- Badges Grid -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>100% Offline / Air-Gapped</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>Helyi AI (Nulla felhő)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>Tiszta Markdown (.md)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>Nulla telemetria</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>Windows Hello biometria</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>0,99 $ Egyszeri vásárlás</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Vásárolja meg egyszerre — 0,99 $ örökre
+            </a>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
+              <i class="bi bi-download fs-5" aria-hidden="true"></i> 15 napos ingyenes próbaverzió
+            </a>
+            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
+              Architektúra és specifikációk <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+          <div class="position-relative d-inline-block">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
+            <img src="/assets/images/nudge-icon.webp" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three Pillars -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
+        </span>
+        <h2 class="display-5 fw-bold text-white">A Nudge három megdönthetetlen pillére</h2>
+        <p class="text-secondary fs-5">Építészeti változataink: teljes offline adatvédelem, csendes tükröződés és emberi együttérzés.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 1</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Valódi offline szuverenitás</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">A teljes adatvédelem építészeti alapelv. A Nudge nulla hálózati kérést indít.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 2</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Csendes helyi AI-társ</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">A mesterséges intelligencia az önreflexiót szolgálja. Helyben fut a CPU-n vagy NPU-n.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 3</span>
+                  <h3 class="h5 text-white fw-bold mb-0">Bűntudatmentes mérőszámok</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">Nincsenek piros büntetőszámok: türelmi napok és a visszatérés ünneplése.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="py-5" id="specs">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
+        </span>
+        <h2 class="display-5 fw-bold text-white">Termékmátrix és műszaki specifikációk</h2>
+        <p class="text-secondary fs-5">Szigorú építészeti garanciák 50 éves élettartamra és 150 ms alatti teljesítményre tervezve.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col" style="width: 22%;">Dimenzió</th>
+                <th scope="col" style="width: 28%;" class="text-warning fw-bold">Specifikáció</th>
+                <th scope="col" style="width: 50%;">Építészeti garanciák</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Operációs rendszer</td>
+                <td class="text-warning small align-middle fw-medium">Windows 10 / Windows 11</td>
+                <td class="text-secondary small align-middle">Natívan a modern WinUI 3-ra és a Windows App SDK-ra épül; teljes csillám és akril támogatás.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Runtime Purity</td>
+                <td class="text-warning small align-middle fw-medium">100% légrés nélküli offline</td>
+                <td class="text-secondary small align-middle">Nulla hálózati hívás futásidőben; nulla háttér telemetria, összeomlási jeladók vagy távoli betűkészlet-betöltések.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Tárolási architektúra</td>
+                <td class="text-warning small align-middle fw-medium">Fájlrendszer jelölése (.md)</td>
+                <td class="text-secondary small align-middle">Atomic írási protokoll; ember által olvasható YAML front anyag; nulla saját adatbázis-réteg.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Keresőmotor</td>
+                <td class="text-warning small align-middle fw-medium">Helyi memória BM25</td>
+                <td class="text-secondary small align-middle">150 ms alatti teljes szöveges lekérdezés több mint 10 000 bejegyzésben előtaggal és morfológiai bővítéssel.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion Runtime</td>
+                <td class="text-warning small align-middle fw-medium">Eszközön lévő SLM (DirectML / CPU / NPU)</td>
+                <td class="text-secondary small align-middle">Helyi következtetés az ONNX Runtime GenAI és LlamaSharp segítségével; nulla token küldött külső szerverekre.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Indítsa el a Performance programot</td>
+                <td class="text-warning small align-middle fw-medium">&lt; 1,5 Seconds to Caret</td>
+                <td class="text-secondary small align-middle">Hidegindítás közvetlenül az aktív gépelési felületre; háttérindex betöltés és lusta AI súlyok.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Biztonság és zár</td>
+                <td class="text-warning small align-middle fw-medium">Windows Hello biometria</td>
+                <td class="text-secondary small align-middle">Arcfelismerés, ujjlenyomat-érzékelő, PIN; opcionális AES-256-GCM fájlrendszer-titkosítás Argon2id-vel.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Írásbeli tapasztalat</td>
+                <td class="text-warning small align-middle fw-medium">Figyelemelvonás-mentes mélymunka</td>
+                <td class="text-secondary small align-middle">F11 teljes képernyős fókusz, írógép görgetés, halvány bekezdésfókusz, egyedi tipográfia.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Globális hozzáférés</td>
+                <td class="text-warning small align-middle fw-medium">Quick-Capture Overlay</td>
+                <td class="text-secondary small align-middle">A globális gyorsbillentyű (Win+Alt+N) könnyű jegyzetelési felületet hoz létre 200 ms alatt.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Többnyelvű motor</td>
+                <td class="text-warning small align-middle fw-medium">50+ natívan szállított hely</td>
+                <td class="text-secondary small align-middle">CLDR többes számú motor, script-észlelés, grafémklaszter-érzékelés, natív jobbról balra (RTL).</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Adatok átjárhatósága</td>
+                <td class="text-warning small align-middle fw-medium">Univerzális import és export</td>
+                <td class="text-secondary small align-middle">Első nap importálása JSON, Journey, Diarium, Markdown; PDF-könyveket, ZIP-archívumot, HTML-t, EPUB-t exportál.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Engedélyezési modell</td>
+                <td class="text-warning small align-middle fw-medium">Átlátszó egyszeri vásárlás</td>
+                <td class="text-secondary small align-middle">15 napos korlátlan ingyenes próbaverzió; egyszeri 0,99 USD vásárlás az élettartamra; nulla előfizetés; hibamentességi garancia.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Manifesto -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
+        </span>
+        <h2 class="display-5 fw-bold text-white">A Kiáltvány: Miért építettük a Nudge-ot</h2>
+        <p class="text-secondary fs-5">A modern felhő folyóiratok válsága, az episztemikus magánélethez való jog és az 50 éves teszt.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">A modern folyóirat válsága</h3>
+            <p class="text-secondary small mb-0 lh-base">Az elmúlt tizenöt évben a helyi személyi számítástechnikáról a központosított SaaS-re való áttérés a privát naplókat felügyeleti folyamatokká változtatta: külső mérnökök számára elérhető felhőadatbázisok, távoli AI API-k számára JSON-ba csomagolt intim vallomások, személyes emlékeket túszul ejtő havi fizetőfalak és fájdalmas vagy lehetetlenné tevő bináris migráció.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">Az episztemikus adatvédelem elve</h3>
+            <p class="text-secondary small mb-0 lh-base">Hiszünk abban, hogy az egyén privát belső párbeszéde az emberi tudat szent magját képviseli. Az episztemikus magánélet a félig kialakult gondolatok feltárásának, a nehéz érzelmek kifejezésének, a hiedelmek megkérdőjelezésének és az élet dokumentálásának szabadsága a külső megfigyelés dermesztő hatása nélkül. Az adatvédelem egyetlen igazi garanciája a fizikai és építészeti lehetetlenség: ha egy alkalmazásnak nincs hálózati engedélye, nem szivárogtathatja ki a naplóját.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">A digitális élettartam elve: Az 50 éves teszt</h3>
+            <p class="text-secondary small mb-0 lh-base">Ön vagy gyermekei el tudják olvasni a mai bejegyzést ötven év múlva? A múlt szabadalmaztatott szövegszerkesztői és zárt adatbázis-formátumai ma már elérhetetlen digitális roncsok. Az egyszerű szöveg az UTF-8 Markdownban örök. 2076-ban azonnal olvasható marad az emberiség által feltalált bármely számítástechnikai platformon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-Cloud Architecture -->
+  <section class="py-5" id="architecture">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">Core Architecture: The Zero-Cloud Technical Plan</h2>
+        <p class="text-secondary fs-5">Bejegyzés anatómiája, atomi írási biztonság és eldobható indexgyorsítótárak.</p>
+      </div>
+
+      <div class="row g-4 align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>A fájlrendszer mint adatbázis: egy bejegyzés anatómiája</h3>
+            <p class="text-secondary small mb-3 lh-base">A Nudge teljesen megszünteti az adatbázis réteget. A bejegyzések egyedi Markdown-fájlokként kerülnek mentésre, év és hónap szerint időrendben rendezve. A fájlnevek ULID-t (Universally Unique Lexicographically Sortable Identifier) ​​használnak, amely ezredmásodperces pontosságot, időrendi sorrendet és ütközésmentes szinkronizálást biztosít.</p>
+            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
+              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
+              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
+└── 2026/
+    └── 03-March/
+        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
+        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
+              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
+            </div>
+            <div class="nudge-code-box">---
+id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
+date: 2026-03-15T19:42:10+05:30
+language: en
+title: Walking Through the Rain in Spring
+themes:
+  - everyday
+  - creativity
+mood: 4
+weather: overcast
+tags:
+  - rain
+  - reflection
+content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+---
+
+# Walking Through the Rain in Spring
+
+The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
+I realized today that the friction I&#x27;ve been feeling isn&#x27;t a lack of inspiration; it&#x27;s a surplus of noise.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>Az Atomic írások, vázlatok feloldása és konfliktusbiztonság</h3>
+            <p class="text-secondary small mb-0 lh-base">Minden billentyűleütés .draft.md fájlba kerül 500 ms-onként az azonnali összeomlás helyreállítása érdekében. Teljes mentések írást ideiglenes oldalkocsikra (.tmp) az atomi fájlrendszer cseréje előtt. A visszautasított FileSystemWatcher észleli az Obsidian vagy VS Code külső szerkesztéseit, és az egyidejű szerkesztéseket biztonságos testvérfájlokba (.conflict.md) adatvesztés nélkül hajtja végre.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>150 ms alatti memória BM25 és eldobható gyorsítótár</h3>
+            <p class="text-secondary small mb-0 lh-base">A keresések valós időben több mint 10 000 bejegyzésben jelennek meg a memórián belüli fordított index és a BM25 relevanciapontozás segítségével, török-tudatos és grafémaérzékeny hajtogatással. A .cache/index.bin pillanatkép 1,5 másodpercen belül betölti a hidegindításokat. A .cache könyvtár törlése csak időt veszít: minden egyes mérőszám, témapontszám és index 100%-ban rekonstruálható a nyers Markdown fájlokból.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-Device AI Companion -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100% On-Device SLM
+        </span>
+        <h2 class="display-5 fw-bold text-white">Az On-Device AI Companion: Deep-Dive</h2>
+        <p class="text-secondary fs-5">Csendes intellektuális tükör, amely soha nem szakít félbe, nem ad tanácsot és 100%-ban helyben működik.</p>
+      </div>
+
+      <div class="card card-glass p-4 border border-warning-subtle mb-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>Egy szellemi tükör, nem egy chatbot</h3>
+            <p class="text-secondary small mb-0 lh-base">A Nudge-ban te vagy a szerző; az AI a tükör. Soha nem ad kéretlen tanácsokat, soha nem diagnosztizál pszichológiai állapotokat, soha nem szakítja meg a gépelés folyamatát, és szigorúan észleli és válaszol az Ön természetes nyelvén és írásmódján.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 1</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>A gépelés megkezdése előtt</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">A kezdőlap (Üres oldal)</h3>
+              <p class="text-secondary small mb-0 lh-base">Csendes, kontextuális prompt a hét napján, a napszakon és a legutóbbi bejegyzési címkéken alapul. Ha a mesterséges intelligencia offline állapotban van, a Nudge egy gazdag, lokalizált, átgondolt kérdésekből álló bankot használ. A gépelés megkezdésének pillanatában feloldódik.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 2</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Szünet írás közben (≥40 szó, ≥6 másodperc szünet)</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Inline Dudge (6 másodperces heurisztikus)</h3>
+              <p class="text-secondary small mb-0 lh-base">Egy lágy, áttetsző kérdés csak akkor lebeg a bekezdés alatt, ha legalább 40 szó leírása után legalább 6 másodpercig szünetet tart. Szünetek az IME kompozíció (CJK) közben. A következő billentyűleütéskor azonnal feloldódik. Munkamenetenként maximum 2.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 3</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>Bejegyzés lezárásakor</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Deepen (belépés után)</h3>
+              <p class="text-secondary small mb-0 lh-base">Két vagy három átgondolt utókérdés, amelyek érzelmi szubtextust vagy feltáratlan feltételezéseket vizsgálnak. A koppintással egy tiszta Markdown alcímet (### Nyomon követés) fűz hozzá közvetlenül a szöveghez, és a kurzor alatta látható.</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>Offline vasárnapi heti összefoglaló</h3>
+            <p class="text-secondary small mb-0 lh-base">Az eszközön található mesterséges intelligencia minden vasárnap egy gyönyörű, strukturált tájékoztatót szintetizál a hétről: a központi narratívát, a visszatérő szálakat, az érzelmi váltásokat és két előretekintő kérdést az előttünk álló hétre. Mindezt helyi szilíciumban szintetizálják anélkül, hogy egyetlen bájt is elhagyná a számítógépet.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>„Kérdezze meg naplóját”: idézett természetes nyelvű visszakeresés</h3>
+            <p class="text-secondary small mb-0 lh-base">Tegyen fel fogalmi kérdéseket, például: „Mikor jutott eszembe először pályaváltás?” A Nudge lekéri a releváns bejegyzéseket a BM25 segítségével, és a helyi SLM szintetizálja a koherens választ kötelező kattintható hivatkozásokkal. Ha nem találnak semmit, akkor azt írja ki, hogy „nem találtam erről semmit a naplójában” – matematikailag korlátozva a hallucinációkkal szemben.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shame-Free Metrics -->
+  <section class="py-5" id="metrics">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
+        </span>
+        <h2 class="display-5 fw-bold text-white">A mérőszámok tudatos pszichológiája: nincs bűntudat, nincs szégyen</h2>
+        <p class="text-secondary fs-5">Inkább emberi empátiával mérhető szokások, mint mérgező gamification.</p>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Csíkok a beépített Grace Days programmal</h3>
+            <p class="text-secondary small mb-0 lh-base">Az élet megtörténik. Egy nap kihagyása nem kelthet szégyent, és nem állíthat vissza több hónapos elhivatottságot. A Nudge magában foglalja az automatikus türelmi napokat: egy nap kihagyása megőrzi lendületét. Kódbázisunk tartalmaz egy egységtesztet, amely biztosítja, hogy a „kihagyott napok” vagy a büntetés-mutatók soha ne jelenjenek meg piros színnel.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">A Szünet utáni visszatérés ünneplése</h3>
+            <p class="text-secondary small mb-0 lh-base">Ahelyett, hogy büntetné a hiányzásokat, a Nudge a Return Rate-t követi – az oldalra való visszatérés ellenálló képességének ünneplése, miután az élet elveszi.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">Medián vs. átlag: őszinte írási mennyiség</h3>
+            <p class="text-secondary small mb-0 lh-base">A hagyományos átlagokat ritka hosszadalmas bejegyzések torzítják. A Nudge a statisztikai mediánt használja a valódi tipikus, torzításoktól mentes munkamenet reprezentálására.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glass p-4 border border-secondary-subtle">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <h3 class="h5 text-white fw-bold mb-2">A 11 lezárt élettéma és témakerék</h3>
+            <p class="text-secondary small mb-0 lh-base">A pályaművek 11 univerzális, rögzített emberi dimenzióba vannak besorolva: munka, kapcsolatok, család, egészség, pénz, identitás, kreativitás, tanulás, utazás, mindennapok és tervek. Vektoros fánkdiagramokon látható 30 nap, 90 nap, 1 év és minden idők nézeteiben.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Work</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Relationships</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Family</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Health</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Money</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Identity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Creativity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Learning</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Travel</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Everyday</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Plans</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Work Writing Environment -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
+        </span>
+        <h2 class="display-5 fw-bold text-white">Az írási környezet: Mély munkára tervezve</h2>
+        <p class="text-secondary fs-5">1,5 másodperc alatti hidegindítás, finom írószer-esztétika és zavaró ergonómia.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>1,5 alatti második hidegindítás</h3>
+            <p class="text-secondary small mb-0 lh-base">A natív WinUI 3 és C# .NET-en biztosítják, hogy a Nudge gombra kattintva 1,5 másodpercen belül közvetlenül a mai bejegyzésen lévő aktív villogó kurzorhoz jusson. Az indexelés és az AI inicializálás a háttérszálakra halasztva.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>Finom írószer-design paletta</h3>
+            <p class="text-secondary small mb-0 lh-base">Finom könyvkötések ihlették: tinta (archív tollfesték tipográfia), papír (erős japán lenvászon szerkesztőfelület), Surround (bőrkötésű króm), lámpa (meleg fókusz kiemelések), Whisper (számolja a margót) és a hajszálelválasztók.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>Magával ragadó élességállítási módok (F11)</h3>
+            <p class="text-secondary small mb-0 lh-base">A teljes képernyős magával ragadó fókusz (F11) eltávolítja az összes krómot; Írógép A görgetés függőlegesen középre állítja az aktív sort; A halvány bekezdésfókusz finoman halványítja a perifériás szöveget, hogy csak az aktuális gondolatot világítsa meg.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>Globális gyorsrögzítés &lt; 200 ms alatt</h3>
+            <p class="text-secondary small mb-0 lh-base">Nyomja meg a Win+Alt+N billentyűket bárhol a Windowsban. Egy könnyű kártya azonnal lebeg a képernyőn. Írja be a megvalósítást, nyomja meg a Ctrl+Enter billentyűkombinációt, és a folyamat megszakítása nélkül időbélyeggel fűzi a mai napi bejegyzést.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Biometrics -->
+  <section class="py-5" id="security">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
+        </span>
+        <h2 class="display-5 fw-bold text-white">Biztonság, biometrikus adatok és adatszuverenitás</h2>
+        <p class="text-secondary fs-5">Helyi biometrikus adatok, opcionális fájlrendszer-titkosítás és univerzális migrációs szabadság.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>Windows Hello biometria</h3>
+            <p class="text-secondary small mb-0 lh-base">Oldja fel a zárolást arcfelismeréssel, ujjlenyomat-érzékelővel vagy biztonságos Windows PIN-kóddal. Konfigurálható automatikus zárolás 1, 5 vagy 15 perc inaktivitás után vagy minimálisra csökkentve.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>Opcionális helyi AES-256-GCM titkosítás</h3>
+            <p class="text-secondary small mb-0 lh-base">Katonai minőségű AES-256 Galois/Counter módban, Argon2id jelszókivonattal származtatva. Nulla vállalati hátsó ajtó vagy letéti kulcs.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>Képernyőmegosztási elhomályosítás és pánikkulcs</h3>
+            <p class="text-secondary small mb-0 lh-base">A DWM-megjelenítési affinitás eltakarja a Nudge ablakát a zoom, a csapatok vagy a képernyőfelvételeken. Az Esc kétszeri megnyomása azonnal minimalizálja, törli a memóriát és zárolja.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>Súrlódásmentes migráció be</h3>
+            <p class="text-secondary small mb-0 lh-base">Beépített importőrök a Day One JSON, Journey, Diarium, Obsidian trezorok és CSV archívumok számára – megőrizve az időbélyegeket, az időjárást és a címkéket.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>Univerzális szabadság, hogy elsétáljunk</h3>
+            <p class="text-secondary small mb-0 lh-base">Exportálhatja teljes folyóiratát bármikor Markdown ZIP-archívumként, örökségminőségű, nyomtatható PDF emlékkönyvként, különálló HTML-portfólióként vagy EPUB e-könyvként.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
+        </span>
+        <h2 class="display-5 fw-bold text-white">A Nudge összehasonlítása: A végleges termékmátrix</h2>
+        <p class="text-secondary fs-5">A Nudge összehasonlítása a Day One, Obsidian, Notion és kereskedelmi AI chatbotokkal.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Funkció/Attribútum</th>
+                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>Nudge</th>
+                <th scope="col">Day One</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Notion</th>
+                <th scope="col">AI Chatbots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Tárolási formátum</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Plain Markdown (.md)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Saját Cloud DB</td>
+                <td class="text-secondary small align-middle">Plain Markdown</td>
+                <td class="text-secondary small align-middle">Felhő adatbázis</td>
+                <td class="text-secondary small align-middle">Felhő Múlékony</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Natív Windows alkalmazás</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Igen (WinUI 3 Native)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Nem (Web Wrapper)</td>
+                <td class="text-secondary small align-middle">Igen (elektron)</td>
+                <td class="text-secondary small align-middle">Nem (elektron)</td>
+                <td class="text-secondary small align-middle">Web / App</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Hálózati tevékenység</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0% légrés</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Folyamatos szinkronizálás</td>
+                <td class="text-secondary small align-middle">Beépülő modul függő</td>
+                <td class="text-secondary small align-middle">Kötelező felhő</td>
+                <td class="text-secondary small align-middle">100% Cloud API</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">100%-ban helyi eszközön</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Cloud API Pipeline</td>
+                <td class="text-secondary small align-middle">Community Cloud API</td>
+                <td class="text-secondary small align-middle">Cloud AI Sub</td>
+                <td class="text-secondary small align-middle">Kereskedelmi modell</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Felhasználói fiók</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Nincs (nulla bejelentkezés)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Kötelező számla</td>
+                <td class="text-secondary small align-middle">Egyik sem</td>
+                <td class="text-secondary small align-middle">Kötelező számla</td>
+                <td class="text-secondary small align-middle">Kötelező bejelentkezés</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Cold Launch to Caret</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt; 1,5 másodperc</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">~4-8 másodperc</td>
+                <td class="text-secondary small align-middle">~3-6 másodperc</td>
+                <td class="text-secondary small align-middle">~5-12 másodperc</td>
+                <td class="text-secondary small align-middle">Változó web</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Szégyenmentes csíkok</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Grace-Day Protection</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Merev napi számláló</td>
+                <td class="text-secondary small align-middle">Beépülő modul függő</td>
+                <td class="text-secondary small align-middle">Egyik sem</td>
+                <td class="text-secondary small align-middle">Egyik sem</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Keresési teljesítmény</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt;150 ms Helyi BM25</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Szerverfüggő</td>
+                <td class="text-secondary small align-middle">Gyors helyi</td>
+                <td class="text-secondary small align-middle">Szerver késés</td>
+                <td class="text-secondary small align-middle">Search Ephemeral</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Biometrikus zárolás</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Windows Hello Native</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">PIN / Cloud Pass</td>
+                <td class="text-secondary small align-middle">Harmadik fél beépülő modulja</td>
+                <td class="text-secondary small align-middle">Egyik sem</td>
+                <td class="text-secondary small align-middle">Egyik sem</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Árképzési modell</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0,99 USD egyszeri vásárlás</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">34,99 USD / év al</td>
+                <td class="text-secondary small align-middle">Free / Sync Sub</td>
+                <td class="text-secondary small align-middle">10 USD+ / hó sub</td>
+                <td class="text-secondary small align-middle">Ingyenes / 20 USD előfizetés</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">Eladói bezárás</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Nulla (Fájlok megnyitása)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Magas (exportálási probléma)</td>
+                <td class="text-secondary small align-middle">Nulla</td>
+                <td class="text-secondary small align-middle">Teljes bezárás</td>
+                <td class="text-secondary small align-middle">Teljes bezárás</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Workflows -->
+  <section class="py-5" id="workflows">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
+        </span>
+        <h2 class="display-5 fw-bold text-white">Öt fő napi munkafolyamat</h2>
+        <p class="text-secondary fs-5">Az írók, nomádok és mélyen gondolkodók hogyan integrálják a Nudge-ot napi ritmusukba.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 1</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>07:00 • 7–10 perc</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">A reggeli tisztánlátás szertartása</h3>
+            <p class="text-secondary small mb-0 lh-base">Hidegindítási Nudge (&lt;1,5 s). Gondolja át a kontextuális AI indító promptot. Írj 200–400 szót a tudatfolyam mentális megtisztulásáról, örökíts meg élénk álmokat, és állíts fel két megalapozott érzelmi szándékot a napra.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 2</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>21:30 • 12 perc</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Az esti dekompresszió</h3>
+            <p class="text-secondary small mb-0 lh-base">Nyomja meg az F11 billentyűt a teljes képernyős élességállításhoz meleg szénsötét módban. Oldja fel a kognitív terhelést a nehéz találkozókból. Gyengéd, soron belüli bökkenő üzeni: &quot;Melyik rész volt az Ön irányítása alatt?&quot; Fejezze be a nyomon követési elmélyítési utasításokkal.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 3</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Vasárnap este • 15 perc</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">A vasárnapi stratégiai szintézis</h3>
+            <p class="text-secondary small mb-0 lh-base">Tekintse át az AI által generált heti tájékoztatót. Vizsgálja meg a 30 napos ThemeWheel-t, és figyelje meg, hogy a kreatív reflexiók csökkentek-e a munka bővülése közben. Állítsa össze a prioritásokat, és határozzon meg előremutató szándékokat hétfőre.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 4</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>35 000 láb • Repülési / Repülőgép üzemmódban</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">Az Off-Grid Nomad</h3>
+            <p class="text-secondary small mb-0 lh-base">100%-ban offline működés nulla csatlakozási hibával. Az eszközön lévő SLM promptokat és összefoglalókat generál. Húzza a naplómappát egy titkosított flash meghajtóra az azonnali fizikai biztonsági mentéshez.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 5</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Egész munkanapon • Azonnali</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">A Kreatív és Akadémiai Firkálótömb</h3>
+            <p class="text-secondary small mb-0 lh-base">Nyomja meg a Win+Alt+N billentyűkombinációt a globális gyorsrögzítés elindításához 200 ms alatti mélységi munka közben. A jegyzeteket zökkenőmentesen hozzáfűzik időbélyegekkel. Kapcsolja össze a naplómappát az Obsidian tárolókkal a nulla szinkronizálású tudásgráf-integráció érdekében.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Tiers -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
+        </span>
+        <h2 class="display-5 fw-bold text-white">Hardverszintek és számítási hatékonyság</h2>
+        <p class="text-secondary fs-5">Natív végrehajtás x64 és ARM64 Copilot+ PC-ken szigorú RAM-mal és akkumulátor-költségvetésekkel.</p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>1. szint: tiszta CPU (univerzális)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Bármilyen modern x64 / ARM64 processzor, 8 GB RAM, Intel Core / AMD Ryzen / Snapdragon.</p>
+            <p class="text-secondary small mb-0 lh-base">Teljes naplóképesség, 150 ms alatti BM25 keresés, kurált determinisztikus prompt bankok, CPU INT4 AI következtetés.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>2. szint: DirectML GPU (gyorsított)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Intel Iris Xe, AMD Radeon, NVIDIA GTX/RTX dedikált vagy integrált grafika.</p>
+            <p class="text-secondary small mb-0 lh-base">Lenyűgöző gyors helyi mesterséges intelligencia-következtetés a két másodperc alatti első token generációval.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>3. szint: Copilot+ NPU (következő generációs AI PC)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Qualcomm Snapdragon X Elite/Plus, Intel Core Ultra NPU, AMD Ryzen AI.</p>
+            <p class="text-secondary small mb-0 lh-base">Dedikált neurális hardveres következtetés gyakorlatilag nulla ventilátorzajjal, apró akkumulátorütéssel és azonnali reagálással.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 10 (Build 17763+) vagy Windows 11; x64 vagy ARM64; 8 GB RAM; 500 MB lemezterület (opcionális 2,5–4,5 GB a helyi AI súlyokhoz).</p>
+          </div>
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
+            <p class="text-secondary small mb-0 mt-1">Windows 11; modern többmagos Intel i7/Ryzen 7 vagy Snapdragon X; 16 GB RAM; DirectML GPU vagy NPU; NVMe SSD.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Licensing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
+        </span>
+        <h2 class="display-5 fw-bold text-white">Átlátható engedélyezés: Az előfizetés-ellenes szerződés</h2>
+        <p class="text-secondary fs-5">Fizessen egyszer, legyen örökké a tulajdonában. 15 napos korlátlan próbaidőszak, nulla hitelkártya szükséges.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
+            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
+            <p class="text-white-50 small mb-4">Zero credit card required</p>
+            <p class="text-secondary small mb-4 lh-base text-start">A funkciók 100%-a feloldva, beleértve az eszközön található mesterséges intelligencia futtatókörnyezetet, a BM25 keresést, mind az 50+ nyelvet, a ThemeWheeleket és a PDF-könyvek exportálását. Nem szükséges hitelkártya, nulla automatikus számlázás.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
+              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
+            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
+            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
+            <p class="text-secondary small mb-4 lh-base text-start">Egyszeri vásárlás életre szóló személyes tulajdonjoggal. Tartalmazza az összes kisebb frissítést és a regionális vásárlóerő-paritásos árakat a Microsoft Store-ban.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> Vásárolja meg egyszerre — 0,99 $ örökre
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>A „Fail-Open” offline garancia</h4>
+            <p class="text-secondary small mb-0 lh-base">Ha egy offline licenc ellenőrzése időtúllépést szenved, vagy meghiúsul, miközben egy elszigetelt kabinban kiírja a rácsot, a Nudge meghiúsul, és teljes hozzáférést biztosít. Soha nem zárjuk ki a privát gondolataid elől.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>Állandó olvasási és exportálási szabadság</h4>
+            <p class="text-secondary small mb-0 lh-base">Ha a próbaidőszak vásárlás nélkül lejár, a Nudge állandó, csak olvasható archívummá válik. Böngészhet, kereshet a BM25 segítségével, és örökre exportálhat Markdown vagy PDF formátumba. A fájlok nyitva maradnak Markdown a lemezen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
+        </span>
+        <h2 class="display-5 fw-bold text-white">Gyakran Ismételt Kérdések</h2>
+        <p class="text-secondary fs-5">Minden, amit tudnia kell az adatvédelemről, a helyi AI-ról, a tárolásról és a licencelésről.</p>
+      </div>
+      <div class="max-w-900 mx-auto">
+        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Q1: Miben különbözik a Nudge minden más naplóíró alkalmazástól?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A Nudge két alapelvet egyesít: a 100%-ban légrés nélküli helyi szuverenitást (sima Markdown fájlok a lemezen nulla felhő telemetriával) és egy csendes, eszközön lévő AI-társat (kis nyelvű modellek, amelyek közvetlenül a számítógép szilíciumán futnak). A magánélet feláldozása vagy az ismétlődő előfizetések fizetése nélkül élvezheti az intelligens gondolkodás és elemzés előnyeit.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Q2: A Nudge tényleg soha nem csatlakozik az internethez?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse " aria-labelledby="faq2Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Igen. A telepítést követően a Nudge nulla futásidejű hálózati kérést hajt végre: nincsenek nyomkövetési szkriptek, nem telefonálnak összeomlási riporterek, és nincsenek távoli betűtípuskérések. Az egyetlen engedélyezett hálózati interakció a nyílt súlyozású nyelvi modellsúlyok opcionális, felhasználó által kezdeményezett egyszeri letöltése a beállítás során. Lekapcsolhatja a Wi-Fi-t, vagy futhat egy légrés homokozóban, ahol a funkciók 100%-ban sértetlenek.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Q3: Miért tárolja a bejegyzéseket Markdown fájlként adatbázis helyett?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse " aria-labelledby="faq3Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Az adatbázisok saját tulajdonú silókat hoznak létre, amelyek ki vannak téve a korrupciónak és az elhagyásnak. A Sima Markdown (.md) szövegfájlok a YAML előlappal elpusztíthatatlanok, ember által olvashatók és általánosan hozzáférhetőek. 50 év múlva bármely számítógépes rendszeren olvashatóak lesznek, és bármikor megnyithatók Obsidian, VS Code vagy Notepad segítségével.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Q4: Miért nem kínál a Nudge beépített felhőszinkronizálást?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse " aria-labelledby="faq4Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Mivel a felhőalapú szinkronizálás megköveteli az ügyféladatok távoli szervereken történő tárolását, biztonsági réseket és ismétlődő díjakat. Mivel a Nudge a naplót egy közönséges mappaként tárolja a merevlemezen, szinkronizálhatja saját megbízható, végpontok közötti titkosított eszközeivel – például a OneDrive, a Dropbox, a Syncthing vagy a Nextcloud segítségével.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Q5: Hogyan futhat egy AI-társ helyben anélkül, hogy adatokat küldene az OpenAI-nak vagy a Google-nak?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse " aria-labelledby="faq5Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A kvantált kis nyelvi modellek (például a Google Gemma és a Microsoft Phi) legújabb áttörései lehetővé teszik, hogy a megfelelő modellek közvetlenül futhassanak a fogyasztói PC-hardvereken az ONNX Runtime GenAI és a LlamaSharp segítségével. A számítás szigorúan a fizikai CPU-n, GPU-n vagy NPU-n történik. Egyetlen tokent sem továbbítanak az interneten.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Q6: Használhatom a Nudge-ot letöltés vagy mesterséges intelligencia funkció használata nélkül?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse " aria-labelledby="faq6Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Teljesen. A helyi AI-társ teljes mértékben opcionális. A beállítás során kihagyhatja a modell letöltését. A Nudge hibátlanul működik ultragyors, figyelemeltereléstől mentes, egyszerű szöveges naplóként, válogatott determinisztikus reflektív felszólításokkal.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Q7: Az MI értékel engem, vagy pszichológiai tanácsot ad?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse " aria-labelledby="faq7Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Soha. A Nudge mesterséges intelligencia kimeneteit szigorúan korlátozzák a GBNF nyelvtanai és etikai rendszerkérdései. Soha nem fogja megmondani, mit kell tenned, nem ajánlja fel amatőr terápiát, vagy értékeli a karakteredet. Pusztán intellektuális tükörként működik, tükrözi gondolatait, és tisztázó kérdéseket tesz fel.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Q8: Mi az a három „Reflexiós pillanat”?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse " aria-labelledby="faq8Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  1. Az indító: egy átgondolt kérdés, amely az üres oldalon jelenik meg, mielőtt ír. 2. Az Inline Nudge: egy finom kérdés, amely csak akkor lebeg a kurzor alatt, ha 40 szó beírása után legalább 6 másodpercre szünetelteti a gépelést. 3. The Deepen: 2-3 utókérdés, amelyet a bejegyzés lezárásakor felkínálnak, egyértelműen hozzáfűzve Markdown alcímekként.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 9 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Q9: Hogyan működik az „Ask Your Journal”? Vajon hallucinál?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse " aria-labelledby="faq9Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A Nudge a helyi BM25 fordított indexét használja a releváns múltbeli bejegyzések lekéréséhez, a helyi SLM pedig szintetizálja a közvetlen választ kötelező kattintható hivatkozásokkal. Ha nem léteznek releváns bejegyzések, a modell szigorúan kijelenti: „Nem találtam erről semmit a naplójában” – ez matematikailag blokkolja a memóriagyártást.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 10 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Q10: Hogyan készítsek biztonsági másolatot a naplómról?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse " aria-labelledby="faq10Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A biztonsági mentés olyan egyszerű, mint egy mappa másolása. Keresse meg a naplókönyvtárat (alapértelmezés szerint a Documents/Nudge), és másolja át egy külső meghajtóra, USB-meghajtóra vagy biztonsági mentési meghajtóra. Minden bejegyzés, piszkozat, címke és beállítás ebben a mappában található.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 11 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Q11: Mi történik, ha gépelés közben összeomlik a számítógépem?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse " aria-labelledby="faq11Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Minden billentyűleütés egy gyors-helyreállítási piszkozatba (.draft.md) kerül mentésre 500 ezredmásodpercenként. Ha az áramellátás hirtelen megszakad, a nem véglegesített szöveg az újraindítás után azonnal visszaáll. A teljes mentések atomi fájlrendszer-csere műveleteket használnak a korrupció kiküszöbölésére.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 12 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Q12: Importálhatom a meglévő naplómat a Day One, Journey vagy Obsidian programból?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse " aria-labelledby="faq12Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Igen! A Nudge natív, beépített importmotorokat tartalmaz a Day One JSON-exportokhoz, Journey, Diarium, Obsidian/Markdown tárolókhoz, valamint szabványos CSV-archívumok teljes metaadat-megőrzéssel.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 13 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Q13: Hogyan működik a Windows Hello biometrikus zárolása?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse " aria-labelledby="faq13Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A Nudge integrálható a natív Windows Hello API-kkal. Oldja fel naplóját az arcfelismeréssel, az ujjlenyomat-érzékelőkkel vagy a Windows PIN-kódjával. A biometrikus hitelesítés 100%-ban offline módban működik anélkül, hogy külső identitásszolgáltatókkal kommunikálna.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 14 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Q14: Titkosíthatom a naplófájljaimat a lemezen?
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse " aria-labelledby="faq14Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Igen. A Nudge opcionális helyi fájlrendszer-titkosítást kínál katonai minőségű AES-256-GCM használatával, amely Argon2id jelszókivonatból származik. A fájlok nyugalmi állapotban nulla hátsó ajtóval vagy vállalati helyreállítási letéttel vannak titkosítva.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 15 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq15Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                  Q15: Miért nem mutat a Nudge piros számokat, ha kihagyok egy napot?
+                </button>
+              </h3>
+              <div id="faq15" class="accordion-collapse collapse " aria-labelledby="faq15Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Mert a bűntudat káros motivációja az önvizsgálatnak. A valódi élethez tartozik a betegség, az utazás és a pihenés. A Nudge az automatikus türelmi napokat sorozatokká építi be, elkerüli a piros büntetés-jelzőket, és aktívan ünnepli a megtérülési arányt.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 16 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq16Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                  Q16: Mi az a 11 élettéma?
+                </button>
+              </h3>
+              <div id="faq16" class="accordion-collapse collapse " aria-labelledby="faq16Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A bejegyzések 11 zárt emberi dimenzióba vannak besorolva: Munka, Kapcsolatok, Család, Egészség, Pénz, Identitás, Kreativitás, Tanulás, Utazás, Mindennap és Tervek. A vektoros ThemeWheels megjeleníti, hogy feltárja, hogyan változnak élete egyensúlyai ​​az évszakok között.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 17 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq17Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                  Q17: Miért a medián szószámot jelenti az átlagok helyett?
+                </button>
+              </h3>
+              <div id="faq17" class="accordion-collapse collapse " aria-labelledby="faq17Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Az időnkénti hosszú esszék torzítják a számtani átlagokat. Ha öt 100 szavas bejegyzést és egy 3000 szavas bejegyzést ír, akkor az átlag 583 szó. A statisztikai medián pontosan tükrözi a tipikus munkamenet alapvonalát.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 18 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq18Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                  Q18: Mennyibe kerül a Nudge?
+                </button>
+              </h3>
+              <div id="faq18" class="accordion-collapse collapse " aria-labelledby="faq18Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  A Nudge egyszeri 0,99 USD értékű vásárlás, automatikus regionális vásárlási paritásos árképzéssel a Microsoft Store-ban. Nulla előfizetés, nulla funkciószint, nulla hirdetés.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 19 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq19Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                  Q19: Mi történik, ha lejár a 15 napos próbaidőszak?
+                </button>
+              </h3>
+              <div id="faq19" class="accordion-collapse collapse " aria-labelledby="faq19Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Állandó csak olvasható archiválási módba tolja az átmeneteket. Kereshet a BM25 segítségével, elolvashatja az idővonalat, és örökre exportálhat Markdown vagy PDF formátumba. Mivel a bejegyzések sima Markdown a Dokumentumok mappában, bármikor megnyithatja és szerkesztheti őket bármely szövegszerkesztőben.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 20 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq20Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                  Q20: Telepíthetem a Nudge-ot több Windows számítógépre egy vásárlással?
+                </button>
+              </h3>
+              <div id="faq20" class="accordion-collapse collapse " aria-labelledby="faq20Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Igen. A Microsoft Store szabványos licence alapján egyetlen személyes licenc lehetővé teszi a telepítést a Microsoft-fiókjával bejelentkezett, kompatibilis személyes Windows 10 és 11 eszközökön.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 21 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq21Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq21" aria-expanded="false" aria-controls="faq21">
+                  Q21: A Nudge támogatja az ARM64 eszközöket, például a Copilot+ PC-ket?
+                </button>
+              </h3>
+              <div id="faq21" class="accordion-collapse collapse " aria-labelledby="faq21Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Igen! A Nudge natív x64-re és ARM64-re is össze van állítva, nagy akkumulátor-hatékonysággal és az eszközön található neurális NPU-gyorsítással működik Snapdragon X Elite és Snapdragon X Plus Copilot+ PC-ken.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 22 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq22Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq22" aria-expanded="false" aria-controls="faq22">
+                  Q22: Mi történik, ha az offline licencellenőrzés meghiúsul, miközben a hálózaton kívül vagyok?
+                </button>
+              </h3>
+              <div id="faq22" class="accordion-collapse collapse " aria-labelledby="faq22Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Sikertelen megnyitási szabályzatunk értelmében a Nudge meghiúsul, és teljes hozzáférést biztosít, ha a licencellenőrzés lejár, vagy nem éri el a Store gyorsítótárat. Soha nem leszel kizárva a naplódból.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 23 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq23Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq23" aria-expanded="false" aria-controls="faq23">
+                  Q23: Hol kaphatok támogatást vagy jelenthetek be problémát?
+                </button>
+              </h3>
+              <div id="faq23" class="accordion-collapse collapse " aria-labelledby="faq23Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Mérnöki csapatunkat közvetlenül a support@dhinovatech.com címen érheti el. Mivel nulla távoli hiba telemetriát gyűjtünk, megoszthatja helyi crash.log fájlját az azonnali megoldás érdekében.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5" id="quotes">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
+        </span>
+        <h2 class="display-5 fw-bold text-white">Az írók és a gondolkodók véleménye a Nudge-ról</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Nudge nyelven írni olyan érzés, mintha bezárnád egy zajos utca ajtaját, és leülnél egy napsütötte magánkönyvtárba. Tudván, hogy a szavaim a saját merevlemezemen vannak tárolva, és egyetlen felhőszerver sem olvassa a gondolataimat, lehetővé teszi számomra, hogy olyan őszinteséggel írjak, amit tizenöt éve nem éreztem."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Dr. Aris Thorne</span>
+              <span class="text-white-50 extra-small">Szerző és akadémiai kutató</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"A 6 másodperces szüneteltetés az interakciótervezés mesterkurzusa. Nem szakít meg. Egyszerűen megvárja, amíg valóban elakad, felvilágosít egy kérdést, és eltűnik, amint az ujjai újra mozogni kezdenek. Ez megváltoztatta az esti naplóírási rituálémat."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Elena Rostova</span>
+              <span class="text-white-50 extra-small">Szoftverépítész és esszéíró</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"Szkeptikus voltam a helyi mesterséges intelligenciával szemben egy laptopon, amíg ki nem teszteltem a Nudge-ot egy repülőgépen, ahol a Wi-Fi ki volt kapcsolva. Miután az elmúlt heti bejegyzéseimet összefüggő narratívává szintetizáltam az Atlanti-óceán felett repülés közben, nulla felhőkapcsolattal, meggyőzött, hogy így kell szoftvereket építeni."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Marcus Vance</span>
+              <span class="text-white-50 extra-small">Technológiai stratéga és digitális nomád</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
+    <div class="container py-5 text-center max-w-800 mx-auto">
+      <div class="d-inline-block position-relative mb-4">
+        <img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+      </div>
+      <h2 class="display-4 fw-bold text-white mb-3">Vedd vissza a belső életedet</h2>
+      <p class="lead text-secondary mb-4">A vállalati felhőgyűjtés és az állandó előfizetések által uralt digitális világban az Ön személyes gondolatai jelentik az utolsó igazán szent határt. Kezdje el 15 napos ingyenes utazását még ma.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
+          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> Vásároljon egyszer – 0,99 USD élettartamra
+        </a>
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
+          <i class="bi bi-download me-2" aria-hidden="true"></i> Töltse le a 15 napos ingyenes próbaverziót
+        </a>
+      </div>
+      <p class="extra-small text-white-50 mb-0">100%-ban offline • Zéró telemetria • Egyszerű leértékelési fájlok • WinUI 3 Windows 10 és 11 rendszerhez</p>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Nudge">
+  <img src="/assets/images/nudge-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Nudge</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Telepítés</a>
+</div>
+<button type="button" class="to-top" aria-label="Vissza a tetejére" title="Vissza a tetejére">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">We use Google Analytics to see how this site is used. Decline and nothing is stored — the site works exactly the same either way. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

@@ -39,7 +39,7 @@ EXCLUDE = {"404.html"}
 # duplicate, contradicting canonical. They are skipped from head processing
 # only - write_sitemap() reads each page's own canonical, so they stay in
 # sitemap.xml exactly as before.
-SELF_MANAGED = ("glowcompare-windows",)
+SELF_MANAGED = ("glowcompare-windows", "nudge")
 
 # Intrinsic dimensions of everything under assets/images, written by
 # build-images.py. og:image:width/height have to match the file actually
@@ -93,6 +93,12 @@ APPS = {
     icon="/assets/images/stow-icon.png",
     og="/assets/images/stow-icon.png", ogw=512, ogh=512,
     ogalt="Stow photo and file organizer icon", large=False),
+ 'nudge': dict(
+    name="Nudge — Offline Journal & Diary with AI Companion", os="Windows", cat="LifestyleApplication",
+    store="https://apps.microsoft.com/detail/9MV92P7RLDGB",
+    icon="/assets/images/nudge-icon.png",
+    og="/assets/images/nudge-icon.png", ogw=512, ogh=512,
+    ogalt="Nudge offline journal and diary with AI companion icon", large=False),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",
@@ -122,6 +128,7 @@ SHOTS = {
 # the same cluster, and emitting a duplicate hreflang is worse than emitting
 # one Google skips. Those pages still index normally through their canonical.
 HREF = {'zh': 'zh-Hans',
+        'pt-pt': 'pt-PT',
         'arz': 'ar-EG',   # Egyptian Arabic
         'pnb': 'pa-PK',   # Western Punjabi (Shahmukhi)
         'yue': 'zh-HK',   # Cantonese
@@ -137,7 +144,9 @@ OGLOC = {'en':'en_US','es':'es_ES','fr':'fr_FR','de':'de_DE','it':'it_IT','nl':'
  'or':'or_IN','tl':'tl_PH','ha':'ha_NG','yo':'yo_NG','am':'am_ET','ps':'ps_AF',
  'jv':'jv_ID','cs':'cs_CZ','da':'da_DK','fi':'fi_FI','he':'he_IL',
  'hu':'hu_HU','sv':'sv_SE','nb':'nb_NO','ar-EG':'ar_EG','pa-PK':'pa_PK',
- 'zh-HK':'zh_HK','zh-TW':'zh_TW','en-NG':'en_NG'}
+ 'zh-HK':'zh_HK','zh-TW':'zh_TW','en-NG':'en_NG',
+ 'pt-PT':'pt_PT','pt-pt':'pt_PT','ms':'ms_MY','ro':'ro_RO','el':'el_GR',
+ 'my':'my_MM','kk':'kk_KZ','sk':'sk_SK','ca':'ca_ES'}
 
 def hl(code):
     return HREF.get(code, code)
@@ -237,11 +246,13 @@ def untranslated(pages):
     ref, out = {}, set()
     for p in pages:
         parts = relpath(p).split('/')
+        if parts[0] in SELF_MANAGED:
+            continue
         if len(parts) == 2 and parts[0] in APPS and parts[1] == 'index.html':
             ref[parts[0]] = segments(open(p, encoding='utf-8').read())
     for p in pages:
         parts = relpath(p).split('/')
-        if len(parts) != 3 or parts[0] not in APPS or parts[2] != 'index.html':
+        if parts[0] in SELF_MANAGED or len(parts) != 3 or parts[0] not in APPS or parts[2] != 'index.html':
             continue
         en = ref.get(parts[0])
         if not en:
@@ -476,7 +487,16 @@ def process(pages, locales, skip=frozenset()):
             return tag[:-1].rstrip() + ' loading="lazy"' + extra + '>'
 
         s = re.sub(r'<img\b[^>]*>', img, s)
-        open(p, 'w', encoding='utf-8', newline='').write(s)
+        for attempt in range(5):
+            try:
+                with open(p, 'w', encoding='utf-8', newline='') as fh:
+                    fh.write(s)
+                break
+            except OSError:
+                if attempt == 4:
+                    raise
+                import time
+                time.sleep(0.15)
     return lazy, eager, skipped
 
 def write_sitemap(pages):

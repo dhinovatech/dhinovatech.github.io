@@ -60,11 +60,19 @@
         var m = STORE_RE.exec(web);
         if (!m) return;
 
-        // Carry the campaign tag across so Partner Center still attributes the
-        // install to this site.
+        // Carry the campaign tags across so Partner Center still attributes
+        // the install to this site. Both have to come along: Windows visitors
+        // are the only ones who can actually install, so a tag that survives
+        // only on the web URL is a tag that is never counted.
+        //
+        // The cid pattern needs the [?&] boundary - 'cid=' also matches inside
+        // 'ocid=', and without it every link would deep-link ocid's value as
+        // its cid.
         var ocid = /[?&]ocid=([^&#]+)/.exec(web);
+        var cid = /[?&]cid=([^&#]+)/.exec(web);
         var deep = 'ms-windows-store://pdp/?productid=' + m[1] +
-                   (ocid ? '&ocid=' + ocid[1] : '');
+                   (ocid ? '&ocid=' + ocid[1] : '') +
+                   (cid ? '&cid=' + cid[1] : '');
 
         a.setAttribute('href', deep);
         // A protocol handler never renders a document, so a new tab would just

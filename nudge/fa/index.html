@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: analytics denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which it is granted by
+       default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else: analytics is on and the notice is an opt-out rather
+       than a gate. Section 2 of /privacy.html says so in as many words.
+
+       The three advertising signals stay denied in every region, including
+       the ones where analytics is granted. The Google Ads tag is still
+       loaded, and still measures - Consent Mode falls back to cookieless
+       pings and modelled conversions - but it sets no advertising cookie and
+       builds no remarketing audience anywhere in the world. Granting them
+       outside the EEA is a decision to be taken deliberately, and it would
+       need the banner copy and section 2 of the privacy policy to be rewritten
+       first: both currently tell the reader that Analytics is the only thing
+       here. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit. */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered === 'granted' || answered === 'denied') {
+          gtag('consent', 'update', {'analytics_storage': answered});
+        }
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge — دفتر خاطرات و یادداشت‌ روزانه آفلاین با هوش مصنوعی محلی | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech</title>
+  <meta name="description" content="Nudge یک مجله رومیزی صمیمی و بدون حواس پرتی است که به صورت بومی برای ویندوز ساخته شده است. این سیستم حاکمیت دیجیتال مطلق فایل‌های Markdown ساده محلی را با هوش آرام یک همراه هوش مصنوعی روی دستگاه که هرگز به اینترنت متصل نمی‌شود، متحد می‌کند....">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
+    :root {
+      --nudge-amber: #f59e0b;
+      --nudge-gold: #fbbf24;
+      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
+      --nudge-bg-dark: #0a0b0d;
+      --nudge-card-bg: #121316;
+      --nudge-card-border: rgba(245, 158, 11, 0.22);
+    }
+    .glow-aura-amber {
+      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    }
+    .nudge-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
+      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+    }
+    .nudge-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    }
+    .theme-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 20px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      font-size: 0.85rem; color: #fde68a; text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: #fbbf24; color: #fff;
+    }
+    .invariant-card {
+      border-left: 3px solid #f59e0b !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .invariant-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
+    }
+    .pillar-card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(245, 158, 11, 0.45) !important;
+    }
+    .feature-bullet-list li {
+      position: relative;
+      padding-left: 1.4rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .feature-bullet-list li::before {
+      content: "\u2022";
+      position: absolute;
+      left: 0.35rem;
+      color: #fbbf24;
+      font-size: 1.1rem;
+      line-height: 1.2;
+    }
+    .compare-table {
+      font-size: 0.88rem;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .compare-table thead th {
+      background: rgba(17, 24, 39, 0.95);
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    .compare-table th.nudge-col, .compare-table td.nudge-col {
+      background: rgba(245, 158, 11, 0.08);
+      border-left: 1px solid rgba(245, 158, 11, 0.25);
+      border-right: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .nudge-code-box {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.82rem; background: #08090b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
+      white-space: pre; overflow-x: auto;
+    }
+    .stationery-token {
+      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
+    }
+    /* RTL adjustments */
+    [dir="rtl"] .feature-bullet-list li {
+      padding-left: 0;
+      padding-right: 1.4rem;
+    }
+    [dir="rtl"] .feature-bullet-list li::before {
+      left: auto;
+      right: 0.35rem;
+    }
+    [dir="rtl"] .invariant-card {
+      border-left: none !important;
+      border-right: 3px solid #f59e0b !important;
+    }
+    [dir="rtl"] .dropdown-menu-end {
+      right: auto !important;
+      left: 0 !important;
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/nudge/fa/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/nudge/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/nudge/ar/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/nudge/zh/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/nudge/es/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/nudge/ja/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/nudge/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/nudge/fr/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/nudge/ko/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/nudge/hi/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/nudge/pt/">
+  <link rel="alternate" hreflang="pt-PT" href="https://www.dhinovatech.com/nudge/pt-pt/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/nudge/id/">
+  <link rel="alternate" hreflang="ms" href="https://www.dhinovatech.com/nudge/ms/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/nudge/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/nudge/tr/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/nudge/it/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/nudge/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/nudge/pl/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/nudge/th/">
+  <link rel="alternate" hreflang="fa" href="https://www.dhinovatech.com/nudge/fa/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/nudge/sv/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/nudge/vi/">
+  <link rel="alternate" hreflang="bn" href="https://www.dhinovatech.com/nudge/bn/">
+  <link rel="alternate" hreflang="zh-HK" href="https://www.dhinovatech.com/nudge/yue/">
+  <link rel="alternate" hreflang="tl" href="https://www.dhinovatech.com/nudge/tl/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/nudge/uk/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/nudge/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/nudge/ro/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/nudge/he/">
+  <link rel="alternate" hreflang="el" href="https://www.dhinovatech.com/nudge/el/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/nudge/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/nudge/da/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/nudge/fi/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/nudge/nb/">
+  <link rel="alternate" hreflang="te" href="https://www.dhinovatech.com/nudge/te/">
+  <link rel="alternate" hreflang="mr" href="https://www.dhinovatech.com/nudge/mr/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/nudge/ta/">
+  <link rel="alternate" hreflang="gu" href="https://www.dhinovatech.com/nudge/gu/">
+  <link rel="alternate" hreflang="ur" href="https://www.dhinovatech.com/nudge/ur/">
+  <link rel="alternate" hreflang="pa" href="https://www.dhinovatech.com/nudge/pa/">
+  <link rel="alternate" hreflang="ml" href="https://www.dhinovatech.com/nudge/ml/">
+  <link rel="alternate" hreflang="kn" href="https://www.dhinovatech.com/nudge/kn/">
+  <link rel="alternate" hreflang="jv" href="https://www.dhinovatech.com/nudge/jv/">
+  <link rel="alternate" hreflang="sw" href="https://www.dhinovatech.com/nudge/sw/">
+  <link rel="alternate" hreflang="ha" href="https://www.dhinovatech.com/nudge/ha/">
+  <link rel="alternate" hreflang="yo" href="https://www.dhinovatech.com/nudge/yo/">
+  <link rel="alternate" hreflang="my" href="https://www.dhinovatech.com/nudge/my/">
+  <link rel="alternate" hreflang="am" href="https://www.dhinovatech.com/nudge/am/">
+  <link rel="alternate" hreflang="kk" href="https://www.dhinovatech.com/nudge/kk/">
+  <link rel="alternate" hreflang="sk" href="https://www.dhinovatech.com/nudge/sk/">
+  <link rel="alternate" hreflang="ca" href="https://www.dhinovatech.com/nudge/ca/">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Nudge — دفتر خاطرات و یادداشت‌ روزانه آفلاین با هوش مصنوعی محلی | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta property="og:description" content="Nudge یک مجله رومیزی صمیمی و بدون حواس پرتی است که به صورت بومی برای ویندوز ساخته شده است. این سیستم حاکمیت دیجیتال مطلق فایل‌های Markdown ساده محلی را با هوش آرام یک همراه هوش مصنوعی روی دستگاه که هرگز به اینترنت متصل نمی‌شود، متحد می‌کند....">
+  <meta property="og:url" content="https://www.dhinovatech.com/nudge/fa/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="Nudge offline journal and diary with AI companion icon">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ms_MY">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="bn_IN">
+  <meta property="og:locale:alternate" content="zh_HK">
+  <meta property="og:locale:alternate" content="tl_PH">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta property="og:locale:alternate" content="el_GR">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="te_IN">
+  <meta property="og:locale:alternate" content="mr_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="gu_IN">
+  <meta property="og:locale:alternate" content="ur_PK">
+  <meta property="og:locale:alternate" content="pa_IN">
+  <meta property="og:locale:alternate" content="ml_IN">
+  <meta property="og:locale:alternate" content="kn_IN">
+  <meta property="og:locale:alternate" content="jv_ID">
+  <meta property="og:locale:alternate" content="sw_KE">
+  <meta property="og:locale:alternate" content="ha_NG">
+  <meta property="og:locale:alternate" content="yo_NG">
+  <meta property="og:locale:alternate" content="my_MM">
+  <meta property="og:locale:alternate" content="am_ET">
+  <meta property="og:locale:alternate" content="kk_KZ">
+  <meta property="og:locale:alternate" content="sk_SK">
+  <meta property="og:locale:alternate" content="ca_ES">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nudge — دفتر خاطرات و یادداشت‌ روزانه آفلاین با هوش مصنوعی محلی | Microsoft Store (Windows 10 &amp; 11) | Dhinovatech">
+  <meta name="twitter:description" content="Nudge یک مجله رومیزی صمیمی و بدون حواس پرتی است که به صورت بومی برای ویندوز ساخته شده است. این سیستم حاکمیت دیجیتال مطلق فایل‌های Markdown ساده محلی را با هوش آرام یک همراه هوش مصنوعی روی دستگاه که هرگز به اینترنت متصل نمی‌شود، متحد می‌کند....">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/nudge-icon.png">
+  <meta name="twitter:image:alt" content="Nudge offline journal and diary with AI companion icon">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.dhinovatech.com/#website","url":"https://www.dhinovatech.com/","name":"Dhinovatech","publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/nudge/fa/#app","name":"Nudge — دفتر خاطرات و یادداشت‌ روزانه آفلاین با هوش مصنوعی محلی","applicationCategory":"LifestyleApplication","operatingSystem":"Windows 10, Windows 11","description":"Nudge یک مجله رومیزی صمیمی و بدون حواس پرتی است که به صورت بومی برای ویندوز ساخته شده است. این سیستم حاکمیت دیجیتال مطلق فایل‌های Markdown ساده محلی را با هوش آرام یک همراه هوش مصنوعی روی دستگاه که هرگز به اینترنت متصل نمی‌شود، متحد می‌کند....","url":"https://www.dhinovatech.com/nudge/fa/","image":"https://www.dhinovatech.com/assets/images/nudge-icon.png","inLanguage":"fa","offers":{"@type":"Offer","price":"0.99","priceCurrency":"USD","url":"https://apps.microsoft.com/detail/9MV92P7RLDGB","availability":"https://schema.org/InStock","seller":{"@id":"https://www.dhinovatech.com/#organization"}},"publisher":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Nudge Offline Journal","item":"https://www.dhinovatech.com/nudge/"},{"@type":"ListItem","position":3,"name":"Nudge (fa)","item":"https://www.dhinovatech.com/nudge/fa/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/nudge/fa/#faq","inLanguage":"fa","mainEntity":[{"@type":"Question","name":"چه چیزی Nudge را از سایر برنامه های ژورنالینگ متفاوت می کند؟","acceptedAnswer":{"@type":"Answer","text":"Nudge دو اصل اساسی را با هم ترکیب می کند: 100٪ حاکمیت محلی با شکاف هوا (فایل های Markdown ساده روی دیسک شما با تله متری ابری صفر) و یک همراه هوش مصنوعی بی صدا روی دستگاه (مدل های زبان کوچک که مستقیماً روی سیلیکون رایانه شخصی شما اجرا می شوند). شما بدون به خطر انداختن حریم خصوصی یا پرداخت اشتراک های مکرر، از مزایای بازتاب و تحلیل هوشمند بهره مند می شوید."}},{"@type":"Question","name":"آیا واقعا Nudge هرگز به اینترنت متصل نمی شود؟","acceptedAnswer":{"@type":"Answer","text":"بله. پس از نصب، Nudge درخواست‌های شبکه زمان اجرا صفر را اجرا می‌کند: بدون اسکریپت ردیابی، بدون گزارش‌گران خرابی که به خانه تلفن می‌زنند و درخواست فونت از راه دور. تنها تعامل مجاز شبکه، دانلود اختیاری و یکباره توسط کاربر وزن‌های مدل زبان با وزن باز در طول راه‌اندازی است. می‌توانید Wi-Fi را قطع کنید یا در یک جعبه ماسه‌ای با شکاف هوا با 100٪ ویژگی‌های دست نخورده اجرا کنید."}},{"@type":"Question","name":"چرا ورودی ها را به جای پایگاه داده به عنوان فایل های Markdown ذخیره کنید؟","acceptedAnswer":{"@type":"Answer","text":"پایگاه های داده سیلوهای اختصاصی ایجاد می کنند که در برابر فساد و رها شدن آسیب پذیر هستند. فایل‌های متنی Plain Markdown (.md) با ماده جلویی YAML غیرقابل تخریب، قابل خواندن برای انسان و در دسترس عموم هستند. آنها 50 سال بعد در هر سیستم رایانه ای قابل خواندن خواهند بود و می توانند در هر زمان با Obsidian، VS Code یا Notepad باز شوند."}},{"@type":"Question","name":"چرا Nudge همگام سازی ابری داخلی را ارائه نمی دهد؟","acceptedAnswer":{"@type":"Answer","text":"از آنجا که همگام سازی ابری مستلزم میزبانی داده های مشتری در سرورهای راه دور، معرفی آسیب پذیری های امنیتی و هزینه های مکرر است. از آنجایی که Nudge ژورنال شما را به عنوان یک پوشه معمولی روی هارد دیسک ذخیره می کند، می توانید آن را با استفاده از ابزارهای رمزگذاری شده مطمئن و سرتاسر خود - مانند OneDrive، Dropbox، Syncthing یا Nextcloud، همگام سازی کنید."}},{"@type":"Question","name":"چگونه یک همراه هوش مصنوعی بدون ارسال داده به OpenAI یا Google می تواند به صورت محلی اجرا شود؟","acceptedAnswer":{"@type":"Answer","text":"پیشرفت‌های اخیر در مدل‌های زبان کوچک کوانتیزه‌شده (مانند Google Gemma و Microsoft Phi) به مدل‌های توانمند اجازه می‌دهد مستقیماً روی سخت‌افزار رایانه‌های شخصی مصرف‌کننده از طریق ONNX Runtime GenAI و LlamaSharp اجرا شوند. محاسبات دقیقاً روی CPU فیزیکی، GPU یا NPU شما انجام می‌شود. حتی یک توکن در سراسر اینترنت منتقل نمی شود."}},{"@type":"Question","name":"آیا می توانم بدون دانلود یا استفاده از هیچ ویژگی هوش مصنوعی از Nudge استفاده کنم؟","acceptedAnswer":{"@type":"Answer","text":"کاملا. همراه AI محلی کاملا اختیاری است. می توانید در حین راه اندازی از دانلود مدل صرفنظر کنید. Nudge به‌عنوان یک مجله متن ساده فوق سریع و بدون حواس‌پرتی با دستورات بازتابی تعیین‌شده، بی‌عیب و نقص عمل می‌کند."}},{"@type":"Question","name":"آیا هوش مصنوعی من را ارزیابی می کند یا توصیه های روانشناختی ارائه می دهد؟","acceptedAnswer":{"@type":"Answer","text":"هرگز. خروجی‌های هوش مصنوعی Nudge به شدت توسط دستور زبان‌های GBNF و اعلان‌های سیستم اخلاقی محدود می‌شوند. هرگز به شما نمی گوید که چه کاری باید انجام دهید، درمان آماتور ارائه می دهد، یا شخصیت خود را ارزیابی نمی کند. این صرفاً به عنوان یک آینه فکری عمل می کند و افکار شما را منعکس می کند و سؤالات روشنگر می پرسد."}},{"@type":"Question","name":"سه \"لحظه بازتاب\" چیست؟","acceptedAnswer":{"@type":"Answer","text":"1. شروع کننده: یک سوال متفکرانه که قبل از نوشتن در صفحه خالی ظاهر می شود. 2. Inline Nudge: یک سوال ظریف زیر مکان نما شما شناور می شود، تنها زمانی که پس از نوشتن 40 کلمه، حداقل 6 ثانیه تایپ را مکث می کنید. 3. The Deepen: 2 تا 3 سؤال بعدی که هنگام نتیجه‌گیری یک ورودی ارائه می‌شوند، که به طور واضح به عنوان زیرعنوان Markdown اضافه می‌شوند."}},{"@type":"Question","name":"\"از مجله خود بپرسید\" چگونه کار می کند؟ آیا توهم دارد؟","acceptedAnswer":{"@type":"Answer","text":"Nudge از نمایه معکوس BM25 محلی خود برای بازیابی ورودی های گذشته مرتبط استفاده می کند و SLM محلی یک پاسخ مستقیم را با پیوندهای استنادی قابل کلیک اجباری ترکیب می کند. اگر هیچ ورودی مرتبطی وجود نداشته باشد، مدل به شدت محدود است که بگوید: \"من نتوانستم چیزی در مجله شما در مورد آن پیدا کنم\" - از نظر ریاضی ساخت حافظه را مسدود می کند."}},{"@type":"Question","name":"چگونه از ژورنال خود نسخه پشتیبان تهیه کنم؟","acceptedAnswer":{"@type":"Answer","text":"تهیه نسخه پشتیبان به سادگی کپی کردن یک پوشه است. به دایرکتوری ژورنال خود (به طور پیش فرض Documents/Nudge) بروید و آن را در یک درایو خارجی، حافظه USB یا درایو پشتیبان کپی کنید. هر ورودی، پیش‌نویس، تگ و تنظیمات در آن پوشه موجود است."}},{"@type":"Question","name":"اگر کامپیوتر من هنگام تایپ از کار بیفتد چه اتفاقی می افتد؟","acceptedAnswer":{"@type":"Answer","text":"هر ضربه کلید در یک پیش نویس بازیابی سریع (.draft.md) هر 500 میلی ثانیه ذخیره می شود. اگر برق به طور ناگهانی قطع شود، متن غیرمتعهد شما بلافاصله پس از راه‌اندازی مجدد بازیابی می‌شود. ذخیره کامل از عملیات جایگزینی سیستم فایل اتمی برای از بین بردن فساد استفاده می کند."}},{"@type":"Question","name":"آیا می توانم دفتر خاطرات موجود خود را از Day One، Journey یا Obsidian وارد کنم؟","acceptedAnswer":{"@type":"Answer","text":"بله! Nudge شامل موتورهای داخلی و داخلی برای صادرات روز اول JSON، Journey، Diarium، Obsidian/Markdown vaults، و بایگانی‌های استاندارد CSV با حفظ فراداده کامل است."}},{"@type":"Question","name":"قفل بیومتریک Windows Hello چگونه کار می کند؟","acceptedAnswer":{"@type":"Answer","text":"Nudge با API های بومی Windows Hello ادغام می شود. قفل ژورنال خود را با تشخیص چهره، حسگرهای اثر انگشت یا پین ویندوز خود باز کنید. احراز هویت بیومتریک 100% آفلاین بدون برقراری ارتباط با ارائه دهندگان هویت خارجی عمل می کند."}},{"@type":"Question","name":"آیا می توانم فایل های مجله خود را روی دیسک رمزگذاری کنم؟","acceptedAnswer":{"@type":"Answer","text":"بله. Nudge رمزگذاری سیستم فایل محلی اختیاری را با استفاده از AES-256-GCM درجه نظامی ارائه می دهد که با هش رمز عبور Argon2id مشتق شده است. فایل‌های شما در حالت استراحت با درب‌های پشتی صفر یا بازیابی شرکتی رمزگذاری می‌شوند."}},{"@type":"Question","name":"چرا وقتی یک روز را از دست می دهم Nudge اعداد قرمز را نشان نمی دهد؟","acceptedAnswer":{"@type":"Answer","text":"زیرا احساس گناه یک محرک مضر برای درون نگری است. زندگی واقعی شامل بیماری، مسافرت و استراحت است. Nudge روزهای مهلت خودکار را در رگه ها گنجانده است، از نشانگرهای جریمه قرمز اجتناب می کند و به طور فعال نرخ بازگشت شما را جشن می گیرد."}},{"@type":"Question","name":"11 تم زندگی چیست؟","acceptedAnswer":{"@type":"Answer","text":"ورودی ها در 11 بعد انسانی قفل شده طبقه بندی می شوند: کار، روابط، خانواده، سلامت، پول، هویت، خلاقیت، یادگیری، سفر، روزمره و برنامه ها. روی ThemeWheels برداری تجسم شده است تا نشان دهد که چگونه تعادل زندگی شما در فصول تغییر می کند."}},{"@type":"Question","name":"چرا تعداد کلمات متوسط ​​را به جای میانگین ها گزارش می کنید؟","acceptedAnswer":{"@type":"Answer","text":"ابزارهای حسابی با مقالات طولانی گاه به گاه منحرف می شوند. اگر پنج مدخل 100 کلمه ای و یک ورودی 3000 کلمه ای بنویسید، میانگین شما 583 کلمه است. میانگین آماری به طور دقیق خط پایه جلسه معمولی شما را منعکس می کند."}},{"@type":"Question","name":"Nudge چقدر هزینه دارد؟","acceptedAnswer":{"@type":"Answer","text":"Nudge یک خرید یکباره 0.99 دلاری با قیمت برابری خرید منطقه ای خودکار در فروشگاه مایکروسافت است. اشتراک صفر، سطوح ویژگی صفر، تبلیغات صفر."}},{"@type":"Question","name":"وقتی دوره آزمایشی 15 روزه منقضی شود چه اتفاقی می افتد؟","acceptedAnswer":{"@type":"Answer","text":"انتقال به حالت بایگانی دائمی فقط خواندنی. می توانید با BM25 جستجو کنید، جدول زمانی خود را بخوانید و برای همیشه به Markdown یا PDF صادر کنید. از آنجا که ورودی های شما Markdown ساده در پوشه اسناد شما هستند، همیشه می توانید آنها را در هر ویرایشگر متنی باز کرده و ویرایش کنید."}},{"@type":"Question","name":"آیا می توانم با یک خرید Nudge را روی چندین رایانه ویندوزی نصب کنم؟","acceptedAnswer":{"@type":"Answer","text":"بله. تحت مجوز استاندارد فروشگاه مایکروسافت، یک مجوز شخصی منفرد اجازه نصب را در دستگاه‌های شخصی سازگار با ویندوز 10 و 11 که با حساب مایکروسافت خود وارد شده‌اند، می‌دهد."}},{"@type":"Question","name":"آیا Nudge از دستگاه های ARM64 مانند رایانه های شخصی Copilot+ پشتیبانی می کند؟","acceptedAnswer":{"@type":"Answer","text":"بله! Nudge به صورت بومی برای هر دو x64 و ARM64 کامپایل شده است و با کارایی باتری بالا و شتاب NPU عصبی روی دستگاه در رایانه‌های شخصی Snapdragon X Elite و Snapdragon X Plus Copilot+ اجرا می‌شود."}},{"@type":"Question","name":"اگر یک بررسی مجوز آفلاین در حالی که من خارج از شبکه هستم با شکست مواجه شود، چه اتفاقی می افتد؟","acceptedAnswer":{"@type":"Answer","text":"بر اساس خط‌مشی باز کردن ناموفق ما، Nudge باز نمی‌شود و اگر زمان بررسی تأیید مجوز به پایان برسد یا نتواند به حافظه پنهان فروشگاه برسد، به آن دسترسی کامل می‌دهد. شما هرگز از دفتر خاطرات خود قفل نخواهید شد."}},{"@type":"Question","name":"از کجا می توانم پشتیبانی دریافت کنم یا مشکلی را گزارش کنم؟","acceptedAnswer":{"@type":"Answer","text":"می توانید مستقیماً در support@dhinovatech.com با تیم مهندسی ما تماس بگیرید. از آنجایی که ما تله متری خطا از راه دور صفر را جمع آوری می کنیم، می توانید فایل crash.log محلی خود را برای رفع فوری به اشتراک بگذارید."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
+                  <span><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 51 Languages">51 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/fa/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>فارسی (Persian / Farsi)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/nudge/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ar/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/zh/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/es/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ja/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/de/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ko/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Brasil (Portuguese BR)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pt-pt/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Português - Portugal (Portuguese PT)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/id/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ms/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Bahasa Melayu (Malay)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ru/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/it/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/th/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/nudge/fa/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>فارسی (Persian / Farsi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/vi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/bn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>বাংলা (Bengali)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yue/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>繁體中文 (Cantonese / Traditional)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/tl/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Tagalog (Filipino)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/uk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/cs/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ro/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/he/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/el/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Ελληνικά (Greek)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/hu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/da/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/fi/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/nb/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian Bokmål)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/te/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>తెలుగు (Telugu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/mr/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>मराठी (Marathi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ta/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/gu/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ગુજરાતી (Gujarati)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ur/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>اردو (Urdu)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/pa/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ਪੰਜਾਬੀ (Punjabi)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ml/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>മലയാളം (Malayalam)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kn/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>ಕನ್ನಡ (Kannada)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/jv/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Basa Jawa (Javanese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sw/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Kiswahili (Swahili)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ha/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Hausa</a></li><li><a class="dropdown-item py-1 small" href="/nudge/yo/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Yorùbá (Yoruba)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/my/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>မြန်မာစာ (Burmese)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/am/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>አማርኛ (Amharic)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/kk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Қазақ тілі (Kazakh)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/sk/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Slovenčina (Slovak)</a></li><li><a class="dropdown-item py-1 small" href="/nudge/ca/"><i class="bi bi-translate text-warning me-2" aria-hidden="true"></i>Català (Catalan)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> دریافت از Microsoft Store
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<main id="main">
+  <!-- Hero Section -->
+  <section class="py-5 overflow-hidden" id="hero">
+    <div class="container py-4">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
+            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> WinUI 3 برای Windows 10 و 11 • x64 و ARM64 Copilot+ PC
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3">
+            Nudge — دفتر خاطرات و یادداشت‌ روزانه آفلاین با هوش مصنوعی محلی
+          </h1>
+          <p class="fs-4 text-warning fw-semibold mb-3">
+            "افکار شما متعلق به خودتان است — نه ابر."
+          </p>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
+            Nudge یک مجله رومیزی صمیمی و بدون حواس پرتی است که به صورت بومی برای ویندوز ساخته شده است. این سیستم حاکمیت دیجیتال مطلق فایل‌های Markdown ساده محلی را با هوش آرام یک همراه هوش مصنوعی روی دستگاه که هرگز به اینترنت متصل نمی‌شود، متحد می‌کند. بدون اشتراک مکرر، بدون تله متری، بدون ردیابی، و بدون قفل ابری.
+          </p>
+          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
+            در عصری که نرم‌افزار شخصی به یک خط لوله نظارتی تبدیل شده است، Nudge نشان‌دهنده بازگشت عمدی و اصولی به اصول اولیه است. هر فکر، جمله، و پیش‌نویسی که می‌نویسید، به‌عنوان فایل‌های Markdown (.md) استاندارد و قابل خواندن توسط انسان، همراه با مواد اولیه YAML تمیز، کاملاً روی دستگاه شخصی شما زندگی می‌کند. بدون حباب های اختصاصی، بدون پایگاه داده های شکننده.
+          </p>
+
+          <!-- Badges Grid -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>۱۰۰٪ آفلاین و ایمن</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>هوش مصنوعی روی دستگاه (بدون ابر)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>فایل‌های متنی Markdown (.md)</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>بدون ردیابی داده‌ها</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>امنیت بیومتریک Windows Hello</span>
+            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>$0.99 خرید دائمی یک‌باره</span>
+          </div>
+
+          <!-- CTAs -->
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> خرید یک‌باره — ۲۴.۹۹ دلار برای همیشه
+            </a>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
+              <i class="bi bi-download fs-5" aria-hidden="true"></i> دانلود نسخه آزمایشی رایگان ۱۵ روزه
+            </a>
+            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
+              مشاهده معماری و مشخصات فنی <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center">
+          <div class="position-relative d-inline-block">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
+            <img src="/assets/images/nudge-icon.webp" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Three Pillars -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
+        </span>
+        <h2 class="display-5 fw-bold text-white">سه رکن تغییرناپذیر Nudge</h2>
+        <p class="text-secondary fs-5">تغییرات معماری ما: حریم خصوصی کامل آفلاین، انعکاس آرام، و شفقت انسانی.</p>
+      </div>
+      <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 1</span>
+                  <h3 class="h5 text-white fw-bold mb-0">حاکمیت واقعی آفلاین</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">حریم خصوصی کامل یک اصل است. Nudge هیچ ارتباط شبکه‌ای برقرار نمی‌کند.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-cpu" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 2</span>
+                  <h3 class="h5 text-white fw-bold mb-0">همراه هوش مصنوعی آرام روی دستگاه</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">هوش مصنوعی در خدمت خودآگاهی شماست و به صورت ۱۰۰٪ محلی اجرا می‌شود.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <span class="nudge-icon-box"><i class="bi bi-heart-pulse" aria-hidden="true"></i></span>
+                <div>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar 3</span>
+                  <h3 class="h5 text-white fw-bold mb-0">آمارهای دلسوزانه بدون حس گناه</h3>
+                </div>
+              </div>
+              <p class="text-secondary small mb-0 lh-base">بدون ارقام قرمز سرزنش‌کننده: با روزهای مهلت انعطاف‌پذیر و بازگشت به نوشتن.</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Specifications Matrix -->
+  <section class="py-5" id="specs">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
+        </span>
+        <h2 class="display-5 fw-bold text-white">ماتریس محصول و مشخصات فنی</h2>
+        <p class="text-secondary fs-5">ضمانت‌های معماری دقیق برای طول عمر 50 ساله و عملکرد زیر 150 میلی‌ثانیه طراحی شده است.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col" style="width: 22%;">بعد</th>
+                <th scope="col" style="width: 28%;" class="text-warning fw-bold">مشخصات</th>
+                <th scope="col" style="width: 50%;">ضمانت های معماری</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">سیستم عامل</td>
+                <td class="text-warning small align-middle fw-medium">Windows 10 / Windows 11</td>
+                <td class="text-secondary small align-middle">به صورت بومی بر روی WinUI 3 مدرن و Windows App SDK ساخته شده است. پشتیبانی کامل میکا و اکریلیک</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">خلوص زمان اجرا</td>
+                <td class="text-warning small align-middle fw-medium">100% Air-Gapped آفلاین</td>
+                <td class="text-secondary small align-middle">تماس های شبکه صفر در زمان اجرا. تله متری پس زمینه صفر، چراغ های خراب یا بارگذاری فونت از راه دور.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">معماری ذخیره سازی</td>
+                <td class="text-warning small align-middle fw-medium">نشانه گذاری فایل-سیستم (.md)</td>
+                <td class="text-secondary small align-middle">پروتکل نوشتن اتمی؛ ماده جلویی YAML قابل خواندن برای انسان. لایه پایگاه داده اختصاصی صفر</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">موتور جستجو</td>
+                <td class="text-warning small align-middle fw-medium">حافظه داخلی BM25</td>
+                <td class="text-secondary small align-middle">بازیابی متن کامل زیر 150 میلی ثانیه در بیش از 10000 ورودی با پیشوند و بسط مورفولوژیکی.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion Runtime</td>
+                <td class="text-warning small align-middle fw-medium">SLM روی دستگاه (DirectML / CPU / NPU)</td>
+                <td class="text-secondary small align-middle">استنتاج محلی از طریق ONNX Runtime GenAI &amp; LlamaSharp. صفر توکن به سرورهای خارجی ارسال می شود.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">راه اندازی عملکرد</td>
+                <td class="text-warning small align-middle fw-medium">&lt; 1.5 ثانیه تا Caret</td>
+                <td class="text-secondary small align-middle">پرتاب سرد به طور مستقیم به سطح تایپ فعال. بارگذاری شاخص پس زمینه و وزنه های هوش مصنوعی تنبل.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">امنیت و قفل</td>
+                <td class="text-warning small align-middle fw-medium">Windows Hello Biometrics</td>
+                <td class="text-secondary small align-middle">تشخیص چهره، حسگر اثر انگشت، پین؛ رمزگذاری اختیاری سیستم فایل AES-256-GCM با Argon2id.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">تجربه نوشتن</td>
+                <td class="text-warning small align-middle fw-medium">کار عمیق بدون حواس پرتی</td>
+                <td class="text-secondary small align-middle">فوکوس تمام صفحه F11، پیمایش ماشین تحریر، فوکوس پاراگراف کم نور، تایپوگرافی سفارشی.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">دسترسی جهانی</td>
+                <td class="text-warning small align-middle fw-medium">Quick-Capture Overlay</td>
+                <td class="text-secondary small align-middle">کلید میانبر جهانی (Win+Alt+N) سطح سبک یادداشت برداری را در کمتر از 200 میلی ثانیه باز می کند.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">موتور چند زبانه</td>
+                <td class="text-warning small align-middle fw-medium">50+ منطقه بومی ارسال شده</td>
+                <td class="text-secondary small align-middle">موتور جمع CLDR، تشخیص اسکریپت، آگاهی خوشه گرافی، راست به چپ بومی (RTL).</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">قابلیت همکاری داده ها</td>
+                <td class="text-warning small align-middle fw-medium">واردات و صادرات جهانی</td>
+                <td class="text-secondary small align-middle">واردات روز اول JSON، Journey، Diarium، Markdown. صادرات کتاب های PDF، آرشیو ZIP، HTML، EPUB.</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">مدل صدور مجوز</td>
+                <td class="text-warning small align-middle fw-medium">یکبار خرید شفاف</td>
+                <td class="text-secondary small align-middle">آزمایش رایگان 15 روزه بدون محدودیت؛ خرید مادام العمر 0.99 دلاری تک دلاری؛ اشتراک صفر؛ تضمین باز شدن شکست</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Manifesto -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
+        </span>
+        <h2 class="display-5 fw-bold text-white">مانیفست: چرا ما نوج را ساختیم</h2>
+        <p class="text-secondary fs-5">بحران مجلات ابری مدرن، حق حفظ حریم خصوصی معرفتی و آزمون 50 ساله.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">بحران مجله مدرن</h3>
+            <p class="text-secondary small mb-0 lh-base">طی پانزده سال گذشته، انتقال از محاسبات شخصی محلی به SaaS متمرکز، خاطرات خصوصی را به خطوط لوله نظارتی تبدیل کرده است: پایگاه‌های اطلاعاتی ابری قابل دسترسی برای مهندسان شخص ثالث، اعترافات صمیمی بسته‌بندی شده در محموله‌های JSON برای APIهای هوش مصنوعی از راه دور، دیوارهای پرداخت ماهانه که خاطرات شخصی را به گروگان می‌گیرند یا انتقال دردناک را به گروگان می‌گیرند.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">اصل حریم خصوصی معرفتی</h3>
+            <p class="text-secondary small mb-0 lh-base">ما معتقدیم گفتگوی درونی خصوصی یک فرد نشان دهنده هسته مقدس آگاهی انسان است. حریم خصوصی معرفتی، آزادی کشف ایده های نیمه شکل، بیان احساسات دشوار، زیر سوال بردن باورها و مستندسازی زندگی بدون تأثیر وحشتناک مشاهده بیرونی است. تنها تضمین واقعی حفظ حریم خصوصی، عدم امکان فیزیکی و معماری است: اگر برنامه‌ای مجوز شبکه نداشته باشد، نمی‌تواند دفتر خاطرات شما را فاش کند.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-3">اصل طول عمر دیجیتال: آزمون 50 ساله</h3>
+            <p class="text-secondary small mb-0 lh-base">آیا شما یا فرزندانتان پنجاه سال بعد می توانید مدخل امروز را بخوانید؟ واژه‌پردازهای اختصاصی و قالب‌های پایگاه داده بسته در گذشته اکنون به خرابه‌های دیجیتال غیرقابل دسترسی تبدیل شده‌اند. متن ساده در UTF-8 Markdown ابدی است. در سال 2076 در هر پلتفرم محاسباتی که بشریت اختراع کند، فوراً قابل خواندن خواهد بود.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zero-Cloud Architecture -->
+  <section class="py-5" id="architecture">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
+        </span>
+        <h2 class="display-5 fw-bold text-white">معماری هسته: طرح فنی ابر صفر</h2>
+        <p class="text-secondary fs-5">آناتومی یک ورودی، ایمنی نوشتن اتمی، و کش های فهرست یکبار مصرف.</p>
+      </div>
+
+      <div class="row g-4 align-items-center mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>سیستم فایل به عنوان پایگاه داده: آناتومی یک ورودی</h3>
+            <p class="text-secondary small mb-3 lh-base">Nudge لایه پایگاه داده را به طور کامل حذف می کند. ورودی‌ها به‌عنوان فایل‌های Markdown فردی که بر اساس سال و ماه سازماندهی شده‌اند، ذخیره می‌شوند. نام فایل‌ها از ULID (شناسه قابل مرتب‌سازی واژگانی منحصربه‌فرد جهانی) استفاده می‌کنند که دقت میلی‌ثانیه‌ای، ترتیب زمانی و همگام‌سازی بدون برخورد را تضمین می‌کند.</p>
+            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
+              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
+              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
+└── 2026/
+    └── 03-March/
+        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
+        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
+              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
+            </div>
+            <div class="nudge-code-box">---
+id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
+date: 2026-03-15T19:42:10+05:30
+language: en
+title: Walking Through the Rain in Spring
+themes:
+  - everyday
+  - creativity
+mood: 4
+weather: overcast
+tags:
+  - rain
+  - reflection
+content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+---
+
+# Walking Through the Rain in Spring
+
+The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
+I realized today that the friction I&#x27;ve been feeling isn&#x27;t a lack of inspiration; it&#x27;s a surplus of noise.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>نوشته های اتمی، پیش نویس انحرافی و ایمنی درگیری</h3>
+            <p class="text-secondary small mb-0 lh-base">برای بازیابی فوری خرابی هر 500 میلی‌ثانیه هر ضربه کلید به یک فایل draft.md بازگردانده می‌شود. قبل از جایگزینی سیستم فایل اتمی، نوشتن را به طور کامل در sidecars موقت (tmp. یک FileSystemWatcher ویرایش‌های خارجی را از Obsidian یا VS Code تشخیص می‌دهد و ویرایش‌های همزمان را در فایل‌های خواهر و برادر ایمن (conflict.md) بدون از دست دادن داده‌ها تقسیم می‌کند.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>زیر 150 میلی ثانیه در حافظه BM25 و حافظه پنهان یکبار مصرف</h3>
+            <p class="text-secondary small mb-0 lh-base">جستجوها در زمان واقعی در بین بیش از 10000 ورودی با استفاده از نمایه معکوس در حافظه و امتیازدهی ارتباط BM25 با تاشو به زبان ترکی و حساس به گرافم پر می شوند. عکس فوری .cache/index.bin راه اندازی های سرد را در کمتر از 1.5 ثانیه بارگیری می کند. حذف دایرکتوری cache. چیزی جز زمان از دست نمی دهد: هر متریک، امتیاز طرح زمینه و ایندکس 100% از فایل های Markdown خام قابل بازسازی هستند.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-Device AI Companion -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100% On-Device SLM
+        </span>
+        <h2 class="display-5 fw-bold text-white">همراه با هوش مصنوعی روی دستگاه: Deep-Dive</h2>
+        <p class="text-secondary fs-5">یک آینه روشنفکر آرام که هرگز حرفش را قطع نمی کند، هرگز نصیحت نمی کند و 100% به صورت محلی اجرا می شود.</p>
+      </div>
+
+      <div class="card card-glass p-4 border border-warning-subtle mb-4">
+        <div class="row align-items-center gy-3">
+          <div class="col-lg-8">
+            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>یک آینه فکری، نه یک چت بات</h3>
+            <p class="text-secondary small mb-0 lh-base">در Nudge، شما نویسنده هستید. هوش مصنوعی آینه است هرگز توصیه ناخواسته نمی کند، هرگز شرایط روانی را تشخیص نمی دهد، هرگز جریان تایپ شما را قطع نمی کند، و به شدت به زبان و خط طبیعی شما تشخیص داده و پاسخ می دهد.</p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 1</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>قبل از شروع تایپ</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">شروع کننده (صفحه خالی)</h3>
+              <p class="text-secondary small mb-0 lh-base">درخواستی آرام و متنی بر اساس روز هفته، زمان روز و برچسب های ورودی اخیر. اگر هوش مصنوعی آفلاین باشد، Nudge از یک بانک بومی سازی شده غنی از سؤالات بازتابی استفاده می کند. لحظه ای را که شروع به تایپ می کنید منحل می کند.</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 2</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>مکث وسط نوشتن (≥40 کلمه، ≥6s مکث)</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Inline Nudge (ابتکار 6 ثانیه ای)</h3>
+              <p class="text-secondary small mb-0 lh-base">یک سوال نرم و شفاف که در زیر پاراگراف شما شناور است تنها زمانی که حداقل 6 ثانیه پس از نوشتن حداقل 40 کلمه مکث کنید. در طول ترکیب IME (CJK) مکث می کند. بلافاصله با زدن کلید بعدی شما حل می شود. حداکثر 2 جلسه در هر جلسه</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment 3</span>
+                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>هنگام انعقاد یک ورودی</span>
+              </div>
+              <h3 class="h5 text-white fw-bold mb-2">The Deepen (پس از ورود)</h3>
+              <p class="text-secondary small mb-0 lh-base">دو یا سه سؤال متفکرانه بعدی که زیرمتن عاطفی یا مفروضات ناشناخته را بررسی می کند. با ضربه زدن یک زیرعنوان Markdown تمیز (### پیگیری) مستقیماً به متن شما اضافه می‌شود و مکان‌نمای شما در زیر آن آماده است.</p>
+            </div>
+          </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>خلاصه هفتگی یکشنبه آفلاین</h3>
+            <p class="text-secondary small mb-0 lh-base">هر یکشنبه، هوش مصنوعی روی دستگاه، خلاصه ای زیبا و ساختار یافته از هفته شما را ترکیب می کند: روایت مرکزی، موضوعات تکراری، تغییرات احساسی، و دو سوال آینده نگر برای هفته پیش رو. همه روی سیلیکون محلی بدون خروج یک بایت از رایانه شخصی شما سنتز می شوند.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>&quot;از مجله خود بپرسید&quot;: به نقل از بازیابی زبان طبیعی</h3>
+            <p class="text-secondary small mb-0 lh-base">سوالات مفهومی مانند &quot;چه زمانی برای اولین بار در مورد تغییر شغل فکر کردم؟&quot; Nudge ورودی های مرتبط را با BM25 بازیابی می کند و SLM محلی یک پاسخ منسجم را با پیوندهای استنادی قابل کلیک اجباری ترکیب می کند. اگر چیزی پیدا نشد، بیان می‌کند که &quot;من نتوانستم چیزی در مجله شما در مورد آن پیدا کنم&quot; - از نظر ریاضی در برابر توهم محدودیت دارد.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shame-Free Metrics -->
+  <section class="py-5" id="metrics">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
+        </span>
+        <h2 class="display-5 fw-bold text-white">روانشناسی ذهن آگاه متریک: بدون گناه، بدون شرم</h2>
+        <p class="text-secondary fs-5">عاداتی که با همدلی انسانی اندازه گیری می شوند تا بازی سمی.</p>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">رگه هایی با Grace Days داخلی</h3>
+            <p class="text-secondary small mb-0 lh-base">زندگی اتفاق می افتد. از دست دادن یک روز نباید باعث شرمساری شود یا ماه های فداکاری را بازنشانی کند. Nudge شامل روزهای فیض خودکار است: رد کردن یک روز باعث حفظ حرکت شما می شود. پایگاه کد ما شامل یک آزمون واحد است که اطمینان می دهد هیچ &quot;روزهای از دست رفته&quot; یا سنجه های پنالتی نمی توانند به رنگ قرمز ارائه شوند.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">جشن بازگشت-پس از استراحت</h3>
+            <p class="text-secondary small mb-0 lh-base">به جای جریمه کردن غیبت‌ها، Nudge نرخ بازگشت را دنبال می‌کند—تجلیل از انعطاف‌پذیری بازگشت به صفحه بعد از اینکه زندگی شما را از بین برد.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
+            <h3 class="h5 text-white fw-bold mb-2">میانه در مقابل میانگین: حجم نوشتار صادقانه</h3>
+            <p class="text-secondary small mb-0 lh-base">میانگین‌های سنتی با ورودی‌های طولانی نادر منحرف می‌شوند. Nudge از میانگین آماری برای نشان دادن جلسه معمولی واقعی شما، بدون تحریف استفاده می کند.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-glass p-4 border border-secondary-subtle">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-4">
+            <h3 class="h5 text-white fw-bold mb-2">11 تم و چرخ تم زندگی قفل شده</h3>
+            <p class="text-secondary small mb-0 lh-base">ورودی‌ها در 11 بعد جهانی و ثابت انسانی طبقه‌بندی می‌شوند: کار، روابط، خانواده، سلامت، پول، هویت، خلاقیت، یادگیری، سفر، روزمره و برنامه‌ها. در نمودارهای دونات برداری در طول 30 روز، 90 روز، 1 سال، و نمایش های همه زمان ها تجسم شده است.</p>
+          </div>
+          <div class="col-lg-8">
+            <div class="d-flex flex-wrap gap-2">
+              <span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Work</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Relationships</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Family</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Health</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Money</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Identity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Creativity</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Learning</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Travel</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Everyday</span><span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>Plans</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Work Writing Environment -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
+        </span>
+        <h2 class="display-5 fw-bold text-white">محیط نوشتن: ساخته شده برای کار عمیق</h2>
+        <p class="text-secondary fs-5">پرتاب سرد زیر 1.5 ثانیه، زیبایی لوازم التحریر خوب، و ارگونومی بدون حواس پرتی.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>زیر 1.5 دوم پرتاب سرد</h3>
+            <p class="text-secondary small mb-0 lh-base">WinUI 3 و C# در دات‌نت تضمین می‌کنند که کلیک کردن بر روی Nudge شما را مستقیماً در کمتر از 1.5 ثانیه به مکان‌نمای چشمک‌زن فعال در ورودی امروز می‌رساند. نمایه سازی و مقداردهی اولیه هوش مصنوعی به رشته های پس زمینه موکول می شود.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>پالت طراحی لوازم التحریر زیبا</h3>
+            <p class="text-secondary small mb-0 lh-base">با الهام از صحافی خوب: جوهر (تایپوگرافی جوهر قلم بایگانی)، کاغذ (سطح ویرایشگر کتانی سنگین ژاپنی)، فراگیر (کروم با جلد چرمی)، لامپ (لهجه‌های فوکوس گرم)، Whisper (تعداد حاشیه‌ها)، و تقسیم‌کننده‌های خط مو.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>حالت های فوکوس فراگیر (F11)</h3>
+            <p class="text-secondary small mb-0 lh-base">فوکوس همه جانبه تمام صفحه (F11) تمام کروم را از بین می برد. پیمایش ماشین تحریر خط فعال شما را به صورت عمودی متمرکز می کند. فوکوس پاراگراف کم نور به آرامی متن حاشیه ای را محو می کند تا فقط افکار فعلی شما را روشن کند.</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>عکسبرداری سریع جهانی در کمتر از 200 میلی ثانیه</h3>
+            <p class="text-secondary small mb-0 lh-base">Win+Alt+N را در هر جای ویندوز فشار دهید. یک کارت سبک وزن فوراً روی صفحه نمایش شما شناور می شود. درک خود را تایپ کنید، Ctrl+Enter را فشار دهید، و بدون وقفه در جریان شما، با مهر زمانی به ورودی روزانه امروز اضافه می شود.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security & Biometrics -->
+  <section class="py-5" id="security">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
+        </span>
+        <h2 class="display-5 fw-bold text-white">امنیت، بیومتریک و حاکمیت داده</h2>
+        <p class="text-secondary fs-5">بیومتریک محلی، رمزگذاری سیستم فایل اختیاری، و آزادی مهاجرت جهانی.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>Windows Hello Biometrics</h3>
+            <p class="text-secondary small mb-0 lh-base">قفل را با تشخیص چهره، حسگر اثر انگشت یا پین ایمن ویندوز باز کنید. قفل خودکار قابل تنظیم پس از 1، 5 یا 15 دقیقه عدم فعالیت یا زمانی که به حداقل برسد.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>رمزگذاری محلی AES-256-GCM اختیاری</h3>
+            <p class="text-secondary small mb-0 lh-base">AES-256 درجه نظامی در حالت Galois/Counter که با هش رمز عبور Argon2id مشتق شده است. دربهای پشتی شرکتی یا کلیدهای امانی صفر.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>تاریکی و کلید هراس اشتراک‌گذاری صفحه</h3>
+            <p class="text-secondary small mb-0 lh-base">وابستگی نمایشگر DWM پنجره Nudge را در Zoom، Teams یا ضبط‌های صفحه پنهان می‌کند. دو بار فشار دادن فوری Esc حافظه را به حداقل می رساند، پاک می کند و قفل می شود.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>مهاجرت بدون اصطکاک به داخل</h3>
+            <p class="text-secondary small mb-0 lh-base">واردکنندگان داخلی برای روز اول JSON، Journey، Diarium، انبارهای Obsidian، و بایگانی‌های CSV—با حفظ مُهرهای زمانی، آب‌وهوا و برچسب‌ها.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>آزادی جهانی برای دور شدن</h3>
+            <p class="text-secondary small mb-0 lh-base">کل ژورنال خود را در هر زمان به عنوان بایگانی Markdown ZIP، کتاب‌های یادگاری PDF قابل چاپ با کیفیت ارثی با درپوش، نمونه کارها HTML مستقل یا کتاب‌های الکترونیکی EPUB صادر کنید.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
+        </span>
+        <h2 class="display-5 fw-bold text-white">چگونه Nudge مقایسه می شود: ماتریس محصول قطعی</h2>
+        <p class="text-secondary fs-5">مقایسه Nudge در برابر چت ربات های روز اول، Obsidian، Notion و تجاری هوش مصنوعی.</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">ویژگی / ویژگی</th>
+                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>Nudge</th>
+                <th scope="col">Day One</th>
+                <th scope="col">Obsidian</th>
+                <th scope="col">Notion</th>
+                <th scope="col">AI Chatbots</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">فرمت ذخیره سازی</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Plain Markdown (.md)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Cloud DB اختصاصی</td>
+                <td class="text-secondary small align-middle">Plain Markdown</td>
+                <td class="text-secondary small align-middle">پایگاه داده ابری</td>
+                <td class="text-secondary small align-middle">ابر زودگذر</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">برنامه بومی ویندوز</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">بله (WinUI 3 Native)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">خیر (Web Wrapper)</td>
+                <td class="text-secondary small align-middle">بله (الکترون)</td>
+                <td class="text-secondary small align-middle">خیر (الکترون)</td>
+                <td class="text-secondary small align-middle">وب / برنامه</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">فعالیت شبکه</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0% دارای شکاف هوا</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">همگام سازی مداوم</td>
+                <td class="text-secondary small align-middle">وابسته به پلاگین</td>
+                <td class="text-secondary small align-middle">ابر اجباری</td>
+                <td class="text-secondary small align-middle">100% Cloud API</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">AI Companion</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">100٪ محلی روی دستگاه</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">Cloud API Pipeline</td>
+                <td class="text-secondary small align-middle">Community Cloud API</td>
+                <td class="text-secondary small align-middle">Cloud AI Sub</td>
+                <td class="text-secondary small align-middle">مدل تجاری</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">حساب کاربری</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">هیچ (ورود صفر)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">حساب اجباری</td>
+                <td class="text-secondary small align-middle">هیچ کدام</td>
+                <td class="text-secondary small align-middle">حساب اجباری</td>
+                <td class="text-secondary small align-middle">ورود اجباری</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">پرتاب سرد به Caret</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt; 1.5 ثانیه</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">~ 4-8 ثانیه</td>
+                <td class="text-secondary small align-middle">~ 3-6 ثانیه</td>
+                <td class="text-secondary small align-middle">~ 5-12 ثانیه</td>
+                <td class="text-secondary small align-middle">وب متغیر</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">رگه های بدون شرم</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">حفاظت از روز گریس</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">شمارنده سفت و سخت روزانه</td>
+                <td class="text-secondary small align-middle">وابسته به پلاگین</td>
+                <td class="text-secondary small align-middle">هیچ کدام</td>
+                <td class="text-secondary small align-middle">هیچ کدام</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">عملکرد جستجو</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">&lt;150 میلی‌ثانیه BM25 محلی</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">وابسته به سرور</td>
+                <td class="text-secondary small align-middle">سریع محلی</td>
+                <td class="text-secondary small align-middle">تاخیر سرور</td>
+                <td class="text-secondary small align-middle">جستجوی زودگذر</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">قفل بیومتریک</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">Windows Hello Native</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">پین / Cloud Pass</td>
+                <td class="text-secondary small align-middle">پلاگین شخص ثالث</td>
+                <td class="text-secondary small align-middle">هیچ کدام</td>
+                <td class="text-secondary small align-middle">هیچ کدام</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">مدل قیمت گذاری</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">0.99 دلار یکبار خرید</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">34.99 دلار / سال زیر</td>
+                <td class="text-secondary small align-middle">رایگان / همگام سازی زیر</td>
+                <td class="text-secondary small align-middle">10 دلار + / ماه زیر</td>
+                <td class="text-secondary small align-middle">رایگان / 20 دلار زیر</td>
+              </tr>
+              <tr>
+                <td class="text-white fw-semibold small text-nowrap align-middle">قفل فروشنده</td>
+                <td class="nudge-col small align-middle">
+                  <span class="d-flex align-items-center gap-2">
+                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
+                    <span class="text-white fw-bold">صفر (باز کردن فایل ها)</span>
+                  </span>
+                </td>
+                <td class="text-secondary small align-middle">بالا (دردسر صادرات)</td>
+                <td class="text-secondary small align-middle">صفر</td>
+                <td class="text-secondary small align-middle">قفل کامل</td>
+                <td class="text-secondary small align-middle">قفل کامل</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Master Workflows -->
+  <section class="py-5" id="workflows">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
+        </span>
+        <h2 class="display-5 fw-bold text-white">پنج جریان اصلی کار روزانه</h2>
+        <p class="text-secondary fs-5">چگونه نویسندگان، عشایر، و متفکران عمیق، Nudge را در ریتم های روزانه خود ادغام می کنند.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 1</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>07:00 صبح • 7 تا 10 دقیقه</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">مراسم زلال صبحگاهی</h3>
+            <p class="text-secondary small mb-0 lh-base">پرتاب سرد (&lt;1.5 ثانیه). اعلان آغازگر هوش مصنوعی متنی را در نظر بگیرید. 200 تا 400 کلمه پاکسازی ذهنی جریان آگاهی را بنویسید، رویاهای واضح را ثبت کنید و دو هدف عاطفی را برای آن روز تعیین کنید.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 2</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>09:30 شب • 12 دقیقه</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">رفع فشار عصر</h3>
+            <p class="text-secondary small mb-0 lh-base">F11 را برای فوکوس تمام صفحه در حالت تاریک ذغالی گرم فشار دهید. بار شناختی را از جلسات سخت تخلیه کنید. یک تلنگر ملایم درون خطی می‌گوید: &quot;چه بخشی تحت کنترل شما بود؟&quot; با پیگیری های عمیق تر به پایان برسانید.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 3</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>یکشنبه عصر • 15 دقیقه</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">سنتز استراتژیک یکشنبه</h3>
+            <p class="text-secondary small mb-0 lh-base">جلسه توجیهی هفتگی ایجاد شده توسط هوش مصنوعی را مرور کنید. ThemeWheel 30 روزه را بررسی کنید تا متوجه شوید که آیا بازتاب های خلاقانه در حین گسترش کار کاهش یافته است. اولویت ها را دوباره تنظیم کنید و اهداف آینده نگر را برای دوشنبه تعیین کنید.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 4</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>35000 فوت • در حالت پرواز / هواپیما</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">عشایر خارج از شبکه</h3>
+            <p class="text-secondary small mb-0 lh-base">100٪ عملکرد آفلاین با خطای اتصال صفر. SLM روی دستگاه اعلان‌ها و خلاصه‌نویسی‌ها را ایجاد می‌کند. پوشه ژورنال را به یک درایو فلش رمزگذاری شده برای پشتیبان گیری فیزیکی فوری بکشید.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow 5</span>
+              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>در طول روز کاری • فوری</span>
+            </div>
+            <h3 class="h5 text-white fw-bold mb-2">پد خراش خلاق و آکادمیک</h3>
+            <p class="text-secondary small mb-0 lh-base">Win+Alt+N را فشار دهید تا ضبط سریع جهانی در کمتر از 200 میلی ثانیه در حین کار عمیق فعال شود. یادداشت ها یکپارچه با مُهر زمانی اضافه می شوند. برای ادغام نمودار دانش بدون همگام سازی، پوشه مجله را به طاق های Obsidian پیوند دهید.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hardware Tiers -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
+        </span>
+        <h2 class="display-5 fw-bold text-white">سطوح سخت افزار و کارایی محاسباتی</h2>
+        <p class="text-secondary fs-5">اجرای بومی در رایانه های شخصی x64 و ARM64 Copilot+ با بودجه سخت رم و باتری.</p>
+      </div>
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>سطح 1: CPU خالص (جهانی)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">هر پردازنده مدرن x64 / ARM64، 8 گیگابایت رم، Intel Core / AMD Ryzen / Snapdragon.</p>
+            <p class="text-secondary small mb-0 lh-base">قابلیت ژورنال کامل، جستجوی BM25 زیر 150 میلی‌ثانیه، بانک‌های سریع قطعی، استنتاج هوش مصنوعی CPU INT4.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>سطح 2: DirectML GPU (شتابدار)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">گرافیک اختصاصی یا یکپارچه Intel Iris Xe، AMD Radeon، NVIDIA GTX/RTX.</p>
+            <p class="text-secondary small mb-0 lh-base">استنتاج سریع محلی هوش مصنوعی همراه با نسل توکن اول زیر 2 دوم.</p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>سطح 3: Copilot+ NPU (نسل بعدی رایانه شخصی هوش مصنوعی)</h3>
+            <p class="text-white-50 extra-small mb-2 fw-semibold">Qualcomm Snapdragon X Elite/Plus، Intel Core Ultra NPU، AMD Ryzen AI.</p>
+            <p class="text-secondary small mb-0 lh-base">استنتاج اختصاصی سخت افزار عصبی با صدای فن تقریباً صفر، ضربه کوچک باتری و پاسخ فوری.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
+            <p class="text-secondary small mb-0 mt-1">ویندوز 10 (بیلد 17763+) یا ویندوز 11؛ x64 یا ARM64؛ 8 گیگابایت رم؛ 500 مگابایت فضای دیسک (اختیاری 2.5-4.5 گیگابایت برای وزنه های هوش مصنوعی محلی).</p>
+          </div>
+          <div class="col-md-6">
+            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
+            <p class="text-secondary small mb-0 mt-1">ویندوز 11؛ چند هسته ای مدرن Intel i7/Ryzen 7 یا Snapdragon X؛ 16 گیگابایت رم؛ DirectML GPU یا NPU؛ NVMe SSD.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparent Licensing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
+        </span>
+        <h2 class="display-5 fw-bold text-white">مجوز شفاف: قرارداد ضد اشتراک</h2>
+        <p class="text-secondary fs-5">یک بار پرداخت کنید، آن را برای همیشه مالک شوید. استفاده آزمایشی 15 روزه بدون محدودیت با کارت اعتباری صفر الزامی است.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-4">
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
+            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
+            <p class="text-white-50 small mb-4">Zero credit card required</p>
+            <p class="text-secondary small mb-4 lh-base text-start">100٪ از ویژگی ها باز شده است، از جمله زمان اجرای هوش مصنوعی روی دستگاه، جستجوی BM25، همه 50 زبان بیشتر، ThemeWheels و صادرات کتاب PDF. بدون نیاز به کارت اعتباری، صورتحساب خودکار صفر.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
+              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6">
+          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
+            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
+            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
+            <p class="text-secondary small mb-4 lh-base text-start">یک بار خرید با مالکیت شخصی مادام العمر. شامل تمام به روز رسانی های جزئی و قیمت برابری قدرت خرید منطقه ای در سراسر فروشگاه مایکروسافت است.</p>
+            <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> خرید یک‌باره — ۲۴.۹۹ دلار برای همیشه
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>ضمانت آفلاین &quot;باز کردن شکست&quot;.</h4>
+            <p class="text-secondary small mb-0 lh-base">اگر زمان بررسی مجوز آفلاین در حین نوشتن خارج از شبکه در کابین ایزوله انجام نشود، Nudge باز نمی شود و دسترسی کامل را اعطا می کند. ما هرگز شما را از افکار خصوصی خود دور نمی کنیم.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
+            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>آزادی خواندن و صادرات دائمی</h4>
+            <p class="text-secondary small mb-0 lh-base">اگر دوره آزمایشی شما بدون خرید منقضی شود، Nudge به یک بایگانی دائمی فقط خواندنی تبدیل می‌شود. می‌توانید با BM25 مرور کنید، جستجو کنید و برای همیشه به Markdown یا PDF صادر کنید. فایل های شما Markdown باز روی دیسک شما باقی می مانند.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
+        </span>
+        <h2 class="display-5 fw-bold text-white">سوالات متداول</h2>
+        <p class="text-secondary fs-5">هر آنچه باید در مورد حریم خصوصی، هوش مصنوعی محلی، ذخیره سازی و صدور مجوز بدانید.</p>
+      </div>
+      <div class="max-w-900 mx-auto">
+        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+            <!-- FAQ 1 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button  bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Q1: چه چیزی Nudge را از سایر برنامه های ژورنالینگ متفاوت می کند؟
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge دو اصل اساسی را با هم ترکیب می کند: 100٪ حاکمیت محلی با شکاف هوا (فایل های Markdown ساده روی دیسک شما با تله متری ابری صفر) و یک همراه هوش مصنوعی بی صدا روی دستگاه (مدل های زبان کوچک که مستقیماً روی سیلیکون رایانه شخصی شما اجرا می شوند). شما بدون به خطر انداختن حریم خصوصی یا پرداخت اشتراک های مکرر، از مزایای بازتاب و تحلیل هوشمند بهره مند می شوید.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 2 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Q2: آیا واقعا Nudge هرگز به اینترنت متصل نمی شود؟
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse " aria-labelledby="faq2Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  بله. پس از نصب، Nudge درخواست‌های شبکه زمان اجرا صفر را اجرا می‌کند: بدون اسکریپت ردیابی، بدون گزارش‌گران خرابی که به خانه تلفن می‌زنند و درخواست فونت از راه دور. تنها تعامل مجاز شبکه، دانلود اختیاری و یکباره توسط کاربر وزن‌های مدل زبان با وزن باز در طول راه‌اندازی است. می‌توانید Wi-Fi را قطع کنید یا در یک جعبه ماسه‌ای با شکاف هوا با 100٪ ویژگی‌های دست نخورده اجرا کنید.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 3 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Q3: چرا ورودی ها را به جای پایگاه داده به عنوان فایل های Markdown ذخیره کنید؟
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse " aria-labelledby="faq3Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  پایگاه های داده سیلوهای اختصاصی ایجاد می کنند که در برابر فساد و رها شدن آسیب پذیر هستند. فایل‌های متنی Plain Markdown (.md) با ماده جلویی YAML غیرقابل تخریب، قابل خواندن برای انسان و در دسترس عموم هستند. آنها 50 سال بعد در هر سیستم رایانه ای قابل خواندن خواهند بود و می توانند در هر زمان با Obsidian، VS Code یا Notepad باز شوند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 4 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Q4: چرا Nudge همگام سازی ابری داخلی را ارائه نمی دهد؟
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse " aria-labelledby="faq4Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  از آنجا که همگام سازی ابری مستلزم میزبانی داده های مشتری در سرورهای راه دور، معرفی آسیب پذیری های امنیتی و هزینه های مکرر است. از آنجایی که Nudge ژورنال شما را به عنوان یک پوشه معمولی روی هارد دیسک ذخیره می کند، می توانید آن را با استفاده از ابزارهای رمزگذاری شده مطمئن و سرتاسر خود - مانند OneDrive، Dropbox، Syncthing یا Nextcloud، همگام سازی کنید.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 5 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Q5: چگونه یک همراه هوش مصنوعی بدون ارسال داده به OpenAI یا Google می تواند به صورت محلی اجرا شود؟
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse " aria-labelledby="faq5Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  پیشرفت‌های اخیر در مدل‌های زبان کوچک کوانتیزه‌شده (مانند Google Gemma و Microsoft Phi) به مدل‌های توانمند اجازه می‌دهد مستقیماً روی سخت‌افزار رایانه‌های شخصی مصرف‌کننده از طریق ONNX Runtime GenAI و LlamaSharp اجرا شوند. محاسبات دقیقاً روی CPU فیزیکی، GPU یا NPU شما انجام می‌شود. حتی یک توکن در سراسر اینترنت منتقل نمی شود.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 6 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Q6: آیا می توانم بدون دانلود یا استفاده از هیچ ویژگی هوش مصنوعی از Nudge استفاده کنم؟
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse " aria-labelledby="faq6Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  کاملا. همراه AI محلی کاملا اختیاری است. می توانید در حین راه اندازی از دانلود مدل صرفنظر کنید. Nudge به‌عنوان یک مجله متن ساده فوق سریع و بدون حواس‌پرتی با دستورات بازتابی تعیین‌شده، بی‌عیب و نقص عمل می‌کند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 7 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Q7: آیا هوش مصنوعی من را ارزیابی می کند یا توصیه های روانشناختی ارائه می دهد؟
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse " aria-labelledby="faq7Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  هرگز. خروجی‌های هوش مصنوعی Nudge به شدت توسط دستور زبان‌های GBNF و اعلان‌های سیستم اخلاقی محدود می‌شوند. هرگز به شما نمی گوید که چه کاری باید انجام دهید، درمان آماتور ارائه می دهد، یا شخصیت خود را ارزیابی نمی کند. این صرفاً به عنوان یک آینه فکری عمل می کند و افکار شما را منعکس می کند و سؤالات روشنگر می پرسد.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 8 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Q8: سه &quot;لحظه بازتاب&quot; چیست؟
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse " aria-labelledby="faq8Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  1. شروع کننده: یک سوال متفکرانه که قبل از نوشتن در صفحه خالی ظاهر می شود. 2. Inline Nudge: یک سوال ظریف زیر مکان نما شما شناور می شود، تنها زمانی که پس از نوشتن 40 کلمه، حداقل 6 ثانیه تایپ را مکث می کنید. 3. The Deepen: 2 تا 3 سؤال بعدی که هنگام نتیجه‌گیری یک ورودی ارائه می‌شوند، که به طور واضح به عنوان زیرعنوان Markdown اضافه می‌شوند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 9 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Q9: &quot;از مجله خود بپرسید&quot; چگونه کار می کند؟ آیا توهم دارد؟
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse " aria-labelledby="faq9Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge از نمایه معکوس BM25 محلی خود برای بازیابی ورودی های گذشته مرتبط استفاده می کند و SLM محلی یک پاسخ مستقیم را با پیوندهای استنادی قابل کلیک اجباری ترکیب می کند. اگر هیچ ورودی مرتبطی وجود نداشته باشد، مدل به شدت محدود است که بگوید: &quot;من نتوانستم چیزی در مجله شما در مورد آن پیدا کنم&quot; - از نظر ریاضی ساخت حافظه را مسدود می کند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 10 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Q10: چگونه از ژورنال خود نسخه پشتیبان تهیه کنم؟
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse " aria-labelledby="faq10Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  تهیه نسخه پشتیبان به سادگی کپی کردن یک پوشه است. به دایرکتوری ژورنال خود (به طور پیش فرض Documents/Nudge) بروید و آن را در یک درایو خارجی، حافظه USB یا درایو پشتیبان کپی کنید. هر ورودی، پیش‌نویس، تگ و تنظیمات در آن پوشه موجود است.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 11 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Q11: اگر کامپیوتر من هنگام تایپ از کار بیفتد چه اتفاقی می افتد؟
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse " aria-labelledby="faq11Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  هر ضربه کلید در یک پیش نویس بازیابی سریع (.draft.md) هر 500 میلی ثانیه ذخیره می شود. اگر برق به طور ناگهانی قطع شود، متن غیرمتعهد شما بلافاصله پس از راه‌اندازی مجدد بازیابی می‌شود. ذخیره کامل از عملیات جایگزینی سیستم فایل اتمی برای از بین بردن فساد استفاده می کند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 12 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Q12: آیا می توانم دفتر خاطرات موجود خود را از Day One، Journey یا Obsidian وارد کنم؟
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse " aria-labelledby="faq12Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  بله! Nudge شامل موتورهای داخلی و داخلی برای صادرات روز اول JSON، Journey، Diarium، Obsidian/Markdown vaults، و بایگانی‌های استاندارد CSV با حفظ فراداده کامل است.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 13 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Q13: قفل بیومتریک Windows Hello چگونه کار می کند؟
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse " aria-labelledby="faq13Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge با API های بومی Windows Hello ادغام می شود. قفل ژورنال خود را با تشخیص چهره، حسگرهای اثر انگشت یا پین ویندوز خود باز کنید. احراز هویت بیومتریک 100% آفلاین بدون برقراری ارتباط با ارائه دهندگان هویت خارجی عمل می کند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 14 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Q14: آیا می توانم فایل های مجله خود را روی دیسک رمزگذاری کنم؟
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse " aria-labelledby="faq14Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  بله. Nudge رمزگذاری سیستم فایل محلی اختیاری را با استفاده از AES-256-GCM درجه نظامی ارائه می دهد که با هش رمز عبور Argon2id مشتق شده است. فایل‌های شما در حالت استراحت با درب‌های پشتی صفر یا بازیابی شرکتی رمزگذاری می‌شوند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 15 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq15Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq15" aria-expanded="false" aria-controls="faq15">
+                  Q15: چرا وقتی یک روز را از دست می دهم Nudge اعداد قرمز را نشان نمی دهد؟
+                </button>
+              </h3>
+              <div id="faq15" class="accordion-collapse collapse " aria-labelledby="faq15Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  زیرا احساس گناه یک محرک مضر برای درون نگری است. زندگی واقعی شامل بیماری، مسافرت و استراحت است. Nudge روزهای مهلت خودکار را در رگه ها گنجانده است، از نشانگرهای جریمه قرمز اجتناب می کند و به طور فعال نرخ بازگشت شما را جشن می گیرد.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 16 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq16Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq16" aria-expanded="false" aria-controls="faq16">
+                  Q16: 11 تم زندگی چیست؟
+                </button>
+              </h3>
+              <div id="faq16" class="accordion-collapse collapse " aria-labelledby="faq16Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  ورودی ها در 11 بعد انسانی قفل شده طبقه بندی می شوند: کار، روابط، خانواده، سلامت، پول، هویت، خلاقیت، یادگیری، سفر، روزمره و برنامه ها. روی ThemeWheels برداری تجسم شده است تا نشان دهد که چگونه تعادل زندگی شما در فصول تغییر می کند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 17 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq17Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq17" aria-expanded="false" aria-controls="faq17">
+                  Q17: چرا تعداد کلمات متوسط ​​را به جای میانگین ها گزارش می کنید؟
+                </button>
+              </h3>
+              <div id="faq17" class="accordion-collapse collapse " aria-labelledby="faq17Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  ابزارهای حسابی با مقالات طولانی گاه به گاه منحرف می شوند. اگر پنج مدخل 100 کلمه ای و یک ورودی 3000 کلمه ای بنویسید، میانگین شما 583 کلمه است. میانگین آماری به طور دقیق خط پایه جلسه معمولی شما را منعکس می کند.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 18 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq18Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq18" aria-expanded="false" aria-controls="faq18">
+                  Q18: Nudge چقدر هزینه دارد؟
+                </button>
+              </h3>
+              <div id="faq18" class="accordion-collapse collapse " aria-labelledby="faq18Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  Nudge یک خرید یکباره 0.99 دلاری با قیمت برابری خرید منطقه ای خودکار در فروشگاه مایکروسافت است. اشتراک صفر، سطوح ویژگی صفر، تبلیغات صفر.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 19 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq19Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq19" aria-expanded="false" aria-controls="faq19">
+                  Q19: وقتی دوره آزمایشی 15 روزه منقضی شود چه اتفاقی می افتد؟
+                </button>
+              </h3>
+              <div id="faq19" class="accordion-collapse collapse " aria-labelledby="faq19Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  انتقال به حالت بایگانی دائمی فقط خواندنی. می توانید با BM25 جستجو کنید، جدول زمانی خود را بخوانید و برای همیشه به Markdown یا PDF صادر کنید. از آنجا که ورودی های شما Markdown ساده در پوشه اسناد شما هستند، همیشه می توانید آنها را در هر ویرایشگر متنی باز کرده و ویرایش کنید.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 20 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq20Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq20" aria-expanded="false" aria-controls="faq20">
+                  Q20: آیا می توانم با یک خرید Nudge را روی چندین رایانه ویندوزی نصب کنم؟
+                </button>
+              </h3>
+              <div id="faq20" class="accordion-collapse collapse " aria-labelledby="faq20Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  بله. تحت مجوز استاندارد فروشگاه مایکروسافت، یک مجوز شخصی منفرد اجازه نصب را در دستگاه‌های شخصی سازگار با ویندوز 10 و 11 که با حساب مایکروسافت خود وارد شده‌اند، می‌دهد.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 21 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq21Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq21" aria-expanded="false" aria-controls="faq21">
+                  Q21: آیا Nudge از دستگاه های ARM64 مانند رایانه های شخصی Copilot+ پشتیبانی می کند؟
+                </button>
+              </h3>
+              <div id="faq21" class="accordion-collapse collapse " aria-labelledby="faq21Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  بله! Nudge به صورت بومی برای هر دو x64 و ARM64 کامپایل شده است و با کارایی باتری بالا و شتاب NPU عصبی روی دستگاه در رایانه‌های شخصی Snapdragon X Elite و Snapdragon X Plus Copilot+ اجرا می‌شود.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 22 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq22Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq22" aria-expanded="false" aria-controls="faq22">
+                  Q22: اگر یک بررسی مجوز آفلاین در حالی که من خارج از شبکه هستم با شکست مواجه شود، چه اتفاقی می افتد؟
+                </button>
+              </h3>
+              <div id="faq22" class="accordion-collapse collapse " aria-labelledby="faq22Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  بر اساس خط‌مشی باز کردن ناموفق ما، Nudge باز نمی‌شود و اگر زمان بررسی تأیید مجوز به پایان برسد یا نتواند به حافظه پنهان فروشگاه برسد، به آن دسترسی کامل می‌دهد. شما هرگز از دفتر خاطرات خود قفل نخواهید شد.
+                </div>
+              </div>
+            </div>
+            <!-- FAQ 23 -->
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq23Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq23" aria-expanded="false" aria-controls="faq23">
+                  Q23: از کجا می توانم پشتیبانی دریافت کنم یا مشکلی را گزارش کنم؟
+                </button>
+              </h3>
+              <div id="faq23" class="accordion-collapse collapse " aria-labelledby="faq23Heading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4 lh-base">
+                  می توانید مستقیماً در support@dhinovatech.com با تیم مهندسی ما تماس بگیرید. از آنجایی که ما تله متری خطا از راه دور صفر را جمع آوری می کنیم، می توانید فایل crash.log محلی خود را برای رفع فوری به اشتراک بگذارید.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-5" id="quotes">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
+          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
+        </span>
+        <h2 class="display-5 fw-bold text-white">آنچه نویسندگان و متفکران درباره Nudge می گویند</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"نوشتن در Nudge مانند بستن در یک خیابان پر سر و صدا و نشستن در یک کتابخانه خصوصی نور خورشید است. دانستن اینکه کلمات من روی هارد دیسک خودم ذخیره می شوند و هیچ سرور ابری افکارم را نمی خواند به من اجازه می دهد با صداقتی بنویسم که پانزده سال است که احساس نکرده ام."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Dr. Aris Thorne</span>
+              <span class="text-white-50 extra-small">نویسنده و پژوهشگر دانشگاهی</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"حرکت مکث 6 ثانیه ای یک استاد کلاس در طراحی تعامل است. قطع نمی کند به سادگی منتظر می ماند تا شما واقعاً گیر کرده باشید، یک سوال درخشان ارائه می دهد و لحظه ای که انگشتان شما دوباره شروع به حرکت می کنند ناپدید می شود. این مراسم شبانه روزی من را متحول کرده است."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Elena Rostova</span>
+              <span class="text-white-50 extra-small">معمار و مقاله نویس نرم افزار</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
+            <p class="text-secondary small fst-italic mb-4 lh-base">"من نسبت به هوش مصنوعی محلی روی لپ‌تاپ بدبین بودم تا اینکه Nudge را در هواپیمای با Wi-Fi خاموش آزمایش کردم. این که نوشته های هفته گذشته من در حین پرواز بر فراز اقیانوس اطلس، با اتصال ابری صفر، در یک روایت منسجم ترکیب شدند، مرا متقاعد کرد که این نرم افزار چگونه باید ساخته شود."</p>
+            <div class="border-top border-secondary-subtle pt-3">
+              <span class="text-white fw-bold small d-block">Marcus Vance</span>
+              <span class="text-white-50 extra-small">استراتژیست فناوری و نومد دیجیتال</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
+    <div class="container py-5 text-center max-w-800 mx-auto">
+      <div class="d-inline-block position-relative mb-4">
+        <img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+      </div>
+      <h2 class="display-4 fw-bold text-white mb-3">زندگی درونی خود را پس بگیرید</h2>
+      <p class="lead text-secondary mb-4">در دنیای دیجیتالی که تحت سلطه برداشت ابر شرکتی و اشتراک‌های دائمی است، افکار خصوصی شما آخرین مرز واقعا مقدس هستند. سفر رایگان 15 روزه خود را از امروز آغاز کنید.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
+          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> یک بار خرید - 0.99 دلار مادام العمر
+        </a>
+        <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
+          <i class="bi bi-download me-2" aria-hidden="true"></i> دانلود آزمایشی رایگان 15 روزه
+        </a>
+      </div>
+      <p class="extra-small text-white-50 mb-0">100% آفلاین • تله متری صفر • فایل های علامت گذاری ساده • WinUI 3 برای ویندوز 10 و 11</p>
+    </div>
+  </section>
+</main>
+
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Nudge">
+  <img src="/assets/images/nudge-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Nudge</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9MV92P7RLDGB?ocid=dhinovatech_nudge&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">نصب</a>
+</div>
+<button type="button" class="to-top" aria-label="بازگشت به بالا" title="بازگشت به بالا">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="رضایت کوکی" hidden>
+  <p class="consent-bar-text">ما از Google Analytics برای درک نحوهٔ استفاده از این سایت استفاده می‌کنیم. اگر رد کنید، چیزی ذخیره نمی‌شود — سایت دقیقاً همان‌طور کار می‌کند. <a href="/privacy.html" class="consent-bar-link">سیاست حریم خصوصی</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">رد می‌کنم</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">موافقم</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>
