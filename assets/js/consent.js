@@ -18,23 +18,45 @@
 (function () {
   'use strict';
 
-  var KEY = 'dhin-consent';   // 'granted' | 'denied'
+  var KEY = 'dhin-consent';          // 'granted' | 'denied'
 
-  function stored() {
-    try { return localStorage.getItem(KEY); } catch (e) { return null; }
+  /* Section 10 of /privacy.html promises that if what we collect changes, the
+     notice is shown again. Storing only the answer could not keep that
+     promise: everyone who had already answered would go on never seeing it.
+
+     So the version of the notice a reader answered is stored alongside their
+     answer, and the banner reappears when this constant moves ahead of it.
+     Bump NOTICE whenever the notice's wording changes what it discloses -
+     not for a typo.
+
+     Deliberately NOT done by clearing the answer: the head block re-applies
+     the stored answer on every page, so a reader who declined stays declined
+     while the new notice sits in front of them. Outside the EEA, where the
+     default is granted, resetting the answer instead of keeping it would
+     quietly re-enable analytics for somebody who had turned it off. */
+  var SEEN = 'dhin-consent-notice';  // notice version last answered
+  var NOTICE = '2026-09-09';         // advertising tags disclosed
+
+  function read(key) {
+    try { return localStorage.getItem(key); } catch (e) { return null; }
   }
 
   function remember(value) {
-    try { localStorage.setItem(KEY, value); } catch (e) { /* private mode */ }
+    try {
+      localStorage.setItem(KEY, value);
+      localStorage.setItem(SEEN, NOTICE);
+    } catch (e) { /* private mode */ }
   }
 
   document.addEventListener('DOMContentLoaded', function () {
     var bar = document.getElementById('consentBar');
     if (!bar) return;
 
-    // Already answered on a previous visit - the head block has re-applied
-    // that answer, so there is nothing to ask.
-    if (stored()) return;
+    // Already answered this version of the notice on a previous visit - the
+    // head block has re-applied that answer, so there is nothing to ask.
+    // An answer stored against an older version still applies, and still
+    // gets re-applied, but the reader is asked again.
+    if (read(KEY) && read(SEEN) === NOTICE) return;
 
     bar.hidden = false;
 

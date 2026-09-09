@@ -317,8 +317,13 @@ def site_privacy_page():
             "is why the notice no longer tells you that declining stores "
             "nothing.")
         + p("Your choice is remembered in your browser's local storage under "
-            "the key dhin-consent so we do not ask again. Clearing your browser "
-            "storage for this site resets it and the notice returns.")
+            "the key dhin-consent so we do not ask again, next to "
+            "dhin-consent-notice, which records which version of this notice "
+            "you answered. When a change to what we collect makes the notice "
+            "say something new, that second key is what brings it back — "
+            "your existing answer keeps applying in the meantime. Clearing "
+            "your browser storage for this site resets both and the notice "
+            "returns.")
         + '      <div class="callout">\n        <p>To change your mind later: clear this '
           'site\'s local storage in your browser settings, then reload. The notice will '
           'appear again and you can answer differently.</p>\n      </div>\n')
