@@ -136,6 +136,14 @@
     var ADS_ID = 'AW-18122344867';
     var ADS_LABEL = 'Fp3TeZmwQMK8Cbc7';   // Google Ads > Goals > the action's tag
 
+    // Microsoft matches its goal on the event action alone, so this string is
+    // the whole contract between this file and the goal in the Microsoft
+    // Advertising UI. It has to be character-for-character what that goal
+    // says: a mismatch does not error anywhere, it just silently counts
+    // nothing, which is exactly how it read before this was corrected from
+    // "store_click" to the action Microsoft's own snippet reports.
+    var UET_ACTION = 'StoreVisit';
+
     function storeOf(url) {
       var m = /apps\.microsoft\.com\/detail\/([A-Za-z0-9]+)/.exec(url);
       if (m) return { store: 'microsoft', id: m[1] };
@@ -168,11 +176,13 @@
         }
       }
 
-      // Microsoft takes a custom event and the goal is matched to it in the
-      // Microsoft Advertising UI, so there is no key to paste in here. Create
-      // a UET event goal with action "store_click" to count these.
+      // Microsoft's generated snippet sends this with an empty payload. The
+      // category and label are added on top because the goal ignores
+      // conditions it does not specify, so they cost nothing today and are
+      // what a label condition would need if the goal is ever narrowed to one
+      // app - as it stands, a click on any app's store button counts.
       window.uetq = window.uetq || [];
-      window.uetq.push('event', 'store_click', {
+      window.uetq.push('event', UET_ACTION, {
         event_category: 'store',
         event_label: what.store + ':' + what.id
       });
