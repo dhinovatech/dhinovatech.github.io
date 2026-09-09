@@ -38,6 +38,12 @@ EMAIL = "dhinovatech@gmail.com"
 COMPANY = "Dhinova Tech"
 EFFECTIVE = "August 19, 2026"
 
+# The website's own policy has its own date, because it is the only one of the
+# three that has changed since: the advertising tags were added in September
+# and section 2 now describes them. Moving the shared EFFECTIVE would have
+# restamped six app policies that say exactly what they said in August.
+SITE_EFFECTIVE = "September 9, 2026"
+
 with io.open(FACTS, encoding="utf-8") as _fh:
     F = json.load(_fh)
 
@@ -277,7 +283,10 @@ def site_privacy_page():
 
     add("analytics", "Analytics and cookies",
         p("We use Google Analytics 4 to see which pages people read and which "
-          "languages get used. That is the only reason we measure anything.")
+          "languages get used. We also run two advertising measurement tags, "
+          "Google Ads and Microsoft Advertising UET, so that we can tell "
+          "whether the ads we pay for actually bring anyone here. Those three "
+          "are the whole list.")
         + p("Where you are reading from decides what happens before you "
             "answer the notice. In the EU/EEA, the UK and Switzerland, "
             "analytics storage starts denied: nothing is stored and no "
@@ -290,6 +299,23 @@ def site_privacy_page():
         + p("What does not change: Decline always means no analytics data is "
             "collected, and the site works exactly the same. With JavaScript "
             "turned off nothing runs at all — no notice, no analytics.")
+        + p("The advertising tags are handled differently from analytics, and "
+            "the difference does not depend on where you are reading from: "
+            "advertising storage is set to denied in every country, for "
+            "everyone, whether you accept or decline. In that mode the tags "
+            "still count visits and conversions — Google by modelling them "
+            "from anonymous pings — but they set no advertising cookie, read "
+            "no advertising identifier, and cannot add you to a remarketing "
+            "audience anywhere in the world.")
+        + p("One exception is worth naming rather than glossing over. Even "
+            "with advertising storage denied, Microsoft's tag stores a short "
+            "session marker on your device: a _uetsid cookie, plus _uetsid "
+            "and _uetsid_exp in local storage. It carries no visitor ID — the "
+            "value is empty where an ID would be — and Microsoft's persistent "
+            "visitor cookie is never set, so it is not used to recognise you "
+            "on a later visit. It is set before you answer the notice, which "
+            "is why the notice no longer tells you that declining stores "
+            "nothing.")
         + p("Your choice is remembered in your browser's local storage under "
             "the key dhin-consent so we do not ask again. Clearing your browser "
             "storage for this site resets it and the notice returns.")
@@ -297,7 +323,7 @@ def site_privacy_page():
           'site\'s local storage in your browser settings, then reload. The notice will '
           'appear again and you can answer differently.</p>\n      </div>\n')
 
-    add("what-we-see", "What analytics receives",
+    add("what-we-see", "What the tags receive",
         p("While analytics is running, Google Analytics receives the usual page "
           "measurement data: the page URL, referrer, approximate location "
           "derived from your IP address, device and browser type, and how long "
@@ -306,11 +332,18 @@ def site_privacy_page():
             "that identifies you personally, because the site never asks you "
             "for one. IP addresses are handled by Google Analytics 4, which "
             "does not log or store them in full.")
+        + p("The advertising tags receive less: the address of the page, the "
+            "page that referred you, and the IP address and browser details "
+            "that any request to any server carries. With advertising storage "
+            "denied they have nothing to attach that to, so it counts an "
+            "event rather than building a profile.")
         + '      <p>Google acts as our processor for this data. See '
           '<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">'
-          'Google\'s privacy policy</a> and '
+          'Google\'s privacy policy</a>, '
           '<a href="https://support.google.com/analytics/answer/6004245" target="_blank" rel="noopener">'
-          'how Google Analytics handles data</a>.</p>\n')
+          'how Google Analytics handles data</a> and the '
+          '<a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">'
+          'Microsoft privacy statement</a>.</p>\n')
 
     add("hosting", "Hosting",
         p("The site is served as static files by GitHub Pages. Like any web "
@@ -325,8 +358,9 @@ def site_privacy_page():
         p("Page styling and icons are loaded from the jsDelivr CDN, and the "
           "Inter typeface from Google Fonts. Requesting a file from those "
           "services exposes your IP address to them, as it does for any file "
-          "your browser fetches. Neither is used to track you, and no other "
-          "external service is contacted.")
+          "your browser fetches. Neither is used to track you. Apart from "
+          "those two and the measurement tags in section 2, no external "
+          "service is contacted.")
         + p("Links to Google Play, the Microsoft Store and other sites take you "
             "to services with their own policies, which we do not control."))
 
@@ -345,6 +379,9 @@ def site_privacy_page():
             "withdraw at any time by the method in section 2. Our basis for "
             "answering your email is our legitimate interest in replying to "
             "you.")
+        + p("The advertising tags run with advertising storage denied, so they "
+            "set no advertising identifier and build no profile of you. What "
+            "they do record is described in sections 2 and 3.")
         + p("To exercise any of these rights, write to %s. You also have the "
             "right to complain to your local data protection authority."
             % EMAIL))
@@ -384,7 +421,7 @@ def site_privacy_page():
     </header>
 
 %s
-%s%s""" % (EFFECTIVE, toc(items), secs, footer())
+%s%s""" % (SITE_EFFECTIVE, toc(items), secs, footer())
 
     return shell("Website Privacy Policy | Dhinovatech",
                  "How www.dhinovatech.com handles analytics, cookies and "
