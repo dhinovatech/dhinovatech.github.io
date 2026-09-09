@@ -126,15 +126,24 @@
                      'a[href*="apps.microsoft.com/detail/"],' +
                      'a[href*="play.google.com/store/apps"]';
 
-    // Google Ads reports a conversion against a label minted by the account
-    // that owns the action. It is not derivable from the AW- id, and sending
-    // the wrong one reports against a different action rather than failing
-    // visibly - so if the conversion action is ever deleted and recreated,
-    // this has to be re-copied from the new tag. Emptying it is the safe way
-    // to switch the Google half off: the Microsoft goal and the GA4 event
-    // below need no key and carry on without it.
+    // One Google Ads conversion action per advertised app, keyed by the store
+    // id the click was for. Keyed, rather than a single shared label, because
+    // Google gives an action no way to be conditioned on an event parameter -
+    // the way a UET goal can be conditioned on a label - so an app that is not
+    // being advertised has to be filtered out here or not at all. Share one
+    // label across every store button and a click on GlowCompare reports a
+    // conversion against Stow's action, which does not just misreport: it
+    // teaches automated bidding that GlowCompare traffic converts.
+    //
+    // A label is minted by the account that owns the action and is not
+    // derivable from the AW- id. Sending a wrong one reports against a
+    // different action rather than failing visibly, so re-copy it from the
+    // tag if an action is ever deleted and recreated. An app with no entry
+    // here reports nothing to Google, which is the safe default.
     var ADS_ID = 'AW-18122344867';
-    var ADS_LABEL = 'Fp3TeZmwQMK8Cbc7';   // Google Ads > Goals > the action's tag
+    var ADS_LABELS = {
+      '9NHBR7SW2TZ0': 'Fp3TeZmwQMK8Cbc7'   // Stow
+    };
 
     // Microsoft matches its goal on the event action alone, so this string is
     // the whole contract between this file and the goal in the Microsoft
@@ -168,9 +177,10 @@
           product_id: what.id,
           transport_type: 'beacon'
         });
-        if (ADS_LABEL) {
+        var label = ADS_LABELS[what.id];
+        if (label) {
           window.gtag('event', 'conversion', {
-            send_to: ADS_ID + '/' + ADS_LABEL,
+            send_to: ADS_ID + '/' + label,
             transport_type: 'beacon'
           });
         }
