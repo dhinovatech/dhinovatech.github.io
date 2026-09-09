@@ -46,6 +46,13 @@ GA_ID = "G-T0S5ZW1QGM"
 # would run it before the consent defaults below are armed.
 ADS_ID = "AW-18122344867"
 
+# Microsoft Advertising UET. Same role as ADS_ID, for the Bing/Microsoft side
+# of the campaigns. UET keeps its own consent state rather than reading
+# Google's, so the denied default has to be pushed onto the uetq queue
+# separately - and before the tag script is inserted, because the tag reads
+# the queue as it initialises.
+UET_ID = "97267869"
+
 HEAD_BEGIN = "  <!-- BEGIN generated analytics + consent block -->"
 HEAD_END = "  <!-- END generated analytics + consent block -->"
 BAR_BEGIN = "<!-- BEGIN generated consent banner -->"
@@ -141,7 +148,25 @@ HEAD_BLOCK = """%s
     gtag('config', '%s');
     gtag('config', '%s');
   </script>
-%s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, ADS_ID, HEAD_END)
+  <!-- Microsoft Advertising UET, with the same advertising defaults. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the consent default is
+       queued before the tag is inserted, exactly as the gtag defaults above
+       are armed before gtag.js loads. Denied here means the tag still
+       measures, but sets no advertising cookie - the same position the
+       Google Ads tag is in.
+
+       Section 2 of /privacy.html does NOT yet describe either of them: it
+       still says Google Analytics is the only measurement on the site, which
+       stopped being true when ADS_ID was added. It is written by
+       tools/build-privacy.py, around the "only reason we measure anything"
+       paragraph. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"%s",enableAutoSpaTracking: true});</script>
+%s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, ADS_ID, UET_ID,
+         HEAD_END)
 
 # The exact snippet this replaces, as it appears on all 167 pages that had one.
 OLD_GA = re.compile(
