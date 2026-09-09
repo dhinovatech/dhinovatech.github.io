@@ -339,8 +339,12 @@ def site_privacy_page():
             "does not log or store them in full.")
         + p("The advertising tags receive less: the address of the page, the "
             "page that referred you, and the IP address and browser details "
-            "that any request to any server carries. With advertising storage "
-            "denied they have nothing to attach that to, so it counts an "
+            "that any request to any server carries. They are also told when "
+            "you click through to a store listing, and which app it was for, "
+            "because that click is the only thing we can count — whether "
+            "you then install anything happens inside the store, where we "
+            "cannot see it and are not told. With advertising storage denied "
+            "they have nothing to attach any of this to, so it counts an "
             "event rather than building a profile.")
         + '      <p>Google acts as our processor for this data. See '
           '<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">'

@@ -106,6 +106,76 @@
       });
     }
 
+    /* ---- store click conversions ---------------------------------------
+       An install cannot be measured from this site - it happens inside the
+       Store, on the other side of a link we do not control - so the click
+       through to the listing is the conversion, for both ad platforms.
+
+       This runs on every platform, and reads data-store-web before href
+       precisely because the block above rewrites Windows visitors' links to
+       ms-windows-store://. Matching on the href alone would report a
+       conversion for everyone except the people who can actually install.
+
+       No event_callback and no preventDefault: on Windows the link opens a
+       protocol handler and on every other platform it opens a new tab, so in
+       neither case is this document unloaded and in neither case is there a
+       race to lose the beacon to. transport_type is set anyway, because it
+       costs nothing and the day someone drops target="_blank" from a store
+       button is not the day anyone will remember this comment. */
+    var STORE_LINK = 'a[data-store-web],' +
+                     'a[href*="apps.microsoft.com/detail/"],' +
+                     'a[href*="play.google.com/store/apps"]';
+
+    // Google Ads reports a conversion against a label minted by the account
+    // that owns the action - it is not derivable from the AW- id, and sending
+    // the wrong one reports against somebody else's action. Until it is
+    // filled in the Google half stays quiet; the Microsoft half and the GA4
+    // event below do not need it and work today.
+    var ADS_ID = 'AW-18122344867';
+    var ADS_LABEL = '';   // Google Ads > Goals > Conversions > the action's tag
+
+    function storeOf(url) {
+      var m = /apps\.microsoft\.com\/detail\/([A-Za-z0-9]+)/.exec(url);
+      if (m) return { store: 'microsoft', id: m[1] };
+      m = /play\.google\.com\/store\/apps\/details\?id=([\w.]+)/.exec(url);
+      if (m) return { store: 'google_play', id: m[1] };
+      return null;
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0) return;
+      var a = e.target.closest ? e.target.closest(STORE_LINK) : null;
+      if (!a) return;
+
+      var what = storeOf(a.getAttribute('data-store-web') || a.getAttribute('href') || '');
+      if (!what) return;
+
+      if (typeof window.gtag === 'function') {
+        // GA4, for reading in reports. Consent Mode drops this by itself
+        // wherever analytics storage is denied.
+        window.gtag('event', 'store_click', {
+          store: what.store,
+          product_id: what.id,
+          transport_type: 'beacon'
+        });
+        if (ADS_LABEL) {
+          window.gtag('event', 'conversion', {
+            send_to: ADS_ID + '/' + ADS_LABEL,
+            transport_type: 'beacon'
+          });
+        }
+      }
+
+      // Microsoft takes a custom event and the goal is matched to it in the
+      // Microsoft Advertising UI, so there is no key to paste in here. Create
+      // a UET event goal with action "store_click" to count these.
+      window.uetq = window.uetq || [];
+      window.uetq.push('event', 'store_click', {
+        event_category: 'store',
+        event_label: what.store + ':' + what.id
+      });
+    });
+
     /* ---- back to top ---------------------------------------------------- */
     var toTop = document.querySelector('.to-top');
     var installBar = document.querySelector('.install-bar');
