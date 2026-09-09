@@ -35,7 +35,12 @@
      default is granted, resetting the answer instead of keeping it would
      quietly re-enable analytics for somebody who had turned it off. */
   var SEEN = 'dhin-consent-notice';  // notice version last answered
-  var NOTICE = '2026-09-09';         // advertising tags disclosed
+
+  /* The generated head block declares this, because it has to compare against
+     it before this file has loaded. The literal is a fallback for a page that
+     somehow carries consent.js without that block - it must stay equal to
+     NOTICE in tools/build-consent.py. */
+  var NOTICE = window.DHIN_NOTICE || '2026-09-09b';
 
   function read(key) {
     try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -63,11 +68,24 @@
     function answer(granted) {
       var value = granted ? 'granted' : 'denied';
       remember(value);
+
+      /* Both platforms are told, and told the same thing. ad_personalization
+         is not in the list: it stays denied whatever the reader answers,
+         because nothing here needs to personalise an ad or build a
+         remarketing audience - only to know whether an ad produced a visit. */
       if (typeof window.gtag === 'function') {
         window.gtag('consent', 'update', {
-          analytics_storage: value
+          analytics_storage: value,
+          ad_storage: value,
+          ad_user_data: value
         });
       }
+      /* Microsoft takes only ad_storage, and takes it through its own queue -
+         it does not read Google's consent state. Pushed even when denied,
+         because the reader may be re-answering a notice they previously
+         accepted, and silence would leave the earlier grant standing. */
+      window.uetq = window.uetq || [];
+      window.uetq.push('consent', 'update', { ad_storage: value });
       bar.hidden = true;
       // Hand focus somewhere sensible instead of letting it fall to the top
       // of the document when the banner disappears under the keyboard.

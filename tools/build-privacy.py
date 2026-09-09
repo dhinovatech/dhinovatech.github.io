@@ -42,7 +42,7 @@ EFFECTIVE = "August 19, 2026"
 # three that has changed since: the advertising tags were added in September
 # and section 2 now describes them. Moving the shared EFFECTIVE would have
 # restamped six app policies that say exactly what they said in August.
-SITE_EFFECTIVE = "September 9, 2026"
+SITE_EFFECTIVE = "September 9, 2026"   # advertising consent, second revision
 
 with io.open(FACTS, encoding="utf-8") as _fh:
     F = json.load(_fh)
@@ -299,22 +299,27 @@ def site_privacy_page():
         + p("What does not change: Decline always means no analytics data is "
             "collected, and the site works exactly the same. With JavaScript "
             "turned off nothing runs at all — no notice, no analytics.")
-        + p("The advertising tags are handled differently from analytics, and "
-            "the difference does not depend on where you are reading from: "
-            "advertising storage is set to denied in every country, for "
-            "everyone, whether you accept or decline. In that mode the tags "
-            "still count visits and conversions — Google by modelling them "
-            "from anonymous pings — but they set no advertising cookie, read "
-            "no advertising identifier, and cannot add you to a remarketing "
-            "audience anywhere in the world.")
-        + p("One exception is worth naming rather than glossing over. Even "
-            "with advertising storage denied, Microsoft's tag stores a short "
-            "session marker on your device: a _uetsid cookie, plus _uetsid "
-            "and _uetsid_exp in local storage. It carries no visitor ID — the "
-            "value is empty where an ID would be — and Microsoft's persistent "
-            "visitor cookie is never set, so it is not used to recognise you "
-            "on a later visit. It is set before you answer the notice, which "
-            "is why the notice no longer tells you that declining stores "
+        + p("The advertising tags follow the same rule as analytics, for the "
+            "same reason. In the EU/EEA, the UK and Switzerland they start "
+            "denied and stay denied unless you press Accept. Everywhere else "
+            "they start granted and Decline turns them off. Accepting lets "
+            "them set a cookie, which is what makes it possible to tell that "
+            "an advert led to a visit rather than guessing at it.")
+        + p("One advertising setting is never granted, wherever you are and "
+            "whatever you answer: ad personalisation. That is the one that "
+            "would build a remarketing audience and follow you to other "
+            "sites. We measure whether an advert worked; we do not profile "
+            "the person who clicked it, and there is no answer to this notice "
+            "that changes that.")
+        + p("One exception is worth naming rather than glossing over. Before "
+            "you have answered at all, and while advertising is denied, "
+            "Microsoft's tag still stores a short session marker on your "
+            "device: a _uetsid cookie, plus _uetsid and _uetsid_exp in local "
+            "storage. It carries no visitor ID — the value is empty where "
+            "an ID would be — and Microsoft's persistent visitor cookie is "
+            "not set, so it is not used to recognise you on a later visit. It "
+            "is the tag's own behaviour rather than a setting of ours, and it "
+            "is why this notice does not tell you that declining stores "
             "nothing.")
         + p("Your choice is remembered in your browser's local storage under "
             "the key dhin-consent so we do not ask again, next to "
@@ -343,9 +348,13 @@ def site_privacy_page():
             "you click through to a store listing, and which app it was for, "
             "because that click is the only thing we can count — whether "
             "you then install anything happens inside the store, where we "
-            "cannot see it and are not told. With advertising storage denied "
-            "they have nothing to attach any of this to, so it counts an "
-            "event rather than building a profile.")
+            "cannot see it and are not told.")
+        + p("While advertising is denied, that is all it is: an event, with "
+            "nothing to attach it to. Once you accept, the same information "
+            "can be tied to the click on the advert that brought you, which "
+            "is the entire point of accepting and the only thing the cookie "
+            "is for. It still does not produce an advertising profile, "
+            "because ad personalisation stays off.")
         + '      <p>Google acts as our processor for this data. See '
           '<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">'
           'Google\'s privacy policy</a>, '
@@ -388,9 +397,12 @@ def site_privacy_page():
             "withdraw at any time by the method in section 2. Our basis for "
             "answering your email is our legitimate interest in replying to "
             "you.")
-        + p("The advertising tags run with advertising storage denied, so they "
-            "set no advertising identifier and build no profile of you. What "
-            "they do record is described in sections 2 and 3.")
+        + p("Advertising has the same lawful basis as analytics, and the same "
+            "way to withdraw it: it runs on your consent where consent is "
+            "required, and section 2 says how to change your answer. Ad "
+            "personalisation is never granted, so no advertising profile of "
+            "you is built either way. What is recorded is described in "
+            "sections 2 and 3.")
         + p("To exercise any of these rights, write to %s. You also have the "
             "right to complain to your local data protection authority."
             % EMAIL))

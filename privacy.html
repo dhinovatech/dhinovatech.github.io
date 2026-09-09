@@ -7,6 +7,15 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
     /* Two defaults. Order between them does not matter: Consent Mode applies
        the most specific region match, and the call without a region key is the
        catch-all for everyone the first one does not name.
@@ -16,9 +25,9 @@
        never learns where the reader is - which is why the banner below is
        drawn for everyone rather than being hidden by region.
 
-       EEA/UK/CH: analytics denied until the reader accepts. This runs before
-       gtag.js has loaded, so there is no window in which it is granted by
-       default, and it holds even if the banner script never runs at all.
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
        wait_for_update gives a returning reader's stored answer time to land
        before the first hit is sent. */
     gtag('consent', 'default', {
@@ -36,21 +45,19 @@
       ],
       'wait_for_update': 500
     });
-    /* Everywhere else: analytics is on and the notice is an opt-out rather
-       than a gate. Section 2 of /privacy.html says so in as many words.
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
 
-       The three advertising signals stay denied in every region, including
-       the ones where analytics is granted. The Google Ads tag is still
-       loaded, and still measures - Consent Mode falls back to cookieless
-       pings and modelled conversions - but it sets no advertising cookie and
-       builds no remarketing audience anywhere in the world. Granting them
-       outside the EEA is a decision to be taken deliberately, and it would
-       need the banner copy and section 2 of the privacy policy to be rewritten
-       first: both currently tell the reader that Analytics is the only thing
-       here. */
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
     gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'ad_user_data': 'denied',
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
       'ad_personalization': 'denied',
       'analytics_storage': 'granted',
       'functionality_storage': 'granted',
@@ -59,34 +66,63 @@
     /* A stored answer overrides the default in either direction. 'denied' has
        to be re-applied and not just skipped: a reader outside the EEA who
        declined would otherwise be granted again by the catch-all on their
-       next visit. */
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
     (function () {
       try {
         var answered = localStorage.getItem('dhin-consent');
-        if (answered === 'granted' || answered === 'denied') {
-          gtag('consent', 'update', {'analytics_storage': answered});
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
         }
+        gtag('consent', 'update', update);
       } catch (e) { /* storage blocked - the defaults above stand */ }
     })();
     gtag('js', new Date());
     gtag('config', 'G-T0S5ZW1QGM');
     gtag('config', 'AW-18122344867');
   </script>
-  <!-- Microsoft Advertising UET, with the same advertising defaults. -->
+  <!-- Microsoft Advertising UET. -->
   <script>
-    /* UET reads window.uetq as it initialises, so the consent default is
-       queued before the tag is inserted, exactly as the gtag defaults above
-       are armed before gtag.js loads. Denied here means the tag still
-       measures, but sets no advertising cookie - the same position the
-       Google Ads tag is in.
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
 
-       Section 2 of /privacy.html does NOT yet describe either of them: it
-       still says Google Analytics is the only measurement on the site, which
-       stopped being true when ADS_ID was added. It is written by
-       tools/build-privacy.py, around the "only reason we measure anything"
-       paragraph. */
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
     window.uetq = window.uetq || [];
     window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
   </script>
   <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
   <!-- END generated analytics + consent block -->
@@ -175,8 +211,9 @@
       <p>Where you are reading from decides what happens before you answer the notice. In the EU/EEA, the UK and Switzerland, analytics storage starts denied: nothing is stored and no analytics cookie is set unless you press Accept. Everywhere else it starts granted, and the notice is there so that you can turn it off — press Decline and it stops.</p>
       <p>Google works out which of those applies from the request itself. These pages do not look up, derive or store your location in order to decide, and the notice is shown to everyone either way.</p>
       <p>What does not change: Decline always means no analytics data is collected, and the site works exactly the same. With JavaScript turned off nothing runs at all — no notice, no analytics.</p>
-      <p>The advertising tags are handled differently from analytics, and the difference does not depend on where you are reading from: advertising storage is set to denied in every country, for everyone, whether you accept or decline. In that mode the tags still count visits and conversions — Google by modelling them from anonymous pings — but they set no advertising cookie, read no advertising identifier, and cannot add you to a remarketing audience anywhere in the world.</p>
-      <p>One exception is worth naming rather than glossing over. Even with advertising storage denied, Microsoft's tag stores a short session marker on your device: a _uetsid cookie, plus _uetsid and _uetsid_exp in local storage. It carries no visitor ID — the value is empty where an ID would be — and Microsoft's persistent visitor cookie is never set, so it is not used to recognise you on a later visit. It is set before you answer the notice, which is why the notice no longer tells you that declining stores nothing.</p>
+      <p>The advertising tags follow the same rule as analytics, for the same reason. In the EU/EEA, the UK and Switzerland they start denied and stay denied unless you press Accept. Everywhere else they start granted and Decline turns them off. Accepting lets them set a cookie, which is what makes it possible to tell that an advert led to a visit rather than guessing at it.</p>
+      <p>One advertising setting is never granted, wherever you are and whatever you answer: ad personalisation. That is the one that would build a remarketing audience and follow you to other sites. We measure whether an advert worked; we do not profile the person who clicked it, and there is no answer to this notice that changes that.</p>
+      <p>One exception is worth naming rather than glossing over. Before you have answered at all, and while advertising is denied, Microsoft's tag still stores a short session marker on your device: a _uetsid cookie, plus _uetsid and _uetsid_exp in local storage. It carries no visitor ID — the value is empty where an ID would be — and Microsoft's persistent visitor cookie is not set, so it is not used to recognise you on a later visit. It is the tag's own behaviour rather than a setting of ours, and it is why this notice does not tell you that declining stores nothing.</p>
       <p>Your choice is remembered in your browser's local storage under the key dhin-consent so we do not ask again, next to dhin-consent-notice, which records which version of this notice you answered. When a change to what we collect makes the notice say something new, that second key is what brings it back — your existing answer keeps applying in the meantime. Clearing your browser storage for this site resets both and the notice returns.</p>
       <div class="callout">
         <p>To change your mind later: clear this site's local storage in your browser settings, then reload. The notice will appear again and you can answer differently.</p>
@@ -187,7 +224,8 @@
       <h2>3. What the tags receive</h2>
       <p>While analytics is running, Google Analytics receives the usual page measurement data: the page URL, referrer, approximate location derived from your IP address, device and browser type, and how long you stayed. We use it in aggregate.</p>
       <p>We do not collect your name, email address or any other detail that identifies you personally, because the site never asks you for one. IP addresses are handled by Google Analytics 4, which does not log or store them in full.</p>
-      <p>The advertising tags receive less: the address of the page, the page that referred you, and the IP address and browser details that any request to any server carries. They are also told when you click through to a store listing, and which app it was for, because that click is the only thing we can count — whether you then install anything happens inside the store, where we cannot see it and are not told. With advertising storage denied they have nothing to attach any of this to, so it counts an event rather than building a profile.</p>
+      <p>The advertising tags receive less: the address of the page, the page that referred you, and the IP address and browser details that any request to any server carries. They are also told when you click through to a store listing, and which app it was for, because that click is the only thing we can count — whether you then install anything happens inside the store, where we cannot see it and are not told.</p>
+      <p>While advertising is denied, that is all it is: an event, with nothing to attach it to. Once you accept, the same information can be tied to the click on the advert that brought you, which is the entire point of accepting and the only thing the cookie is for. It still does not produce an advertising profile, because ad personalisation stays off.</p>
       <p>Google acts as our processor for this data. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's privacy policy</a>, <a href="https://support.google.com/analytics/answer/6004245" target="_blank" rel="noopener">how Google Analytics handles data</a> and the <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener">Microsoft privacy statement</a>.</p>
     </section>
 
@@ -212,7 +250,7 @@
       <h2>7. Your rights</h2>
       <p>If you are in the EU/EEA or UK, the GDPR gives you rights of access, rectification, erasure, restriction, objection and portability over personal data we hold. In practice the only personal data we ever hold is an email you chose to send us, plus consented analytics that is not tied to your identity.</p>
       <p>Our lawful basis for analytics is your consent, which you can withdraw at any time by the method in section 2. Our basis for answering your email is our legitimate interest in replying to you.</p>
-      <p>The advertising tags run with advertising storage denied, so they set no advertising identifier and build no profile of you. What they do record is described in sections 2 and 3.</p>
+      <p>Advertising has the same lawful basis as analytics, and the same way to withdraw it: it runs on your consent where consent is required, and section 2 says how to change your answer. Ad personalisation is never granted, so no advertising profile of you is built either way. What is recorded is described in sections 2 and 3.</p>
       <p>To exercise any of these rights, write to dhinovatech@gmail.com. You also have the right to complain to your local data protection authority.</p>
     </section>
 
@@ -260,7 +298,7 @@
 <!-- END generated UX block -->
 <!-- BEGIN generated consent banner -->
 <div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
-  <p class="consent-bar-text">Google Analytics tells us how this site is used — decline and it stops. Google and Microsoft ad tags measure our ads: no advertising cookie, no profile, but Microsoft&#x27;s leaves a session marker. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
   <div class="consent-bar-actions">
     <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
     <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
