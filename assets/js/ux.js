@@ -127,12 +127,14 @@
                      'a[href*="play.google.com/store/apps"]';
 
     // Google Ads reports a conversion against a label minted by the account
-    // that owns the action - it is not derivable from the AW- id, and sending
-    // the wrong one reports against somebody else's action. Until it is
-    // filled in the Google half stays quiet; the Microsoft half and the GA4
-    // event below do not need it and work today.
+    // that owns the action. It is not derivable from the AW- id, and sending
+    // the wrong one reports against a different action rather than failing
+    // visibly - so if the conversion action is ever deleted and recreated,
+    // this has to be re-copied from the new tag. Emptying it is the safe way
+    // to switch the Google half off: the Microsoft goal and the GA4 event
+    // below need no key and carry on without it.
     var ADS_ID = 'AW-18122344867';
-    var ADS_LABEL = '';   // Google Ads > Goals > Conversions > the action's tag
+    var ADS_LABEL = 'Fp3TeZmwQMK8Cbc7';   // Google Ads > Goals > the action's tag
 
     function storeOf(url) {
       var m = /apps\.microsoft\.com\/detail\/([A-Za-z0-9]+)/.exec(url);
