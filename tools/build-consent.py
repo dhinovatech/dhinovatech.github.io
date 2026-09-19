@@ -35,6 +35,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP_DIRS = {".git", "tools", "_src"}
+SKIP_FILES = {"landing.html", "ads.html"}
 STRINGS = os.path.join(ROOT, "tools", "consent-strings.json")
 
 GA_ID = "G-T0S5ZW1QGM"
@@ -245,7 +246,7 @@ def html_files():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
         for fn in sorted(filenames):
-            if fn.endswith(".html"):
+            if fn.endswith(".html") and fn not in SKIP_FILES:
                 yield os.path.join(dirpath, fn)
 
 

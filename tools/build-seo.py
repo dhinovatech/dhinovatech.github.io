@@ -31,7 +31,7 @@ SITE = "https://www.dhinovatech.com"
 ORG  = SITE + "/#organization"
 
 # Pages that must never be indexed, canonicalised or listed in the sitemap.
-EXCLUDE = {"404.html"}
+EXCLUDE = {"404.html", "landing.html", "ads.html"}
 
 # Trees that build their own <head>. build-glowcompare-windows.py writes the
 # canonical, the hreflang cluster and the offers schema for every page under

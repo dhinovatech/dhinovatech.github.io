@@ -56,7 +56,7 @@ OGALT = "Stow - photo and file organizer for Windows, on the Microsoft Store"
 # thing the store listing and the application itself say. The Offer below is
 # the machine-readable half of that; t["price_badge"] / t["price_note"] are the
 # half a reader sees, and both sit next to every primary call to action.
-PRICE = "9.99"
+PRICE = "4.99"
 PRICE_CCY = "USD"
 
 # The localised screenshots tools/build-stow-shots.py writes, each paired with
