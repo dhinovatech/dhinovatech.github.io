@@ -44,6 +44,8 @@ APPS = {
     store="https://apps.microsoft.com/detail/9N4QM1FDQ1CB", kind='ms'),
  'stow': dict(name="Stow", icon="/assets/images/stow-icon.png",
     store="https://apps.microsoft.com/detail/9NHBR7SW2TZ0", kind='ms'),
+ 'smart-photos': dict(name="Smart Photos", icon="/assets/images/smart-photos-icon.png",
+    store="https://apps.microsoft.com/detail/9N1J0MC0V89G", kind='ms'),
  'nudge': dict(name="Nudge", icon="/assets/images/nudge-icon.png",
     store="https://apps.microsoft.com/detail/9MV92P7RLDGB", kind='ms'),
  'aes-vault': dict(name="AES Vault", icon="/assets/images/aes-vault-icon.png",

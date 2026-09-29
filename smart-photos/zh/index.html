@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Photos：Windows 上注重隐私的 Google 相册替代品 | Dhinovatech</title>
+  <meta name="description" content="一款让每张照片都留在你电脑上的 Google 相册替代品：用自己的话进行 AI 搜索，人物、地点和回忆一应俱全。无需云端、无需账户、无需订阅。">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #5fd3ae;
+      --dhin-border-glow: rgba(95, 211, 174, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(95, 211, 174, 0.22);
+      --dhin-gradient-primary: linear-gradient(135deg, #5fd3ae 0%, #1f9c7c 100%);
+      --sp-mint: #5fd3ae;
+      --sp-sun: #ffc24a;
+      --sp-ink: #04201a;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 95, 211, 174;
+      --bs-primary-bg-subtle: rgba(95, 211, 174, 0.12);
+      --bs-primary-border-subtle: rgba(95, 211, 174, 0.32);
+      --bs-primary-text-emphasis: #8fe6c9;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #a6eed6 0%, #5fd3ae 55%, #1f9c7c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(95, 211, 174, 0.28); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(95, 211, 174, 0.42); }
+    .btn-dhin-outline:hover { background: rgba(95, 211, 174, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(95, 211, 174, 0.14) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-teal { box-shadow: 0 0 45px rgba(95, 211, 174, 0.26); }
+    .sp-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(95,211,174,0.18), rgba(31,156,124,0.12));
+      color: var(--sp-mint); border: 1px solid rgba(95,211,174,0.3);
+    }
+    .sp-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .sp-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .sp-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(95,211,174,0.18); color: var(--sp-mint);
+      border: 1px solid rgba(95,211,174,0.4);
+    }
+
+    /* Hero */
+    .sp-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .sp-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sp-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #a6eed6; margin-top: .6rem;
+    }
+    .sp-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .sp-price-tag {
+      background: rgba(255, 194, 74, .14); color: var(--sp-sun);
+      border: 1px solid rgba(255, 194, 74, .34);
+      border-radius: 20px; padding: 2px 10px; font-size: .8rem; font-weight: 700;
+      white-space: nowrap;
+    }
+    .sp-window {
+      border-radius: 14px; overflow: hidden; background: #0d2a26;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .sp-window img { display: block; width: 100%; height: auto; }
+
+    /* Screenshot gallery */
+    .sp-shot { overflow: hidden; margin: 0; }
+    .sp-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sp-shot figcaption { padding: .85rem 1rem; font-size: .9rem; font-weight: 600; color: #e2e8f0; }
+    .sp-shot figcaption i { color: var(--sp-mint); }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--sp-mint) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--sp-mint) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(95, 211, 174, 0.14); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(95, 211, 174, 0.4) !important; }
+    .sp-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .sp-check-list li i { color: var(--sp-mint); flex-shrink: 0; margin-top: .1rem; }
+
+    /* Comparison table */
+    .compare-table { font-size: 0.9rem; border-collapse: separate; border-spacing: 0; }
+    .compare-table th, .compare-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+    .compare-table thead th { background: rgba(17, 24, 39, 0.95); color: #94a3b8; font-weight: 600; }
+    .compare-table th.sp-col, .compare-table td.sp-col {
+      background: rgba(95, 211, 174, 0.06);
+      border-left: 1px solid rgba(95, 211, 174, 0.25);
+      border-right: 1px solid rgba(95, 211, 174, 0.25);
+    }
+    .compare-table thead th.sp-col { background: rgba(95, 211, 174, 0.14); color: var(--sp-mint); border-top: 2px solid var(--sp-mint); }
+    .compare-table td:first-child { min-width: 170px; }
+    .compare-table td { min-width: 210px; }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(95, 211, 174, 0.08); color: var(--sp-mint); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(95, 211, 174, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/smart-photos/zh/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/smart-photos/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/smart-photos/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/smart-photos/es/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/smart-photos/fr/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/smart-photos/de/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/smart-photos/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/smart-photos/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/smart-photos/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/smart-photos/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/smart-photos/cs/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/smart-photos/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/smart-photos/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/smart-photos/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/smart-photos/fi/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/smart-photos/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/smart-photos/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/smart-photos/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/smart-photos/zh/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://www.dhinovatech.com/smart-photos/zh-tw/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/smart-photos/th/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/smart-photos/vi/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/smart-photos/id/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/smart-photos/hi/">
+  <link rel="alternate" hreflang="ta" href="https://www.dhinovatech.com/smart-photos/ta/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/smart-photos/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/smart-photos/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Smart Photos：Windows 上注重隐私的 Google 相册替代品 | Dhinovatech">
+  <meta property="og:description" content="一款让每张照片都留在你电脑上的 Google 相册替代品：用自己的话进行 AI 搜索，人物、地点和回忆一应俱全。无需云端、无需账户、无需订阅。">
+  <meta property="og:url" content="https://www.dhinovatech.com/smart-photos/zh/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/smart-photos-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Smart Photos - private Google Photos alternative for Windows, on the Microsoft Store">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_TW">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="ta_IN">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Smart Photos：Windows 上注重隐私的 Google 相册替代品 | Dhinovatech">
+  <meta name="twitter:description" content="一款让每张照片都留在你电脑上的 Google 相册替代品：用自己的话进行 AI 搜索，人物、地点和回忆一应俱全。无需云端、无需账户、无需订阅。">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/smart-photos-og.png">
+  <meta name="twitter:image:alt" content="Smart Photos - private Google Photos alternative for Windows, on the Microsoft Store">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/smart-photos/#software","name":"Smart Photos","alternateName":"Smart Photos - AI 照片查看器与相册","operatingSystem":"Windows 10 version 2004 (build 19041) and later, x64 and ARM64","applicationCategory":"MultimediaApplication","applicationSubCategory":"Photo gallery","description":"一款让每张照片都留在你电脑上的 Google 相册替代品：用自己的话进行 AI 搜索，人物、地点和回忆一应俱全。无需云端、无需账户、无需订阅。","url":"https://www.dhinovatech.com/smart-photos/zh/","inLanguage":["en","es","fr","de","it","pt-BR","nl","pl","cs","da","sv","nb","fi","tr","ja","ko","zh-Hans","zh-Hant","th","vi","id","hi","ta","ar","he"],"image":"https://www.dhinovatech.com/assets/images/smart-photos-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9N1J0MC0V89G","installUrl":"https://apps.microsoft.com/detail/9N1J0MC0V89G","featureList":["用自己的话搜索：“去年夏天海边的日落”“玛雅的生日”“三月的小票”","离开 Google 相册或 iCloud 照片？导入 Takeout 或 iCloud 的 ZIP，保留日期、相册和收藏","面孔自动分组，一键命名、合并和更正","每张照片都在内置离线地图上，含旅行和地点","为你挑选回忆和“那年今日”","手动或按日期创建相册，收藏和归档","找出重复、几乎相同和模糊的照片，可撤销","读取照片中的文字：小票、招牌、截图","AI 在你的电脑上运行；模型下载一次后即可离线使用","隐藏的照片由 Windows Hello 保护","超大图库也能快速浏览的时间线","无需账户，不用云端，无广告，无跟踪","原始文件永远不会被修改","支持 RAW、HEIC、AVIF、JXL 和大多数视频格式","从手机、相机或存储卡导入","支持 25 种语言","快速的照片查看器：缩放、缩略图条和并排比较，也能播放视频","从任意相册、回忆或所选照片开始全屏幻灯片放映","播放动态照片和带字幕的视频","从任意照片查找相似照片"],"screenshot":["https://www.dhinovatech.com/assets/images/smart-photos/zh/hero.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/search.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/people.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/switch.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/map.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/memories.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/explore.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/albums.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/cleanup.webp","https://www.dhinovatech.com/assets/images/smart-photos/zh/privacy.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Smart Photos","item":"https://www.dhinovatech.com/smart-photos/"},{"@type":"ListItem","position":3,"name":"Smart Photos (zh)","item":"https://www.dhinovatech.com/smart-photos/zh/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/smart-photos/zh/#faq","inLanguage":"zh-Hans","mainEntity":[{"@type":"Question","name":"Smart Photos 是 Windows 上不错的 Google 相册替代品吗？","acceptedAnswer":{"@type":"Answer","text":"如果你看重的是 Google 相册聪明的那部分（按内容、人物和地点找照片、人脸自动归类、旅行显示在地图上、回忆），Smart Photos 会在你自己的电脑上完成这些。它刻意不做的是把照片存到云端，因此它不是备份服务：请自己在另一块硬盘上保存副本。"}},{"@type":"Question","name":"能把图库从 Google 相册迁移过来吗？","acceptedAnswer":{"@type":"Answer","text":"可以。用 Google Takeout 下载图库，然后在 Smart Photos 中选择这些 ZIP 文件。它会保留日期、地点、描述、收藏和相册，并建议你以前给人物起的名字。最后的核对会确认所有内容都已到位，再让你决定是否删除云端内容。iCloud 照片的导出也同样适用。"}},{"@type":"Question","name":"我的照片会被上传到任何地方吗？","acceptedAnswer":{"@type":"Answer","text":"不会。照片、人脸、名字和搜索全部在你的电脑上处理。Smart Photos 唯一下载的是它的 AI 模型（约 1.8 GB），只下载一次，而且由你决定。之后即可离线使用，离线模式会彻底阻断网络。"}},{"@type":"Question","name":"需要账户或订阅吗？","acceptedAnswer":{"@type":"Answer","text":"都不需要。Smart Photos 在 Microsoft Store 一次性购买，全部功能可免费试用 15 天。试用结束后，照片、相册和人物都会保留，仍可继续浏览；AI 搜索和 AI 索引会暂停，直到你购买。"}},{"@type":"Question","name":"它会修改或移动我的照片文件吗？","acceptedAnswer":{"@type":"Answer","text":"不会。Smart Photos 从不修改原始文件。收藏、名字、相册和旋转都保存在它自己的索引中。只有“删除”（移到回收站，可撤销）和“导出”会动到你的文件，而且只在你要求时才会执行。"}},{"@type":"Question","name":"运行它需要什么？","acceptedAnswer":{"@type":"Answer","text":"一台 x64 或 ARM64 电脑，安装 Windows 10 版本 2004 或更高版本，或 Windows 11，并有约 1.8 GB 可用空间用于 AI 模型。它能打开 RAW、HEIC、AVIF、JXL 以及 Windows 能播放的大多数视频格式。"}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/smart-photos/zh/hero.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<!-- Navigation Bar (independent Smart Photos tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - Smart Photos owns its own language tree -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Portuguese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/smart-photos/zh/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - Smart Photos only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>简体中文 (Simplified Chinese)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Portuguese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/smart-photos/zh/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9N1J0MC0V89G?ocid=dhinovatech_smart-photos&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 在 Microsoft Store 获取
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="sp-hero-icon">
+              <img src="/assets/images/smart-photos-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span class="small text-secondary">
+              <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+            </span>
+          </div>
+
+          <!-- The product name is the headline; the Google Photos line stays
+               inside the h1 for search, but reads as its subtitle. -->
+          <h1 class="hero-title mb-3"><span class="d-block">Smart Photos</span><span class="d-block sp-hero-tagline">Windows 上注重隐私的 Google 相册替代品</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">像云端一样聪明，却私密且本地：用自己的话搜索照片，自动归类每张面孔，在离线地图上重温旅行，清理重复照片，AI 在你的电脑上运行。要离开 Google 相册或 iCloud？全部带走。免费试用 15 天。</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9N1J0MC0V89G?ocid=dhinovatech_smart-photos&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Get it from</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> 看看界面
+            </a>
+          </div>
+          <p class="sp-price mt-3 mb-0"><span class="sp-price-tag"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>15 天免费试用</span><span>全部功能解锁。无需账户，无需订阅。</span></p>
+
+          <div class="sp-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cpu text-primary me-1" aria-hidden="true"></i> AI 100% 在本机运行</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-person-slash text-info me-1" aria-hidden="true"></i> 无需账户</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-warning me-1" aria-hidden="true"></i> 不上传任何内容</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-box-arrow-in-down text-success me-1" aria-hidden="true"></i> 导入 Google Takeout</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-globe-americas text-info me-1" aria-hidden="true"></i> 离线世界地图</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-windows text-primary me-1" aria-hidden="true"></i> 支持 x64 和 ARM64</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-teal" aria-hidden="true"></div>
+            <div class="sp-window position-relative">
+              <img src="/assets/images/smart-photos/zh/hero.webp" alt="像云端一样聪明，却私密且本地：AI 在你自己的电脑上运行" decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> 看看界面</span>
+        <h2 class="display-5 fw-bold text-white">住在你电脑里的智能图库</h2>
+        <p class="text-secondary fs-5">Windows 版 Smart Photos 的界面，以你的语言呈现。</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/search.webp" alt="想起什么就搜什么：地点、人物、季节和照片中的文字" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-search me-2" aria-hidden="true"></i>想起什么就搜什么：地点、人物、季节和照片中的文字</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/people.webp" alt="每张面孔自动分组，随时命名" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-people me-2" aria-hidden="true"></i>每张面孔自动分组，随时命名</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/map.webp" alt="每次旅行都在内置离线地图上" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-geo-alt me-2" aria-hidden="true"></i>每次旅行都在内置离线地图上</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/memories.webp" alt="用回忆和“那年今日”重温美好时刻" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-stars me-2" aria-hidden="true"></i>用回忆和“那年今日”重温美好时刻</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/explore.webp" alt="按人物、地点和事物浏览图库" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-grid-3x3-gap me-2" aria-hidden="true"></i>按人物、地点和事物浏览图库</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/albums.webp" alt="相册和收藏，随心安排" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-collection me-2" aria-hidden="true"></i>相册和收藏，随心安排</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/cleanup.webp" alt="找出重复和模糊的照片，可撤销" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-copy me-2" aria-hidden="true"></i>找出重复和模糊的照片，可撤销</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sp-shot h-100">
+            <img src="/assets/images/smart-photos/zh/privacy.webp" alt="隐私优先：无需账户，不用云端，无跟踪" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-shield-lock me-2" aria-hidden="true"></i>隐私优先：无需账户，不用云端，无跟踪</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-5 border-top border-secondary-subtle" id="features">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> 功能</span>
+        <h2 class="display-5 fw-bold text-white">你喜欢 Google 相册的一切，都在自己的电脑上</h2>
+        <p class="text-secondary fs-5">搜索、人物、地点和回忆，全部由在你电脑上运行的 AI 完成。</p>
+      </div>
+      <div class="row g-4 mb-5">
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-search" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">想起什么，就搜什么</h3>
+            </div>
+            <p class="text-secondary small mb-0">输入“去年夏天海边的日落”“玛雅的生日”“雪地里的狗”或“三月的小票”，照片立刻出现。Smart Photos 能理解日期、节假日、季节、地点、人物、画面内容和照片中的文字，并显示它如何理解你的搜索，一键即可调整。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-people" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">人物，随你管理</h3>
+            </div>
+            <p class="text-secondary small mb-0">相似的面孔会被归为一组，方便你命名。一键合并、拆分和更正；添加文件夹或更新应用后，名字和更正都不会丢失。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">每次旅行都在地图上</h3>
+            </div>
+            <p class="text-secondary small mb-0">带位置的照片会显示在可离线使用的内置世界地图上，旅行和地点也会自动识别。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-play-btn" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">快速的照片查看器，也能播放视频</h3>
+            </div>
+            <p class="text-secondary small mb-0">放大查看、并排比较两张照片、查找相似照片、播放动态照片和带字幕的视频。可从任意相册、回忆或所选照片开始全屏幻灯片放映，还能打印、分享照片，或将其设为桌面背景或锁屏界面。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-stars" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">回忆与相册</h3>
+            </div>
+            <p class="text-secondary small mb-0">回忆和“那年今日”，手动或按日期创建的相册，收藏，存放不想出现在时间线中照片的归档，以及用 Windows Hello 锁定的隐藏空间。即使图库非常大，快速时间线也依然流畅。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-magic" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">安全清理</h3>
+            </div>
+            <p class="text-secondary small mb-0">找出重复照片、几乎相同的照片、模糊照片和大视频。删除的内容会进入回收站，可以撤销。原始文件永远不会被修改。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">隐私优先</h3>
+            </div>
+            <p class="text-secondary small mb-0">无需账户，无广告，无跟踪，无遥测。AI 模型只在你需要时下载一次（约 1.8 GB），之后一切都可离线运行，离线模式会完全阻止联网。应用的每一次连接都会在应用中列出。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="sp-icon-box sp-icon-box-sm"><i class="bi bi-plug" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">兼容你现有的工具</h3>
+            </div>
+            <p class="text-secondary small mb-0">用你常用的编辑器和播放器打开照片和视频，可从手机或相机导入，支持 RAW、HEIC、AVIF、JXL 以及 Windows 能播放的大多数视频格式。支持 25 种语言。</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h3 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>包含的全部功能</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled sp-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>用自己的话搜索：“去年夏天海边的日落”“玛雅的生日”“三月的小票”</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>离开 Google 相册或 iCloud 照片？导入 Takeout 或 iCloud 的 ZIP，保留日期、相册和收藏</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>面孔自动分组，一键命名、合并和更正</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每张照片都在内置离线地图上，含旅行和地点</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>为你挑选回忆和“那年今日”</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>手动或按日期创建相册，收藏和归档</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>找出重复、几乎相同和模糊的照片，可撤销</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>读取照片中的文字：小票、招牌、截图</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>AI 在你的电脑上运行；模型下载一次后即可离线使用</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>隐藏的照片由 Windows Hello 保护</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled sp-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>超大图库也能快速浏览的时间线</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>无需账户，不用云端，无广告，无跟踪</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>原始文件永远不会被修改</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>支持 RAW、HEIC、AVIF、JXL 和大多数视频格式</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>从手机、相机或存储卡导入</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>支持 25 种语言</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>快速的照片查看器：缩放、缩略图条和并排比较，也能播放视频</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>从任意相册、回忆或所选照片开始全屏幻灯片放映</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>播放动态照片和带字幕的视频</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>从任意照片查找相似照片</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Switching from Google Photos -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="switch">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-box-arrow-in-down me-1" aria-hidden="true"></i> 从 Google 相册迁移</span>
+        <h2 class="display-5 fw-bold text-white">三步带走你的整个图库</h2>
+        <p class="text-secondary fs-5">日期、地点、相册和收藏都会一起迁移。整个过程不上传任何内容。</p>
+      </div>
+      <div class="row g-4 mb-5">
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center">
+              <div class="sp-step mx-auto mb-3">1</div>
+              <i class="bi bi-cloud-download text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">从 Google 导出</h3>
+              <p class="text-secondary small mb-0">用 Google Takeout 将 Google 相册图库下载为 ZIP 文件，无需解压。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center">
+              <div class="sp-step mx-auto mb-3">2</div>
+              <i class="bi bi-file-earmark-zip text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">在 Smart Photos 中选择 ZIP 文件</h3>
+              <p class="text-secondary small mb-0">Smart Photos 会把它们解压到你的电脑上，并保留日期、地点、描述、收藏和相册。你给人物起过的名字会作为建议重新出现。</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="card card-glass h-100 p-4 text-center">
+              <div class="sp-step mx-auto mb-3">3</div>
+              <i class="bi bi-check2-all text-primary fs-3 mb-2" aria-hidden="true"></i>
+              <h3 class="h5 text-white fw-bold mb-2">核对无误，再做决定</h3>
+              <p class="text-secondary small mb-0">“都到齐了吗？”会将导出内容与你的图库逐一比对，让你在删除云端内容之前，确认没有任何遗漏。</p>
+            </div>
+          </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <figure class="card card-glass sp-shot m-0">
+            <img src="/assets/images/smart-photos/zh/switch.webp" alt="离开 Google 相册？导入 Takeout，保留日期、相册和收藏" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-box-arrow-in-down me-2" aria-hidden="true"></i>离开 Google 相册？导入 Takeout，保留日期、相册和收藏</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why people switch -->
+  <section class="py-5" id="why">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-9 text-center">
+          <span class="text-gradient fw-bold text-uppercase tracking-wider">为什么大家在换</span>
+          <h2 class="display-6 fw-bold text-white mt-2 mb-4">Google 相册很聪明，但那是别人的电脑。</h2>
+          <p class="fs-5 text-secondary mb-3">Google 相册让找照片变得像魔法一样简单，可这魔法运行在 Google 的服务器上，你的整个图库也存放在那里。免费的 15 GB 要与 Gmail 和云端硬盘共用，一旦用满，你就得每月付费，才能留住本来就属于你的照片。</p>
+          <p class="text-secondary mb-0">Smart Photos 把同样聪明的图库带到 Windows：用日常语言搜索、自动归类人脸、在地图上回顾旅行、回忆推送。每张照片都留在你自己的硬盘上，每个 AI 模型都在你自己的电脑上运行。不上传，不需要账户，也不需要存储方案。</p>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-5 pt-4 border-top border-secondary-subtle g-4">
+        <div class="col-md-6 col-lg-5">
+          <p class="text-secondary mb-0">Smart Photos 是一款 Windows 私密相册和照片管理应用，拥有你熟悉的云端级智能搜索：按照片里是谁、在哪里拍、拍了什么，找到任何一张照片。AI 在你自己的电脑上运行，所以照片永远不会离开你的设备。</p>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <p class="text-secondary mb-0">要离开 Google 相册（Google Photos）或 iCloud 照片？选择你通过 Google Takeout 或 Apple 数据副本下载的 ZIP 文件即可。Smart Photos 会解压文件，保留日期、地点、描述、收藏和相册，推荐你曾为人物起的名字，并在你从云端删除任何内容之前，确认所有内容都已到齐。Picasa、Lightroom 和 Windows 照片库中的人脸标记、星级和相册也能一起导入。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Smart Photos vs Google Photos -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i> 对比一下</span>
+        <h2 class="display-5 fw-bold text-white">Smart Photos 与 Google 相册对比</h2>
+        <p class="text-secondary fs-5">同样聪明的功能，只有一个改变一切的区别：你的照片存放在哪里。</p>
+      </div>
+      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col"></th>
+                <th scope="col" class="sp-col text-primary fw-bold"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Smart Photos</th>
+                <th scope="col">Google 相册</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">照片存放位置</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">你的电脑，你自己的文件夹</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>Google 云端</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">存储费用</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">用你自己的硬盘，永远不需要存储方案。</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>免费 15 GB，与 Gmail 和云端硬盘共用；更多空间需付费购买 Google One 方案</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">付费方式</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">15 天免费试用后，在 Microsoft Store 一次性购买</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>空间用满后按月或按年订阅</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">账户</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">不需要，完全无需登录。</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>需要 Google 账号</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">用自己的话搜索</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">支持，AI 在你的电脑上运行</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>支持，在 Google 服务器上处理</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">人脸归类后由你命名</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">支持，在你的电脑上</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>支持，在云端</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">无网络也能用</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">模型下载一次后，全部功能可用</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>搜索和同步需要联网</span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-white fw-semibold small align-middle">清理重复和模糊照片</td>
+                  <td class="sp-col small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-check-circle-fill text-success flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span class="text-white fw-semibold">内置，可撤销</span>
+                    </span>
+                  </td>
+                  <td class="text-secondary small align-middle">
+                    <span class="d-flex align-items-start gap-2">
+                      <i class="bi bi-dash-circle text-secondary flex-shrink-0 mt-1" aria-hidden="true"></i>
+                      <span>没有专门的重复照片查找功能</span>
+                    </span>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="extra-small text-secondary text-center mt-3 mb-0">Google 相册和 Google Takeout 是 Google LLC 的商标。iCloud 是 Apple Inc. 的商标。Smart Photos 与 Google 或 Apple 无关联，也未获得其认可。</p>
+    </div>
+  </section>
+
+  <!-- Private by design -->
+  <section class="py-5" id="privacy">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> 隐私优先</span>
+        <h2 class="display-5 fw-bold text-white">写进应用里的六项承诺</h2>
+        <p class="text-secondary fs-5">不是需要你去找的设置，而是 Smart Photos 本来的工作方式。</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi bi-pc-display" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">什么都不会离开你的电脑</h3>
+            </div>
+            <p class="text-secondary small mb-0">照片、人脸、名字和搜索都在你自己的电脑上处理。唯一的下载是 AI 模型，只需一次，而且由你决定何时下载。应用发起的每一个连接都会在应用内列出。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi bi-person-slash" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">无需账户，没有跟踪</h3>
+            </div>
+            <p class="text-secondary small mb-0">不登录、无广告、无遥测，也不上传崩溃报告。离线模式会彻底阻断网络。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi bi-file-earmark-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">原始文件永不改动</h3>
+            </div>
+            <p class="text-secondary small mb-0">收藏、名字、旋转和相册都保存在 Smart Photos 自己的索引中。你的文件保持原样；删除的内容会进入回收站，可以撤销。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi bi-wifi-off" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">离线可用</h3>
+            </div>
+            <p class="text-secondary small mb-0">图库从第一分钟起就能使用，甚至在 AI 模型下载之前。下载一次之后，所有功能都能在没有网络的情况下使用。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi bi-bookmark-check" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">你的整理成果不会丢</h3>
+            </div>
+            <p class="text-secondary small mb-0">添加文件夹或更新应用，都不会重新排列你已确认的人物，也不会撤销你的修改。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi bi-bag-check" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">一次购买，永久拥有</h3>
+            </div>
+            <p class="text-secondary small mb-0">没有订阅、没有存储方案，也没有应用内购买。试用结束后，照片、相册和人物都会保留，仍可继续浏览。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- On-device AI -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai">
+    <div class="container py-4">
+      <div class="row gy-5 align-items-center">
+        <div class="col-lg-6">
+          <div class="sp-icon-box mb-3"><i class="bi bi-cpu-fill" aria-hidden="true"></i></div>
+          <h2 class="display-6 fw-bold text-white mb-3">本机 AI，说清楚讲明白</h2>
+          <p class="text-secondary mb-3">无需账户，无广告，无跟踪，无遥测。AI 模型只在你需要时下载一次（约 1.8 GB），之后一切都可离线运行，离线模式会完全阻止联网。应用的每一次连接都会在应用中列出。</p>
+          <p class="text-secondary mb-0">AI 说明：Smart Photos 使用设备上的 AI 模型识别照片内容、为面孔分组、读取文字并理解搜索。当搜索无法被直接理解时，设备上的语言模型会将其改写为简短搜索，以可移除的筛选条件显示。它不会生成图像或内容，也没有任何 AI 在云端运行。</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-pc-display text-primary me-2" aria-hidden="true"></i>你需要准备</h3>
+            <ul class="list-unstyled sp-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Windows 10 版本 2004 或更高版本，或 Windows 11</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>一台 x64 或 ARM64 电脑</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>约 1.8 GB 可用空间用于 AI 模型，只需下载一次</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>支持 25 种语言</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it is not + who it is for -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4">
+            <h2 class="h3 text-white fw-bold mb-4">Smart Photos 不是什么</h2>
+            <ul class="list-unstyled mb-0">
+            <li class="d-flex gap-3 mb-3">
+              <i class="bi bi-x-circle text-danger flex-shrink-0 mt-1" aria-hidden="true"></i>
+              <span class="text-secondary small">不是云备份。照片会留在原来的位置，所以请像对待任何本地图库一样，在另一块硬盘上保存一份副本。</span>
+            </li>
+            <li class="d-flex gap-3 mb-3">
+              <i class="bi bi-x-circle text-danger flex-shrink-0 mt-1" aria-hidden="true"></i>
+              <span class="text-secondary small">不是照片编辑器。它会在你常用的编辑软件中打开照片。</span>
+            </li>
+            <li class="d-flex gap-3 mb-3">
+              <i class="bi bi-x-circle text-danger flex-shrink-0 mt-1" aria-hidden="true"></i>
+              <span class="text-secondary small">不是手机与电脑的同步服务。连接手机、相机或存储卡时，它会从中导入。</span>
+            </li>
+            <li class="d-flex gap-3 mb-3">
+              <i class="bi bi-x-circle text-danger flex-shrink-0 mt-1" aria-hidden="true"></i>
+              <span class="text-secondary small">不支持 Mac、iPhone 或 Android。Smart Photos 是一款 Windows 应用。</span>
+            </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 border border-primary border-opacity-25">
+            <div class="sp-icon-box mb-3"><i class="bi bi-people-fill" aria-hidden="true"></i></div>
+            <h2 class="h3 text-white fw-bold mb-3">适合谁</h2>
+            <p class="text-secondary small mb-0">想离开 Google 相册或 iCloud 照片，又想要同样聪明的图库、不想每月付存储费的人。电脑或移动硬盘里存着多年照片的家庭。拍 RAW、自己管理文件夹的摄影爱好者。以及所有希望家人的面孔在自己的电脑上被识别，而不是在别人数据中心里被识别的人。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> 问答</span>
+        <h2 class="display-5 fw-bold text-white">常见问题</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="spFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Smart Photos 是 Windows 上不错的 Google 相册替代品吗？
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#spFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  如果你看重的是 Google 相册聪明的那部分（按内容、人物和地点找照片、人脸自动归类、旅行显示在地图上、回忆），Smart Photos 会在你自己的电脑上完成这些。它刻意不做的是把照片存到云端，因此它不是备份服务：请自己在另一块硬盘上保存副本。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  能把图库从 Google 相册迁移过来吗？
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#spFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  可以。用 Google Takeout 下载图库，然后在 Smart Photos 中选择这些 ZIP 文件。它会保留日期、地点、描述、收藏和相册，并建议你以前给人物起的名字。最后的核对会确认所有内容都已到位，再让你决定是否删除云端内容。iCloud 照片的导出也同样适用。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  我的照片会被上传到任何地方吗？
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#spFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  不会。照片、人脸、名字和搜索全部在你的电脑上处理。Smart Photos 唯一下载的是它的 AI 模型（约 1.8 GB），只下载一次，而且由你决定。之后即可离线使用，离线模式会彻底阻断网络。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  需要账户或订阅吗？
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#spFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  都不需要。Smart Photos 在 Microsoft Store 一次性购买，全部功能可免费试用 15 天。试用结束后，照片、相册和人物都会保留，仍可继续浏览；AI 搜索和 AI 索引会暂停，直到你购买。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  它会修改或移动我的照片文件吗？
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#spFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  不会。Smart Photos 从不修改原始文件。收藏、名字、相册和旋转都保存在它自己的索引中。只有“删除”（移到回收站，可撤销）和“导出”会动到你的文件，而且只在你要求时才会执行。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  运行它需要什么？
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#spFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  一台 x64 或 ARM64 电脑，安装 Windows 10 版本 2004 或更高版本，或 Windows 11，并有约 1.8 GB 可用空间用于 AI 模型。它能打开 RAW、HEIC、AVIF、JXL 以及 Windows 能播放的大多数视频格式。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(95,211,174,0.13) 0%, rgba(31,156,124,0.08) 100%);">
+        <div class="max-w-700 mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" class="w-100 h-100 object-fit-contain" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">离开云端，聪明照旧。</h2>
+          <p class="text-secondary fs-5 mb-4">像云端一样聪明，却私密且本地：用自己的话搜索照片，自动归类每张面孔，在离线地图上重温旅行，清理重复照片，AI 在你的电脑上运行。要离开 Google 相册或 iCloud？全部带走。免费试用 15 天。</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9N1J0MC0V89G?ocid=dhinovatech_smart-photos&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Get it from</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="sp-price mt-3 mb-0 justify-content-center"><span class="sp-price-tag"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>15 天免费试用</span><span>全部功能解锁。无需账户，无需订阅。</span></p>
+        </div>
+      </div>
+
+      <div class="mt-4 p-4 rounded-4 bg-black border border-warning-subtle">
+        <div class="d-flex gap-3">
+          <i class="bi bi-info-circle-fill text-warning fs-4" aria-hidden="true"></i>
+          <div>
+            <h2 class="h6 text-warning fw-bold mb-1">温馨提示</h2>
+            <p class="small text-secondary mb-2">免费试用全部功能 15 天。试用结束后，你的照片、相册和人物都会保留，浏览和查看照常可用；AI 搜索和 AI 索引会暂停，直到你购买。</p>
+            <p class="extra-small text-secondary mb-0">Google 相册和 Google Takeout 是 Google LLC 的商标。iCloud 是 Apple Inc. 的商标。Smart Photos 与 Google 或 Apple 无关联，也未获得其认可。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link text-primary fw-semibold"><i class="bi bi-images me-1" aria-hidden="true"></i> Smart Photos</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Smart Photos">
+  <img src="/assets/images/smart-photos-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Smart Photos</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9N1J0MC0V89G?ocid=dhinovatech_smart-photos&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">安装</a>
+</div>
+<button type="button" class="to-top" aria-label="返回顶部" title="返回顶部">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie 同意" hidden>
+  <p class="consent-bar-text">Google Analytics 了解本站的使用情况，Google 和 Microsoft 的广告代码衡量广告是否有效。两者可能为此设置 Cookie——拒绝即停止。都不会用来建立广告画像。 <a href="/privacy.html" class="consent-bar-link">隐私政策</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">拒绝</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">接受</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

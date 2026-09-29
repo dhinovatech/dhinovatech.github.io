@@ -93,6 +93,12 @@ APPS = {
     icon="/assets/images/stow-icon.png",
     og="/assets/images/stow-icon.png", ogw=512, ogh=512,
     ogalt="Stow photo and file organizer icon", large=False),
+ 'smart-photos': dict(
+    name="Smart Photos", os="Windows", cat="MultimediaApplication",
+    store="https://apps.microsoft.com/detail/9N1J0MC0V89G",
+    icon="/assets/images/smart-photos-icon.png",
+    og="/assets/images/smart-photos-og.png", ogw=1200, ogh=630,
+    ogalt="Smart Photos - private Google Photos alternative for Windows", large=True),
  'nudge': dict(
     name="Nudge — Offline Journal & Diary with AI Companion", os="Windows", cat="LifestyleApplication",
     store="https://apps.microsoft.com/detail/9MV92P7RLDGB",

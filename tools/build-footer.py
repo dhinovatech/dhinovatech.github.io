@@ -28,6 +28,7 @@ SKIP_DIRS = {".git", "tools", "_src"}
 
 # href -> default link text, in the order the column should read.
 APP_ORDER = [
+    ("/smart-photos/",                    "Smart Photos"),
     ("/nudge/",                           "Nudge Offline Journal & AI"),
     ("/stow/",                            "Stow Photo & File Organizer"),
     ("/glowcompare/",                     "GlowCompare"),

@@ -66,6 +66,10 @@ SPEC = {
     "stow-icon.png":                      dict(max_dim=256,  webp=True,  q=90,
                                                webp_dim=512, keep=True),
 
+    # Smart Photos' icon is the transparent brand mark; the largest render is
+    # the 90px final CTA, so 256 covers a 3x screen.
+    "smart-photos-icon.png":              dict(max_dim=256,  webp=True,  q=90, keep=True),
+
     # hero / preview art. og:image wants >=1200px on the long edge, so the
     # JPEG fallback is not downscaled below that.
     "dhinovatech-hero.jpg":               dict(max_dim=1376, webp=True,  q=82, webp_dim=1200, keep=True),
@@ -79,6 +83,8 @@ SPEC = {
     # only thing that ever fetches it is a link-preview scraper, and those are
     # exactly the clients that still do not all read WebP.
     "stow-og.png":                        dict(max_dim=1200, webp=False),
+    # Drawn by tools/build-smart-photos-shots.py, for the same reason.
+    "smart-photos-og.png":                dict(max_dim=1200, webp=False),
 
     # store screenshots render at roughly 300 CSS px wide
     "glowcompare-screenshot-1.png":       dict(max_dim=592,  webp=True,  q=86, keep=False),
