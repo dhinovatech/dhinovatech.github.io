@@ -14,6 +14,9 @@ script:
     description paragraphs, the twenty feature bullets and the ten slide
     captions) into tools/smart-photos-listing.json, so the page speaks with
     the same, already-translated voice as the store listing;
+  * copies the app's privacy policy (docs/store/privacy-policy.md) to
+    tools/smart-photos-privacy.md, which build-smart-photos.py publishes as
+    /smart-photos/privacy.html - the URL Partner Center asks for;
   * copies the app icon into assets/images/_src/smart-photos-icon.png and draws
     the 1200x630 social card assets/images/_src/smart-photos-og.png, which
     build-images.py then compresses like any other source image.
@@ -31,6 +34,7 @@ Idempotent: every output is re-derived from source on each run.
 import csv
 import json
 import os
+import shutil
 import sys
 
 from PIL import Image, ImageDraw, ImageFont
@@ -38,6 +42,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "images", "smart-photos")
 LISTING = os.path.join(ROOT, "tools", "smart-photos-listing.json")
+POLICY = os.path.join(ROOT, "tools", "smart-photos-privacy.md")
 SRC_IMG = os.path.join(ROOT, "assets", "images", "_src")
 
 # The application repository. Override with SMART_PHOTOS_REPO.
@@ -45,6 +50,7 @@ APP = os.environ.get("SMART_PHOTOS_REPO",
                      os.path.join("C:\\", "Drive", "git", "SmartPhotos", "SmartPhotos"))
 STORE = os.path.join(APP, "StoreScreenshotsV2")
 ICON_SRC = os.path.join(APP, "src", "SmartPhotos.App", "Assets", "BrandMark.png")
+POLICY_SRC = os.path.join(APP, "docs", "store", "privacy-policy.md")
 
 # Site locale -> store listing locale directory.
 LOCALES = {
@@ -172,6 +178,9 @@ def main():
           % (len(LOCALES), len(SLIDES), os.path.relpath(OUT, ROOT),
              dims[0], dims[1], total / 1048576.0))
     print("  listing text -> %s" % os.path.relpath(LISTING, ROOT))
+    if os.path.exists(POLICY_SRC):
+        shutil.copyfile(POLICY_SRC, POLICY)
+        print("  privacy policy -> %s" % os.path.relpath(POLICY, ROOT))
     return 0
 
 

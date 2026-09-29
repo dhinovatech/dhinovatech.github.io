@@ -28,7 +28,9 @@ ms-windows-store:// in place when the visitor is on Windows.
 Run:  python tools/build-smart-photos.py
 Idempotent: every page is rewritten from the two JSON files on each run.
 """
+import datetime
 import html
+import importlib.util
 import json
 import os
 import re
@@ -54,6 +56,11 @@ STORE = "https://apps.microsoft.com/detail/" + STORE_ID
 STORE_UTM = STORE + "?ocid=dhinovatech_smart-photos"
 
 ICON = "/assets/images/smart-photos-icon.png"
+PRIVACY_URL = "/smart-photos/privacy.html"
+# The app's own privacy policy, copied from the app repository by
+# tools/build-smart-photos-shots.py. Partner Center needs it at a public URL
+# (Store Policy 10.5.1), so it is published here, next to the product page.
+PRIVACY_MD = os.path.join(TOOLS, "smart-photos-privacy.md")
 OGIMG = "/assets/images/smart-photos-og.png"
 OGW, OGH = 1200, 630
 OGALT = "Smart Photos - private Google Photos alternative for Windows, on the Microsoft Store"
@@ -421,6 +428,12 @@ PAGE_CSS = """  <style>
     /* Hero */
     .sp-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
     .sp-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sp-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .sp-note {
+      max-width: 820px; padding: 1rem 1.25rem; border-radius: 14px;
+      background: rgba(95, 211, 174, 0.06); border: 1px solid rgba(95, 211, 174, 0.22);
+    }
+    .sp-cta-strip .sp-price { margin: 0; }
     .sp-hero-tagline {
       font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
       line-height: 1.35; letter-spacing: 0; color: #a6eed6; margin-top: .6rem;
@@ -550,14 +563,47 @@ def section_head(icon, eb, h, sub):
                    '<p class="text-secondary fs-5">%s</p>' % E(sub) if sub else "")
 
 
-def store_button():
+def store_button(t):
     return """<a href="%s" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
               <i class="bi bi-microsoft" aria-hidden="true"></i>
               <span class="btn-store-copy">
-                <span class="btn-store-pre">Get it from</span>
+                <span class="btn-store-pre">%s</span>
                 <span class="btn-store-name">Microsoft Store</span>
               </span>
-            </a>""" % E(STORE_UTM)
+            </a>""" % (E(STORE_UTM), E(t["store_pre"]))
+
+
+def store_kind(lst):
+    """The descriptor of the localized store title ("AI Photo Viewer & Gallery").
+
+    Every listing title is "Smart Photos - <descriptor>", and the descriptor is
+    the store's own keyword choice for that market, so the hero shows it
+    rather than a second, invented phrase.
+    """
+    title = lst["title"]
+    for sep in (" - ", " \u2013 ", ": "):
+        if title.startswith("Smart Photos" + sep):
+            return title[len("Smart Photos" + sep):]
+    return ""
+
+
+def privacy_label(code):
+    c = CONSENT_L.get(code) or CONSENT_L.get(code.split("-")[0]) or CONSENT_L["en"]
+    return c.get("privacy", "Privacy Policy")
+
+
+def cta_strip(t):
+    """The store button again, where a reader who is convinced looks for it.
+
+    The page is long; before this the only buttons were the hero, the navbar
+    and the last section, which left the whole middle of the page with
+    nothing to click once the comparison or the feature list had done its job.
+    """
+    return """      <div class="sp-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        %s
+        %s
+      </div>
+""" % (store_button(t), render_price(t).replace(" mt-3", ""))
 
 
 def render_price(t, centred=False):
@@ -584,14 +630,17 @@ def render_hero(code, t, lst):
             <span class="sp-hero-icon">
               <img src="%(icon)s" alt="" decoding="async" width="256" height="256">
             </span>
-            <span class="small text-secondary">
-              <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+            <span>
+              <span class="d-block sp-hero-kind">%(kind)s</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
             </span>
           </div>
 
           <!-- The product name is the headline; the Google Photos line stays
                inside the h1 for search, but reads as its subtitle. -->
-          <h1 class="hero-title mb-3"><span class="d-block">Smart Photos</span><span class="d-block sp-hero-tagline">%(h1)s</span></h1>
+          <h1 class="hero-title mb-3"><span class="d-block">Smart Photos</span> <span class="d-block sp-hero-tagline">%(h1)s</span></h1>
           <p class="lead text-secondary mb-4 pe-lg-4 fs-5">%(lead)s</p>
 
           <div class="d-flex flex-wrap gap-3 align-items-center">
@@ -618,7 +667,7 @@ def render_hero(code, t, lst):
       </div>
     </div>
   </section>
-""" % dict(icon=ICON, h1=E(t["h1"]), lead=E(lst["short"]), store=store_button(),
+""" % dict(icon=ICON, kind=E(store_kind(lst)), h1=E(t["h1"]), lead=E(lst["short"]), store=store_button(t),
            cta_see=E(t["gal_eyebrow"]), price=render_price(t), badges=badges,
            hero=shot_url(code, "hero"), hero_alt=E(lst["captions"][0]),
            w=SHOT_W, h=SHOT_H)
@@ -690,13 +739,14 @@ def render_compare(t, lst):
         </div>
       </div>
       <p class="extra-small text-secondary text-center mt-3 mb-0">%s</p>
-    </div>
+%s    </div>
   </section>
 """ % (section_head("bi-arrow-left-right", t["cmp_eyebrow"], t["cmp_h"], t["cmp_sub"]),
-       E(head[0]), E(head[1]), E(head[2]), "\n".join(rows), E(lst["description"][12]))
+       E(head[0]), E(head[1]), E(head[2]), "\n".join(rows), E(lst["description"][12]),
+       cta_strip(t))
 
 
-def render_invariants(t):
+def render_invariants(code, t):
     cards = []
     for icon, inv in zip(INV_ICONS, t["inv"]):
         cards.append("""        <div class="col-lg-4 col-md-6">
@@ -715,10 +765,11 @@ def render_invariants(t):
       <div class="row g-4">
 %s
       </div>
+      <p class="text-center mt-4 mb-0"><a class="link-primary fw-semibold" href="%s"><i class="bi bi-file-earmark-lock me-1" aria-hidden="true"></i>%s</a></p>
     </div>
   </section>
 """ % (section_head("bi-shield-lock-fill", t["inv_eyebrow"], t["inv_h"], t["inv_sub"]),
-       "\n".join(cards))
+       "\n".join(cards), PRIVACY_URL, E(privacy_label(code)))
 
 
 def render_steps(code, t, lst):
@@ -736,8 +787,12 @@ def render_steps(code, t, lst):
   <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="switch">
     <div class="container py-4">
 %s
-      <div class="row g-4 mb-5">
+      <div class="row g-4 mb-4">
 %s
+      </div>
+      <div class="sp-note d-flex gap-3 align-items-start mx-auto mb-5">
+        <i class="bi bi-arrow-repeat text-primary fs-4 flex-shrink-0" aria-hidden="true"></i>
+        <p class="text-secondary mb-0">%s</p>
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-10">
@@ -750,7 +805,7 @@ def render_steps(code, t, lst):
     </div>
   </section>
 """ % (section_head("bi-box-arrow-in-down", t["steps_eyebrow"], t["steps_h"], t["steps_sub"]),
-       "\n".join(out), shot_url(code, "switch"), E(lst["captions"][3]), SHOT_W, SHOT_H,
+       "\n".join(out), E(t["steps_more"]), shot_url(code, "switch"), E(lst["captions"][3]), SHOT_W, SHOT_H,
        E(lst["captions"][3]))
 
 
@@ -816,10 +871,10 @@ def render_features(code, t, lst):
 %s
         </div>
       </div>
-    </div>
+%s    </div>
   </section>
 """ % (section_head("bi-stars", t["feat_eyebrow"], t["feat_h"], t["feat_sub"]),
-       "\n".join(cards), E(t["all_h"]), "\n".join(cols))
+       "\n".join(cards), E(t["all_h"]), "\n".join(cols), cta_strip(t))
 
 
 def render_ai(code, t, lst):
@@ -914,7 +969,7 @@ def render_faq(t):
 """ % (section_head("bi-question-circle", t["faq_eyebrow"], t["faq_h"], ""), "\n".join(items))
 
 
-def render_final(t, lst):
+def render_final(code, t, lst):
     return """  <!-- Final CTA -->
   <section class="py-5">
     <div class="container py-4">
@@ -938,14 +993,148 @@ def render_final(t, lst):
           <div>
             <h2 class="h6 text-warning fw-bold mb-1">%s</h2>
             <p class="small text-secondary mb-2">%s</p>
+            <p class="small mb-2"><a class="link-primary" href="%s">%s</a></p>
             <p class="extra-small text-secondary mb-0">%s</p>
           </div>
         </div>
       </div>
     </div>
   </section>
-""" % (ICON, E(t["final_h"]), E(lst["short"]), store_button(), render_price(t, True),
-       E(t["h_important"]), E(lst["description"][11]), E(lst["description"][12]))
+""" % (ICON, E(t["final_h"]), E(lst["short"]), store_button(t), render_price(t, True),
+       E(t["h_important"]), E(lst["description"][11]), PRIVACY_URL, E(privacy_label(code)),
+       E(lst["description"][12]))
+
+
+# ------------------------------------------------------------ privacy policy
+
+def _privacy_module():
+    """tools/build-privacy.py, for the chrome every app policy page shares."""
+    spec = importlib.util.spec_from_file_location(
+        "build_privacy", os.path.join(TOOLS, "build-privacy.py"))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+_URL = re.compile(r"https?://[^\s)<]+")
+
+
+def _inline(text):
+    """The few inline Markdown constructs the policy uses, as HTML."""
+    out = html.escape(text, quote=False)
+    out = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", out)
+    out = re.sub(r"(?<![*\w])\*(?!\s)(.+?)(?<!\s)\*(?![*\w])", r"<em>\1</em>", out)
+    out = re.sub(r"`([^`]+)`", r"<code>\1</code>", out)
+    return _URL.sub(lambda m: '<a href="%s" target="_blank" rel="noopener">%s</a>'
+                    % (m.group(0), m.group(0)), out)
+
+
+def _slug(text):
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+
+
+def parse_policy(md):
+    """Split docs/store/privacy-policy.md into (effective, lead, sections).
+
+    Block quotes are notes to the owner ("host this page at a public URL")
+    and are never published. The bold paragraph before the first heading is
+    the policy's own short version, which the page shows as its lead.
+    """
+    effective, lead, sections = "", "", []
+    blocks, para, items = None, [], None
+
+    def flush():
+        nonlocal para, items, lead
+        if para:
+            text = " ".join(para)
+            if blocks is None:
+                lead = text
+            else:
+                blocks.append(("p", text))
+            para = []
+        if items is not None:
+            if blocks is not None:
+                blocks.append(("ul", items))
+            items = None
+
+    for raw in md.replace("\r\n", "\n").split("\n"):
+        line = raw.rstrip()
+        if line.startswith(">"):
+            flush()
+            continue
+        if line.startswith("# "):
+            continue
+        if line.startswith("Effective:"):
+            effective = line[len("Effective:"):].split("\u00b7")[0].strip()
+            continue
+        if line.startswith("## "):
+            flush()
+            blocks = []
+            sections.append((line[3:].strip(), blocks))
+            continue
+        if not line.strip():
+            flush()
+            continue
+        if line.startswith("- "):
+            if para:
+                flush()
+            if items is None:
+                items = []
+            items.append(line[2:].strip())
+            continue
+        if items is not None and raw.startswith("  "):
+            items[-1] += " " + line.strip()
+            continue
+        para.append(line.strip())
+    flush()
+    return effective, lead, sections
+
+
+def privacy_page():
+    if not os.path.exists(PRIVACY_MD):
+        return None
+    mod = _privacy_module()
+    with open(PRIVACY_MD, encoding="utf-8") as fh:
+        effective, lead, sections = parse_policy(fh.read())
+    try:
+        d = datetime.date.fromisoformat(effective)
+        effective = "%s %d, %d" % (d.strftime("%B"), d.day, d.year)
+    except ValueError:
+        pass
+
+    secs, items = "", []
+    for n, (heading, blocks) in enumerate(sections, 1):
+        inner = ""
+        for kind, value in blocks:
+            if kind == "p":
+                inner += "      <p>%s</p>\n" % _inline(value)
+            else:
+                inner += ("      <ul>\n"
+                          + "".join("        <li>%s</li>\n" % _inline(v) for v in value)
+                          + "      </ul>\n")
+        sid = _slug(heading)
+        items.append((sid, heading))
+        secs += mod.section(n, sid, heading, inner)
+
+    body = """<main id="main" class="page">
+
+    <header class="header">
+      <a href="/smart-photos/">&larr; Smart Photos</a>
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">Smart Photos, the on-device AI photo gallery for Windows</p>
+      <span class="effective-date">Effective date: %s</span>
+    </header>
+
+    <div class="callout highlight">
+      <p>%s</p>
+    </div>
+
+%s
+%s%s""" % (E(effective), _inline(lead), mod.toc(items), secs, mod.footer())
+    return mod.shell("Privacy Policy | Smart Photos",
+                     "How Smart Photos handles your data: photos, faces and "
+                     "searches stay on your PC, nothing is collected, and the only "
+                     "download is the AI models.", body)
 
 
 def build(code):
@@ -953,7 +1142,10 @@ def build(code):
     t.update(S.get(code, {}))
     lst = LISTING[code]
     _c, label, direction, hl, og = BY_CODE[code]
-    title = "%s | Dhinovatech" % t["seo_title"]
+    # No " | Dhinovatech" suffix: Google shows the site name on its own line
+    # above the title now, and the suffix only pushed the keyword out of the
+    # ~60 characters a result shows.
+    title = t["seo_title"]
     desc = t["seo_desc"]
 
     og_alts = "\n".join('  <meta property="og:locale:alternate" content="%s">' % o
@@ -968,11 +1160,11 @@ def build(code):
         render_steps(code, t, lst),
         render_why(t, lst),
         render_compare(t, lst),
-        render_invariants(t),
+        render_invariants(code, t),
         render_ai(code, t, lst),
         render_not_who(t),
         render_faq(t),
-        render_final(t, lst),
+        render_final(code, t, lst),
     ])
 
     return """<!DOCTYPE html>
@@ -1081,6 +1273,14 @@ def main():
         missing = [k for k in S["en"] if k not in S.get(code, {})]
         print("wrote %s%s" % (os.path.relpath(path, ROOT),
                               "  (English fallback: %d keys)" % len(missing) if code != "en" and missing else ""))
+    page = privacy_page()
+    if page:
+        path = os.path.join(base, "privacy.html")
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(page)
+        print("wrote %s" % os.path.relpath(path, ROOT))
+    else:
+        print("  ! %s missing - privacy page not written" % os.path.relpath(PRIVACY_MD, ROOT))
     return 0
 
 

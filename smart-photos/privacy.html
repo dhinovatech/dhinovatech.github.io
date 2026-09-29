@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Smart Photos</title>
+  <meta name="description" content="How Smart Photos handles your data: photos, faces and searches stay on your PC, nothing is collected, and the only download is the AI models.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/css/legal.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <!-- BEGIN generated SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/smart-photos/privacy.html">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Privacy Policy | Smart Photos">
+  <meta property="og:description" content="How Smart Photos handles your data: photos, faces and searches stay on your PC, nothing is collected, and the only download is the AI models.">
+  <meta property="og:url" content="https://www.dhinovatech.com/smart-photos/privacy.html">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/smart-photos-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Smart Photos - private Google Photos alternative for Windows">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy | Smart Photos">
+  <meta name="twitter:description" content="How Smart Photos handles your data: photos, faces and searches stay on your PC, nothing is collected, and the only download is the AI models.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/smart-photos-og.png">
+  <meta name="twitter:image:alt" content="Smart Photos - private Google Photos alternative for Windows">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://www.dhinovatech.com/smart-photos/privacy.html"}]}]}
+  </script>
+  <!-- END generated SEO block -->
+  <!-- BEGIN generated resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END generated resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<main id="main" class="page">
+
+    <header class="header">
+      <a href="/smart-photos/">&larr; Smart Photos</a>
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">Smart Photos, the on-device AI photo gallery for Windows</p>
+      <span class="effective-date">Effective date: September 26, 2026</span>
+    </header>
+
+    <div class="callout highlight">
+      <p><strong>Short version: Smart Photos collects nothing. Your photos, videos and everything the app learns about them stay on your PC.</strong></p>
+    </div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#what-smart-photos-does-with-your-photos">What Smart Photos does with your photos</a></li>
+        <li><a href="#what-leaves-your-pc">What leaves your PC</a></li>
+        <li><a href="#things-you-choose-to-send">Things you choose to send</a></li>
+        <li><a href="#backups">Backups</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#your-control">Your control</a></li>
+        <li><a href="#changes">Changes</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="what-smart-photos-does-with-your-photos">
+      <h2>1. What Smart Photos does with your photos</h2>
+      <p>Smart Photos shows the photos and videos in the folders you choose and uses artificial intelligence (AI) that runs on your own PC to make them searchable: it recognizes what is in a photo, groups similar faces so you can name people, reads text in photos, and works out places and dates. All of this happens on your device.</p>
+      <p>The results are kept in the app's own data folder on your PC:</p>
+      <ul>
+        <li>an index database (dates, places, tags, text found in photos, the names you give people, albums, favorites and your corrections);</li>
+        <li>small preview images (thumbnails);</li>
+        <li>numeric descriptions of photos and faces used for search and face grouping. Face descriptions are encrypted with a key protected by Windows for your user account.</li>
+      </ul>
+      <p>Smart Photos never modifies, moves or renames your original files. It deletes a file only when you ask it to, and then it goes to the Recycle Bin.</p>
+    </section>
+
+    <section class="section" id="what-leaves-your-pc">
+      <h2>2. What leaves your PC</h2>
+      <p><strong>Nothing about your photos.</strong> No photo, video, thumbnail, face, name, place, text, tag or search you type is ever sent anywhere by Smart Photos. There is no account, no advertising, no analytics, no telemetry and no crash upload.</p>
+      <p>Smart Photos connects to the internet only to:</p>
+      <ul>
+        <li><strong>Download its AI models</strong> from Hugging Face (huggingface.co), after you agree during setup or in Settings. These requests contain only the file names of the models, like any download. You can instead import the models from a file.</li>
+        <li><strong>Nothing else.</strong> Every connection the app makes is listed in Settings → Privacy → Network log, and <strong>Offline mode</strong> blocks all of them.</li>
+      </ul>
+      <p>Windows itself handles some traffic that is not part of Smart Photos: the Microsoft Store (licensing, the free trial, purchases, ratings and updates — Windows checks the license even while Offline mode is on), the Microsoft Edge WebView2 runtime used to draw the offline map (started with its background networking turned off), and Windows components that provide AI acceleration (downloaded only when you choose <em>Prepare accelerators</em>, and never in Offline mode). If your photos are in a cloud-synced folder such as OneDrive and some are online-only, OneDrive downloads a file when Smart Photos reads it to make a thumbnail, unless you turn that off in Settings → Library or turn on Offline mode. These follow your Windows and OneDrive settings and Microsoft's privacy statement (<a href="https://privacy.microsoft.com" target="_blank" rel="noopener">https://privacy.microsoft.com</a>). Windows Error Reporting may send crash information to Microsoft if you allow it in Windows settings; Smart Photos adds nothing to it.</p>
+    </section>
+
+    <section class="section" id="things-you-choose-to-send">
+      <h2>3. Things you choose to send</h2>
+      <ul>
+        <li><strong>Report a problem / Report a wrong AI result.</strong> These open a draft in your own email app, addressed to dhinovatech@gmail.com. You can read and change it, and nothing is sent unless you send it. A report contains the app version, Windows version, language and what you write; an AI report also contains what you were looking at (for example, the search you typed and how the app understood it, or the photo's file type and camera model). Reports never contain photos, file names, folder paths or locations. We use reports only to fix problems and reply to you, and delete them when they are no longer needed.</li>
+        <li><strong>Crash report.</strong> If Smart Photos closed unexpectedly, the next start offers to open an email draft with the error details (with your user name, file names and folder paths removed). As with other reports, nothing is sent unless you send it, and you can choose <em>Don't ask again</em>.</li>
+        <li><strong>Export diagnostics.</strong> Saves a ZIP of recent app logs, with file paths removed, to a place you choose. It is sent only if you attach it to an email yourself.</li>
+        <li><strong>Share / Copy / Export.</strong> Photos you share or export go only where you send them.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="backups">
+      <h2>4. Backups</h2>
+      <p>Once a week Smart Photos saves a small backup of your curation (people's names, face positions, albums, favorites and corrections — no photos) to <code>Documents\Smart Photos Backups</code>, so your work survives reinstalling Windows. If your Documents folder is synced by OneDrive, the backup goes to <code>Smart Photos Backups</code> in your user folder instead, so it stays on this PC. If you choose a folder that OneDrive syncs, OneDrive will copy the backup to your OneDrive; Settings tells you when this is the case and lets you choose another folder or turn backups off. A backup lists which items are favorites, archived or hidden by their content fingerprints (not their names or paths), and the names you gave people; keep it where only you can read it. The thumbnail cache can't be moved into a cloud-synced folder.</p>
+    </section>
+
+    <section class="section" id="children">
+      <h2>5. Children</h2>
+      <p>Smart Photos is a general-audience app. It does not collect personal information from anyone, including children.</p>
+    </section>
+
+    <section class="section" id="your-control">
+      <h2>6. Your control</h2>
+      <ul>
+        <li>Delete everything the AI learned: Settings → Privacy → Delete all AI data (faces separately under People).</li>
+        <li>Remove a folder from the library: its index data is removed; your files are untouched.</li>
+        <li>Uninstalling Smart Photos removes its data folder. Backups (in Documents, or in your user folder) stay until you delete them.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="changes">
+      <h2>7. Changes</h2>
+      <p>If this policy changes, the new version will be posted at the same address with a new effective date. Because Smart Photos collects no data, a change can never apply to data collected earlier.</p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>8. Contact</h2>
+      <p>Dhinovatech — dhinovatech@gmail.com — www.dhinovatech.com</p>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 Dhinova Tech. All rights reserved.</p>
+      <p>
+        <a href="/">Home</a> &middot;
+        <a href="/privacy.html">Website privacy</a> &middot;
+        <a href="/terms.html">Terms</a> &middot;
+        <a href="mailto:dhinovatech@gmail.com">Contact</a>
+      </p>
+    </footer>
+
+  </main>
+
+<!-- BEGIN generated UX block -->
+<button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>
