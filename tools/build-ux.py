@@ -134,6 +134,14 @@ def relpath(p):
 # per-app `ocid` below already answers app by app.
 STORE_CID = "FromDhinoWebsite"
 
+# The exception: the ads landing pages are where paid traffic arrives, and in
+# the site-wide bucket their installs would be indistinguishable from organic
+# ones.
+PAGE_CID = {
+    "stow/landing.html": "FromDhinoWebsiteAdPage",
+    "stow/ads.html": "FromDhinoWebsiteAdPage",
+}
+
 
 def href_attr(url):
     """Escape a tagged URL for an href attribute.
@@ -185,10 +193,11 @@ def tag_store_url(url, page_url, app_key):
         # The boundary matters: 'cid=' is a substring of 'ocid=', so a plain
         # containment test would decide cid was already there every time and
         # this pass would never add it.
+        cid = PAGE_CID.get(page_url, STORE_CID)
         if re.search(r'[?&]cid=', url):
-            url = re.sub(r'([?&])cid=[^&]*', r'\1cid=' + STORE_CID, url)
+            url = re.sub(r'([?&])cid=[^&]*', r'\1cid=' + cid, url)
         else:
-            url += ('&' if '?' in url else '?') + 'cid=' + STORE_CID
+            url += ('&' if '?' in url else '?') + 'cid=' + cid
         return url
     return url
 
