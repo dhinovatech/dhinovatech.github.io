@@ -140,6 +140,7 @@ STORE_CID = "FromDhinoWebsite"
 PAGE_CID = {
     "stow/landing.html": "FromDhinoWebsiteAdPage",
     "stow/ads.html": "FromDhinoWebsiteAdPage",
+    "smart-photos/landing.html": "FromDhinoWebsiteAdPage",
 }
 
 
