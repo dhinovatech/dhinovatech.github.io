@@ -443,11 +443,28 @@ PAGE_CSS = """  <style>
       font-size: .92rem; color: #cbd5e1;
     }
     .sp-price-tag {
-      background: rgba(255, 194, 74, .14); color: var(--sp-sun);
-      border: 1px solid rgba(255, 194, 74, .34);
-      border-radius: 20px; padding: 2px 10px; font-size: .8rem; font-weight: 700;
-      white-space: nowrap;
+      background: var(--sp-mint); color: var(--sp-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(95, 211, 174, .35);
     }
+    .sp-price-tag:hover { color: var(--sp-ink); background: #7fe0c0; }
+
+    /* Pricing */
+    .sp-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .sp-plan-free { border: 2px solid var(--sp-mint) !important; box-shadow: 0 0 40px rgba(95, 211, 174, .18); }
+    .sp-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--sp-mint); }
+    .sp-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .sp-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .sp-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 194, 74, .1); border: 1px solid rgba(255, 194, 74, .38);
+    }
+    .sp-quota-num { font-size: 2.4rem; font-weight: 800; line-height: 1; color: var(--sp-sun); flex-shrink: 0; }
+    .sp-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .sp-quota-pro { background: rgba(95, 211, 174, .08); border-color: rgba(95, 211, 174, .3); }
+    .sp-quota-pro .sp-quota-num { color: var(--sp-mint); }
     .sp-window {
       border-radius: 14px; overflow: hidden; background: #0d2a26;
       border: 1px solid rgba(255,255,255,.12);
@@ -506,8 +523,9 @@ def hreflang_block(code):
 
 
 def schema(code, t, desc):
-    # No Offer: the price is set in Partner Center and is not published yet.
-    # Add one here (as build-stow.py does) once it is, and keep it matching.
+    # Free since 2.0 (2026-10-07). Smart Photos Pro, the add-on that unlocks
+    # unlimited searches, is priced per market in Partner Center and has sales,
+    # so only the app's own price, which is the same everywhere, goes here.
     graph = [
         {"@type": "Organization", "@id": SITE + "/#organization",
          "name": "Dhinovatech", "url": SITE + "/"},
@@ -525,6 +543,8 @@ def schema(code, t, desc):
          "downloadUrl": STORE,
          "installUrl": STORE,
          "featureList": LISTING[code]["features"],
+         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock", "url": STORE},
          "screenshot": [SITE + shot_url(code, s) for s in SLIDES],
          "publisher": {"@id": SITE + "/#organization"},
          "author": {"@id": SITE + "/#organization"}},
@@ -607,11 +627,67 @@ def cta_strip(t):
 
 
 def render_price(t, centred=False):
-    return ('<p class="sp-price mt-3 mb-0%s"><span class="sp-price-tag">'
-            '<i class="bi bi-gift-fill me-1" aria-hidden="true"></i>%s</span>'
+    return ('<p class="sp-price mt-3 mb-0%s"><a class="sp-price-tag" href="#pricing">'
+            '<i class="bi bi-gift-fill me-1" aria-hidden="true"></i>%s</a>'
             '<span>%s</span></p>'
             % (" justify-content-center" if centred else "",
-               E(t["trial_badge"]), E(t["trial_note"])))
+               E(t["free_badge"]), E(t["free_note"])))
+
+
+def render_pricing(t):
+    """Free vs Smart Photos Pro, with the free version's monthly searches in view.
+
+    The app is free (ADR 0009 in the app repo); the one limit is 30 typed
+    searches a month, and the owner wants it stated plainly rather than found
+    later, so it is the largest thing on the free card. Pro is presented as the
+    app presents it: an optional one-time way to support the developer that
+    also unlocks unlimited searches. No Pro price here: it differs by market
+    and has sales, and the app shows the live one.
+    """
+    def items(rows):
+        return "\n".join(
+            '              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>%s</span></li>' % E(r)
+            for r in rows)
+    return """  <!-- Pricing -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pricing">
+    <div class="container py-4">
+%s
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sp-plan sp-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">Smart Photos</h3>
+            <p class="sp-plan-price mb-3">%s</p>
+            <div class="sp-quota mb-4">
+              <span class="sp-quota-num">30</span>
+              <span class="sp-quota-label">%s</span>
+            </div>
+            <ul class="list-unstyled sp-check-list mb-4">
+%s
+            </ul>
+            <div class="mt-auto">%s</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sp-plan">
+            <h3 class="h5 text-white fw-bold mb-1">Smart Photos Pro <span class="badge rounded-pill sp-plan-opt align-middle ms-1">%s</span></h3>
+            <p class="sp-plan-price sp-plan-price-sm mb-3">%s</p>
+            <div class="sp-quota sp-quota-pro mb-4">
+              <span class="sp-quota-num"><i class="bi bi-infinity" aria-hidden="true"></i></span>
+              <span class="sp-quota-label">%s</span>
+            </div>
+            <ul class="list-unstyled sp-check-list mb-0">
+%s
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 max-w-700">%s</p>
+    </div>
+  </section>
+""" % (section_head("bi-gift-fill", t["price_eyebrow"], t["price_h"], t["price_sub"]),
+       E(t["free_price"]), E(t["quota_label"]), items(t["free_items"]), store_button(t),
+       E(t["pro_badge"]), E(t["pro_price"]), E(t["pro_items"][0]), items(t["pro_items"][1:]),
+       E(t["price_fine"]))
 
 
 def render_hero(code, t, lst):
@@ -1156,6 +1232,7 @@ def build(code):
         # is mostly there for search, follows once the reader has seen it.
         render_hero(code, t, lst),
         render_gallery(code, t, lst),
+        render_pricing(t),
         render_features(code, t, lst),
         render_steps(code, t, lst),
         render_why(t, lst),

@@ -33,8 +33,8 @@ Smart Photos connects to the internet only to:
 - **Nothing else.** Every connection the app makes is listed in Settings → Privacy → Network log, and **Offline mode**
   blocks all of them.
 
-Windows itself handles some traffic that is not part of Smart Photos: the Microsoft Store (licensing, the free trial,
-purchases, ratings and updates — Windows checks the license even while Offline mode is on), the Microsoft Edge WebView2
+Windows itself handles some traffic that is not part of Smart Photos: the Microsoft Store (licensing, the purchase
+of Smart Photos Pro, ratings and updates — Windows checks the license even while Offline mode is on), the Microsoft Edge WebView2
 runtime used to draw the offline map (started with its background networking turned off), and Windows components that
 provide AI acceleration (downloaded only when you choose *Prepare accelerators*, and never in Offline mode). If your
 photos are in a cloud-synced folder such as OneDrive and some are online-only, OneDrive downloads a file when Smart
