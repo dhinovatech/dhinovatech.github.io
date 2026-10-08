@@ -57,6 +57,8 @@ STORE_UTM = STORE + "?ocid=dhinovatech_smart-photos"
 
 ICON = "/assets/images/smart-photos-icon.png"
 PRIVACY_URL = "/smart-photos/privacy.html"
+# When the page's copy last changed in substance; the WebPage schema reports it.
+MODIFIED = "2026-10-08"
 # The app's own privacy policy, copied from the app repository by
 # tools/build-smart-photos-shots.py. Partner Center needs it at a public URL
 # (Store Policy 10.5.1), so it is published here, next to the product page.
@@ -450,6 +452,28 @@ PAGE_CSS = """  <style>
     }
     .sp-price-tag:hover { color: var(--sp-ink); background: #7fe0c0; }
 
+    .sp-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .sp-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .sp-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .sp-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .sp-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--sp-mint); font-weight: 700; margin-bottom: .3rem; }
+    .sp-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Peer comparison */
+    .peer-table { font-size: .86rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; min-width: 150px; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; }
+    .peer-table th.sp-col, .peer-table td.sp-col { background: rgba(95, 211, 174, .07); border-left: 1px solid rgba(95,211,174,.25); border-right: 1px solid rgba(95,211,174,.25); }
+    .peer-table thead th.sp-col { color: var(--sp-mint); border-top: 2px solid var(--sp-mint); }
+    .peer-table tbody th { min-width: 140px; font-weight: 600; }
+    .peer-cell { display: flex; gap: .45rem; align-items: flex-start; }
+    .peer-cell i { flex-shrink: 0; margin-top: .15rem; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--sp-sun); }
+    .peer-n { color: #f87171; }
+
     /* Pricing */
     .sp-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
     .sp-plan-free { border: 2px solid var(--sp-mint) !important; box-shadow: 0 0 40px rgba(95, 211, 174, .18); }
@@ -543,11 +567,21 @@ def schema(code, t, desc):
          "downloadUrl": STORE,
          "installUrl": STORE,
          "featureList": LISTING[code]["features"],
+         "abstract": t["glance_def"],
+         "isAccessibleForFree": True,
+         "softwareVersion": "2.0",
+         "processorRequirements": "x64 or ARM64",
+         "memoryRequirements": "8 GB RAM (16 GB recommended)",
+         "storageRequirements": "About 1.8 GB for the on-device AI models",
          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD",
                     "availability": "https://schema.org/InStock", "url": STORE},
          "screenshot": [SITE + shot_url(code, s) for s in SLIDES],
          "publisher": {"@id": SITE + "/#organization"},
          "author": {"@id": SITE + "/#organization"}},
+        {"@type": "WebPage", "@id": abs_url(code) + "#webpage", "url": abs_url(code),
+         "name": t["seo_title"], "description": desc, "inLanguage": BY_CODE[code][3],
+         "dateModified": MODIFIED, "about": {"@id": SITE + "/smart-photos/#software"},
+         "mainEntity": {"@id": SITE + "/smart-photos/#software"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
             {"@type": "ListItem", "position": 2, "name": "Smart Photos", "item": abs_url("en")},
@@ -559,7 +593,7 @@ def schema(code, t, desc):
                         for f in t["faqs"]]},
     ]
     if code != "en":
-        graph[2]["itemListElement"].append(
+        graph[3]["itemListElement"].append(
             {"@type": "ListItem", "position": 3,
              "name": "Smart Photos (%s)" % code, "item": abs_url(code)})
     return json.dumps({"@context": "https://schema.org", "@graph": graph},
@@ -634,6 +668,136 @@ def render_price(t, centred=False):
                E(t["free_badge"]), E(t["free_note"])))
 
 
+def render_glance(t):
+    """One definition sentence and the key facts, as a description list.
+
+    Written to be quoted: search snippets and AI answers lift a page's own
+    plain statement of what a thing is, what it costs and what it needs far
+    more readily than they assemble one from marketing copy.
+    """
+    facts = "\n".join(
+        '            <div class="sp-fact"><dt>%s</dt><dd>%s</dd></div>' % (E(k), E(v))
+        for k, v in t["glance"])
+    return """  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>%s</h2>
+          <p class="sp-glance-def mb-4">%s</p>
+          <dl class="sp-facts card card-glass border border-secondary-subtle overflow-hidden">
+%s
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+""" % (E(t["glance_h"]), E(t["glance_def"]), facts)
+
+
+BEST_ICONS = ["bi-lightning-charge-fill", "bi-stars", "bi-shield-lock-fill",
+              "bi-gift-fill", "bi-pc-display", "bi-clock-history"]
+
+
+def render_best(t):
+    """Why Smart Photos rather than another app: smart, private and simple."""
+    cards = []
+    for icon, b in zip(BEST_ICONS, t["best"]):
+        cards.append("""        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sp-icon-box"><i class="bi %s" aria-hidden="true"></i></span>
+              <h3 class="h5 text-white fw-bold mb-0">%s</h3>
+            </div>
+            <p class="text-secondary mb-0">%s</p>
+          </div>
+        </div>""" % (icon, E(b["t"]), E(b["d"])))
+    return """  <!-- Why Smart Photos -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="why-smart-photos">
+    <div class="container py-4">
+%s
+      <div class="row g-4">
+%s
+      </div>
+    </div>
+  </section>
+""" % (section_head("bi-trophy-fill", t["best_eyebrow"], t["best_h"], t["best_sub"]), "\n".join(cards))
+
+
+# How each app fares on each row of the peer table, the same in every
+# language: y = fits "smart, private and simple", p = partly, n = no. Columns
+# follow t["peer_cols"][1:] (Smart Photos, Microsoft Photos, Immich, digiKam,
+# Google Photos); rows follow t["peer_rows"]. Every cell was checked against
+# that product's own documentation in October 2026; keep the wording cautious
+# and re-check it before changing a claim.
+PEER_MARKS = [
+    "yypyp",   # setup
+    "yypyn",   # account
+    "ypypp",   # search in your own words
+    "ypypp",   # faces grouped for you
+    "yyyyn",   # where your photos are
+    "yypyp",   # price
+]
+MARK_ICON = {"y": "bi-check-circle-fill peer-y", "p": "bi-dash-circle-fill peer-p",
+             "n": "bi-x-circle-fill peer-n"}
+
+
+def render_setup(t):
+    """The minimal-setup argument, three steps, and the table against peers."""
+    steps = []
+    for n, s in enumerate(t["setup_steps"], 1):
+        steps.append("""        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sp-step">%d</div>
+              <h3 class="h6 text-white fw-bold mb-0">%s</h3>
+            </div>
+            <p class="text-secondary small mb-0">%s</p>
+          </div>
+        </div>""" % (n, E(s["t"]), E(s["d"])))
+    head = "\n".join(
+        '                <th scope="col"%s>%s</th>' % (' class="sp-col"' if i == 1 else "", E(c))
+        for i, c in enumerate(t["peer_cols"]))
+    rows = []
+    for marks, row in zip(PEER_MARKS, t["peer_rows"]):
+        cells = ['                  <th scope="row" class="text-white">%s</th>' % E(row[0])]
+        for i, (m, cell) in enumerate(zip(marks, row[1:])):
+            cells.append('                  <td%s><span class="peer-cell"><i class="bi %s" aria-hidden="true"></i>'
+                         '<span class="%s">%s</span></span></td>'
+                         % (' class="sp-col"' if i == 0 else "", MARK_ICON[m],
+                            "text-white fw-semibold" if i == 0 else "text-secondary", E(cell)))
+        rows.append("                <tr>\n%s\n                </tr>" % "\n".join(cells))
+    return """  <!-- Minimal setup, and how it compares with other photo apps -->
+  <section class="py-5" id="setup">
+    <div class="container py-4">
+%s
+      <p class="fs-5 text-secondary mx-auto mb-5 sp-narrow">%s</p>
+      <div class="row g-4 mb-5">
+%s
+      </div>
+      <h3 class="h4 text-white fw-bold text-center mb-4" id="compare-apps">%s</h3>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+%s
+              </tr>
+            </thead>
+            <tbody>
+%s
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="extra-small text-secondary text-center mt-3 mb-0">%s</p>
+%s    </div>
+  </section>
+""" % (section_head("bi-lightning-charge-fill", t["setup_eyebrow"], t["setup_h"], ""),
+       E(t["setup_p"]), "\n".join(steps), E(t["peer_h"]), head, "\n".join(rows),
+       E(t["peer_note"]), cta_strip(t))
+
+
 def render_pricing(t):
     """Free vs Smart Photos Pro, with the free version's monthly searches in view.
 
@@ -681,7 +845,7 @@ def render_pricing(t):
           </div>
         </div>
       </div>
-      <p class="text-secondary small text-center mx-auto mt-4 mb-0 max-w-700">%s</p>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 sp-narrow">%s</p>
     </div>
   </section>
 """ % (section_head("bi-gift-fill", t["price_eyebrow"], t["price_h"], t["price_sub"]),
@@ -692,7 +856,7 @@ def render_pricing(t):
 
 def render_hero(code, t, lst):
     badge_icons = ["bi-cpu text-primary", "bi-person-slash text-info", "bi-cloud-slash text-warning",
-                   "bi-box-arrow-in-down text-success", "bi-globe-americas text-info",
+                   "bi-box-arrow-in-down text-success", "bi-lightning-charge-fill text-warning",
                    "bi-windows text-primary"]
     badges = "\n".join(
         '            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill">'
@@ -1231,7 +1395,14 @@ def build(code):
         # What the app does comes first; the Google Photos comparison, which
         # is mostly there for search, follows once the reader has seen it.
         render_hero(code, t, lst),
+        # A plain definition and the key facts straight after the hero: the
+        # first thing a reader, a search snippet or an AI summary looks for.
+        render_glance(t),
         render_gallery(code, t, lst),
+        # Why this app rather than another one, then the setup argument with
+        # the comparison against the other photo apps people consider.
+        render_best(t),
+        render_setup(t),
         render_pricing(t),
         render_features(code, t, lst),
         render_steps(code, t, lst),
