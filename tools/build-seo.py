@@ -103,8 +103,8 @@ APPS = {
     name="Nudge — Offline Journal & Diary with AI Companion", os="Windows", cat="LifestyleApplication",
     store="https://apps.microsoft.com/detail/9MV92P7RLDGB",
     icon="/assets/images/nudge-icon.png",
-    og="/assets/images/nudge-icon.png", ogw=512, ogh=512,
-    ogalt="Nudge offline journal and diary with AI companion icon", large=False),
+    og="/assets/images/nudge-og.png", ogw=1200, ogh=630,
+    ogalt="Nudge - private offline journal and diary for Windows", large=True),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",

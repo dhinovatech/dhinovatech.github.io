@@ -1,12 +1,36 @@
 #!/usr/bin/env python3
 """
-Generate /nudge/ - "Nudge — Offline Journal & Diary with AI Companion",
-the native WinUI 3 desktop journal for Windows, in 51 languages.
+Generate /nudge/ - "Nudge", the Microsoft Store (WinUI 3) offline journal and
+diary with an on-device AI companion, in 50 languages.
 
-Store ID: 9MV92P7RLDGB
-Price: $0.99 (One-time buy, 15-day unrestricted trial, zero subscriptions)
+Built on the same template as /smart-photos/ and /stow/: its own navigation
+tree whose language switcher lists only the Nudge locales, every CTA pointing
+at the Microsoft Store listing, real store slides in the hero and the gallery,
+and the install bar / back-to-top chrome wrapped in tools/build-ux.py's
+BEGIN/END markers so that builder replaces it rather than appending a copy.
 
-Run: python tools/build-nudge.py
+The copy comes from two files:
+
+  * tools/nudge-listing.json - the store listing's own translated text (title,
+    short description, description, feature bullets, slide captions) and the
+    words on the store slides (hero lines, overview tiles, slide headlines and
+    bullets), refreshed from the app repository by tools/build-nudge-shots.py.
+    Almost everything on the page is this text, so the page and the store
+    listing say the same thing, in the same words, in every language.
+  * tools/nudge-strings.json - the little that is written for this page: the
+    button labels, three section headings and the FAQ questions. The FAQ
+    answers are lines of the store description, picked by position.
+
+No price is printed. The listing itself never states one (it differs by market
+and goes on sale); the only offer named is the 15-day free trial, followed by
+a one-time purchase with no subscription.
+
+Store links are ordinary https://apps.microsoft.com/detail/... URLs so they
+work everywhere and stay crawlable; assets/js/ux.js upgrades them to
+ms-windows-store:// in place when the visitor is on Windows.
+
+Run:  python tools/build-nudge.py
+Idempotent: every page is rewritten from the two JSON files on each run.
 """
 import html
 import json
@@ -14,25 +38,58 @@ import os
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STRINGS = os.path.join(ROOT, "tools", "nudge-strings.json")
-CONSENT_STRINGS = os.path.join(ROOT, "tools", "consent-strings.json")
+TOOLS = os.path.join(ROOT, "tools")
 
-with open(STRINGS, encoding="utf-8") as _fh:
-    L = json.load(_fh)
 
-with open(CONSENT_STRINGS, encoding="utf-8") as _fh:
-    CONSENT_L = json.load(_fh)
+def _load(name):
+    with open(os.path.join(TOOLS, name), encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+S = _load("nudge-strings.json")
+LISTING = _load("nudge-listing.json")
+CONSENT_L = _load("consent-strings.json")
 
 SECTION = "nudge"
 SITE = "https://www.dhinovatech.com"
 STORE_ID = "9MV92P7RLDGB"
 STORE = "https://apps.microsoft.com/detail/" + STORE_ID
 STORE_UTM = STORE + "?ocid=dhinovatech_nudge"
+# The US list price, for the Offer in the structured data only (an Offer with
+# no price is dropped by search engines). It was checked against the Store on
+# 2026-10-14; the page itself prints no price - see the module docstring.
+LIST_PRICE_USD = "14.99"
 
 ICON = "/assets/images/nudge-icon.png"
-OGIMG = "/assets/images/nudge-icon.png"
-OGW, OGH = 512, 512
-OGALT = "Nudge offline journal and diary with AI companion icon"
+# When the page's copy last changed in substance; the WebPage schema reports it.
+MODIFIED = "2026-10-14"
+OGIMG = "/assets/images/nudge-og.png"
+OGW, OGH = 1200, 630
+OGALT = "Nudge - private offline journal and diary for Windows, on the Microsoft Store"
+
+# The store slides tools/build-nudge-shots.py writes. "hero" is slide 1; the
+# other eight are slides 3-10, in the order of listing "shots" (and of
+# listing "captions"[2:]).
+HERO = "hero"
+SHOTS = ["companion", "private", "ask", "timeline", "insights", "journeys",
+         "files", "languages"]
+SHOT_W, SHOT_H = 1200, 675
+SHOT_ICONS = ["bi-stars", "bi-shield-lock", "bi-chat-left-quote", "bi-clock-history",
+              "bi-pie-chart", "bi-compass", "bi-folder2-open", "bi-translate"]
+# The eight overview tiles of store slide 2, in store order.
+TILE_ICONS = ["bi-shield-lock", "bi-stars", "bi-fingerprint", "bi-chat-left-quote",
+              "bi-graph-up", "bi-compass", "bi-file-earmark-text", "bi-globe2"]
+CHIP_ICONS = ["bi-chat-heart text-primary", "bi-fingerprint text-info",
+              "bi-cloud-slash text-warning"]
+# Description paragraphs 3-6 of the store listing: a heading line, then four
+# bullets each.
+BLOCKS = [(2, "bi-shield-lock-fill"), (3, "bi-cpu"), (4, "bi-pen"), (5, "bi-search")]
+
+# Locales the tree used to carry and no longer does: old code -> where its
+# URL now sends the reader. Malay is not one of the app's 49 interface
+# languages and has no store listing, so there is no text or slide to build
+# it from; the URL is kept alive as a redirect rather than left to 404.
+RETIRED = {"ms": "en"}
 
 GA_ID = "G-T0S5ZW1QGM"
 HEAD_BEGIN = "  <!-- BEGIN generated analytics + consent block -->"
@@ -62,7 +119,6 @@ LANGS = [
     ("pt", "Português - Brasil (Portuguese BR)", "ltr", "pt", "pt_BR"),
     ("pt-pt", "Português - Portugal (Portuguese PT)", "ltr", "pt-PT", "pt_PT"),
     ("id", "Bahasa Indonesia (Indonesian)", "ltr", "id", "id_ID"),
-    ("ms", "Bahasa Melayu (Malay)", "ltr", "ms", "ms_MY"),
     ("ru", "Русский (Russian)", "ltr", "ru", "ru_RU"),
     ("tr", "Türkçe (Turkish)", "ltr", "tr", "tr_TR"),
     ("it", "Italiano (Italian)", "ltr", "it", "it_IT"),
@@ -102,25 +158,41 @@ LANGS = [
     ("sk", "Slovenčina (Slovak)", "ltr", "sk", "sk_SK"),
     ("ca", "Català (Catalan)", "ltr", "ca", "ca_ES"),
 ]
-
-BY_CODE = {c: (c, label, d, hl, og) for c, label, d, hl, og in LANGS}
-NLANG = len(LANGS)
+BY_CODE = {row[0]: row for row in LANGS}
 
 E = html.escape
+
 
 def url_for(code):
     return "/%s/" % SECTION if code == "en" else "/%s/%s/" % (SECTION, code)
 
+
 def abs_url(code):
     return SITE + url_for(code)
 
+
+def shot_url(code, slug):
+    rel = "assets/images/nudge/%s/%s.webp" % (code, slug)
+    if code != "en" and not os.path.exists(os.path.join(ROOT, rel)):
+        rel = "assets/images/nudge/en/%s.webp" % slug
+    return "/" + rel
+
+
 def built_langs():
-    return [x for x in LANGS if x[0] in L]
+    return [x for x in LANGS if x[0] in LISTING]
+
+
+def block(lst, n):
+    """Store description paragraph n as (heading, [bullets])."""
+    lines = [l.strip() for l in lst["description"][n].split("\n") if l.strip()]
+    return lines[0], [l.lstrip("•").strip() for l in lines[1:]]
+
 
 def _region_js(codes, per_row=10, indent=" " * 8):
     rows = [", ".join("'%s'" % c for c in codes[i:i + per_row])
             for i in range(0, len(codes), per_row)]
     return (",\n" + indent).join(rows)
+
 
 def analytics_block():
     return """%s
@@ -162,8 +234,9 @@ def analytics_block():
   </script>
 %s""" % (HEAD_BEGIN, GA_ID, _region_js(DENIED_REGIONS), GA_ID, HEAD_END)
 
+
 def consent_banner_html(code):
-    c = CONSENT_L.get(code) or CONSENT_L["en"]
+    c = CONSENT_L.get(code) or CONSENT_L.get(code.split("-")[0]) or CONSENT_L["en"]
     return """%s
 <div class="consent-bar" id="consentBar" role="region" aria-label="%s" hidden>
   <p class="consent-bar-text">%s <a href="/privacy.html" class="consent-bar-link">%s</a></p>
@@ -173,28 +246,30 @@ def consent_banner_html(code):
   </div>
 </div>
 <script src="/assets/js/consent.js"></script>
-%s""" % (BAR_BEGIN, E(c["aria"]), E(c["body"]),
-         E(CONSENT_L.get(code, CONSENT_L["en"]).get("privacy", "Privacy Policy")),
+%s""" % (BAR_BEGIN, E(c["aria"]), E(c["body"]), E(c.get("privacy", "Privacy Policy")),
          E(c["decline"]), E(c["accept"]), BAR_END)
+
+
+# --------------------------------------------------------------------------
+# Shared navigation - Nudge owns its own language tree.
+# --------------------------------------------------------------------------
 
 def lang_items(active, icon):
     out = []
     for code, label, _d, _hl, _og in built_langs():
         cls = "dropdown-item py-1 small"
-        icon_cls = "bi %s text-warning me-2" % icon
+        icon_cls = "bi %s text-primary me-2" % icon
         if code == active:
             cls += " active fw-bold"
             icon_cls = "bi %s me-2" % icon
         out.append(
             '<li><a class="%s" href="%s"%s><i class="%s" aria-hidden="true"></i>%s</a></li>'
             % (cls, url_for(code), ' aria-current="true"' if code == active else '',
-               icon_cls, E(label))
-        )
+               icon_cls, E(label)))
     return "".join(out)
 
+
 def navbar(code, t):
-    label = BY_CODE[code][1]
-    store_cta = t.get("cta_store", "Get on Microsoft Store")
     return """  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2" href="/">
@@ -209,7 +284,7 @@ def navbar(code, t):
             <a class="nav-link nav-link-custom" href="/">Home</a>
           </li>
 
-          <!-- Our Apps dropdown -->
+          <!-- Our Apps - Nudge owns its own language tree -->
           <li class="nav-item dropdown">
             <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Our Apps
@@ -218,13 +293,13 @@ def navbar(code, t):
               <li class="dropdown-submenu position-relative">
                 <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/nudge/">
                   <span><img src="__ICON__" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Nudge Offline Journal</span>
-                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View __N__ Languages">__N__ Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View __N__ Languages">__N__ Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
                   __LANG_SUBMENU__
                 </ul>
               </li>
-              <li><a class="dropdown-item py-2" href="/stow/"><i class="bi bi-folder-symlink text-info me-2" aria-hidden="true"></i>Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.png" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async">Stow Photo &amp; File Organizer</a></li>
               <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
               <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
               <li><hr class="dropdown-divider"></li>
@@ -243,9 +318,9 @@ def navbar(code, t):
             <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
           </li>
 
-          <!-- Language Selector -->
+          <!-- Language Selector - Nudge only -->
           <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
-            <button class="btn btn-outline-warning dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>__LANG_LABEL__</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
@@ -255,7 +330,7 @@ def navbar(code, t):
 
           <!-- Microsoft Store CTA -->
           <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
-            <a href="__STORE__" target="_blank" rel="noopener" class="btn btn-warning fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2 text-dark">
+            <a href="__STORE__" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
               <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> __STORE_CTA__
             </a>
           </li>
@@ -265,11 +340,12 @@ def navbar(code, t):
   </nav>
 """.replace("__LANG_SUBMENU__", lang_items(code, "bi-globe")) \
    .replace("__LANG_SELECTOR__", lang_items(code, "bi-translate")) \
-   .replace("__LANG_LABEL__", E(label)) \
+   .replace("__LANG_LABEL__", E(BY_CODE[code][1])) \
    .replace("__ICON__", ICON) \
    .replace("__N__", str(len(built_langs()))) \
    .replace("__STORE__", E(STORE_UTM)) \
-   .replace("__STORE_CTA__", E(store_cta))
+   .replace("__STORE_CTA__", E(t["cta_store"]))
+
 
 FOOTER = """  <footer class="footer-dhin">
     <div class="container">
@@ -296,7 +372,7 @@ FOOTER = """  <footer class="footer-dhin">
           <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
           <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
             <li><a href="/smart-photos/" class="footer-link"><i class="bi bi-images me-1" aria-hidden="true"></i> Smart Photos</a></li>
-            <li><a href="/nudge/" class="footer-link text-warning fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/nudge/" class="footer-link text-primary fw-semibold"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
             <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
             <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
             <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
@@ -308,133 +384,125 @@ FOOTER = """  <footer class="footer-dhin">
           </ul>
         </div>
         <div class="col-lg-3">
-          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Ethics</h4>
-          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-warning" aria-hidden="true"></i>support@dhinovatech.com</p>
-          <p class="small text-secondary mb-2"><i class="bi bi-shield-check me-2 text-warning" aria-hidden="true"></i>100% Offline Epistemic Privacy</p>
-          <p class="small text-secondary"><i class="bi bi-globe me-2 text-warning" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
         </div>
       </div>
       <div class="pt-4 border-top border-secondary text-center text-secondary small">
-        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved. Nudge is a trademark of Dhinovatech.</p>
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
       </div>
     </div>
   </footer>
 """
 
+# Same structure as the Smart Photos page, re-keyed to the warm gold the
+# store slides and the app's own accent use. The custom properties are
+# declared site-wide in custom.css, so re-declaring them here re-keys the
+# shared chrome for this section only. Blue stays reserved for the Microsoft
+# Store buttons (.btn-primary, .btn-store-ms are not touched).
 PAGE_CSS = """  <style>
-    /* Scoped Nudge accents - warm golden amber & fine stationery leather palette */
     :root {
-      --nudge-amber: #f59e0b;
-      --nudge-gold: #fbbf24;
-      --nudge-amber-glow: rgba(245, 158, 11, 0.32);
-      --nudge-bg-dark: #0a0b0d;
-      --nudge-card-bg: #121316;
-      --nudge-card-border: rgba(245, 158, 11, 0.22);
+      --dhin-accent-blue: #ffc978;
+      --dhin-border-glow: rgba(255, 201, 120, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(255, 201, 120, 0.2);
+      --dhin-gradient-primary: linear-gradient(135deg, #ffc978 0%, #c8853d 100%);
+      --nd-gold: #ffc978;
+      --nd-ink: #2a1a08;
     }
-    .glow-aura-amber {
-      box-shadow: 0 0 55px var(--nudge-amber-glow);
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 255, 201, 120;
+      --bs-primary-bg-subtle: rgba(255, 201, 120, 0.12);
+      --bs-primary-border-subtle: rgba(255, 201, 120, 0.32);
+      --bs-primary-text-emphasis: #ffdca6;
     }
-    .nudge-icon-box {
+    .text-gradient {
+      background: linear-gradient(135deg, #ffe7c2 0%, #ffc978 55%, #c8853d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(255, 201, 120, 0.26); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(255, 201, 120, 0.4); }
+    .btn-dhin-outline:hover { background: rgba(255, 201, 120, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(200, 133, 61, 0.2) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-gold { box-shadow: 0 0 45px rgba(255, 201, 120, 0.22); }
+    .nd-icon-box {
       width: 52px; height: 52px; border-radius: 14px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.4rem; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.12));
-      color: #fbbf24; border: 1px solid rgba(245,158,11,0.35);
+      background: linear-gradient(135deg, rgba(255,201,120,0.18), rgba(200,133,61,0.12));
+      color: var(--nd-gold); border: 1px solid rgba(255,201,120,0.3);
     }
-    .nudge-num {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 1.6rem; font-weight: 700; color: #fbbf24; line-height: 1;
+    .nd-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .nd-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+    /* Hero */
+    .nd-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .nd-hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 14px; }
+    .nd-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .nd-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #ffdca6; margin-top: .6rem;
     }
-    .theme-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 14px; border-radius: 20px;
-      background: rgba(245, 158, 11, 0.08);
-      border: 1px solid rgba(245, 158, 11, 0.25);
-      font-size: 0.85rem; color: #fde68a; text-decoration: none;
-      transition: all 0.2s ease;
+    .nd-cta-strip .nd-price { margin: 0; }
+    .nd-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
     }
-    .theme-pill:hover {
-      background: rgba(245, 158, 11, 0.18);
-      border-color: #fbbf24; color: #fff;
+    .nd-price-tag {
+      background: var(--nd-gold); color: var(--nd-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 201, 120, .32);
     }
-    .invariant-card {
-      border-left: 3px solid #f59e0b !important;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .nd-price-tag:hover { color: var(--nd-ink); background: #ffd699; }
+    .nd-window {
+      border-radius: 14px; overflow: hidden; background: #1c1410;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
     }
-    .invariant-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15);
-    }
-    .pillar-card {
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .pillar-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(245, 158, 11, 0.45) !important;
-    }
-    .feature-bullet-list li {
-      position: relative;
-      padding-left: 1.4rem;
-      margin-bottom: 0.5rem;
-      font-size: 0.88rem;
-      color: #94a3b8;
-    }
-    .feature-bullet-list li::before {
-      content: "\\u2022";
-      position: absolute;
-      left: 0.35rem;
-      color: #fbbf24;
-      font-size: 1.1rem;
-      line-height: 1.2;
-    }
-    .compare-table {
-      font-size: 0.88rem;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-    .compare-table th, .compare-table td {
-      padding: 0.9rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
-    .compare-table thead th {
-      background: rgba(17, 24, 39, 0.95);
-      color: #94a3b8;
-      font-weight: 600;
-    }
-    .compare-table th.nudge-col, .compare-table td.nudge-col {
-      background: rgba(245, 158, 11, 0.08);
-      border-left: 1px solid rgba(245, 158, 11, 0.25);
-      border-right: 1px solid rgba(245, 158, 11, 0.25);
-    }
-    .nudge-code-box {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.82rem; background: #08090b;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 12px; padding: 1.25rem; color: #cbd5e1;
-      white-space: pre; overflow-x: auto;
-    }
-    .stationery-token {
-      display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 6px;
-    }
-    /* RTL adjustments */
-    [dir="rtl"] .feature-bullet-list li {
-      padding-left: 0;
-      padding-right: 1.4rem;
-    }
-    [dir="rtl"] .feature-bullet-list li::before {
-      left: auto;
-      right: 0.35rem;
-    }
-    [dir="rtl"] .invariant-card {
-      border-left: none !important;
-      border-right: 3px solid #f59e0b !important;
-    }
-    [dir="rtl"] .dropdown-menu-end {
-      right: auto !important;
-      left: 0 !important;
+    .nd-window img { display: block; width: 100%; height: auto; }
+
+    .nd-narrow { max-width: 760px; }
+
+    /* Screenshot gallery */
+    .nd-shot { overflow: hidden; margin: 0; }
+    .nd-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .nd-shot figcaption { padding: .85rem 1rem; font-size: .9rem; font-weight: 600; color: #e2e8f0; }
+    .nd-shot figcaption i { color: var(--nd-gold); }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--nd-gold) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--nd-gold) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255, 201, 120, 0.12); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(255, 201, 120, 0.4) !important; }
+    .nd-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .nd-check-list li i { color: var(--nd-gold); flex-shrink: 0; margin-top: .1rem; }
+    .nd-block-h { font-size: 1.05rem; line-height: 1.35; }
+
+    /* Trial */
+    .nd-plan { border: 2px solid var(--nd-gold) !important; box-shadow: 0 0 40px rgba(255, 201, 120, .16); }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(255, 201, 120, 0.08); color: var(--nd-gold); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(255, 201, 120, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
     }
   </style>
 """
+
 
 def hreflang_block(code):
     rows = ['  <link rel="canonical" href="%s">' % abs_url(code),
@@ -444,759 +512,408 @@ def hreflang_block(code):
         rows.append('  <link rel="alternate" hreflang="%s" href="%s">' % (hl, abs_url(c)))
     return "\n".join(rows)
 
-def schema(code, t, desc):
+
+def faqs(t, lst):
+    """The FAQ: this page's questions, answered in the store listing's words.
+
+    Each answer is one or more whole lines of the store description, picked
+    by position, so it is already translated and can never drift from what
+    the listing promises. The order follows t["faq_q"].
+    """
+    d = lst["description"]
+    _h, private = block(lst, 2)
+    _h, ai = block(lst, 3)
+    _h, keep = block(lst, 5)
+    trial = d[6].split("\n", 1)[1].strip()
+    answers = [
+        trial,                                      # what it costs
+        "%s %s" % (private[3], private[0]),         # works without the internet
+        d[1],                                       # where entries live
+        "%s %s" % (private[1], private[2]),         # lock
+        "%s %s %s" % (ai[0], ai[2], ai[3]),         # the AI companion
+        ai[1],                                      # ask your journal
+        keep[1],                                    # import and export
+        keep[3],                                    # languages
+    ]
+    return [{"q": q, "a": a} for q, a in zip(t["faq_q"], answers)]
+
+
+def schema(code, t, lst, title, desc):
     graph = [
-        {"@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/",
-         "name": "Dhinovatech", "publisher": {"@id": SITE + "/#organization"}},
+        {"@type": "Organization", "@id": SITE + "/#organization",
+         "name": "Dhinovatech", "url": SITE + "/"},
         {"@type": "SoftwareApplication",
-         "@id": abs_url(code) + "#app",
-         "name": t["name"],
+         "@id": SITE + "/nudge/#software",
+         "name": "Nudge",
+         "alternateName": lst["title"],
+         "operatingSystem": "Windows 10 version 1809 (build 17763) and later, x64 and ARM64",
          "applicationCategory": "LifestyleApplication",
-         "operatingSystem": "Windows 10, Windows 11",
+         "applicationSubCategory": "Journal and diary",
          "description": desc,
          "url": abs_url(code),
+         "inLanguage": [hl for _c, _l, _d, hl, _og in built_langs()],
          "image": SITE + ICON,
-         "inLanguage": BY_CODE[code][3],
-         "offers": {
-             "@type": "Offer",
-             "price": "0.99",
-             "priceCurrency": "USD",
-             "url": STORE,
-             "availability": "https://schema.org/InStock",
-             "seller": {"@id": SITE + "/#organization"}
-         },
-         "publisher": {"@id": SITE + "/#organization"}},
+         "downloadUrl": STORE,
+         "installUrl": STORE,
+         "featureList": lst["features"],
+         "processorRequirements": "x64 or ARM64",
+         "offers": {"@type": "Offer", "price": LIST_PRICE_USD, "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock", "url": STORE},
+         "screenshot": [SITE + shot_url(code, s) for s in [HERO] + SHOTS],
+         "publisher": {"@id": SITE + "/#organization"},
+         "author": {"@id": SITE + "/#organization"}},
+        {"@type": "WebPage", "@id": abs_url(code) + "#webpage", "url": abs_url(code),
+         "name": title, "description": desc, "inLanguage": BY_CODE[code][3],
+         "dateModified": MODIFIED, "about": {"@id": SITE + "/nudge/#software"},
+         "mainEntity": {"@id": SITE + "/nudge/#software"}},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE + "/"},
-            {"@type": "ListItem", "position": 2, "name": "Nudge Offline Journal", "item": abs_url("en")},
+            {"@type": "ListItem", "position": 2, "name": "Nudge", "item": abs_url("en")},
         ]},
+        {"@type": "FAQPage", "@id": abs_url(code) + "#faq",
+         "inLanguage": BY_CODE[code][3],
+         "mainEntity": [{"@type": "Question", "name": f["q"],
+                         "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
+                        for f in faqs(t, lst)]},
     ]
     if code != "en":
-        graph[2]["itemListElement"].append(
+        graph[3]["itemListElement"].append(
             {"@type": "ListItem", "position": 3,
              "name": "Nudge (%s)" % code, "item": abs_url(code)})
-
-    faqs = t.get("faqs", [])
-    if faqs:
-        faq_entities = []
-        for f in faqs:
-            faq_entities.append({
-                "@type": "Question",
-                "name": f["q"],
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": f["a"]
-                }
-            })
-        graph.append({
-            "@type": "FAQPage",
-            "@id": abs_url(code) + "#faq",
-            "inLanguage": BY_CODE[code][3],
-            "mainEntity": faq_entities
-        })
-
     return json.dumps({"@context": "https://schema.org", "@graph": graph},
-                      ensure_ascii=False, separators=(",", ":"))
+                      ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
-def render_pillars(t):
-    pillars = t.get("pillars", [])
+
+# ---------------------------------------------------------------- sections
+
+def eyebrow(icon, text):
+    return ('<span class="badge bg-primary-subtle text-primary border border-primary-subtle '
+            'rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi %s me-1" aria-hidden="true">'
+            '</i> %s</span>' % (icon, E(text)))
+
+
+def section_head(icon, eb, h, sub):
+    return """      <div class="text-center max-w-700 mx-auto mb-5">
+        %s
+        <h2 class="display-5 fw-bold text-white">%s</h2>
+        %s
+      </div>""" % (eyebrow(icon, eb), E(h),
+                   '<p class="text-secondary fs-5 mx-auto nd-narrow">%s</p>' % E(sub) if sub else "")
+
+
+def store_button(t):
+    return """<a href="%s" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">%s</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>""" % (E(STORE_UTM), E(t["store_pre"]))
+
+
+def store_kind(code, lst):
+    """What the app is, in the reader's language, for the line beside the icon.
+
+    A listing title is "Nudge - <descriptor>", and where the name has been
+    reserved in that language the descriptor is the store's own keyword
+    choice for that market. Where it has not, the title is still the English
+    one, and the slide tagline ("Journal & diary for Windows"), which is
+    translated everywhere, says the same thing.
+    """
+    title = lst["title"]
+    if code != "en" and title == LISTING["en"]["title"]:
+        return lst["tagline"]
+    for sep in (" - ", " – ", ": "):
+        if title.startswith("Nudge" + sep):
+            return title[len("Nudge" + sep):]
+    return lst["tagline"]
+
+
+def seo_title(code, lst):
+    # No " | Dhinovatech" suffix: search results show the site name on its
+    # own line, and the suffix only pushes the keywords out of view.
+    if code == "en":
+        return lst["title"] + " for Windows"
+    return "Nudge - " + store_kind(code, lst)
+
+
+def render_price(lst, centred=False):
+    return ('<p class="nd-price mt-3 mb-0%s"><a class="nd-price-tag" href="#pricing">'
+            '<i class="bi bi-gift-fill me-1" aria-hidden="true"></i>%s</a>'
+            '<span>%s</span></p>'
+            % (" justify-content-center" if centred else "",
+               E(lst["trial"]), E(lst["shots"][7]["bullets"][2])))
+
+
+def cta_strip(t, lst):
+    """The store button again, where a reader who is convinced looks for it."""
+    return """      <div class="nd-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        %s
+        %s
+      </div>
+""" % (store_button(t), render_price(lst).replace(" mt-3", ""))
+
+
+def render_hero(code, t, lst):
+    badges = "\n".join(
+        '            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill">'
+        '<i class="bi %s me-1" aria-hidden="true"></i> %s</span>' % (i, E(b))
+        for i, b in zip(CHIP_ICONS, lst["chips"]))
+    return """  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="nd-hero-icon">
+              <img src="%(icon)s" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block nd-hero-kind">%(kind)s</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">Nudge</span> <span class="d-block nd-hero-tagline">%(h1)s</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">%(lead)s</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            %(store)s
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> %(cta_see)s
+            </a>
+          </div>
+          %(price)s
+
+          <div class="nd-badge-row pt-4 mt-2">
+%(badges)s
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-gold" aria-hidden="true"></div>
+            <div class="nd-window position-relative">
+              <img src="%(hero)s" alt="%(hero_alt)s" decoding="async" fetchpriority="high" width="%(w)d" height="%(h)d">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+""" % dict(icon=ICON, kind=E(store_kind(code, lst)),
+           h1=E("%s %s" % (lst["line1"], lst["line2"])), lead=E(lst["short"]),
+           store=store_button(t), cta_see=E(t["shots"]), price=render_price(lst),
+           badges=badges, hero=shot_url(code, HERO), hero_alt=E(lst["captions"][0]),
+           w=SHOT_W, h=SHOT_H)
+
+
+def render_overview(lst):
+    """Store slide 2 as real text: the eight things the app is, at a glance."""
+    ov = lst["overview"]
+    tiles = []
+    for icon, (name, what) in zip(TILE_ICONS, ov["tiles"]):
+        tiles.append("""        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="nd-icon-box mb-3"><i class="bi %s" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">%s</h3>
+            <p class="text-secondary small mb-0">%s</p>
+          </div>
+        </div>""" % (icon, E(name), E(what)))
+    return """  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+%s
+      <div class="row g-4">
+%s
+      </div>
+    </div>
+  </section>
+""" % (section_head("bi-journal-bookmark-fill", ov["kicker"], ov["title"],
+                    lst["description"][1]), "\n".join(tiles))
+
+
+def render_gallery(code, t, lst):
     cards = []
-    for p in pillars:
-        cards.append("""          <div class="col-lg-4">
-            <div class="card card-glass h-100 p-4 invariant-card border border-secondary-subtle">
-              <div class="d-flex align-items-center gap-3 mb-3">
-                <span class="nudge-icon-box"><i class="bi %s" aria-hidden="true"></i></span>
-                <div>
-                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-2 py-0 mb-1">Pillar %s</span>
-                  <h3 class="h5 text-white fw-bold mb-0">%s</h3>
-                </div>
-              </div>
-              <p class="text-secondary small mb-0 lh-base">%s</p>
-            </div>
-          </div>""" % (E(p["icon"]), E(p["num"]), E(p["title"]), E(p["desc"])))
-    return """  <!-- The Three Pillars -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pillars">
+    for i, (slug, icon) in enumerate(zip(SHOTS, SHOT_ICONS)):
+        cap = lst["captions"][i + 2]
+        cards.append("""        <div class="col-md-6">
+          <figure class="card card-glass nd-shot h-100">
+            <img src="%s" alt="%s" loading="lazy" decoding="async" width="%d" height="%d">
+            <figcaption><i class="bi %s me-2" aria-hidden="true"></i>%s</figcaption>
+          </figure>
+        </div>""" % (shot_url(code, slug), E(cap), SHOT_W, SHOT_H, icon, E(cap)))
+    return """  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
     <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-shield-lock-fill me-1" aria-hidden="true"></i> Architectural Invariants
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
+%s
       <div class="row g-4">
 %s
       </div>
-    </div>
-  </section>""" % (E(t["h_pillars"]), E(t["pillars_sub"]), "\n".join(cards))
+%s    </div>
+  </section>
+""" % (section_head("bi-images", t["shots"], t["shots_h"], ""), "\n".join(cards),
+       cta_strip(t, lst))
 
-def render_specs_table(t):
-    headers = t.get("specs_headers", ["Dimension", "Specification", "Architectural Guarantees"])
-    rows = t.get("specs_rows", [])
-    rows_html = []
-    for r in rows:
-        rows_html.append("""              <tr>
-                <td class="text-white fw-semibold small text-nowrap align-middle">%s</td>
-                <td class="text-warning small align-middle fw-medium">%s</td>
-                <td class="text-secondary small align-middle">%s</td>
-              </tr>""" % (E(r[0]), E(r[1]), E(r[2])))
-    return """  <!-- Technical Specifications Matrix -->
-  <section class="py-5" id="specs">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-table me-1" aria-hidden="true"></i> Technical Matrix
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
-        <div class="table-responsive">
-          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
-            <thead>
-              <tr class="border-bottom border-secondary">
-                <th scope="col" style="width: 22%%;">%s</th>
-                <th scope="col" style="width: 28%%;" class="text-warning fw-bold">%s</th>
-                <th scope="col" style="width: 50%%;">%s</th>
-              </tr>
-            </thead>
-            <tbody>
-%s
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_specs"]), E(t["specs_sub"]), E(headers[0]), E(headers[1]), E(headers[2]), "\n".join(rows_html))
 
-def render_manifesto(t):
-    return """  <!-- The Manifesto -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="manifesto">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-feather me-1" aria-hidden="true"></i> First Principles
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="nudge-icon-box mb-3"><i class="bi bi-cloud-slash" aria-hidden="true"></i></div>
-            <h3 class="h5 text-white fw-bold mb-3">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="nudge-icon-box mb-3"><i class="bi bi-eye-slash" aria-hidden="true"></i></div>
-            <h3 class="h5 text-white fw-bold mb-3">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="nudge-icon-box mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></div>
-            <h3 class="h5 text-white fw-bold mb-3">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_manifesto"]), E(t["manifesto_sub"]),
-                   E(t["manifesto_cloud_title"]), E(t["manifesto_cloud_desc"]),
-                   E(t["manifesto_epistemic_title"]), E(t["manifesto_epistemic_desc"]),
-                   E(t["manifesto_longevity_title"]), E(t["manifesto_longevity_desc"]))
+def check_items(rows, indent="              "):
+    return "\n".join(
+        '%s<li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>%s</span></li>'
+        % (indent, E(r)) for r in rows)
 
-def render_architecture(t):
-    code_snippet = """---
-id: 01JN9Z8K7P3QW9E1R4T6Y8U2I0
-date: 2026-03-15T19:42:10+05:30
-language: en
-title: Walking Through the Rain in Spring
-themes:
-  - everyday
-  - creativity
-mood: 4
-weather: overcast
-tags:
-  - rain
-  - reflection
-content_hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
----
 
-# Walking Through the Rain in Spring
-
-The smell of damp pine needles hung thick in the cool evening air. I took the longer trail past the old reservoir...
-I realized today that the friction I've been feeling isn't a lack of inspiration; it's a surplus of noise."""
-
-    return """  <!-- Zero-Cloud Architecture -->
-  <section class="py-5" id="architecture">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-diagram-3 me-1" aria-hidden="true"></i> System Architecture
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-
-      <div class="row g-4 align-items-center mb-5">
-        <div class="col-lg-6">
-          <div class="card card-glass p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-folder2-open text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-3 lh-base">%s</p>
-            <div class="p-3 bg-black rounded-3 border border-secondary-subtle mb-3">
-              <span class="text-white-50 extra-small">Journal Folder Hierarchy (ULID Naming):</span>
-              <pre class="text-warning extra-small mb-0 mt-1"><code>Journal/
-└── 2026/
-    └── 03-March/
-        ├── 2026-03-15-01JN9Z8K7P3QW9E1R4T6Y8U2I0.md
-        └── 2026-03-16-01JN9ZB2M4X7V1A8C3D5E6F7G8.md</code></pre>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-glass p-4 border border-secondary-subtle">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="text-white-50 extra-small fw-semibold"><i class="bi bi-filetype-md me-1 text-warning" aria-hidden="true"></i>Standard Markdown + YAML Front Matter</span>
-              <span class="badge bg-dark border border-secondary text-white-50 extra-small">Plain Text UTF-8</span>
-            </div>
-            <div class="nudge-code-box">%s</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-shield-check text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-lightning-charge text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_arch"]), E(t["arch_sub"]),
-                   E(t["arch_fs_title"]), E(t["arch_fs_desc"]),
-                   E(code_snippet),
-                   E(t["arch_atomic_title"]), E(t["arch_atomic_desc"]),
-                   E(t["arch_bm25_title"]), E(t["arch_bm25_desc"]))
-
-def render_ai_companion(t):
-    moments = t.get("moments", [])
-    moment_cards = []
-    for m in moments:
-        moment_cards.append("""          <div class="col-lg-4">
-            <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-              <div class="d-flex align-items-center justify-content-between mb-3">
-                <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Moment %s</span>
-                <span class="extra-small text-white-50"><i class="bi bi-clock me-1" aria-hidden="true"></i>%s</span>
-              </div>
-              <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-              <p class="text-secondary small mb-0 lh-base">%s</p>
-            </div>
-          </div>""" % (E(m["num"]), E(m["timing"]), E(m["title"]), E(m["desc"])))
-
-    return """  <!-- On-Device AI Companion -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="ai-companion">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-cpu-fill me-1" aria-hidden="true"></i> 100%% On-Device SLM
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-
-      <div class="card card-glass p-4 border border-warning-subtle mb-4">
-        <div class="row align-items-center gy-3">
-          <div class="col-lg-8">
-            <h3 class="h5 text-white fw-bold mb-1"><i class="bi bi-eyeglasses text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-          <div class="col-lg-4 text-lg-end">
-            <span class="badge bg-dark border border-warning text-warning px-3 py-2 fw-semibold">GBNF Formal Grammars • Zero Advice</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-4 mb-4">
-%s
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-calendar2-range text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-chat-left-quote text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_ai"]), E(t["ai_sub"]),
-                   E(t["ai_rule_title"]), E(t["ai_rule_desc"]),
-                   "\n".join(moment_cards),
-                   E(t["ai_recap_title"]), E(t["ai_recap_desc"]),
-                   E(t["ai_search_title"]), E(t["ai_search_desc"]))
-
-def render_psychology(t):
-    themes = ["Work", "Relationships", "Family", "Health", "Money", "Identity", "Creativity", "Learning", "Travel", "Everyday", "Plans"]
-    pills = "".join('<span class="theme-pill"><i class="bi bi-tag-fill text-warning me-1" aria-hidden="true"></i>%s</span>' % th for th in themes)
-
-    return """  <!-- Shame-Free Metrics -->
-  <section class="py-5" id="metrics">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-heart-pulse-fill me-1" aria-hidden="true"></i> Compassionate Habits
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-
-      <div class="row g-4 mb-4">
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="nudge-icon-box mb-3"><i class="bi bi-shield-slash" aria-hidden="true"></i></div>
-            <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="nudge-icon-box mb-3"><i class="bi bi-arrow-return-right" aria-hidden="true"></i></div>
-            <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="nudge-icon-box mb-3"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></div>
-            <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-glass p-4 border border-secondary-subtle">
-        <div class="row align-items-center gy-4">
-          <div class="col-lg-4">
-            <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-          <div class="col-lg-8">
-            <div class="d-flex flex-wrap gap-2">
-              %s
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_psych"]), E(t["psych_sub"]),
-                   E(t["psych_grace_title"]), E(t["psych_grace_desc"]),
-                   E(t["psych_return_title"]), E(t["psych_return_desc"]),
-                   E(t["psych_median_title"]), E(t["psych_median_desc"]),
-                   E(t["psych_themes_title"]), E(t["psych_themes_desc"]),
-                   pills)
-
-def render_writing(t):
-    return """  <!-- Deep Work Writing Environment -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="writing">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-pen-fill me-1" aria-hidden="true"></i> Deep Work
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-6 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-speedometer2 text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-palette text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fullscreen text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-window-stack text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_writing"]), E(t["writing_sub"]),
-                   E(t["writing_launch_title"]), E(t["writing_launch_desc"]),
-                   E(t["writing_palette_title"]), E(t["writing_palette_desc"]),
-                   E(t["writing_focus_title"]), E(t["writing_focus_desc"]),
-                   E(t["writing_capture_title"]), E(t["writing_capture_desc"]))
-
-def render_security(t):
-    return """  <!-- Security & Biometrics -->
-  <section class="py-5" id="security">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-fingerprint me-1" aria-hidden="true"></i> Fortified Security
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-fingerprint text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-key-fill text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-display text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-in-right text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h5 text-white fw-bold mb-2"><i class="bi bi-box-arrow-up-right text-warning me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_security"]), E(t["security_sub"]),
-                   E(t["sec_hello_title"]), E(t["sec_hello_desc"]),
-                   E(t["sec_aes_title"]), E(t["sec_aes_desc"]),
-                   E(t["sec_privacy_title"]), E(t["sec_privacy_desc"]),
-                   E(t["sec_import_title"]), E(t["sec_import_desc"]),
-                   E(t["sec_export_title"]), E(t["sec_export_desc"]))
-
-def render_comparison_table(t):
-    headers = t.get("compare_headers", ["Feature / Attribute", "Nudge", "Day One", "Obsidian", "Notion", "AI Chatbots"])
-    rows = t.get("compare_rows", [])
-    rows_html = []
-    for r in rows:
-        rows_html.append("""              <tr>
-                <td class="text-white fw-semibold small text-nowrap align-middle">%s</td>
-                <td class="nudge-col small align-middle">
-                  <span class="d-flex align-items-center gap-2">
-                    <i class="bi bi-check-circle-fill text-warning flex-shrink-0" aria-hidden="true"></i>
-                    <span class="text-white fw-bold">%s</span>
-                  </span>
-                </td>
-                <td class="text-secondary small align-middle">%s</td>
-                <td class="text-secondary small align-middle">%s</td>
-                <td class="text-secondary small align-middle">%s</td>
-                <td class="text-secondary small align-middle">%s</td>
-              </tr>""" % (E(r[0]), E(r[1]), E(r[2]), E(r[3]), E(r[4]), E(r[5])))
-
-    return """  <!-- Comparison Table -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="comparison">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-sliders me-1" aria-hidden="true"></i> Product Comparison
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-      <div class="card card-glass p-3 p-md-4 border border-secondary-subtle shadow-lg">
-        <div class="table-responsive">
-          <table class="table table-dark table-borderless align-middle mb-0 compare-table">
-            <thead>
-              <tr class="border-bottom border-secondary">
-                <th scope="col">%s</th>
-                <th scope="col" class="nudge-col text-warning fw-bold"><i class="bi bi-award-fill me-1" aria-hidden="true"></i>%s</th>
-                <th scope="col">%s</th>
-                <th scope="col">%s</th>
-                <th scope="col">%s</th>
-                <th scope="col">%s</th>
-              </tr>
-            </thead>
-            <tbody>
-%s
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>""" % (E(t["h_compare"]), E(t["compare_sub"]),
-                   E(headers[0]), E(headers[1]), E(headers[2]), E(headers[3]), E(headers[4]), E(headers[5]),
-                   "\n".join(rows_html))
-
-def render_workflows(t):
-    workflows = t.get("workflows", [])
+def render_features(t, lst):
     cards = []
-    for w in workflows:
-        cards.append("""        <div class="col-lg-4 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill extra-small px-3 py-1">Workflow %s</span>
-              <span class="extra-small text-white-50"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>%s</span>
+    for n, icon in BLOCKS:
+        head, bullets = block(lst, n)
+        cards.append("""        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="nd-icon-box nd-icon-box-sm"><i class="bi %s" aria-hidden="true"></i></span>
+              <h3 class="nd-block-h text-white fw-bold mb-0">%s</h3>
             </div>
-            <h3 class="h5 text-white fw-bold mb-2">%s</h3>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
+            <ul class="list-unstyled nd-check-list mb-0">
+%s
+            </ul>
           </div>
-        </div>""" % (E(w["num"]), E(w["time"]), E(w["title"]), E(w["desc"])))
-
-    return """  <!-- Master Workflows -->
-  <section class="py-5" id="workflows">
+        </div>""" % (icon, E(head), check_items(bullets)))
+    feats = lst["features"]
+    half = (len(feats) + 1) // 2
+    cols = []
+    for chunk in (feats[:half], feats[half:]):
+        cols.append("""          <div class="col-md-6">
+            <ul class="list-unstyled nd-check-list mb-0">
+%s
+            </ul>
+          </div>""" % check_items(chunk))
+    return """  <!-- Features -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features">
     <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-journal-text me-1" aria-hidden="true"></i> Daily Rhythms
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-      <div class="row g-4 justify-content-center">
+%s
+      <div class="row g-4 mb-5">
 %s
       </div>
-    </div>
-  </section>""" % (E(t["h_workflows"]), E(t["workflows_sub"]), "\n".join(cards))
-
-def render_hardware(t):
-    tiers = t.get("hardware_tiers", [])
-    tier_cards = []
-    for tr in tiers:
-        tier_cards.append("""        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h3 class="h6 text-warning fw-bold mb-2"><i class="bi bi-cpu me-2" aria-hidden="true"></i>%s</h3>
-            <p class="text-white-50 extra-small mb-2 fw-semibold">%s</p>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>""" % (E(tr["tier"]), E(tr["specs"]), E(tr["perf"])))
-
-    return """  <!-- Hardware Tiers -->
-  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="hardware">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-motherboard me-1" aria-hidden="true"></i> Computational Efficiency
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-      <div class="row g-4 mb-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <div class="row g-3">
 %s
-      </div>
-      <div class="p-4 rounded-4 card-glass border border-secondary-subtle">
-        <div class="row gy-3">
-          <div class="col-md-6">
-            <span class="text-warning small fw-bold"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>Minimum System Requirements:</span>
-            <p class="text-secondary small mb-0 mt-1">%s</p>
-          </div>
-          <div class="col-md-6">
-            <span class="text-warning small fw-bold"><i class="bi bi-stars me-1" aria-hidden="true"></i>Recommended Configuration:</span>
-            <p class="text-secondary small mb-0 mt-1">%s</p>
-          </div>
         </div>
       </div>
     </div>
-  </section>""" % (E(t["h_hardware"]), E(t["hardware_sub"]), "\n".join(tier_cards), E(t["sys_min"]), E(t["sys_rec"]))
+  </section>
+""" % (section_head("bi-stars", t["feat"], t["feat_h"], ""), "\n".join(cards), "\n".join(cols))
 
-def render_pricing(t):
-    return """  <!-- Transparent Licensing -->
+
+def render_pricing(t, lst):
+    """The offer, exactly as the store listing states it.
+
+    Fifteen days of every feature, then a one-time purchase: no subscription,
+    no add-ons, no ads, and entries stay readable if you never buy. No price:
+    the Store shows the current one for the reader's market.
+    """
+    body = lst["description"][6].split("\n", 1)[1].strip()
+    points = [lst["shots"][7]["bullets"][2], lst["features"][1], lst["features"][5]]
+    return """  <!-- Free trial, then one purchase -->
   <section class="py-5" id="pricing">
     <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-tag-fill me-1" aria-hidden="true"></i> Transparent Pricing
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-
-      <div class="row g-4 justify-content-center mb-4">
-        <div class="col-lg-5 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle text-center">
-            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-1 rounded-pill mx-auto mb-3">15-Day Trial</span>
-            <h3 class="display-6 fw-bold text-white mb-1">$0.00</h3>
-            <p class="text-white-50 small mb-4">Zero credit card required</p>
-            <p class="text-secondary small mb-4 lh-base text-start">%s</p>
-            <a href="%s" target="_blank" rel="noopener" class="btn btn-outline-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto">
-              <i class="bi bi-download me-1" aria-hidden="true"></i> Download Free Trial
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-5 col-md-6">
-          <div class="card card-glass h-100 p-4 border border-warning text-center glow-aura-amber">
-            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mx-auto mb-3 fw-bold">Lifetime License</span>
-            <h3 class="display-6 fw-bold text-warning mb-1">$0.99 USD</h3>
-            <p class="text-white-50 small mb-4">Single one-time purchase • Pay once, own forever</p>
-            <p class="text-secondary small mb-4 lh-base text-start">%s</p>
-            <a href="%s" target="_blank" rel="noopener" class="btn btn-warning rounded-pill px-4 py-2 fw-bold w-100 mt-auto text-dark">
-              <i class="bi bi-microsoft me-1" aria-hidden="true"></i> %s
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-unlock-fill text-warning me-2" aria-hidden="true"></i>%s</h4>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle">
-            <h4 class="h6 text-white fw-bold mb-2"><i class="bi bi-file-earmark-check text-warning me-2" aria-hidden="true"></i>%s</h4>
-            <p class="text-secondary small mb-0 lh-base">%s</p>
+%s
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card card-glass p-4 p-lg-5 nd-plan">
+            <p class="fs-5 text-white mb-4">%s</p>
+            <ul class="list-unstyled nd-check-list mb-4">
+%s
+            </ul>
+            <div>%s</div>
           </div>
         </div>
       </div>
     </div>
-  </section>""" % (E(t["h_pricing"]), E(t["pricing_sub"]),
-                   E(t["pricing_trial_desc"]), E(STORE_UTM),
-                   E(t["pricing_buy_desc"]), E(STORE_UTM),
-                   E(t.get("cta_buy", "Buy Once — $0.99 Lifetime")),
-                   E(t["pricing_failopen_title"]), E(t["pricing_failopen_desc"]),
-                   E(t["pricing_expired_title"]), E(t["pricing_expired_desc"]))
+  </section>
+""" % (section_head("bi-gift-fill", "Microsoft Store", lst["trial"], ""), E(body),
+       check_items(points), store_button(t))
 
-def render_faqs(t):
-    faqs = t.get("faqs", [])
+
+def render_faq(t, lst):
     items = []
-    for i, f in enumerate(faqs):
-        num = i + 1
-        collapsed = "collapsed" if i > 0 else ""
-        show = "show" if i == 0 else ""
-        items.append("""            <!-- FAQ %d -->
-            <div class="accordion-item bg-transparent border-bottom border-secondary">
+    for i, f in enumerate(faqs(t, lst), 1):
+        first = i == 1
+        items.append("""            <div class="accordion-item bg-transparent border-bottom border-secondary">
               <h3 class="accordion-header" id="faq%dHeading">
-                <button class="accordion-button %s bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq%d" aria-expanded="%s" aria-controls="faq%d">
-                  Q%d: %s
+                <button class="accordion-button%s bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq%d" aria-expanded="%s" aria-controls="faq%d">
+                  %s
                 </button>
               </h3>
-              <div id="faq%d" class="accordion-collapse collapse %s" aria-labelledby="faq%dHeading" data-bs-parent="#nudgeFaqAccordion">
-                <div class="accordion-body text-secondary small pb-4 lh-base">
+              <div id="faq%d" class="accordion-collapse collapse%s" aria-labelledby="faq%dHeading" data-bs-parent="#nudgeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
                   %s
                 </div>
               </div>
-            </div>""" % (num, num, collapsed, num, "true" if i == 0 else "false", num, num, E(f["q"]), num, show, num, E(f["a"])))
-
-    return """  <!-- FAQ Section -->
+            </div>""" % (i, "" if first else " collapsed", i, "true" if first else "false", i,
+                         E(f["q"]), i, " show" if first else "", i, E(f["a"])))
+    return """  <!-- FAQ -->
   <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
     <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-question-circle-fill me-1" aria-hidden="true"></i> Clear Answers
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-        <p class="text-secondary fs-5">%s</p>
-      </div>
-      <div class="max-w-900 mx-auto">
-        <div class="accordion accordion-flush" id="nudgeFaqAccordion">
 %s
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="nudgeFaqAccordion">
+%s
+          </div>
         </div>
       </div>
     </div>
-  </section>""" % (E(t["h_faq"]), E(t["faq_sub"]), "\n".join(items))
+  </section>
+""" % (section_head("bi-question-circle", "FAQ", t["faq_h"], ""), "\n".join(items))
 
-def render_quotes(t):
-    quotes = t.get("quotes", [])
-    cards = []
-    for q in quotes:
-        cards.append("""        <div class="col-lg-4">
-          <div class="card card-glass h-100 p-4 border border-secondary-subtle d-flex flex-column justify-content-between">
-            <p class="text-secondary small fst-italic mb-4 lh-base">"%s"</p>
-            <div class="border-top border-secondary-subtle pt-3">
-              <span class="text-white fw-bold small d-block">%s</span>
-              <span class="text-white-50 extra-small">%s</span>
-            </div>
-          </div>
-        </div>""" % (E(q["quote"]), E(q["author"]), E(q["role"])))
 
-    return """  <!-- Testimonials -->
-  <section class="py-5" id="quotes">
-    <div class="container py-4">
-      <div class="text-center max-w-700 mx-auto mb-5">
-        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-2">
-          <i class="bi bi-chat-quote-fill me-1" aria-hidden="true"></i> Independent Perspectives
-        </span>
-        <h2 class="display-5 fw-bold text-white">%s</h2>
-      </div>
-      <div class="row g-4">
-%s
-      </div>
-    </div>
-  </section>""" % (E(t["h_quotes"]), "\n".join(cards))
-
-def render_final_cta(t):
+def render_final(t, lst):
     return """  <!-- Final CTA -->
-  <section class="py-5 bg-dark border-top border-secondary-subtle" id="download">
-    <div class="container py-5 text-center max-w-800 mx-auto">
-      <div class="d-inline-block position-relative mb-4">
-        <img src="%s" alt="Nudge Icon" class="rounded-4 shadow-lg glow-aura-amber" width="96" height="96" decoding="async">
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(255,201,120,0.13) 0%%, rgba(200,133,61,0.08) 100%%);">
+        <div class="nd-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="%s" alt="Nudge Icon" class="w-100 h-100 object-fit-cover rounded-4" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">%s</h2>
+          <p class="text-secondary fs-5 mb-4">%s</p>
+          <div class="d-flex justify-content-center">
+            %s
+          </div>
+          %s
+        </div>
       </div>
-      <h2 class="display-4 fw-bold text-white mb-3">%s</h2>
-      <p class="lead text-secondary mb-4">%s</p>
-      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-        <a href="%s" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow text-dark">
-          <i class="bi bi-microsoft me-2" aria-hidden="true"></i> %s
-        </a>
-        <a href="%s" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold">
-          <i class="bi bi-download me-2" aria-hidden="true"></i> %s
-        </a>
-      </div>
-      <p class="extra-small text-white-50 mb-0">%s</p>
     </div>
-  </section>""" % (ICON, E(t["h_cta"]), E(t["cta_lead"]),
-                   E(STORE_UTM), E(t["cta_buy_btn"]),
-                   E(STORE_UTM), E(t["cta_trial_btn"]),
-                   E(t["cta_guarantee"]))
+  </section>
+""" % (ICON, E("%s %s" % (lst["line1"], lst["line2"])), E(lst["description"][0]),
+       store_button(t), render_price(lst, True))
+
 
 def build(code):
-    t = L.get(code) or L["en"]
-    direction = BY_CODE[code][2]
-    hl = BY_CODE[code][3]
-    og = BY_CODE[code][4]
-    title = "%s | Microsoft Store (Windows 10 & 11) | Dhinovatech" % t["name"]
-    desc = t["intro_lead"][:240] + "..."
+    t = dict(S["en"])
+    t.update(S.get(code, {}))
+    lst = LISTING[code]
+    _c, _label, direction, hl, og = BY_CODE[code]
+    title = seo_title(code, lst)
+    desc = lst["short"]
 
-    og_alts = "\n".join(
-        '  <meta property="og:locale:alternate" content="%s">' % o
-        for c2, _l, _d, _h, o in built_langs() if c2 != code)
+    og_alts = "\n".join('  <meta property="og:locale:alternate" content="%s">' % o
+                        for c2, _l, _d, _h, o in built_langs() if c2 != code)
 
-    doc = """<!DOCTYPE html>
+    body = "\n".join([
+        render_hero(code, t, lst),
+        # What the app is in eight tiles, then what it looks like, then the
+        # detail - the order a reader who has never seen it needs.
+        render_overview(lst),
+        render_gallery(code, t, lst),
+        render_features(t, lst),
+        render_pricing(t, lst),
+        render_faq(t, lst),
+        render_final(t, lst),
+    ])
+
+    return """<!DOCTYPE html>
 <html lang="{hl}" dir="{dir}" data-bs-theme="dark">
 <head>
 {analytics_block}
@@ -1218,7 +935,6 @@ def build(code):
 {page_css}
   <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
 {hreflang}
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Dhinovatech">
   <meta property="og:title" content="{title}">
@@ -1230,25 +946,19 @@ def build(code):
   <meta property="og:image:alt" content="{ogalt}">
   <meta property="og:locale" content="{og}">
 {og_alts}
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{title}">
   <meta name="twitter:description" content="{desc}">
   <meta name="twitter:image" content="{site}{ogimg}">
   <meta name="twitter:image:alt" content="{ogalt}">
-
-  <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
 {schema}
   </script>
   <!-- END SEO block -->
   <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="{hero_shot}" fetchpriority="high">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
   <link rel="manifest" href="/site.webmanifest">
@@ -1258,109 +968,25 @@ def build(code):
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
+<!-- Navigation Bar (independent Nudge tree) -->
 {navbar}
-
 <main id="main">
-  <!-- Hero Section -->
-  <section class="py-5 overflow-hidden" id="hero">
-    <div class="container py-4">
-      <div class="row align-items-center gy-5">
-        <div class="col-lg-7">
-          <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 fw-semibold mb-3">
-            <i class="bi bi-shield-check me-1" aria-hidden="true"></i> {platform_badge}
-          </span>
-          <h1 class="display-4 fw-bold text-white mb-3">
-            {name}
-          </h1>
-          <p class="fs-4 text-warning fw-semibold mb-3">
-            "{tagline}"
-          </p>
-          <p class="lead text-secondary mb-4 pe-lg-4 fs-5 lh-base">
-            {intro_lead}
-          </p>
-          <p class="text-secondary small mb-4 pe-lg-4 lh-base">
-            {intro_p2}
-          </p>
 
-          <!-- Badges Grid -->
-          <div class="d-flex flex-wrap gap-2 mb-4">
-            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill"><i class="bi bi-wifi-off me-1" aria-hidden="true"></i>{badge_offline}</span>
-            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-cpu me-1 text-warning" aria-hidden="true"></i>{badge_ai}</span>
-            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-markdown me-1 text-warning" aria-hidden="true"></i>{badge_markdown}</span>
-            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-slash-circle me-1 text-warning" aria-hidden="true"></i>{badge_telemetry}</span>
-            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-fingerprint me-1 text-warning" aria-hidden="true"></i>{badge_hello}</span>
-            <span class="badge bg-dark border border-secondary text-white px-3 py-2 rounded-pill"><i class="bi bi-tag-fill me-1 text-warning" aria-hidden="true"></i>{badge_price}</span>
-          </div>
-
-          <!-- CTAs -->
-          <div class="d-flex flex-wrap gap-3 align-items-center">
-            <a href="{store}" target="_blank" rel="noopener" class="btn btn-warning btn-lg rounded-pill px-4 fw-bold shadow d-flex align-items-center gap-2 text-dark">
-              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> {cta_buy}
-            </a>
-            <a href="{store}" target="_blank" rel="noopener" class="btn btn-outline-warning btn-lg rounded-pill px-4 fw-bold d-flex align-items-center gap-2">
-              <i class="bi bi-download fs-5" aria-hidden="true"></i> {cta_trial}
-            </a>
-            <a href="#specs" class="btn btn-link text-white-50 text-decoration-none small">
-              {cta_see} <i class="bi bi-arrow-down ms-1" aria-hidden="true"></i>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-lg-5 text-center">
-          <div class="position-relative d-inline-block">
-            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-warning opacity-10 blur-3xl"></div>
-            <img src="{icon}" alt="Nudge App Icon" class="img-fluid rounded-4 shadow-lg border border-warning glow-aura-amber animated-float" style="max-height: 420px; object-fit: cover;" decoding="async" width="512" height="512">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-{pillars_section}
-
-{specs_section}
-
-{manifesto_section}
-
-{architecture_section}
-
-{ai_companion_section}
-
-{psychology_section}
-
-{writing_section}
-
-{security_section}
-
-{comparison_section}
-
-{workflows_section}
-
-{hardware_section}
-
-{pricing_section}
-
-{faqs_section}
-
-{quotes_section}
-
-{final_cta_section}
+{body}
 </main>
-
 {footer}
-
   <!-- Bootstrap 5.3 JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="/assets/js/nav.js"></script>
 
   <!-- BEGIN generated UX block -->
-  <div class="install-bar" role="complementary" aria-label="Nudge Offline Journal &amp; AI">
+  <div class="install-bar" role="complementary" aria-label="Nudge">
     <img src="{icon}" alt="" width="42" height="42" loading="lazy" decoding="async">
     <div class="install-bar-text">
       <div class="install-bar-title">Nudge</div>
       <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
     </div>
-    <a href="{store}" target="_blank" rel="noopener" class="btn btn-warning btn-sm rounded-pill px-3 text-dark fw-bold">{cta_install}</a>
+    <a href="{store}" target="_blank" rel="noopener" class="btn btn-primary btn-sm rounded-pill px-3">Install</a>
   </div>
   <button type="button" class="to-top" aria-label="Back to top" title="Back to top">
     <i class="bi bi-arrow-up" aria-hidden="true"></i>
@@ -1371,58 +997,44 @@ def build(code):
 </body>
 </html>
 """.format(
-        hl=hl,
-        dir=direction,
-        title=E(title),
-        desc=E(desc),
-        analytics_block=analytics_block(),
-        page_css=PAGE_CSS,
-        hreflang=hreflang_block(code),
-        canonical=abs_url(code),
-        site=SITE,
-        ogimg=OGIMG, ogw=OGW, ogh=OGH, ogalt=E(OGALT),
-        og=og,
-        og_alts=og_alts,
-        schema=schema(code, t, desc),
-        navbar=navbar(code, t),
-        platform_badge=E(t.get("platform_badge", "Native WinUI 3 for Windows 10 & 11 • x64 & ARM64 Copilot+ PC")),
-        name=E(t["name"]),
-        tagline=E(t["tagline"]),
-        intro_lead=E(t["intro_lead"]),
-        intro_p2=E(t.get("intro_p2", "")),
-        badge_offline=E(t.get("badge_offline", "100% Offline Air-Gapped")),
-        badge_ai=E(t.get("badge_ai", "On-Device SLM (Zero Cloud)")),
-        badge_markdown=E(t.get("badge_markdown", "Plain Markdown (.md)")),
-        badge_telemetry=E(t.get("badge_telemetry", "Zero Telemetry")),
-        badge_hello=E(t.get("badge_hello", "Windows Hello Biometrics")),
-        badge_price=E(t.get("badge_price", "$0.99 One-Time Buy")),
-        store=E(STORE_UTM),
-        icon=ICON,
-        cta_buy=E(t.get("cta_buy", "Buy Once — $0.99 Lifetime")),
-        cta_trial=E(t.get("cta_trial", "Download 15-Day Free Trial")),
-        cta_see=E(t.get("cta_see", "Explore Architecture & Specifications")),
-        cta_install=E(t.get("cta_trial", "Install")),
-        pillars_section=render_pillars(t),
-        specs_section=render_specs_table(t),
-        manifesto_section=render_manifesto(t),
-        architecture_section=render_architecture(t),
-        ai_companion_section=render_ai_companion(t),
-        psychology_section=render_psychology(t),
-        writing_section=render_writing(t),
-        security_section=render_security(t),
-        comparison_section=render_comparison_table(t),
-        workflows_section=render_workflows(t),
-        hardware_section=render_hardware(t),
-        pricing_section=render_pricing(t),
-        faqs_section=render_faqs(t),
-        quotes_section=render_quotes(t),
-        final_cta_section=render_final_cta(t),
-        footer=FOOTER,
-        consent_banner=consent_banner_html(code)
-    )
-    return doc
+        hl=hl, dir=direction, title=E(title), desc=E(desc),
+        analytics_block=analytics_block(), page_css=PAGE_CSS,
+        hreflang=hreflang_block(code), canonical=abs_url(code), site=SITE,
+        ogimg=OGIMG, ogw=OGW, ogh=OGH, ogalt=E(OGALT), og=og, og_alts=og_alts,
+        schema=schema(code, t, lst, title, desc), hero_shot=shot_url(code, HERO),
+        navbar=navbar(code, t), body=body, footer=FOOTER, icon=ICON,
+        store=E(STORE_UTM), consent_banner=consent_banner_html(code))
+
+
+def redirect_page(target):
+    """A page that only sends the reader on, for a locale the tree dropped.
+
+    GitHub Pages cannot answer with a 301, so this is the nearest thing: an
+    immediate refresh, a canonical pointing at the destination, and noindex
+    so the old URL leaves the index (and stays out of sitemap.xml).
+    """
+    url = abs_url(target)
+    return """<!DOCTYPE html>
+<html lang="{hl}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nudge</title>
+  <meta name="robots" content="noindex,follow">
+  <link rel="canonical" href="{url}">
+  <meta http-equiv="refresh" content="0; url={path}">
+</head>
+<body>
+<main id="main">
+  <p><a href="{path}">Nudge</a></p>
+</main>
+</body>
+</html>
+""".format(hl=BY_CODE[target][3], url=url, path=url_for(target))
+
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")
     base = os.path.join(ROOT, SECTION)
     for code, _label, _d, _hl, _og in built_langs():
         folder = base if code == "en" else os.path.join(base, code)
@@ -1430,8 +1042,18 @@ def main():
         path = os.path.join(folder, "index.html")
         with open(path, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(build(code))
-        print("wrote", path)
+        missing = [k for k in S["en"] if k not in S.get(code, {})]
+        print("wrote %s%s" % (os.path.relpath(path, ROOT),
+                              "  (English fallback: %d keys)" % len(missing) if code != "en" and missing else ""))
+    for code, target in RETIRED.items():
+        folder = os.path.join(base, code)
+        os.makedirs(folder, exist_ok=True)
+        path = os.path.join(folder, "index.html")
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(redirect_page(target))
+        print("wrote %s  (redirect to %s)" % (os.path.relpath(path, ROOT), url_for(target)))
+    return 0
+
 
 if __name__ == "__main__":
-    sys.stdout.reconfigure(encoding="utf-8")
-    main()
+    sys.exit(main())

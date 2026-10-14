@@ -85,6 +85,8 @@ SPEC = {
     "stow-og.png":                        dict(max_dim=1200, webp=False),
     # Drawn by tools/build-smart-photos-shots.py, for the same reason.
     "smart-photos-og.png":                dict(max_dim=1200, webp=False),
+    # Drawn by tools/build-nudge-shots.py, for the same reason.
+    "nudge-og.png":                       dict(max_dim=1200, webp=False),
 
     # store screenshots render at roughly 300 CSS px wide
     "glowcompare-screenshot-1.png":       dict(max_dim=592,  webp=True,  q=86, keep=False),
