@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="nb" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KeepOne: Finn duplikater av bilder og filer – gratis for Windows</title>
+  <meta name="description" content="Finn og fjern dupliserte bilder, like bilder, videoer, filer og mapper, og frigjør diskplass. Sjekket byte for byte, filene går til papirkurven, og enhver opprydding kan angres. Ingen reklame, ingen konto. Gratis nedlasting.">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #22d3ee;
+      --dhin-border-glow: rgba(34, 211, 238, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(34, 211, 238, 0.2);
+      --dhin-gradient-primary: linear-gradient(135deg, #22d3ee 0%, #1e6bff 100%);
+      --ko-cyan: #22d3ee;
+      --ko-blue: #1e6bff;
+      --ko-sun: #ffd166;
+      --ko-ink: #0c1434;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 34, 211, 238;
+      --bs-primary-bg-subtle: rgba(34, 211, 238, 0.12);
+      --bs-primary-border-subtle: rgba(34, 211, 238, 0.32);
+      --bs-primary-text-emphasis: #8be9f8;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #a5f3fc 0%, #22d3ee 50%, #1e6bff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(34, 211, 238, 0.26); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(34, 211, 238, 0.4); }
+    .btn-dhin-outline:hover { background: rgba(34, 211, 238, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(30, 107, 255, 0.24) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-cyan { box-shadow: 0 0 45px rgba(34, 211, 238, 0.24); }
+    .ko-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(34,211,238,0.18), rgba(30,107,255,0.14));
+      color: var(--ko-cyan); border: 1px solid rgba(34,211,238,0.3);
+    }
+    .ko-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .ko-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .ko-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(34,211,238,0.16); color: var(--ko-cyan);
+      border: 1px solid rgba(34,211,238,0.4);
+    }
+
+    /* Hero */
+    .ko-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .ko-hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 14px; }
+    .ko-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .ko-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #a5f3fc; margin-top: .6rem;
+    }
+    .ko-cta-strip .ko-price { margin: 0; }
+    .ko-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .ko-price-tag {
+      background: var(--ko-sun); color: var(--ko-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 209, 102, .3);
+    }
+    .ko-price-tag:hover { color: var(--ko-ink); background: #ffdd8a; }
+    .ko-window {
+      border-radius: 14px; overflow: hidden; background: #0a1a4a;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .ko-window img { display: block; width: 100%; height: auto; }
+
+    .ko-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .ko-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .ko-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .ko-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .ko-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ko-cyan); font-weight: 700; margin-bottom: .3rem; }
+    .ko-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Screenshot gallery */
+    .ko-shot { overflow: hidden; margin: 0; }
+    .ko-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ko-shot figcaption { padding: .85rem 1rem; font-size: .9rem; font-weight: 600; color: #e2e8f0; }
+    .ko-shot figcaption i { color: var(--ko-cyan); }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--ko-cyan) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--ko-cyan) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(34, 211, 238, 0.12); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(34, 211, 238, 0.4) !important; }
+    .ko-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .ko-check-list li i { color: var(--ko-cyan); flex-shrink: 0; margin-top: .1rem; }
+    .ko-block-h { font-size: 1.05rem; line-height: 1.35; }
+    .ko-strict { border: 1px solid rgba(34,211,238,.25); border-radius: 14px; background: rgba(34,211,238,.05); }
+    .ko-strict-name { color: var(--ko-cyan); font-weight: 700; }
+
+    /* Pricing */
+    .ko-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .ko-plan-free { border: 2px solid var(--ko-cyan) !important; box-shadow: 0 0 40px rgba(34, 211, 238, .16); }
+    .ko-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--ko-cyan); }
+    .ko-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .ko-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .ko-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 209, 102, .1); border: 1px solid rgba(255, 209, 102, .38);
+    }
+    .ko-quota-num { font-size: 2.4rem; font-weight: 800; line-height: 1; color: var(--ko-sun); flex-shrink: 0; }
+    .ko-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .ko-quota-pro { background: rgba(34, 211, 238, .08); border-color: rgba(34, 211, 238, .3); }
+    .ko-quota-pro .ko-quota-num { color: var(--ko-cyan); }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(34, 211, 238, 0.08); color: var(--ko-cyan); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/KeepOne/nb/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/KeepOne/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/KeepOne/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/KeepOne/es/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/KeepOne/fr/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/KeepOne/de/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/KeepOne/it/">
+  <link rel="alternate" hreflang="pt" href="https://www.dhinovatech.com/KeepOne/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/KeepOne/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/KeepOne/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/KeepOne/cs/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/KeepOne/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/KeepOne/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/KeepOne/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/KeepOne/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/KeepOne/fi/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/KeepOne/ru/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/KeepOne/uk/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/KeepOne/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/KeepOne/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/KeepOne/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/KeepOne/zh/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/KeepOne/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/KeepOne/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/KeepOne/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="KeepOne: Finn duplikater av bilder og filer – gratis for Windows">
+  <meta property="og:description" content="Finn og fjern dupliserte bilder, like bilder, videoer, filer og mapper, og frigjør diskplass. Sjekket byte for byte, filene går til papirkurven, og enhver opprydding kan angres. Ingen reklame, ingen konto. Gratis nedlasting.">
+  <meta property="og:url" content="https://www.dhinovatech.com/KeepOne/nb/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/keepone-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="KeepOne - duplicate photo and file finder for Windows, free on the Microsoft Store">
+  <meta property="og:locale" content="nb_NO">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="KeepOne: Finn duplikater av bilder og filer – gratis for Windows">
+  <meta name="twitter:description" content="Finn og fjern dupliserte bilder, like bilder, videoer, filer og mapper, og frigjør diskplass. Sjekket byte for byte, filene går til papirkurven, og enhver opprydding kan angres. Ingen reklame, ingen konto. Gratis nedlasting.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/keepone-og.png">
+  <meta name="twitter:image:alt" content="KeepOne - duplicate photo and file finder for Windows, free on the Microsoft Store">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/KeepOne/#software","name":"KeepOne","alternateName":"KeepOne: Finn duplikater av bilder og filer","operatingSystem":"Windows 10 version 2004 (build 19041) and later, Windows 11","applicationCategory":"UtilitiesApplication","applicationSubCategory":"Duplicate file finder","description":"Finn og fjern dupliserte bilder, like bilder, videoer, filer og mapper, og frigjør diskplass. Sjekket byte for byte, filene går til papirkurven, og enhver opprydding kan angres. Ingen reklame, ingen konto. Gratis nedlasting.","abstract":"KeepOne finner duplikater av filer og bilder på Windows-PC-en din og fjerner dem trygt: dupliserte og like bilder, videoer, dokumenter, alle andre filer og hele kopierte mapper. Den beholder én kopi av hver og frigjør diskplass. Hvert nøyaktige duplikat bekreftes byte for byte, fjernede filer går til papirkurven, og enhver opprydding kan angres. Gratis nedlasting.","url":"https://www.dhinovatech.com/KeepOne/nb/","inLanguage":["en","es","fr","de","it","pt","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/keepone-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9PP2PKFG978L","installUrl":"https://apps.microsoft.com/detail/9PP2PKFG978L","featureList":["Finn dupliserte bilder: nøyaktige kopier, uansett navn eller mappe","Finn like bilder: forminskede, komprimerte, redigerte og roterte kopier side om side","Finn dupliserte videoer","Finn dupliserte filer: dokumenter, arkiver, musikk og alle andre filer","Finn dupliserte mapper: en kopiert mappe er én avgjørelse","Hvert nøyaktige duplikat bekreftet byte for byte","Fjernede filer går til papirkurven og slettes aldri permanent","Angre hvilken som helst av dine siste 20 oppryddinger med ett klikk","Hver gruppe beholder alltid minst én kopi","En tydelig begrunnelse for hver kopi som beholdes","Behold med ett klikk den nyeste kopien, høyeste oppløsning eller kopien i favorittmappen","Nøyaktige tall før noe skjer","Hver fil sjekkes på nytt rett før den flyttes","Pause, gjenoppta og fortsett etter omstart","Filtrer på bilder, videoer, dokumenter eller mapper","HEIC, RAW, JPEG, PNG, WEBP og mer","Rører aldri Windows- eller programmapper eller filer som bare ligger i skyen","Håndterer svært lange baner og harde koblinger riktig","Ingen reklame, ingen konto, ingen sporing: ingenting forlater PC-en","Lyst og mørkt tema, 23 språk"],"isAccessibleForFree":true,"processorRequirements":"x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9PP2PKFG978L"},"screenshot":["https://www.dhinovatech.com/assets/images/keepone/nb/hero.webp","https://www.dhinovatech.com/assets/images/keepone/nb/similar.webp","https://www.dhinovatech.com/assets/images/keepone/nb/exact.webp","https://www.dhinovatech.com/assets/images/keepone/nb/folders.webp","https://www.dhinovatech.com/assets/images/keepone/nb/videos.webp","https://www.dhinovatech.com/assets/images/keepone/nb/confirm.webp","https://www.dhinovatech.com/assets/images/keepone/nb/undo.webp","https://www.dhinovatech.com/assets/images/keepone/nb/scan.webp","https://www.dhinovatech.com/assets/images/keepone/nb/private.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/KeepOne/nb/#webpage","url":"https://www.dhinovatech.com/KeepOne/nb/","name":"KeepOne: Finn duplikater av bilder og filer – gratis for Windows","description":"Finn og fjern dupliserte bilder, like bilder, videoer, filer og mapper, og frigjør diskplass. Sjekket byte for byte, filene går til papirkurven, og enhver opprydding kan angres. Ingen reklame, ingen konto. Gratis nedlasting.","inLanguage":"nb","dateModified":"2026-10-14","about":{"@id":"https://www.dhinovatech.com/KeepOne/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/KeepOne/#software"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"KeepOne","item":"https://www.dhinovatech.com/KeepOne/"},{"@type":"ListItem","position":3,"name":"KeepOne (nb)","item":"https://www.dhinovatech.com/KeepOne/nb/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/KeepOne/nb/#faq","inLanguage":"nb","mainEntity":[{"@type":"Question","name":"Er KeepOne gratis?","acceptedAnswer":{"@type":"Answer","text":"Ja. KeepOne er en gratis nedlasting fra Microsoft Store. Skanning, resultater, sammenligning side om side, logg og angre har ingen grense. Gratisversjonen fjerner opptil 100 filer eller 1 GB totalt, det som kommer først, og ett kjøp i appen fjerner grensen for godt. Det er ingen abonnement."}},{"@type":"Question","name":"Sletter KeepOne filene mine permanent?","acceptedAnswer":{"@type":"Answer","text":"Nei. Fjernede filer går til papirkurven, eller til KeepOnes karantenemappe når papirkurven ikke kan ta imot dem, og hvilken som helst av dine siste 20 oppryddinger kan angres med én knapp. Filene kommer tilbake nøyaktig der de var, med de opprinnelige navnene."}},{"@type":"Question","name":"Hvordan vet KeepOne at to filer er duplikater?","acceptedAnswer":{"@type":"Answer","text":"Det sammenligner hele innholdet i hver kandidat, byte for byte. Filer som bare har navn, størrelse eller dato felles, grupperes aldri. For å være raskt sammenligner det først størrelsen, så gjør det en rask kontroll, og bare reelle kandidater leses i sin helhet."}},{"@type":"Question","name":"Finner det også like bilder, ikke bare identiske?","acceptedAnswer":{"@type":"Answer","text":"Ja. KeepOne sammenligner hvordan bildene faktisk ser ut, så nedskalerte, komprimert på nytt, lagret på nytt, redigerte og roterte kopier grupperes, også kopier lagret fra chatteapper. Du velger hvor strengt: svært streng, streng (anbefalt) eller løs."}},{"@type":"Question","name":"Merker det like bilder automatisk?","acceptedAnswer":{"@type":"Answer","text":"Nei. Like bilder vises side om side slik at du kan sammenligne dem. Bare nøyaktige kopier av bildet du beholder, merkes for deg; resten er alltid ditt valg."}},{"@type":"Question","name":"Finner KeepOne dupliserte mapper og videoer?","acceptedAnswer":{"@type":"Answer","text":"Ja. En mappe kopiert som sikkerhetskopi vises som én beslutning i stedet for hundrevis av filer, og en mappe der alle filene finnes i en annen mappe, blir også funnet. Videoer lagret mer enn én gang blir funnet, også kopier som ikke er identiske byte for byte, men har samme lengde og innhold. Ingenting i de gruppene merkes før du velger."}},{"@type":"Question","name":"Fungerer det med OneDrive?","acceptedAnswer":{"@type":"Answer","text":"Ja. Nedlastede filer skannes som alle andre. Filer som bare finnes i skyen, hoppes over og lastes aldri ned, så en skanning utløser aldri en flom av nedlastinger."}},{"@type":"Question","name":"Er det trygt å skanne en hel stasjon?","acceptedAnswer":{"@type":"Answer","text":"Ja. Windows, Program Files, ProgramData, AppData og andre systemplasseringer røres aldri, og KeepOne leser ingenting utenfor mappene du velger. Koblingspunkter og symbolske koblinger følges aldri, og harde koblinger telles som én fil."}},{"@type":"Question","name":"Hva om en fil endres mellom skanningen og oppryddingen?","acceptedAnswer":{"@type":"Answer","text":"Rett før hver fil flyttes, leser KeepOne størrelsen, datoen og hele innholdet på nytt og kontrollerer at kopien som beholdes, fortsatt er der og uendret. Har noe endret seg, blir filen liggende, og KeepOne forteller deg hvorfor."}},{"@type":"Question","name":"Laster KeepOne opp filene mine eller krever det en konto?","acceptedAnswer":{"@type":"Answer","text":"Nei. Det er ingen konto, ingen pålogging, ingen reklame og ingen telemetri, og KeepOne oppretter ingen nettverkstilkoblinger på egen hånd. Filnavn, bilder og resultater blir på PC-en din."}},{"@type":"Question","name":"Hvilke bildeformater leser KeepOne?","acceptedAnswer":{"@type":"Answer","text":"HEIC, RAW, JPEG, PNG, WEBP og mange andre formater, via bildestøtten som er innebygd i Windows. Nøyaktige duplikater finnes for alle filtyper: dokumenter, regneark, musikk, arkiver, installasjonsprogrammer, bilder og videoer."}},{"@type":"Question","name":"Hva trenger jeg for å bruke KeepOne?","acceptedAnswer":{"@type":"Answer","text":"Windows 10 (versjon 2004 eller nyere) eller Windows 11 på en x64- eller ARM64-PC. KeepOne installeres og oppdateres via Microsoft Store og finnes på 23 språk."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/keepone/nb/hero.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Gå til hovedinnhold</a>
+<!-- Navigation Bar (independent KeepOne tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - KeepOne owns its own language tree -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Portuguese)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/KeepOne/nb/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/mortgage-loan-emi-pro/"><i class="bi bi-calculator text-primary me-2" aria-hidden="true"></i>Mortgage EMI Pro</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - KeepOne only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Norsk (Norwegian)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Portuguese)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/KeepOne/nb/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Last ned gratis
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="ko-hero-icon">
+              <img src="/assets/images/keepone-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block ko-hero-kind">Finn duplikater av bilder og filer</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">KeepOne</span> <span class="d-block ko-hero-tagline">Fjern dupliserte bilder og filer trygt.</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">Finn og fjern dupliserte bilder, like bilder, videoer, filer og mapper, og frigjør diskplass. Sjekket byte for byte, filene går til papirkurven, og enhver opprydding kan angres. Ingen reklame, ingen konto. Gratis nedlasting.</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Last ned fra</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> Se skjermbilder
+            </a>
+          </div>
+          <p class="ko-price mt-3 mb-0"><a class="ko-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Gratis nedlasting</a><span>Engangskjøp, ingen abonnement</span></p>
+
+          <div class="ko-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-intersect text-primary me-1" aria-hidden="true"></i> Også like bilder</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-arrow-counterclockwise text-info me-1" aria-hidden="true"></i> Angre enhver opprydding</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-person-slash text-warning me-1" aria-hidden="true"></i> Ingen reklame, ingen konto</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-cyan" aria-hidden="true"></div>
+            <div class="ko-window position-relative">
+              <img src="/assets/images/keepone/nb/hero.webp" alt="Fjern dupliserte bilder og filer trygt, og frigjør diskplass" decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>KeepOne kort fortalt</h2>
+          <p class="ko-glance-def mb-4">KeepOne finner duplikater av filer og bilder på Windows-PC-en din og fjerner dem trygt: dupliserte og like bilder, videoer, dokumenter, alle andre filer og hele kopierte mapper. Den beholder én kopi av hver og frigjør diskplass. Hvert nøyaktige duplikat bekreftes byte for byte, fjernede filer går til papirkurven, og enhver opprydding kan angres. Gratis nedlasting.</p>
+          <dl class="ko-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="ko-fact"><dt>Hva det er</dt><dd>Et program som finner duplikater av bilder og filer på Windows 10 og Windows 11</dd></div>
+            <div class="ko-fact"><dt>Finner</dt><dd>Nøyaktige duplikater av alle filer, like bilder, dupliserte videoer og dupliserte mapper</dd></div>
+            <div class="ko-fact"><dt>Pris</dt><dd>Gratis nedlasting. Å fjerne mer enn 100 filer eller 1 GB krever et engangskjøp i appen, uten abonnement</dd></div>
+            <div class="ko-fact"><dt>Sikkerhet</dt><dd>Hvert nøyaktig treff bekreftes byte for byte. Fjernede filer går til papirkurven og slettes aldri permanent</dd></div>
+            <div class="ko-fact"><dt>Angre</dt><dd>Hvilken som helst av dine siste 20 oppryddinger, med én knapp</dd></div>
+            <div class="ko-fact"><dt>Personvern</dt><dd>Ingen konto, ingen reklame, ingen telemetri. KeepOne oppretter ingen nettverkstilkoblinger på egen hånd</dd></div>
+            <div class="ko-fact"><dt>Kjører på</dt><dd>Windows 10 (versjon 2004 eller nyere) og Windows 11, på x64- og ARM64-PC-er</dd></div>
+            <div class="ko-fact"><dt>Språk</dt><dd>23, blant annet arabisk og hebraisk</dd></div>
+            <div class="ko-fact"><dt>Laget av</dt><dd>Dhinovatech, i Microsoft Store</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-intersect me-1" aria-hidden="true"></i> ALT I ÉN APP</span>
+        <h2 class="display-5 fw-bold text-white">Alle slags duplikater. Behold én av hver.</h2>
+        <p class="text-secondary fs-5 mb-0">Bilder kopiert fra flere telefoner, den samme videoen lagret fra en chat og i Nedlastinger, en mappe kopiert som rask sikkerhetskopi, den samme PDF-en lastet ned tre ganger: etter noen år er gigabyte på hver PC kopier. KeepOne finner dem, viser deg hvilken kopi som beholdes og hvorfor, og fjerner resten først når du sier det.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-images" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte bilder</h3>
+            <p class="text-secondary small mb-0">Nøyaktige kopier, uansett navn</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-intersect" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Like bilder</h3>
+            <p class="text-secondary small mb-0">Forminsket, redigert, fra chatter, side om side</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-film" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte videoer</h3>
+            <p class="text-secondary small mb-0">Samme klipp lagret to ganger</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Alle filer</h3>
+            <p class="text-secondary small mb-0">PDF-er, Office-filer, arkiver, musikk</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-folder2" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte mapper</h3>
+            <p class="text-secondary small mb-0">En kopiert mappe, én avgjørelse</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-patch-check" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Byte for byte</h3>
+            <p class="text-secondary small mb-0">Aldri bare etter størrelse</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Alt kan angres</h3>
+            <p class="text-secondary small mb-0">Dine siste 20 oppryddinger, ett klikk</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Blir på PC-en din</h3>
+            <p class="text-secondary small mb-0">Ingen konto, reklame eller sporing</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> Se skjermbilder</span>
+        <h2 class="display-5 fw-bold text-white">Se KeepOne i bruk</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/similar.webp" alt="Sammenlign like bilder side om side før du velger" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-images me-2" aria-hidden="true"></i>Sammenlign like bilder side om side før du velger</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/exact.webp" alt="Hvert duplikat bekreftet byte for byte, de største besparelsene først" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-patch-check me-2" aria-hidden="true"></i>Hvert duplikat bekreftet byte for byte, de største besparelsene først</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/folders.webp" alt="En kopiert mappe er én avgjørelse, ikke hundre" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-folder2 me-2" aria-hidden="true"></i>En kopiert mappe er én avgjørelse, ikke hundre</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/videos.webp" alt="Finn også dupliserte videoer og dokumenter" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-film me-2" aria-hidden="true"></i>Finn også dupliserte videoer og dokumenter</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/confirm.webp" alt="Vit nøyaktig hva som skjer før noe flyttes" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-list-check me-2" aria-hidden="true"></i>Vit nøyaktig hva som skjer før noe flyttes</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/undo.webp" alt="Ombestemt deg? Angre hvilken som helst av dine siste 20 oppryddinger" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-arrow-counterclockwise me-2" aria-hidden="true"></i>Ombestemt deg? Angre hvilken som helst av dine siste 20 oppryddinger</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/scan.webp" alt="Skann en hvilken som helst mappe eller en hel disk, med pause" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-hdd-stack me-2" aria-hidden="true"></i>Skann en hvilken som helst mappe eller en hel disk, med pause</figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ko-shot h-100">
+            <img src="/assets/images/keepone/nb/private.webp" alt="Privat: ingen konto, ingen reklame, ingenting forlater PC-en" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption><i class="bi bi-shield-lock me-2" aria-hidden="true"></i>Privat: ingen konto, ingen reklame, ingenting forlater PC-en</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="ko-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Last ned fra</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="ko-price mb-0"><a class="ko-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Gratis nedlasting</a><span>Engangskjøp, ingen abonnement</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why another duplicate finder -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="why-keepone">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-diamond me-1" aria-hidden="true"></i> Hvorfor KeepOne</span>
+        <h2 class="display-5 fw-bold text-white">Hvorfor enda et duplikatprogram?</h2>
+        
+      </div>
+      <div class="ko-narrow mx-auto mb-5">
+        <p class="text-secondary fs-5">Mange duplikatprogrammer har de samme problemene. Noen grupperer filer som bare har samme navn eller størrelse, og det er ikke det samme som å være identiske. Noen merker filer automatisk og sletter dem for godt med ett klikk. Andre gjemmer de beste funksjonene bak et abonnement, fyller skjermen med reklame eller krever en konto før du får skanne en mappe på din egen datamaskin.</p>
+        <p class="text-white fs-5 mb-0">KeepOne er laget for å være det motsatte: forsiktig som standard, tydelig i hvert steg, privat og ærlig om hva som er gratis. Det er et verktøy du kan gi til et familiemedlem uten å frykte at de mister den eneste kopien av bryllupsbildene sine.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Forsiktig som standard</h3>
+            <p class="text-secondary small mb-0">Hvert treff bekreftes byte for byte, hver gruppe beholder en kopi, og fjernede filer går til papirkurven.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-chat-square-text" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Tydelig i hvert steg</h3>
+            <p class="text-secondary small mb-0">Enkelt språk, grunnen til hver kopi som beholdes, og nøyaktige tall før noe flyttes.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-incognito" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Privat</h3>
+            <p class="text-secondary small mb-0">Ingen konto, ingen pålogging, ingen reklame og ingen telemetri. Filene og resultatene dine blir på PC-en din.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-gift" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Ærlig om det gratis</h3>
+            <p class="text-secondary small mb-0">Skann alle stasjonene dine gratis. Grensen står der før du skanner, og ett kjøp fjerner den.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Careful by design -->
+  <section class="py-5" id="safety">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-check me-1" aria-hidden="true"></i> Sikker fra grunnen av</span>
+        <h2 class="display-5 fw-bold text-white">Ingenting slettes noen gang for godt</h2>
+        <p class="text-secondary fs-5 mb-0">I KeepOne er sikkerhet ikke en dialogboks som spør «Er du sikker?». Den er bygd inn i motoren som gjør jobben, og gjelder uansett hva du klikker på.</p>
+      </div>
+      <div class="row g-4 mb-5">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <span class="ko-icon-box ko-icon-box-sm mb-3"><i class="bi bi-patch-check" aria-hidden="true"></i></span>
+            <p class="text-secondary mb-0">Nøyaktige duplikater bekreftes byte for byte. Filer som bare har navn eller størrelse til felles, grupperes aldri.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <span class="ko-icon-box ko-icon-box-sm mb-3"><i class="bi bi-1-circle" aria-hidden="true"></i></span>
+            <p class="text-secondary mb-0">Hver gruppe beholder minst én kopi. KeepOne fjerner aldri den siste, uansett hva som er valgt.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <span class="ko-icon-box ko-icon-box-sm mb-3"><i class="bi bi-trash3" aria-hidden="true"></i></span>
+            <p class="text-secondary mb-0">Fjernede filer går til papirkurven og slettes aldri permanent. Hvis papirkurven ikke kan ta imot en fil, går den til KeepOnes karantenemappe.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <span class="ko-icon-box ko-icon-box-sm mb-3"><i class="bi bi-arrow-repeat" aria-hidden="true"></i></span>
+            <p class="text-secondary mb-0">Rett før hver fil flyttes, sjekker KeepOne filen og kopien som beholdes på nytt. Har noe endret seg siden skanningen, får filen være.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <span class="ko-icon-box ko-icon-box-sm mb-3"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+            <p class="text-secondary mb-0">Angre hvilken som helst av dine siste 20 oppryddinger: filene kommer tilbake nøyaktig der de var.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <span class="ko-icon-box ko-icon-box-sm mb-3"><i class="bi bi-windows" aria-hidden="true"></i></span>
+            <p class="text-secondary mb-0">Windows- og programmapper røres aldri, og skyfiler som ikke er lastet ned, åpnes aldri.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h3 class="h5 text-white fw-bold mb-4"><i class="bi bi-gear-wide-connected text-primary me-2" aria-hidden="true"></i>De vanskelige detaljene er også løst</h3>
+        <ul class="list-unstyled ko-check-list mb-0">
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Når papirkurven ikke trygt kan ta imot en fil (en nettverksstasjon eller flyttbar stasjon, en svært lang bane, en svært stor fil), flytter KeepOne den til sin egen karantenemappe i stedet for å la Windows slette den i stillhet.</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Karantenemappen tar vare på hver fil i den opprinnelige mappestrukturen og blir værende selv om du avinstallerer KeepOne, fordi filene er dine.</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Harde koblinger telles som én fil, ikke som duplikater. Koblingspunkter og symbolske koblinger følges aldri, og svært lange baner støttes fullt ut.</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hver opprydding registreres før og etter, så du alltid vet hvor hver fil er, selv etter et strømbrudd.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every kind of duplicate -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="duplicates">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-intersect me-1" aria-hidden="true"></i> Alle slags duplikater</span>
+        <h2 class="display-5 fw-bold text-white">Finner mer enn identiske filer</h2>
+        <p class="text-secondary fs-5 mb-0">Nøyaktige kopier er bare en del av historien. Før hver skanning velger du hvilke slags duplikater det skal letes etter.</p>
+      </div>
+      <div class="row g-4 mb-5">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-images" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte bilder</h3>
+            <p class="text-secondary small mb-0">Nøyaktige kopier, uansett navn eller mappe.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-intersect" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Like bilder</h3>
+            <p class="text-secondary small mb-0">Forminskede, komprimerte, redigerte og roterte kopier og kopier lagret fra chatapper, side om side så du kan sammenligne. De velges aldri for deg.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-film" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte videoer</h3>
+            <p class="text-secondary small mb-0">Samme klipp fra telefonen, en chat og Nedlastinger.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte dokumenter og alle andre filer</h3>
+            <p class="text-secondary small mb-0">PDF-er, Office-filer, arkiver, musikk, installasjonsprogrammer.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-folder2" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dupliserte mapper</h3>
+            <p class="text-secondary small mb-0">En sikkerhetskopi av en hel mappe er én avgjørelse, ikke hundre. Mapper der alle filene finnes i en annen mappe, blir også funnet.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ko-icon-box mb-3"><i class="bi bi-file-earmark-image" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Alle bildeformater</h3>
+            <p class="text-secondary small mb-0">HEIC, RAW, JPEG, PNG, WEBP og mer, via bildestøtten som er innebygd i Windows.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass p-4 p-md-5 border border-secondary-subtle">
+        <h3 class="h5 text-white fw-bold mb-3"><i class="bi bi-sliders text-primary me-2" aria-hidden="true"></i>Like bilder: du bestemmer hvor strengt</h3>
+        <div class="row g-3 mb-3">
+          <div class="col-md-4">
+            <div class="ko-strict h-100 p-3">
+              <div class="ko-strict-name mb-1">Svært streng</div>
+              <div class="text-secondary small">Bare nesten identiske kopier</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ko-strict h-100 p-3">
+              <div class="ko-strict-name mb-1">Streng</div>
+              <div class="text-secondary small">Forminskede og komprimerte kopier (anbefalt)</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ko-strict h-100 p-3">
+              <div class="ko-strict-name mb-1">Løs</div>
+              <div class="text-secondary small">Også kopier med små endringer; gå nøye gjennom hver gruppe</div>
+            </div>
+          </div>
+        </div>
+        <p class="text-secondary small mb-0">Bilder som ligner hverandre er ikke ekte kopier. Derfor vises de side om side med oppløsning, opptaksdato, størrelse og plassering og merkes aldri for deg. Bare nøyaktige kopier av bildet du beholder, merkes automatisk.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i> Slik fungerer det</span>
+        <h2 class="display-5 fw-bold text-white">Tre steg, og du bestemmer i hvert</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="ko-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">Velg hva som skal skannes</h3>
+            </div>
+            <p class="text-secondary small mb-0">Legg til Bilder, Nedlastinger, en ekstern stasjon eller en annen mappe, pluss mapper som skal hoppes over, og velg hvilke slags duplikater du leter etter.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="ko-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">Gå gjennom hver gruppe</h3>
+            </div>
+            <p class="text-secondary small mb-0">Hver gruppe sier hvilken kopi den beholder og hvorfor. Sammenlign like bilder side om side, velg «Behold denne i stedet», eller bruk én regel på alle grupper samtidig.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="ko-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">Rydd opp, og angre om du vil</h3>
+            </div>
+            <p class="text-secondary small mb-0">Se hvor mange filer, hvor mye plass og hvor de havner. Filene går til papirkurven, og hvilken som helst av dine siste 20 oppryddinger kan angres.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ko-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Last ned fra</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="ko-price mb-0"><a class="ko-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Gratis nedlasting</a><span>Engangskjøp, ingen abonnement</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i> Pris</span>
+        <h2 class="display-5 fw-bold text-white">Gratis å prøve, ett kjøp låser opp</h2>
+        <p class="text-secondary fs-5 mb-0">Skann alle stasjonene dine og se nøyaktig hvor mye plass duplikater tar, uten å betale noe.</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 ko-plan ko-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">Gratisversjon</h3>
+            <p class="ko-plan-price mb-3">Gratis</p>
+            <div class="ko-quota mb-4">
+              <span class="ko-quota-num">100</span>
+              <span class="ko-quota-label">filer eller 1 GB fjernet totalt, det som kommer først</span>
+            </div>
+            <ul class="list-unstyled ko-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Skanning, resultater og sammenligning side om side uten grense</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Logg og angre uten grense</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Når du angrer en opprydding, får du filene og plassen tilbake i kvoten din</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Så lenge det er kvote igjen, kan du alltid fjerne én fil uansett størrelse, så du kan prøve med en stor video</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Last ned fra</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 ko-plan">
+            <h3 class="h5 text-white fw-bold mb-1">KeepOne, låst opp <span class="badge rounded-pill ko-plan-opt align-middle ms-1">Engangskjøp</span></h3>
+            <p class="ko-plan-price ko-plan-price-sm mb-3">Ett kjøp i appen</p>
+            <div class="ko-quota ko-quota-pro mb-4">
+              <span class="ko-quota-num"><i class="bi bi-infinity" aria-hidden="true"></i></span>
+              <span class="ko-quota-label">Fjern uten grenser</span>
+            </div>
+            <ul class="list-unstyled ko-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ingen abonnement</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Håndteres av Microsoft Store, så det følger Microsoft-kontoen din</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Støtter Dhinovatechs videre utvikling av KeepOne</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-2 ko-narrow">Skanning, resultater, sammenligning side om side, historikk og angre er aldri begrenset. Gratisversjonen fjerner opptil 100 filer eller 1 GB totalt, det som nås først, så du selv kan se at fjerning og angre er trygt. For å fjerne uten grense låser du opp KeepOne én gang med et kjøp i appen. Det er ikke noe abonnement.</p>
+      <p class="text-secondary small text-center mx-auto mb-0 ko-narrow">KeepOne oppgir gratisgrensen på første skjerm, før du skanner. Prisen for oppgraderingen vises i appen, i din egen valuta.</p>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> Funksjoner</span>
+        <h2 class="display-5 fw-bold text-white">Laget for store samlinger</h2>
+        
+      </div>
+      <div class="row g-4 mb-5">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ko-icon-box ko-icon-box-sm"><i class="bi bi-chat-square-text" aria-hidden="true"></i></span>
+              <h3 class="ko-block-h text-white fw-bold mb-0">Tydelig i hvert steg</h3>
+            </div>
+            <ul class="list-unstyled ko-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hver gruppe viser hvilken kopi som beholdes og hvorfor, for eksempel «Beholdt: høyeste oppløsning, eldste kopi». Klikk på en annen kopi for å beholde den i stedet.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Valg med ett klikk: behold den nyeste kopien, kopien med høyest oppløsning eller kopien i en mappe du velger.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Filtrer på bilder, videoer, dokumenter eller mapper, og søk etter bane.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Før noe skjer, forteller KeepOne nøyaktig hvor mange filer, hvor mye plass og hvor de havner.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Skanninger kjører i bakgrunnen og kan settes på pause. Lukkes KeepOne eller startes PC-en på nytt, fortsetter skanningen der den slapp.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ko-icon-box ko-icon-box-sm"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
+              <h3 class="ko-block-h text-white fw-bold mb-0">Rask med hundretusenvis av filer</h3>
+            </div>
+            <ul class="list-unstyled ko-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Skann mapper eller hele stasjoner, også eksterne, med mapper som hoppes over.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Filer sammenlignes først etter størrelse, så med en rask kontroll; bare reelle kandidater leses i sin helhet.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Raskere andre gang: KeepOne husker hva det allerede har kontrollert.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Bruk PC-en mens det skannes, og sett på pause eller fortsett når du vil.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hvis KeepOne lukkes eller PC-en starter på nytt midt i en skanning, tilbyr det å fortsette der det slapp.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ko-icon-box ko-icon-box-sm"><i class="bi bi-incognito" aria-hidden="true"></i></span>
+              <h3 class="ko-block-h text-white fw-bold mb-0">Privat fra grunnen av</h3>
+            </div>
+            <p class="text-secondary small mb-3">Ingen konto, ingen pålogging, ingen reklame, ingen sporing, ingen telemetri. KeepOne oppretter ingen nettverkstilkoblinger: filnavn, bilder og resultater forlater aldri PC-en din.</p>
+            <a class="small" href="/KeepOne/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Privacy Policy</a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ko-icon-box ko-icon-box-sm"><i class="bi bi-windows" aria-hidden="true"></i></span>
+              <h3 class="ko-block-h text-white fw-bold mb-0">Laget for Windows</h3>
+            </div>
+            <ul class="list-unstyled ko-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Windows 10 (versjon 2004 eller nyere) og Windows 11</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>x64- og ARM64-PC-er, også bærbare med Windows on Arm</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Lyst og mørkt tema som følger Windows-innstillingen din</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>23 språk, blant annet arabisk og hebraisk (fra høyre mot venstre)</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Installeres fra Microsoft Store, så Windows tar seg av oppdateringer og avinstallering</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h3 class="h5 text-white fw-bold mb-4">Alle funksjoner</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled ko-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Finn dupliserte bilder: nøyaktige kopier, uansett navn eller mappe</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Finn like bilder: forminskede, komprimerte, redigerte og roterte kopier side om side</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Finn dupliserte videoer</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Finn dupliserte filer: dokumenter, arkiver, musikk og alle andre filer</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Finn dupliserte mapper: en kopiert mappe er én avgjørelse</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hvert nøyaktige duplikat bekreftet byte for byte</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Fjernede filer går til papirkurven og slettes aldri permanent</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Angre hvilken som helst av dine siste 20 oppryddinger med ett klikk</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hver gruppe beholder alltid minst én kopi</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>En tydelig begrunnelse for hver kopi som beholdes</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled ko-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Behold med ett klikk den nyeste kopien, høyeste oppløsning eller kopien i favorittmappen</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Nøyaktige tall før noe skjer</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hver fil sjekkes på nytt rett før den flyttes</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pause, gjenoppta og fortsett etter omstart</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Filtrer på bilder, videoer, dokumenter eller mapper</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>HEIC, RAW, JPEG, PNG, WEBP og mer</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Rører aldri Windows- eller programmapper eller filer som bare ligger i skyen</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Håndterer svært lange baner og harde koblinger riktig</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ingen reklame, ingen konto, ingen sporing: ingenting forlater PC-en</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Lyst og mørkt tema, 23 språk</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ko-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> Spørsmål</span>
+        <h2 class="display-5 fw-bold text-white">Vanlige spørsmål</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="keeponeFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Er KeepOne gratis?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. KeepOne er en gratis nedlasting fra Microsoft Store. Skanning, resultater, sammenligning side om side, logg og angre har ingen grense. Gratisversjonen fjerner opptil 100 filer eller 1 GB totalt, det som kommer først, og ett kjøp i appen fjerner grensen for godt. Det er ingen abonnement.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Sletter KeepOne filene mine permanent?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nei. Fjernede filer går til papirkurven, eller til KeepOnes karantenemappe når papirkurven ikke kan ta imot dem, og hvilken som helst av dine siste 20 oppryddinger kan angres med én knapp. Filene kommer tilbake nøyaktig der de var, med de opprinnelige navnene.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Hvordan vet KeepOne at to filer er duplikater?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Det sammenligner hele innholdet i hver kandidat, byte for byte. Filer som bare har navn, størrelse eller dato felles, grupperes aldri. For å være raskt sammenligner det først størrelsen, så gjør det en rask kontroll, og bare reelle kandidater leses i sin helhet.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Finner det også like bilder, ikke bare identiske?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. KeepOne sammenligner hvordan bildene faktisk ser ut, så nedskalerte, komprimert på nytt, lagret på nytt, redigerte og roterte kopier grupperes, også kopier lagret fra chatteapper. Du velger hvor strengt: svært streng, streng (anbefalt) eller løs.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Merker det like bilder automatisk?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nei. Like bilder vises side om side slik at du kan sammenligne dem. Bare nøyaktige kopier av bildet du beholder, merkes for deg; resten er alltid ditt valg.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Finner KeepOne dupliserte mapper og videoer?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. En mappe kopiert som sikkerhetskopi vises som én beslutning i stedet for hundrevis av filer, og en mappe der alle filene finnes i en annen mappe, blir også funnet. Videoer lagret mer enn én gang blir funnet, også kopier som ikke er identiske byte for byte, men har samme lengde og innhold. Ingenting i de gruppene merkes før du velger.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Fungerer det med OneDrive?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Nedlastede filer skannes som alle andre. Filer som bare finnes i skyen, hoppes over og lastes aldri ned, så en skanning utløser aldri en flom av nedlastinger.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Er det trygt å skanne en hel stasjon?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Windows, Program Files, ProgramData, AppData og andre systemplasseringer røres aldri, og KeepOne leser ingenting utenfor mappene du velger. Koblingspunkter og symbolske koblinger følges aldri, og harde koblinger telles som én fil.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Hva om en fil endres mellom skanningen og oppryddingen?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Rett før hver fil flyttes, leser KeepOne størrelsen, datoen og hele innholdet på nytt og kontrollerer at kopien som beholdes, fortsatt er der og uendret. Har noe endret seg, blir filen liggende, og KeepOne forteller deg hvorfor.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Laster KeepOne opp filene mine eller krever det en konto?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nei. Det er ingen konto, ingen pålogging, ingen reklame og ingen telemetri, og KeepOne oppretter ingen nettverkstilkoblinger på egen hånd. Filnavn, bilder og resultater blir på PC-en din.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Hvilke bildeformater leser KeepOne?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  HEIC, RAW, JPEG, PNG, WEBP og mange andre formater, via bildestøtten som er innebygd i Windows. Nøyaktige duplikater finnes for alle filtyper: dokumenter, regneark, musikk, arkiver, installasjonsprogrammer, bilder og videoer.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Hva trenger jeg for å bruke KeepOne?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#keeponeFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Windows 10 (versjon 2004 eller nyere) eller Windows 11 på en x64- eller ARM64-PC. KeepOne installeres og oppdateres via Microsoft Store og finnes på 23 språk.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(30,107,255,0.16) 0%, rgba(34,211,238,0.08) 100%);">
+        <div class="ko-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" class="w-100 h-100 object-fit-cover rounded-4" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">Fjern dupliserte bilder og filer trygt.</h2>
+          <p class="text-secondary fs-5 mb-4">Bilder kopiert fra flere telefoner, den samme videoen lagret fra en chat og i Nedlastinger, en mappe kopiert som rask sikkerhetskopi, den samme PDF-en lastet ned tre ganger: etter noen år er gigabyte på hver PC kopier. KeepOne finner dem, viser deg hvilken kopi som beholdes og hvorfor, og fjerner resten først når du sier det.</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Last ned fra</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="ko-price mt-3 mb-0 justify-content-center"><a class="ko-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Gratis nedlasting</a><span>Engangskjøp, ingen abonnement</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link"><i class="bi bi-images me-1" aria-hidden="true"></i> Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link text-primary fw-semibold"><i class="bi bi-intersect me-1" aria-hidden="true"></i> KeepOne Duplicate Finder</a></li>
+            <li><a href="/nudge/" class="footer-link"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link"><i class="bi bi-calculator text-primary me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/KeepOne/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>KeepOne Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="KeepOne">
+  <img src="/assets/images/keepone-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">KeepOne</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9PP2PKFG978L?ocid=dhinovatech_KeepOne&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Installer</a>
+</div>
+<button type="button" class="to-top" aria-label="Til toppen" title="Til toppen">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

@@ -105,6 +105,12 @@ APPS = {
     icon="/assets/images/nudge-icon.png",
     og="/assets/images/nudge-og.png", ogw=1200, ogh=630,
     ogalt="Nudge - private offline journal and diary for Windows", large=True),
+ 'KeepOne': dict(
+    name="KeepOne: Duplicate Photo & File Finder", os="Windows", cat="UtilitiesApplication",
+    store="https://apps.microsoft.com/detail/9PP2PKFG978L",
+    icon="/assets/images/keepone-icon.png",
+    og="/assets/images/keepone-og.png", ogw=1200, ogh=630,
+    ogalt="KeepOne - duplicate photo and file finder for Windows", large=True),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",
@@ -112,6 +118,12 @@ APPS = {
     og="/assets/images/aes-vault-icon.png", ogw=300, ogh=300,
     ogalt="AES Vault file and folder encryption icon", large=False),
 }
+
+# Every app the home page shows, for its ItemList. GlowCompare for Windows
+# builds its own head (SELF_MANAGED), so it is not in APPS, but it is one of
+# the released apps and belongs in the list.
+HOME_APPS = [(k, v['name']) for k, v in APPS.items()]
+HOME_APPS.insert(1, ('glowcompare-windows', "GlowCompare for Windows"))
 
 # Store screenshots, for SoftwareApplication.screenshot. Only listed where the
 # images genuinely exist - an app with no screenshots gets no screenshot field
@@ -373,8 +385,8 @@ def seo_block(p, locales, skip=frozenset()):
                       "name": "Dhinovatech", "publisher": {"@id": ORG}, "inLanguage": "en"})
         graph.append({"@type": "ItemList", "name": "Dhinovatech Applications",
             "itemListElement": [{"@type": "ListItem", "position": i + 1,
-                                 "name": v['name'], "url": f"{SITE}/{k}/"}
-                                for i, (k, v) in enumerate(APPS.items())]})
+                                 "name": name, "url": f"{SITE}/{k}/"}
+                                for i, (k, name) in enumerate(HOME_APPS)]})
     else:
         graph.append({"@type": "Organization", "@id": ORG,
                       "name": "Dhinovatech", "url": SITE + "/"})

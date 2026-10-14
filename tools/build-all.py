@@ -30,6 +30,7 @@ STEPS = [
     ("build-stow.py",                "regenerate the Stow tree"),
     ("build-smart-photos.py",        "regenerate the Smart Photos tree"),
     ("build-nudge.py",               "regenerate the Nudge offline journal tree"),
+    ("build-keepone.py",             "regenerate the KeepOne duplicate finder tree"),
     ("build-privacy.py",             "regenerate policy pages"),
     # 2. section injectors
     ("build-ai-chat-section.py",     "GlowCompare AI chat section"),

@@ -48,6 +48,10 @@ APPS = {
     store="https://apps.microsoft.com/detail/9N1J0MC0V89G", kind='ms'),
  'nudge': dict(name="Nudge", icon="/assets/images/nudge-icon.png",
     store="https://apps.microsoft.com/detail/9MV92P7RLDGB", kind='ms'),
+ # Mixed-case folder: /KeepOne/privacy.html was published first (see
+ # tools/build-keepone.py), and the key has to match the path segment.
+ 'KeepOne': dict(name="KeepOne", icon="/assets/images/keepone-icon.png",
+    store="https://apps.microsoft.com/detail/9PP2PKFG978L", kind='ms'),
  'aes-vault': dict(name="AES Vault", icon="/assets/images/aes-vault-icon.png",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ", kind='ms'),
 }
