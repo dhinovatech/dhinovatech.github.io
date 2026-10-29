@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support | Steptell</title>
+  <meta name="description" content="Help for Steptell: Step Recorder &amp; Guide Maker. Getting started, frequently asked questions, keyboard shortcuts and how to contact Dhinovatech.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/css/legal.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <!-- BEGIN generated SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/steptell/support.html">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Support | Steptell">
+  <meta property="og:description" content="Help for Steptell: Step Recorder &amp;amp; Guide Maker. Getting started, frequently asked questions, keyboard shortcuts and how to contact Dhinovatech.">
+  <meta property="og:url" content="https://www.dhinovatech.com/steptell/support.html">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/dhinovatech-hero.jpg">
+  <meta property="og:image:width" content="1376">
+  <meta property="og:image:height" content="768">
+  <meta property="og:image:alt" content="Dhinovatech privacy-first apps for Android and Windows">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Support | Steptell">
+  <meta name="twitter:description" content="Help for Steptell: Step Recorder &amp;amp; Guide Maker. Getting started, frequently asked questions, keyboard shortcuts and how to contact Dhinovatech.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/dhinovatech-hero.jpg">
+  <meta name="twitter:image:alt" content="Dhinovatech privacy-first apps for Android and Windows">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Support","item":"https://www.dhinovatech.com/steptell/support.html"}]}]}
+  </script>
+  <!-- END generated SEO block -->
+  <!-- BEGIN generated resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END generated resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<main id="main" class="page">
+
+    <header class="header">
+      <a href="/">&larr; Dhinova Tech</a>
+      <h1>Steptell Support</h1>
+      <p class="subtitle">Help for Steptell: Step Recorder &amp; Guide Maker, by Dhinovatech.</p>
+    </header>
+
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#getting-started">Getting started</a></li>
+        <li><a href="#faq">Frequently asked questions</a></li>
+        <li><a href="#shortcuts">Keyboard shortcuts</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="getting-started">
+      <h2>1. Getting started</h2>
+      <ol>
+        <li>Open Steptell and accept the short privacy screen.</li>
+        <li>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> (or <strong>New recording</strong>), do the task, then press the hotkey again.</li>
+        <li>Edit the steps, then choose <strong>Export</strong> to save Word, PDF, HTML, PowerPoint and more.</li>
+      </ol>
+      <p>To send a problem to IT, choose <strong>Report a problem</strong>, show what goes wrong, stop, and save the ZIP file.</p>
+    </section>
+
+    <section class="section" id="faq">
+      <h2>2. Frequently asked questions</h2>
+      <details><summary>Does Steptell record what I type?</summary>
+      <p>No. Character keys are dropped the moment they are pressed, and steps say "Type in the Name box" without the text. Shortcuts such as Ctrl+S are recorded because they are part of the instructions. If you want steps such as <em>Type "printer" in the Search box</em>, turn on <strong>Settings &gt; Privacy &gt; Include what I type</strong>: Steptell then reads the short text from the field after you finish typing. Passwords and anything that looks like personal information are never included.</p></details>
+      <details><summary>Does Steptell send anything over the internet?</summary>
+      <p>No. Steptell has no server, account or telemetry and works fully offline. Only files you export or share leave your PC.</p></details>
+      <details><summary>Can I open my old Steps Recorder files?</summary>
+      <p>Yes. Drag a Steps Recorder ZIP or MHT file onto Steptell, or choose <strong>Add &gt; Open or import files</strong>. You get an editable guide with every screenshot.</p></details>
+      <details><summary>Why do some steps say "Click here"?</summary>
+      <p>Some apps do not tell Windows the names of their buttons. Steptell marks the click on the screenshot instead. You can edit the step text at any time.</p></details>
+      <details><summary>How does Steptell describe Windows itself?</summary>
+      <p>In plain words, the way you would explain it: "Open the Start menu", "Click the search box in the Start menu", "Open Quick Settings", "Turn on Bluetooth in Settings", "Go to Documents in File Explorer", "Select 20 in the calendar". Windows shortcuts say what they do, for example "Press Windows + E to open File Explorer". This works on Windows 10 and Windows 11, in every language Steptell supports.</p></details>
+      <details><summary>A step says the app runs as administrator.</summary>
+      <p>Windows does not let normal apps read the buttons of apps that run as administrator. Steptell still takes the screenshot. To get full step text, choose <strong>Restart as administrator</strong> when Steptell offers it (your organisation may turn this off).</p></details>
+      <details><summary>How do I hide passwords and personal information?</summary>
+      <p>Password boxes are blurred automatically. Steptell also finds email addresses, phone numbers, card numbers and similar items in screenshots; the privacy check before export lists them with a one-click <strong>Blur all</strong>. You can blur, pixelate or cover any area yourself in the editor.</p></details>
+      <details><summary>Can I move the "Created with Steptell" label?</summary>
+      <p>Yes. In the export dialog (or <strong>Settings &gt; Branding</strong>) choose <strong>Label position</strong>: top or bottom, left, centre or right. Automatic puts it in the bottom corner. The label always moves aside if it would cover the click or your notes.</p></details>
+      <details><summary>What does Steptell Pro do?</summary>
+      <p>Every feature is free. Free exports show a small "Created with Steptell by dhinovatech.com" label on each image. Pro is a one-time purchase that removes the label or replaces it with your own logo.</p>
+      <p>Need it for one job? A 24-hour pass removes the label from everything you export for 24 hours. Files you export during the pass stay label-free. You can buy Pro for life at any time.</p></details>
+      <details><summary>I bought Pro but still see the label.</summary>
+      <p>Open <strong>Settings &gt; Steptell Pro &gt; Restore purchase</strong>. Make sure you are signed in to the Microsoft Store with the account you bought it with.</p></details>
+      <details><summary>My narrated video has no voice.</summary>
+      <p>Narration uses the voices installed in Windows. The export dialog says which chosen languages have no voice; those videos get captions only. Add a voice in <strong>Windows Settings &gt; Time &amp; language &gt; Speech</strong>, then export again.</p></details>
+      <details><summary>Can I add steps to a guide I already made?</summary>
+      <p>Yes. In the editor choose <strong>Insert &gt; Record steps here</strong> (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd>). When you stop recording, the new steps go in after the selected step.</p></details>
+      <details><summary>How many screenshots can a recording have?</summary>
+      <p>25 by default, like Steps Recorder. Change it in <strong>Settings &gt; Recording</strong> to any number up to 999, or no limit.</p></details>
+      <details><summary>How do I move my guides to another PC?</summary>
+      <p>Use <strong>Settings &gt; Library &gt; Back up</strong> to create one password-protected file, then <strong>Restore from backup</strong> on the other PC. Single guides can be exported as .steptell files.</p></details>
+      <details><summary>What happens when I uninstall Steptell?</summary>
+      <p>Windows deletes Steptell's library, including your guides. Files you exported stay. Back up first if you want to keep your guides.</p></details>
+      <details><summary>Can my company deploy and configure Steptell?</summary>
+      <p>Yes: through Intune or Company Portal, with Group Policy/ADMX settings and organisation licences. Ask Dhinovatech for the IT kit.</p></details>
+    </section>
+
+    <section class="section" id="shortcuts">
+      <h2>3. Keyboard shortcuts</h2>
+      <ul>
+        <li>Start or stop recording: <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd></li>
+        <li>Pause or resume, add a comment, capture now: see <strong>Settings &gt; Hotkeys</strong> (all can be changed).</li>
+        <li>In the editor: <kbd>Ctrl</kbd> + <kbd>Z</kbd> undo, <kbd>Ctrl</kbd> + <kbd>Y</kbd> redo, <kbd>Ctrl</kbd> + <kbd>F</kbd> find and replace, <kbd>Ctrl</kbd> + <kbd>E</kbd> export, <kbd>Ctrl</kbd> + <kbd>P</kbd> print, <kbd>F5</kbd> slideshow, <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> all commands with their shortcuts.</li>
+        <li>On a screenshot: press a tool's letter (A arrow, R rectangle, B blur…), then <kbd>Enter</kbd> to place it; arrow keys move it, <kbd>Ctrl</kbd> + arrow keys resize it, <kbd>Tab</kbd> moves between shapes, <kbd>Delete</kbd> removes one.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>4. Contact</h2>
+      <p>Still stuck? Email <a href="mailto:dhinovatech@gmail.com">dhinovatech@gmail.com</a>. Please include your Windows version and, for a problem with a recording, a problem report made with Steptell.</p>
+      <p>Steptell is not affiliated with Microsoft.</p>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 Dhinova Tech. All rights reserved.</p>
+      <p>
+        <a href="/">Home</a> &middot;
+        <a href="/steptell/privacy.html">Steptell privacy policy</a> &middot;
+        <a href="/privacy.html">Website privacy</a> &middot;
+        <a href="/terms.html">Terms</a> &middot;
+        <a href="mailto:dhinovatech@gmail.com">Contact</a>
+      </p>
+    </footer>
+
+  </main>
+<!-- BEGIN generated UX block -->
+<button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>
