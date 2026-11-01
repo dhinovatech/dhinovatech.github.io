@@ -72,6 +72,9 @@ SPEC = {
     # KeepOne's icon, copied from the app repo by tools/build-keepone-shots.py;
     # the largest render is the 90px final CTA.
     "keepone-icon.png":                   dict(max_dim=256,  webp=True,  q=90, keep=True),
+    # Steptell's icon (transparent corners), copied from the app repo by
+    # tools/build-steptell-shots.py; the largest render is the 90px final CTA.
+    "steptell-icon.png":                  dict(max_dim=256,  webp=True,  q=90, keep=True),
 
     # hero / preview art. og:image wants >=1200px on the long edge, so the
     # JPEG fallback is not downscaled below that.
@@ -92,6 +95,8 @@ SPEC = {
     "nudge-og.png":                       dict(max_dim=1200, webp=False),
     # Drawn by tools/build-keepone-shots.py, for the same reason.
     "keepone-og.png":                     dict(max_dim=1200, webp=False),
+    # Drawn by tools/build-steptell-shots.py, for the same reason.
+    "steptell-og.png":                    dict(max_dim=1200, webp=False),
 
     # store screenshots render at roughly 300 CSS px wide
     "glowcompare-screenshot-1.png":       dict(max_dim=592,  webp=True,  q=86, keep=False),

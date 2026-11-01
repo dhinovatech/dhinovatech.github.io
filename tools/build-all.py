@@ -31,11 +31,12 @@ STEPS = [
     ("build-smart-photos.py",        "regenerate the Smart Photos tree"),
     ("build-nudge.py",               "regenerate the Nudge offline journal tree"),
     ("build-keepone.py",             "regenerate the KeepOne duplicate finder tree"),
+    ("build-steptell.py",            "regenerate the Steptell steps recorder tree"),
     ("build-privacy.py",             "regenerate policy pages"),
     # 2. section injectors
     ("build-ai-chat-section.py",     "GlowCompare AI chat section"),
     ("build-footer.py",              "footer app + legal columns"),
-    ("build-nav-apps.py",            "Smart Photos in every Our Apps menu"),
+    ("build-nav-apps.py",            "Smart Photos, KeepOne, Steptell in Our Apps"),
     ("build-contact.py",             "contact form (off until an endpoint is set)"),
     # 3. cross-cutting
     ("build-images.py",              "optimise images, rewrite <img>"),

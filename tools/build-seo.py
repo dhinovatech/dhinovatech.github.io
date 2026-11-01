@@ -111,6 +111,12 @@ APPS = {
     icon="/assets/images/keepone-icon.png",
     og="/assets/images/keepone-og.png", ogw=1200, ogh=630,
     ogalt="KeepOne - duplicate photo and file finder for Windows", large=True),
+ 'steptell': dict(
+    name="Steptell: Steps Recorder & Guide Maker", os="Windows", cat="BusinessApplication",
+    store="https://apps.microsoft.com/detail/9MWWT8XPVF5K",
+    icon="/assets/images/steptell-icon.png",
+    og="/assets/images/steptell-og.png", ogw=1200, ogh=630,
+    ogalt="Steptell - steps recorder and how-to guide maker for Windows", large=True),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",

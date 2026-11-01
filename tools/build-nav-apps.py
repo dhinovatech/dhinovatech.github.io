@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Put Smart Photos and KeepOne, each with its language submenu, at the top of
-the "Our Apps" menu on every page.
+Put Smart Photos, KeepOne and Steptell, each with its language submenu, at
+the top of the "Our Apps" menu on every page.
 
 The navbar is written separately by each generator and by hand on the older
 pages, so there is no single template to add a new app to. This pass inserts
@@ -12,10 +12,11 @@ from the pages that actually exist. The Smart Photos tree writes its own
 menu and is left alone.
 
 KeepOne gets the same treatment, listed right after Smart Photos, from
-tools/build-keepone.py; its own tree writes its own entry and is left alone.
+tools/build-keepone.py, and Steptell after KeepOne, from
+tools/build-steptell.py; each tree writes its own entry and is left alone.
 
 Each entry sits between BEGIN/END markers and is replaced wholesale on each
-run, so adding a locale to either builder updates every menu.
+run, so adding a locale to any of the builders updates every menu.
 
 Run it after the page generators - build-all.py does - or a regenerated page
 loses the entry until the next run.
@@ -42,15 +43,19 @@ def _module(name, script):
 
 SP = _module("build_smart_photos", "build-smart-photos.py")
 KO = _module("build_keepone", "build-keepone.py")
+ST = _module("build_steptell", "build-steptell.py")
 
 BEGIN = "<!-- BEGIN Smart Photos menu -->"
 END = "<!-- END Smart Photos menu -->"
 KO_BEGIN = "<!-- BEGIN KeepOne menu -->"
 KO_END = "<!-- END KeepOne menu -->"
+ST_BEGIN = "<!-- BEGIN Steptell menu -->"
+ST_END = "<!-- END Steptell menu -->"
 
 MENU_OPEN = re.compile(r'<ul[^>]*aria-labelledby="appsDropdown"[^>]*>')
 BLOCK = re.compile(r'\n?[ \t]*' + re.escape(BEGIN) + r'.*?' + re.escape(END), re.S)
 KO_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(KO_BEGIN) + r'.*?' + re.escape(KO_END), re.S)
+ST_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(ST_BEGIN) + r'.*?' + re.escape(ST_END), re.S)
 # The plain one-line entry earlier versions of this script inserted.
 LEGACY = re.compile(r'\n?[ \t]*<li><a class="dropdown-item py-2" href="/smart-photos/">.*?</a></li>')
 
@@ -97,6 +102,27 @@ def keepone_entry():
               %s""" % (KO_BEGIN, len(langs), len(langs), items, KO_END)
 
 
+def steptell_entry():
+    langs = ST.built_langs()
+    items = "\n".join(
+        '                  <li><a class="dropdown-item py-1 small" href="%s">'
+        '<i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>%s</a></li>'
+        % (ST.url_for(code), html.escape(label))
+        for code, label, _d, _hl, _og in langs)
+    return """
+              %s
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View %d Languages">%d Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+%s
+                </ul>
+              </li>
+              %s""" % (ST_BEGIN, len(langs), len(langs), items, ST_END)
+
+
 def html_files():
     for dirpath, dirnames, filenames in os.walk(ROOT):
         dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
@@ -106,7 +132,7 @@ def html_files():
 
 
 def main():
-    sp_entry, ko_entry = entry(), keepone_entry()
+    sp_entry, ko_entry, st_entry = entry(), keepone_entry(), steptell_entry()
     changed = 0
     for path in html_files():
         top = os.path.relpath(path, ROOT).replace(os.sep, "/").split("/")[0]
@@ -118,16 +144,18 @@ def main():
         head, rest = doc[:m.end()], doc[m.end():]
         rest = BLOCK.sub("", rest, count=1)
         rest = KO_BLOCK.sub("", rest, count=1)
+        rest = ST_BLOCK.sub("", rest, count=1)
         rest = LEGACY.sub("", rest, count=1)
         # Each tree writes its own entry, with its own language submenu.
         new_entry = (("" if top == "smart-photos" else sp_entry) +
-                     ("" if top == "KeepOne" else ko_entry))
+                     ("" if top == "KeepOne" else ko_entry) +
+                     ("" if top == "steptell" else st_entry))
         out = head + new_entry + rest
         if out != doc:
             with open(path, "w", encoding="utf-8", newline="") as fh:
                 fh.write(out)
             changed += 1
-    print("Smart Photos and KeepOne menus written on %d pages" % changed)
+    print("Smart Photos, KeepOne and Steptell menus written on %d pages" % changed)
     return 0
 
 

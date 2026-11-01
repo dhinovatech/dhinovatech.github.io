@@ -346,6 +346,7 @@ FOOTER = """  <footer class="footer-dhin">
           <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
             <li><a href="/smart-photos/" class="footer-link"><i class="bi bi-images me-1" aria-hidden="true"></i> Smart Photos</a></li>
             <li><a href="/KeepOne/" class="footer-link"><i class="bi bi-intersect me-1" aria-hidden="true"></i> KeepOne Duplicate Finder</a></li>
+            <li><a href="/steptell/" class="footer-link"><i class="bi bi-record-circle me-1" aria-hidden="true"></i> Steptell Steps Recorder</a></li>
             <li><a href="/stow/" class="footer-link text-primary fw-semibold"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
             <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
             <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
