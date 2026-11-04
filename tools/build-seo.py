@@ -85,8 +85,8 @@ APPS = {
     name="Mortgage Loan EMI Pro Insights", os="Windows", cat="FinanceApplication",
     store="https://apps.microsoft.com/detail/9PFS2J56BJXR",
     icon="/assets/images/mortgage-emi-icon.png",
-    og="/assets/images/mortgage-emi-icon.png", ogw=300, ogh=300,
-    ogalt="Mortgage Loan EMI Pro Insights icon", large=False),
+    og="/assets/images/mortgage-emi-og.png", ogw=1200, ogh=630,
+    ogalt="Mortgage Loan EMI Pro Insights - free mortgage, EMI and loan calculator for Windows on the Microsoft Store", large=True),
  'stow': dict(
     name="Stow", os="Windows", cat="UtilitiesApplication",
     store="https://apps.microsoft.com/detail/9NHBR7SW2TZ0",

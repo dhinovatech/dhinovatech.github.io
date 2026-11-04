@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>免費房貸計算機 Windows 版:房貸試算與提前還款 | Pro Insights</title>
+  <meta name="description" content="適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #34d399;
+      --dhin-border-glow: rgba(52, 211, 153, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(52, 211, 153, 0.18);
+      --dhin-gradient-primary: linear-gradient(135deg, #34d399 0%, #2563eb 100%);
+      --ml-green: #34d399;
+      --ml-green-solid: #22c55e;
+      --ml-amber: #fbbf24;
+      --ml-ink: #06241a;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 52, 211, 153;
+      --bs-primary-bg-subtle: rgba(52, 211, 153, 0.12);
+      --bs-primary-border-subtle: rgba(52, 211, 153, 0.32);
+      --bs-primary-text-emphasis: #a7f3d0;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(52, 211, 153, 0.24); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(52, 211, 153, 0.38); }
+    .btn-dhin-outline:hover { background: rgba(52, 211, 153, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(19, 80, 158, 0.42) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-blue { box-shadow: 0 0 45px rgba(19, 80, 158, 0.34); }
+    .ml-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(52,211,153,0.16), rgba(37,99,235,0.18));
+      color: var(--ml-green); border: 1px solid rgba(52,211,153,0.3);
+    }
+    .ml-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .ml-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .ml-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(52,211,153,0.16); color: var(--ml-green);
+      border: 1px solid rgba(52,211,153,0.4);
+    }
+
+    /* Hero */
+    .ml-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .ml-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 13px; }
+    .ml-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .ml-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #fde68a; margin-top: .6rem;
+    }
+    .ml-cta-strip .ml-price { margin: 0; }
+    .ml-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .ml-price-tag {
+      background: var(--ml-green-solid); color: var(--ml-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      text-decoration: none; box-shadow: 0 0 18px rgba(34, 197, 94, .32);
+    }
+    .ml-price-tag:hover { color: var(--ml-ink); background: #4ade80; }
+    .ml-window {
+      border-radius: 14px; overflow: hidden; background: #0d2448;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .ml-window img { display: block; width: 100%; height: auto; }
+    .ml-narrow { max-width: 760px; }
+
+    /* The calculator */
+    .ml-calc { border: 1px solid rgba(52,211,153,.28) !important; }
+    .ml-field { margin-bottom: 1.05rem; }
+    .ml-field label { display: block; font-size: .85rem; font-weight: 600; color: #e2e8f0; margin-bottom: .3rem; }
+    .ml-field input[type=number] {
+      width: 100%; background: rgba(255,255,255,.06); color: #fff;
+      border: 1px solid rgba(255,255,255,.16); border-radius: 10px;
+      padding: .5rem .75rem; font-size: 1.02rem; font-weight: 600;
+    }
+    .ml-field input[type=number]:focus { outline: 2px solid var(--ml-green); outline-offset: 1px; border-color: transparent; }
+    .ml-field input[type=range] { width: 100%; margin-top: .45rem; accent-color: var(--ml-green-solid); display: block; }
+    .ml-result { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); border-radius: 14px; padding: .9rem 1.05rem; }
+    .ml-result-label { font-size: .8rem; color: #94a3b8; line-height: 1.3; }
+    .ml-result-value { font-size: clamp(1.25rem, 1rem + 1vw, 1.7rem); font-weight: 800; color: #fff; line-height: 1.2; }
+    .ml-saved { background: rgba(6, 36, 26, .75); border: 2px solid var(--ml-green-solid); box-shadow: 0 0 34px rgba(34, 197, 94, .2); }
+    .ml-saved .ml-result-label { color: #d1fae5; }
+    .ml-saved .ml-result-value { color: #4ade80; font-size: clamp(1.45rem, 1.1rem + 1.4vw, 2.1rem); }
+    /* Dong, rupiah and won run to ten or more digits. */
+    .ml-calc-long .ml-result-value { font-size: clamp(1.02rem, .9rem + .45vw, 1.28rem); }
+    .ml-calc-long .ml-saved .ml-result-value { font-size: clamp(1.1rem, .95rem + .6vw, 1.42rem); }
+
+    /* At a glance */
+    .ml-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .ml-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .ml-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .ml-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ml-green); font-weight: 700; margin-bottom: .3rem; }
+    .ml-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Overview tiles */
+    .ml-chip { font-size: .68rem; font-weight: 800; letter-spacing: .05em; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+    .ml-chip-free { background: var(--ml-green-solid); color: var(--ml-ink); }
+    .ml-chip-pro { background: var(--ml-amber); color: #2b1d00; }
+    .ml-tile-pro { border-color: rgba(251, 191, 36, .42) !important; background: rgba(251, 191, 36, .05) !important; }
+    .ml-tile-pro .ml-icon-box { color: var(--ml-amber); border-color: rgba(251,191,36,.4); background: rgba(251,191,36,.12); }
+
+    /* Screenshots */
+    .ml-shot { overflow: hidden; margin: 0; }
+    .ml-zoom { display: block; cursor: zoom-in; }
+    .ml-zoom img { display: block; width: 100%; height: auto; }
+    .ml-shot .ml-zoom img { border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ml-shot figcaption { padding: 1rem 1.1rem 1.1rem; }
+    .ml-kicker { font-size: .74rem; letter-spacing: .08em; font-weight: 700; color: var(--ml-green); text-transform: uppercase; }
+    .ml-shot-title { font-size: 1.02rem; font-weight: 700; color: #fff; margin: .25rem 0 .6rem; }
+    .ml-shot-pro { border-color: rgba(251,191,36,.42) !important; }
+    .ml-shot-pro .ml-kicker { color: var(--ml-amber); }
+    .ml-row + .ml-row { margin-top: 3.5rem; }
+    @media (min-width: 992px) { .ml-row:nth-child(even) .ml-row-img { order: 2; } }
+    .ml-row-title { font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2.1rem); font-weight: 800; color: #fff; line-height: 1.2; margin: .4rem 0 1rem; }
+    .ml-lightbox { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
+    .ml-lightbox::backdrop { background: rgba(3, 7, 14, .9); }
+    .ml-lightbox img { display: block; max-width: 96vw; max-height: 94vh; width: auto; height: auto; border-radius: 10px; }
+    .ml-lightbox button {
+      position: absolute; top: .6rem; inset-inline-end: .6rem; width: 40px; height: 40px;
+      border-radius: 50%; border: 0; background: rgba(8,12,20,.8); color: #fff; font-size: 1.2rem;
+    }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--ml-green) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--ml-green) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(52, 211, 153, 0.1); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(52, 211, 153, 0.4) !important; }
+    .ml-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .ml-check-list li i { color: var(--ml-green); flex-shrink: 0; margin-top: .1rem; }
+    .ml-term {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .4rem .85rem; border-radius: 999px; font-size: .85rem; font-weight: 600;
+      background: rgba(37,99,235,.14); border: 1px solid rgba(37,99,235,.38); color: #dbe5ff;
+    }
+    .ml-term i { color: var(--ml-green); }
+    .ml-para-h { font-size: .92rem; letter-spacing: .03em; font-weight: 800; color: #fff; margin-bottom: 0; }
+
+    /* Comparison. The wrapper is the containing block for the cells' visually
+       hidden labels: they are absolutely positioned, and would otherwise escape
+       its overflow and make the whole page scroll sideways on a phone. */
+    .table-responsive { position: relative; }
+    .peer-table { font-size: .9rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: middle; }
+    .peer-table td { text-align: center; min-width: 118px; font-size: 1.1rem; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; text-align: center; }
+    .peer-table thead th:first-child { text-align: start; }
+    .peer-table th.ml-col, .peer-table td.ml-col { background: rgba(52, 211, 153, .07); border-left: 1px solid rgba(52,211,153,.25); border-right: 1px solid rgba(52,211,153,.25); }
+    .peer-table thead th.ml-col { color: var(--ml-green); border-top: 2px solid var(--ml-green); }
+    .peer-table tbody th { min-width: 210px; font-weight: 600; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--ml-amber); }
+    .peer-n { color: #f87171; }
+
+    /* Pricing */
+    .ml-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .ml-plan-free { border: 2px solid var(--ml-green-solid) !important; box-shadow: 0 0 40px rgba(34, 197, 94, .14); }
+    .ml-plan-pro { border: 1px solid rgba(251,191,36,.42) !important; }
+    .ml-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--ml-green); overflow-wrap: anywhere; }
+    .ml-plan-price-sm { font-size: 1.5rem; font-weight: 700; color: var(--ml-amber); line-height: 1.25; min-height: 2.86rem; display: flex; align-items: center; }
+    .ml-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(52, 211, 153, 0.08); color: var(--ml-green); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(52, 211, 153, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/">
+  <link rel="alternate" hreflang="hi" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/hi/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/es/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/cs/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/nb/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/ru/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/zh/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/th/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/vi/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/id/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/mortgage-loan-emi-pro/ar/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="免費房貸計算機 Windows 版:房貸試算與提前還款 | Pro Insights">
+  <meta property="og:description" content="適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。">
+  <meta property="og:url" content="https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/mortgage-emi-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mortgage Loan EMI Pro Insights - free mortgage, EMI and loan calculator for Windows on the Microsoft Store">
+  <meta property="og:locale" content="zh_TW">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="hi_IN">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="免費房貸計算機 Windows 版:房貸試算與提前還款 | Pro Insights">
+  <meta name="twitter:description" content="適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/mortgage-emi-og.png">
+  <meta name="twitter:image:alt" content="Mortgage Loan EMI Pro Insights - free mortgage, EMI and loan calculator for Windows on the Microsoft Store">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/mortgage-loan-emi-pro/#software","name":"Mortgage Loan EMI Pro Insights","alternateName":["房貸計算機 Pro Insights","Mortgage Loan EMI Pro Insights Calculator"],"operatingSystem":"Windows 10 version 1809 and later, Windows 11","applicationCategory":"FinanceApplication","applicationSubCategory":"房貸計算機 · 貸款計算機","softwareVersion":"3.0","description":"適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。","abstract":"房貸計算機 Pro Insights 是適用於 Windows 的房貸計算機和貸款計算機，讓您看清貸款的真實成本，以及如何提前數年還清。核心計算機永久免費：無需帳號，沒有廣告，使用次數不限。","keywords":"房貸計算機, 房貸試算, 貸款計算機, 貸款試算, 還款計畫, mortgage calculator, loan calculator","url":"https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/","inLanguage":["en","hi","de","fr","es","it","pt-BR","nl","pl","cs","da","sv","nb","ru","tr","ja","ko","zh-Hans","zh-Hant","th","vi","id","ar"],"image":"https://www.dhinovatech.com/assets/images/mortgage-emi-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9PFS2J56BJXR","installUrl":"https://apps.microsoft.com/detail/9PFS2J56BJXR","featureList":["房貸與貸款計算機：房貸、車貸和信貸，輸入時即可看到還款額、總利息、APR 和還清日期。核心計算機永久免費。","額外還款計算機：每月、每年和一次性提前還款，以及省下的利息和年數。維持還款額提早還清，或降低還款額。","完整還款計畫表：按月或按年列出每筆還款的本金、利息、額外還款和餘額。匯出 CSV 免費。","12 個決策工具：租屋或買房、轉貸、提前還款或投資、能借多少、利率上升怎麼辦等等。","互動式圖表：餘額、還款組成、總成本和房屋權益。全尺寸開啟或存成圖片。","並排比較 3 筆貸款，標出最便宜的一筆，並提供逐年圖表。每種貸款可免費保留 3 個方案。","通膨調整檢視：貸款的實質利率和實質成本，換算成您今天擁有的貨幣。","貼近現實的貸款細節：機動利率、只繳利息、期末大額還款、遞增還款、寬限期、分期撥款、手續費、房屋稅、保險和稅務減免。","隱私優先：無需帳號，沒有廣告，不會上傳任何內容。資料保留在您的電腦上，所有計算都能離線進行。","支援 23 種語言和 28 種貨幣，提供淺色和深色主題。","Pro：我的貸款讓真實貸款與銀行保持一致，提供還款記錄、提醒、對帳、多筆貸款和共同借款人分攤。","Pro：完整 PDF 決策報告、含即時公式的 Excel 活頁簿、不限數量的方案，以及依您的貸款排名的銀行方案。"],"isAccessibleForFree":true,"processorRequirements":"x86, x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9PFS2J56BJXR"},"screenshot":["https://www.dhinovatech.com/assets/images/mortgage/zh-tw/mortgage-emi-calculator.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/loan-calculator.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/extra-payment-calculator.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/loan-charts.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/amortization-schedule.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/compare-loans.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/loan-decision-tools.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/inflation-adjusted-loan-cost.webp","https://www.dhinovatech.com/assets/images/mortgage/zh-tw/my-loans-tracking.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/#webpage","url":"https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/","name":"免費房貸計算機 Windows 版:房貸試算與提前還款 | Pro Insights","description":"適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。","inLanguage":"zh-Hant","dateModified":"2026-11-04","about":{"@id":"https://www.dhinovatech.com/mortgage-loan-emi-pro/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/mortgage-loan-emi-pro/#software"},"primaryImageOfPage":"https://www.dhinovatech.com/assets/images/mortgage/zh-tw/mortgage-emi-calculator.webp"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Mortgage Loan EMI Pro Insights","item":"https://www.dhinovatech.com/mortgage-loan-emi-pro/"},{"@type":"ListItem","position":3,"name":"房貸計算機 Pro Insights","item":"https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/mortgage-loan-emi-pro/zh-tw/#faq","inLanguage":"zh-Hant","mainEntity":[{"@type":"Question","name":"這款房貸計算機真的免費嗎?","acceptedAnswer":{"@type":"Answer","text":"是的。您能計算的一切都免費,不需帳號、沒有廣告、不限使用:每月還款計算機、可匯出 CSV 的完整還款計畫、提前還款、圖表、3 筆貸款比較以及全部 12 種決策工具。Pro 是選用的,增加真實貸款追蹤和進階報告。"}},{"@type":"Question","name":"Pro 增加了什麼?","acceptedAnswer":{"@type":"Answer","text":"含還款紀錄、提醒和銀行對帳單核對的 My Loans 追蹤;多筆貸款以及最省錢的還款順序;共同借款人分攤和年度稅務摘要;完整 PDF 報告、含即時公式的 Excel 活頁簿、不限數量的方案,以及與您的貸款比較排名的貸款機構報價。這是一次性購買,不是訂閱。"}},{"@type":"Question","name":"每月還款是怎麼計算的?","acceptedAnswer":{"@type":"Answer","text":"標準公式是 M = P × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1),其中 M 是每月還款,P 是貸款金額,r 是月利率,n 是還款期數。例如,NT$12,000,000、利率 2.2%、期限 30 年,每月還款為 NT$45,564。應用程式會在您輸入時計算,還能處理費用、機動利率和遞增還款。"}},{"@type":"Question","name":"提前還款能為房貸省多少錢?","acceptedAnswer":{"@type":"Answer","text":"這取決於貸款。NT$12,000,000、利率 2.2%、期限 30 年的貸款,每月多還 NT$9,000 可節省利息 NT$1,026,745,並提前 6 年 6 個月 還清。應用程式會顯示每月、每年和一次性提前還款的結果,並計入提前清償違約金。"}},{"@type":"Question","name":"提前還款後,應該維持還款額還是降低?","acceptedAnswer":{"@type":"Answer","text":"維持還款額、提前還清通常能省更多利息,而降低還款額能讓每月更寬裕。應用程式會同時顯示兩種選擇及各自節省的利息和時間,方便您決定。"}},{"@type":"Question","name":"它能回答租屋還是買房、轉貸、提前還款還是投資嗎?","acceptedAnswer":{"@type":"Answer","text":"可以。12 種決策工具都從您的貸款出發:能借多少、能負擔多少、需要多久、報價的真實利率、指定日期前還清、利率上漲會怎樣、轉貸、提前還款還是投資、租屋還是買房、自備款、賣房以及還款頻率。"}},{"@type":"Question","name":"它支援機動利率、遞增還款和興建中的房屋嗎?","acceptedAnswer":{"@type":"Answer","text":"支援。它支援機動利率和先固定後機動利率、只繳利息期、氣球式還款、遞增和遞減還款、寬限期和分階段撥款,還支援加拿大半年複利和按實際天數計息。"}},{"@type":"Question","name":"通膨對我的貸款成本有什麼影響?","acceptedAnswer":{"@type":"Answer","text":"隨著物價上漲,固定還款會變得越來越輕。應用程式把您的還款額、利率和最後一期還款換算成今天的錢,讓您看到貸款的真實成本。通膨率是您自己設定的假設,不妨試試更高和更低的數值。"}},{"@type":"Question","name":"我的財務資料是私密的嗎?","acceptedAnswer":{"@type":"Answer","text":"您的數字只留在電腦上。沒有帳號、登入和廣告,不上傳任何內容,所有計算都可離線進行。應用程式只會連線到 Microsoft Store,用於核對 Pro 購買。"}},{"@type":"Question","name":"可以匯出到 Excel 或 PDF 嗎?","acceptedAnswer":{"@type":"Answer","text":"完整還款計畫可免費匯出為 CSV,圖表可儲存為圖片,一頁 PDF 預覽也免費。完整 PDF 決策報告和含即時公式的 Excel 活頁簿屬於 Pro。"}},{"@type":"Question","name":"它適用於哪些國家和貨幣?","acceptedAnswer":{"@type":"Answer","text":"任何國家都適用,因為利率和條件由您自己輸入。它提供 23 種語言和 28 種貨幣。"}},{"@type":"Question","name":"我在應用程式免費之前購買過。現在怎麼辦?","acceptedAnswer":{"@type":"Answer","text":"您付費得到的依然屬於您:早期購買者可免費使用 Pro 功能,已儲存的方案也會自動移轉。"}},{"@type":"Question","name":"執行它需要什麼?","acceptedAnswer":{"@type":"Answer","text":"x86、x64 或 ARM64 上的 Windows 10 版本 1809 或更新版本,或 Windows 11。從 Microsoft Store 安裝即可,不需帳號。結果是用於規劃的估算,不構成財務建議,最終數字請向您的貸款機構確認。"}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/mortgage/zh-tw/mortgage-emi-calculator.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<!-- Navigation Bar (independent Mortgage Loan EMI Pro tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - this app owns its own language tree; build-nav-apps.py
+               adds Smart Photos, KeepOne and Steptell above it -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <!-- BEGIN KeepOne menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nb/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END KeepOne menu -->
+              <!-- BEGIN Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/steptell/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh-tw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/mortgage-loan-emi-pro/">
+                  <span><img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Mortgage EMI Pro</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/mortgage-loan-emi-pro/zh-tw/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - this app only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>繁體中文 (Traditional Chinese)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/mortgage-loan-emi-pro/zh-tw/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 從 Microsoft Store 取得
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="ml-hero-icon">
+              <img src="/assets/images/mortgage-emi-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block ml-hero-kind">房貸計算機 · 貸款計算機</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">房貸計算機 Pro Insights</span> <span class="d-block ml-hero-tagline">看清貸款的真實成本。 提前數年還清。</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">取得自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#calculator" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-calculator me-2" aria-hidden="true"></i> 試用計算機
+            </a>
+          </div>
+          <p class="ml-price mt-3 mb-0"><a class="ml-price-tag" href="#pricing"><i class="bi bi-unlock-fill me-1" aria-hidden="true"></i>核心計算機永久免費</a><span>還款計畫 · 圖表 · 工具 · 無需帳號 · 沒有廣告</span></p>
+
+          <div class="ml-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill text-wrap"><i class="bi bi-house-door text-info me-1" aria-hidden="true"></i> 房貸、車貸與信貸</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill text-wrap"><i class="bi bi-table text-success me-1" aria-hidden="true"></i> 完整還款計畫表</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill text-wrap"><i class="bi bi-signpost-split text-warning me-1" aria-hidden="true"></i> 12 個貸款決策工具</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill text-wrap"><i class="bi bi-shield-lock text-success me-1" aria-hidden="true"></i> 100% 私密，可離線使用</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-blue" aria-hidden="true"></div>
+            <div class="ml-window position-relative">
+              <a class="ml-zoom" href="/assets/images/mortgage/zh-tw/mortgage-emi-calculator.webp"><img src="/assets/images/mortgage/zh-tw/mortgage-emi-calculator.webp" alt="房貸與貸款計算機：核心計算機永久免費" fetchpriority="high" decoding="async" width="1200" height="675"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculator -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="calculator">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-calculator me-1" aria-hidden="true"></i> 立即試用</span>
+        <h2 class="display-5 fw-bold text-white">房貸與貸款試算</h2>
+        <p class="text-secondary fs-5 mb-0">修改數字,看看您的每月還款,以及每月多還一點可以省多少。</p>
+      </div>
+      <div class="card card-glass ml-calc p-4 p-lg-5 shadow-lg mx-auto" style="max-width: 1040px;"
+           data-mortgage-calc data-locale="zh-TW" data-currency="TWD" data-time="{0} 年 {1} 個月" data-term="{&quot;years&quot;:{},&quot;months&quot;:{},&quot;join&quot;:&quot;{0} {1}&quot;}">
+        <div class="row g-4 g-lg-5">
+          <div class="col-lg-6">
+            <div class="ml-field">
+              <label for="ml-amount">貸款金額</label>
+              <input type="number" id="ml-amount" data-calc="amount" value="12000000" min="1200000" max="48000000" step="120000" inputmode="decimal">
+              <input type="range" data-calc-range="amount" value="12000000" min="1200000" max="48000000" step="120000" aria-label="貸款金額" tabindex="-1">
+            </div>
+            <div class="ml-field">
+              <label for="ml-rate">利率（%）</label>
+              <input type="number" id="ml-rate" data-calc="rate" value="2.2" min="0.1" max="20" step="0.05" inputmode="decimal">
+              <input type="range" data-calc-range="rate" value="2.2" min="0.1" max="20" step="0.05" aria-label="利率（%）" tabindex="-1">
+            </div>
+            <div class="ml-field">
+              <label for="ml-years">期限（年）</label>
+              <input type="number" id="ml-years" data-calc="years" value="30" min="1" max="40" step="1" inputmode="decimal">
+              <input type="range" data-calc-range="years" value="30" min="1" max="40" step="1" aria-label="期限（年）" tabindex="-1">
+            </div>
+            <div class="ml-field">
+              <label for="ml-extra">每月額外還款</label>
+              <input type="number" id="ml-extra" data-calc="extra" value="9000" min="0" max="90000" step="900" inputmode="decimal">
+              <input type="range" data-calc-range="extra" value="9000" min="0" max="90000" step="900" aria-label="每月額外還款" tabindex="-1">
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="row g-3" aria-live="polite">
+              <div class="col-sm-6">
+                <div class="ml-result h-100">
+                  <div class="ml-result-label">每月還款</div>
+                  <div class="ml-result-value" data-out="payment">NT$45,564</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="ml-result h-100">
+                  <div class="ml-result-label">總利息</div>
+                  <div class="ml-result-value" data-out="interest">NT$4,403,076</div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="ml-result ml-saved">
+                  <div class="row g-2">
+                    <div class="col-sm-6">
+                      <div class="ml-result-label">節省的利息</div>
+                      <div class="ml-result-value" data-out="saved">NT$1,026,745</div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="ml-result-label">節省的時間</div>
+                      <div class="ml-result-value" data-out="time">6 年 6 個月</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="text-secondary small mt-4 mb-3">這是最簡單的情況。免費的 Windows 應用程式還提供完整還款計畫、圖表、費用與房屋開支、機動利率以及 12 種決策工具。</p>
+            <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">取得自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p class="extra-small text-secondary text-center mt-3 mb-0 mx-auto ml-narrow">結果僅為規劃和學習用途的估算，不構成財務建議。請與您的貸款機構確認最終數字。</p>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>概覽</h2>
+          <p class="ml-glance-def mb-4">房貸計算機 Pro Insights 是適用於 Windows 的房貸計算機和貸款計算機，讓您看清貸款的真實成本，以及如何提前數年還清。核心計算機永久免費：無需帳號，沒有廣告，使用次數不限。</p>
+          <dl class="ml-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="ml-fact"><dt>這是什麼</dt><dd>Windows 版房貸與貸款計算機,提供完整還款計畫、圖表和 12 種決策工具。</dd></div>
+            <div class="ml-fact"><dt>價格</dt><dd>核心計算機免費,且不限使用次數。Pro 是選用的一次性購買,不是訂閱。</dd></div>
+            <div class="ml-fact"><dt>貸款類型</dt><dd>房貸、車貸和信用貸款。</dd></div>
+            <div class="ml-fact"><dt>還款方式</dt><dd>每月、雙週、加速雙週、每週和每季。</dd></div>
+            <div class="ml-fact"><dt>匯出</dt><dd>CSV 和圖表圖片免費。完整 PDF 報告和含即時公式的 Excel 活頁簿屬於 Pro。</dd></div>
+            <div class="ml-fact"><dt>隱私</dt><dd>不需帳號、沒有廣告、不上傳任何內容。所有計算都可離線進行。</dd></div>
+            <div class="ml-fact"><dt>語言</dt><dd>23 種語言和 28 種貨幣。</dd></div>
+            <div class="ml-fact"><dt>系統需求</dt><dd>Windows 10 版本 1809 或更新版本,或 Windows 11。x86、x64 和 ARM64。</dd></div>
+            <div class="ml-fact"><dt>取得方式</dt><dd>Microsoft Store,產品 ID 9PFS2J56BJXR。</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> 核心計算機永久免費</span>
+        <h2 class="display-5 fw-bold text-white">凡是能計算的，全部免費</h2>
+        <p class="text-secondary fs-5 mb-0">沒有鎖定的計算機，也沒有使用限制。Pro 只用於追蹤真實貸款和進階報告。</p>
+      </div>
+      <div class="row g-3 g-md-4 justify-content-center">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-calculator" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">房貸、車貸與信貸試算</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">還款額、總利息、真實成本（APR）和還清日期，輸入時即時更新。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-piggy-bank" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">額外還款的節省</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">每月、每年或一次性提前還款，以及省下的利息和年數。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-table" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">完整還款計畫表</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">每一筆還款，可按月或按年檢視。可匯出 CSV。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-graph-up-arrow" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">互動式圖表</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">餘額、權益、利息和總成本。任何圖表都能存成圖片。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-layout-three-columns" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">比較 3 筆貸款</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">並排比較並標出最便宜的一筆。每種貸款可保留 3 個方案。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-signpost-split" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">12 個決策工具</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">租屋或買房、轉貸、提前還款或投資、負擔能力等。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-cash-coin" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">通膨：今日貨幣</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">物價上漲後貸款的真實成本。很少有計算機能顯示這一點。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-bank" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">貼近現實的細節</h3>
+              <span class="ml-chip ml-chip-free">免費</span>
+            </div>
+            <p class="text-secondary small mb-0">機動利率、手續費、房屋稅、保險、稅務減免。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle ml-tile-pro">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-bullseye" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">我的貸款追蹤</h3>
+              <span class="ml-chip ml-chip-pro">PRO</span>
+            </div>
+            <p class="text-secondary small mb-0">記錄還款、與銀行核對、取得提醒。多筆貸款、共同借款人。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-3 p-md-4 pillar-card border border-secondary-subtle ml-tile-pro">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-file-earmark-spreadsheet" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0 flex-grow-1">報告與即時 Excel</h3>
+              <span class="ml-chip ml-chip-pro">PRO</span>
+            </div>
+            <p class="text-secondary small mb-0">完整 PDF 報告和含即時公式的 Excel 活頁簿。方案數量不限。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it shows -->
+  <section class="py-5" id="features">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-eye me-1" aria-hidden="true"></i> 它能告訴您什麼</span>
+        <h2 class="display-5 fw-bold text-white">簽約前先了解真實數字</h2>
+        
+      </div>
+      <div>
+      <div class="row align-items-center g-4 g-lg-5 ml-row">
+        <div class="col-lg-7 ml-row-img">
+          <div class="ml-window"><a class="ml-zoom" href="/assets/images/mortgage/zh-tw/loan-calculator.webp"><img src="/assets/images/mortgage/zh-tw/loan-calculator.webp" alt="幾秒鐘看到還款額、總利息、APR 和還清日期" loading="lazy" decoding="async" width="1200" height="675"></a></div>
+        </div>
+        <div class="col-lg-5">
+          <div class="ml-kicker"><i class="bi bi-calculator me-1" aria-hidden="true"></i>計算機</div>
+          <h3 class="ml-row-title">幾秒鐘看清還款額和真實成本</h3>
+          <p class="text-secondary mb-3">輸入金額、利率和期限，立即看到月付額、總利息、總支付額、真實成本（APR）和還清日期。加入房屋稅、房屋保險、管理費和手續費，就能看到擁有一間房屋的每月完整成本。結果以淺顯的文字說明，讓您明白這些數字對您的意義。</p>
+          <ul class="list-unstyled ml-check-list mb-0">
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>房貸、車貸和信貸都在同一個計算機。</span></li>
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>輸入時即可看到還款額、總利息、APR 和還清日期。</span></li>
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>您的貨幣和當地的數字格式。</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row align-items-center g-4 g-lg-5 ml-row">
+        <div class="col-lg-7 ml-row-img">
+          <div class="ml-window"><a class="ml-zoom" href="/assets/images/mortgage/zh-tw/extra-payment-calculator.webp"><img src="/assets/images/mortgage/zh-tw/extra-payment-calculator.webp" alt="看看額外還款能省下多少錢和多少年" loading="lazy" decoding="async" width="1200" height="675"></a></div>
+        </div>
+        <div class="col-lg-5">
+          <div class="ml-kicker"><i class="bi bi-piggy-bank me-1" aria-hidden="true"></i>額外還款</div>
+          <h3 class="ml-row-title">看看多還一點能省多少</h3>
+          <p class="text-secondary mb-3">這個額外還款計算機會顯示您省下的利息和縮短的時間。加入每月額外金額、每年一筆或一次性提前還款，然後選擇維持還款額提早還清，或降低還款額。提前還款違約金也已計入，所以您看到的節省就是您真正留下的節省。</p>
+          <ul class="list-unstyled ml-check-list mb-0">
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每月、每年或一次性提前還款。</span></li>
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>維持還款額提早還清，或降低還款額。</span></li>
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>用白話說明每種選擇能省下什麼。</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row align-items-center g-4 g-lg-5 ml-row">
+        <div class="col-lg-7 ml-row-img">
+          <div class="ml-window"><a class="ml-zoom" href="/assets/images/mortgage/zh-tw/inflation-adjusted-loan-cost.webp"><img src="/assets/images/mortgage/zh-tw/inflation-adjusted-loan-cost.webp" alt="通膨之後貸款的真實成本，以今日貨幣計算" loading="lazy" decoding="async" width="1200" height="675"></a></div>
+        </div>
+        <div class="col-lg-5">
+          <div class="ml-kicker"><i class="bi bi-cash-coin me-1" aria-hidden="true"></i>今日貨幣</div>
+          <h3 class="ml-row-title">通膨之後，貸款的真實成本</h3>
+          <p class="text-secondary mb-3">通膨讓固定的還款額一年比一年輕。查看實質利率、貸款的實質成本，以及最後一期的感受，全部換算成您今天擁有的貨幣。很少有房貸計算機能顯示這一點。</p>
+          <ul class="list-unstyled ml-check-list mb-0">
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每個數字都換算成您今天擁有的貨幣。</span></li>
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>查看貸款的實質利率和實質成本。</span></li>
+            <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>最後一期會比第一期輕鬆得多。</span></li>
+          </ul>
+        </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> 螢幕擷取畫面</span>
+        <h2 class="display-5 fw-bold text-white">看清貸款的每個部分</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <figure class="card card-glass ml-shot h-100">
+            <a class="ml-zoom" href="/assets/images/mortgage/zh-tw/loan-charts.webp"><img src="/assets/images/mortgage/zh-tw/loan-charts.webp" alt="看著餘額下降，權益增長" loading="lazy" decoding="async" width="1200" height="675"></a>
+            <figcaption>
+              <div class="ml-kicker"><i class="bi bi-graph-up-arrow me-1" aria-hidden="true"></i>圖表</div>
+              <h3 class="ml-shot-title">看著餘額下降，權益增長</h3>
+              <ul class="list-unstyled ml-check-list mb-0">
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>餘額、還款組成、總成本和房屋權益。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>拖動到任何一年，看看屆時的狀況。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>全尺寸開啟任何圖表，或存成圖片。</span></li>
+              </ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ml-shot h-100">
+            <a class="ml-zoom" href="/assets/images/mortgage/zh-tw/amortization-schedule.webp"><img src="/assets/images/mortgage/zh-tw/amortization-schedule.webp" alt="完整還款計畫表，逐月列出，可匯出 CSV" loading="lazy" decoding="async" width="1200" height="675"></a>
+            <figcaption>
+              <div class="ml-kicker"><i class="bi bi-table me-1" aria-hidden="true"></i>還款計畫</div>
+              <h3 class="ml-shot-title">每一筆，每個月，毫無隱藏</h3>
+              <ul class="list-unstyled ml-check-list mb-0">
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每筆還款的本金、利息、額外還款和餘額。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>按月或按年檢視，可尋找任何日期。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>免費匯出 CSV。Pro 提供含即時公式的 Excel。</span></li>
+              </ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ml-shot h-100">
+            <a class="ml-zoom" href="/assets/images/mortgage/zh-tw/compare-loans.webp"><img src="/assets/images/mortgage/zh-tw/compare-loans.webp" alt="三筆貸款並排比較" loading="lazy" decoding="async" width="1200" height="675"></a>
+            <figcaption>
+              <div class="ml-kicker"><i class="bi bi-layout-three-columns me-1" aria-hidden="true"></i>比較</div>
+              <h3 class="ml-shot-title">三筆貸款並排比較</h3>
+              <ul class="list-unstyled ml-check-list mb-0">
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>調整利率、期限或頭期款。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每筆貸款的月付額、總利息和 APR。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>圖表逐年顯示哪一筆更便宜。</span></li>
+              </ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ml-shot h-100">
+            <a class="ml-zoom" href="/assets/images/mortgage/zh-tw/loan-decision-tools.webp"><img src="/assets/images/mortgage/zh-tw/loan-decision-tools.webp" alt="12 個決策工具：租屋或買房、轉貸、提前還款或投資等" loading="lazy" decoding="async" width="1200" height="675"></a>
+            <figcaption>
+              <div class="ml-kicker"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i>決策工具</div>
+              <h3 class="ml-shot-title">12 個貸款問題的答案</h3>
+              <ul class="list-unstyled ml-check-list mb-0">
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>租屋或買房？要轉貸嗎？提前還款還是投資？</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>我能借多少？我負擔得起什麼？</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>利率上升怎麼辦？每個工具都從您的貸款開始。</span></li>
+              </ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass ml-shot h-100 ml-shot-pro">
+            <a class="ml-zoom" href="/assets/images/mortgage/zh-tw/my-loans-tracking.webp"><img src="/assets/images/mortgage/zh-tw/my-loans-tracking.webp" alt="Pro：用我的貸款讓真實貸款與銀行保持一致" loading="lazy" decoding="async" width="1200" height="675"></a>
+            <figcaption>
+              <div class="ml-kicker"><i class="bi bi-bank me-1" aria-hidden="true"></i>PRO：我的貸款</div>
+              <h3 class="ml-shot-title">讓真實貸款與銀行保持一致</h3>
+              <ul class="list-unstyled ml-check-list mb-0">
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>一鍵確認還款並記錄提前還款。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>還款提醒，並與對帳單核對。</span></li>
+                <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>所有貸款、共同借款人分攤和還款順序。</span></li>
+              </ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="ml-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">取得自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="ml-price mb-0"><a class="ml-price-tag" href="#pricing"><i class="bi bi-unlock-fill me-1" aria-hidden="true"></i>核心計算機永久免費</a><span>還款計畫 · 圖表 · 工具 · 無需帳號 · 沒有廣告</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decision tools -->
+  <section class="py-5" id="decision-tools">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i> 決策工具</span>
+        <h2 class="display-5 fw-bold text-white">12 個貸款問題的答案</h2>
+        <p class="text-secondary fs-5 mb-0">租屋或買房、轉貸、提前還款或投資、負擔能力等。</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-cash-stack" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">我可以借多少？</h3>
+            <p class="text-secondary small mb-0">每月還款能償還的貸款。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-hourglass-split" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">需要多久？</h3>
+            <p class="text-secondary small mb-0">每月還款需要多久才能還清貸款。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-percent" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">這個報價的利率是多少？</h3>
+            <p class="text-secondary small mb-0">隱藏在報價月付中的真實利率。當貸款機構只報月付而未明確說明利率時很有用。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-flag" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">在指定日期前無債</h3>
+            <p class="text-secondary small mb-0">每月需額外支付多少才能在目標前還清。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-wallet2" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">我負擔得起多少？</h3>
+            <p class="text-secondary small mb-0">依貸款機構允許的收入負債比例（DTI 或 FOIR），您的收入可承擔多少貸款。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-graph-up" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">如果利率上升呢？</h3>
+            <p class="text-secondary small mb-0">利率上升時您的還款，讓您了解能承受多少。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-arrow-left-right" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">我應該轉貸嗎？</h3>
+            <p class="text-secondary small mb-0">比較剩餘貸款與新貸款，並包含費用。延長期限使還款降低，整體仍可能更貴。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-piggy-bank" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">提前還款還是投資？</h3>
+            <p class="text-secondary small mb-0">將同一筆錢投入貸款或投資，並比較原貸款到期時的財富。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-house-heart" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">租屋還是買屋？</h3>
+            <p class="text-secondary small mb-0">比較買屋的淨資產與租屋並投資差額的淨資產，雙方花費相同金額。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-box-arrow-in-down" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">頭期款要多少？</h3>
+            <p class="text-secondary small mb-0">不同頭期款對月付與利息的影響，以及需要存多久。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-tag" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">如果我賣掉呢？</h3>
+            <p class="text-secondary small mb-0">在指定年份出售時您能拿到多少。</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box ml-icon-box-sm mb-3"><i class="bi bi-calendar3" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">我應該多久還款一次？</h3>
+            <p class="text-secondary small mb-0">同一筆貸款在各還款頻率下的情況。</p>
+          </div>
+        </div>
+      </div>
+      <h3 class="h5 text-white fw-bold text-center mt-5 mb-3">一個應用程式,全部搞定</h3>
+      <div class="d-flex flex-wrap justify-content-center gap-2 mx-auto" style="max-width: 900px;">
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>房貸計算機</span>
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>房貸試算</span>
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>貸款計算機</span>
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>貸款試算</span>
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>還款計畫</span>
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>mortgage calculator</span>
+          <span class="ml-term"><i class="bi bi-search" aria-hidden="true"></i>loan calculator</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="compare">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-layout-three-columns me-1" aria-hidden="true"></i> 為什麼選應用程式</span>
+        <h2 class="display-5 fw-bold text-white">與常見方式的比較</h2>
+        <p class="text-secondary fs-5 mb-0">想快速得到一個數字,網站和試算表就夠了。想看全貌時,差別就在這裡。</p>
+      </div>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg mx-auto" style="max-width: 1040px;">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">您能得到什麼</th>
+                <th scope="col" class="ml-col">Mortgage Loan EMI Pro Insights</th>
+                <th scope="col">常見網頁計算機</th>
+                <th scope="col">試算表範本</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row" class="text-white">可離線使用</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="visually-hidden">否</span></td>
+                  <td><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">不需帳號,沒有廣告</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                  <td><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">您的數字只留在電腦上</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                  <td><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">可匯出的完整還款計畫</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">每月、每年和一次性提前還款</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">機動利率、遞增還款和寬限期</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="visually-hidden">否</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">考慮通膨後的貸款真實成本</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="visually-hidden">否</span></td>
+                  <td><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="visually-hidden">否</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">從您的貸款出發的 12 種決策工具</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                  <td><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="visually-hidden">否</span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">對照銀行追蹤真實貸款(Pro)</th>
+                  <td class="ml-col"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="visually-hidden">是</span></td>
+                  <td><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="visually-hidden">否</span></td>
+                  <td><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="visually-hidden">部分</span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="small text-secondary text-center mt-3 mb-1"><span class="me-3"><i class="bi bi-check-circle-fill peer-y me-1" aria-hidden="true"></i>是</span> <span class="me-3"><i class="bi bi-dash-circle-fill peer-p me-1" aria-hidden="true"></i>部分</span> <span class="me-3"><i class="bi bi-x-circle-fill peer-n me-1" aria-hidden="true"></i>否</span></p>
+      <p class="extra-small text-secondary text-center mb-0">依常見的免費工具而定。個別網站和範本可能有所不同。</p>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-unlock-fill me-1" aria-hidden="true"></i> 免費與 Pro</span>
+        <h2 class="display-5 fw-bold text-white">計算免費。Pro 適用於您正在償還的貸款。</h2>
+        <p class="text-secondary fs-5 mb-0">Pro 是一次性購買,不是訂閱。您能計算的一切都不需要它。</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 ml-plan ml-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">核心計算機</h3>
+            <p class="ml-plan-price mb-3">免費</p>
+            <p class="text-secondary small mb-3">許多計算機會鎖住最有用的部分。在這裡，凡是能計算的全部免費，包括：</p>
+            <ul class="list-unstyled ml-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>房貸、房屋貸款、車貸和信貸計算機</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完整還款計畫表，可按月或按年檢視，並可匯出 CSV</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>額外還款與提前還款計算機：每月、每年和一次性還款</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>餘額、利息、總成本和房屋權益的互動式圖表</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>並排比較 3 筆貸款，每種貸款可保留 3 個方案</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>12 個決策工具，從租屋或買房到轉貸</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>通膨調整後的數字、稅務減免、手續費和房屋費用</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">取得自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 ml-plan ml-plan-pro">
+            <h3 class="h5 text-white fw-bold mb-1">Pro <span class="badge rounded-pill ml-plan-opt align-middle ms-1">選用</span></h3>
+            <p class="ml-plan-price-sm mb-3">一次性購買</p>
+            <p class="text-secondary small mb-3">Pro 是選用的，以上所有功能都不需要它。它增加了：</p>
+            <ul class="list-unstyled ml-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>我的貸款追蹤：一鍵確認還款，記錄提前還款和利率變動，並取得還款提醒</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>依銀行對帳單核對餘額</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>多筆貸款一起管理，提供最省錢的還款順序，以及整合貸款</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>共同借款人分攤和年度稅務摘要</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完整 PDF 決策報告和含即時公式的 Excel 活頁簿</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>不限數量的已儲存方案，以及依您目前貸款排名的銀行方案</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 ml-narrow">Microsoft Store 和應用程式會以您的貨幣顯示 Pro 的價格。如果您在應用程式收費時購買過,可繼續使用 Pro 功能,無須額外付費。</p>
+    </div>
+  </section>
+
+  <!-- Banks, privacy, countries -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="privacy">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-check me-1" aria-hidden="true"></i> 值得信賴</span>
+        <h2 class="display-5 fw-bold text-white">適合您的銀行、您的國家,保護您的隱私</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-bank" aria-hidden="true"></i></span>
+              <h3 class="ml-para-h">依照銀行實際的放款方式打造</h3>
+            </div>
+            <p class="text-secondary small mb-0">機動利率和先固定後機動利率、只繳利息期、期末大額還款、遞增和遞減還款、寬限期，以及預售屋分期撥款。每月、雙週、加速雙週、每週和每季還款。加拿大半年複利和實際天數計息。房屋增值、折舊和權益追蹤。</p>
+            
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="ml-para-h">隱私優先的設計</h3>
+            </div>
+            <p class="text-secondary small mb-0">您的財務資料保留在您的電腦上。無需帳號，無需登入，沒有廣告，不會上傳任何內容，所有計算都能離線進行。</p>
+            <a class="small d-block mt-3" href="/mortgage-loan-emi-pro/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>隐私政策</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="ml-icon-box ml-icon-box-sm"><i class="bi bi-globe2" aria-hidden="true"></i></span>
+              <h3 class="ml-para-h">為每個國家打造</h3>
+            </div>
+            <p class="text-secondary small mb-0">支援 23 種語言和 28 種貨幣，並提供百萬和 lakh/crore 兩種數字分組。淺色和深色主題。</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who it is for -->
+  <section class="py-5" id="who-it-is-for">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-people me-1" aria-hidden="true"></i> 適合誰</span>
+        <h2 class="display-5 fw-bold text-white">適合正在還貸款或準備貸款的每個人</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box mb-3"><i class="bi bi-house-heart" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">準備買房</h3>
+            <p class="text-secondary small mb-0">在與銀行討論之前,算清您能負擔多少、自備款多少,以及包含稅金、保險和手續費的每月總開支。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box mb-3"><i class="bi bi-graph-down-arrow" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">正在還房貸</h3>
+            <p class="text-secondary small mb-0">查看每筆提前還款能省多少,並決定要維持每月還款提前還清,還是降低每月還款。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box mb-3"><i class="bi bi-arrow-left-right" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">比較方案或轉貸</h3>
+            <p class="text-secondary small mb-0">把三筆貸款放在一起比較,找出報價背後的真實利率,看看轉貸何時划算。</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="ml-icon-box mb-3"><i class="bi bi-car-front" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">車貸和信用貸款</h3>
+            <p class="text-secondary small mb-0">同樣的還款計畫、圖表和提前還款工具,適用於任何車貸或信用貸款。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-2 me-1" aria-hidden="true"></i> 如何使用</span>
+        <h2 class="display-5 fw-bold text-white">三步驟從數字到計畫</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="ml-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">免費安裝</h3>
+            </div>
+            <p class="text-secondary small mb-0">從 Microsoft Store 取得。不需建立帳號,也不需任何設定。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="ml-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">輸入您的貸款</h3>
+            </div>
+            <p class="text-secondary small mb-0">輸入金額、利率和期限。每月還款、總利息、總費用年百分率和還清日期會隨輸入更新。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="ml-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">試試什麼會改變結果</h3>
+            </div>
+            <p class="text-secondary small mb-0">加入提前還款、變更利率、比較方案或開啟決策工具,全部以同一筆貸款為基礎。</p>
+          </div>
+        </div>
+      </div>
+      <div class="ml-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">取得自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="ml-price mb-0"><a class="ml-price-tag" href="#pricing"><i class="bi bi-unlock-fill me-1" aria-hidden="true"></i>核心計算機永久免費</a><span>還款計畫 · 圖表 · 工具 · 無需帳號 · 沒有廣告</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every feature -->
+  <section class="py-5" id="all-features">
+    <div class="container py-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h2 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>應用程式的所有功能</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled ml-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>房貸與貸款計算機：房貸、車貸和信貸，輸入時即可看到還款額、總利息、APR 和還清日期。核心計算機永久免費。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>額外還款計算機：每月、每年和一次性提前還款，以及省下的利息和年數。維持還款額提早還清，或降低還款額。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完整還款計畫表：按月或按年列出每筆還款的本金、利息、額外還款和餘額。匯出 CSV 免費。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>12 個決策工具：租屋或買房、轉貸、提前還款或投資、能借多少、利率上升怎麼辦等等。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>互動式圖表：餘額、還款組成、總成本和房屋權益。全尺寸開啟或存成圖片。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>並排比較 3 筆貸款，標出最便宜的一筆，並提供逐年圖表。每種貸款可免費保留 3 個方案。</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled ml-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>通膨調整檢視：貸款的實質利率和實質成本，換算成您今天擁有的貨幣。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>貼近現實的貸款細節：機動利率、只繳利息、期末大額還款、遞增還款、寬限期、分期撥款、手續費、房屋稅、保險和稅務減免。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>隱私優先：無需帳號，沒有廣告，不會上傳任何內容。資料保留在您的電腦上，所有計算都能離線進行。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>支援 23 種語言和 28 種貨幣，提供淺色和深色主題。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro：我的貸款讓真實貸款與銀行保持一致，提供還款記錄、提醒、對帳、多筆貸款和共同借款人分攤。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro：完整 PDF 決策報告、含即時公式的 Excel 活頁簿、不限數量的方案，以及依您的貸款排名的銀行方案。</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 ml-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> 問題</span>
+        <h2 class="display-5 fw-bold text-white">常見問題</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="mortgageFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  這款房貸計算機真的免費嗎?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  是的。您能計算的一切都免費,不需帳號、沒有廣告、不限使用:每月還款計算機、可匯出 CSV 的完整還款計畫、提前還款、圖表、3 筆貸款比較以及全部 12 種決策工具。Pro 是選用的,增加真實貸款追蹤和進階報告。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Pro 增加了什麼?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  含還款紀錄、提醒和銀行對帳單核對的 My Loans 追蹤;多筆貸款以及最省錢的還款順序;共同借款人分攤和年度稅務摘要;完整 PDF 報告、含即時公式的 Excel 活頁簿、不限數量的方案,以及與您的貸款比較排名的貸款機構報價。這是一次性購買,不是訂閱。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  每月還款是怎麼計算的?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  標準公式是 M = P × r × (1 + r)ⁿ ÷ ((1 + r)ⁿ − 1),其中 M 是每月還款,P 是貸款金額,r 是月利率,n 是還款期數。例如,NT$12,000,000、利率 2.2%、期限 30 年,每月還款為 NT$45,564。應用程式會在您輸入時計算,還能處理費用、機動利率和遞增還款。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  提前還款能為房貸省多少錢?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  這取決於貸款。NT$12,000,000、利率 2.2%、期限 30 年的貸款,每月多還 NT$9,000 可節省利息 NT$1,026,745,並提前 6 年 6 個月 還清。應用程式會顯示每月、每年和一次性提前還款的結果,並計入提前清償違約金。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  提前還款後,應該維持還款額還是降低?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  維持還款額、提前還清通常能省更多利息,而降低還款額能讓每月更寬裕。應用程式會同時顯示兩種選擇及各自節省的利息和時間,方便您決定。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  它能回答租屋還是買房、轉貸、提前還款還是投資嗎?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  可以。12 種決策工具都從您的貸款出發:能借多少、能負擔多少、需要多久、報價的真實利率、指定日期前還清、利率上漲會怎樣、轉貸、提前還款還是投資、租屋還是買房、自備款、賣房以及還款頻率。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  它支援機動利率、遞增還款和興建中的房屋嗎?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  支援。它支援機動利率和先固定後機動利率、只繳利息期、氣球式還款、遞增和遞減還款、寬限期和分階段撥款,還支援加拿大半年複利和按實際天數計息。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  通膨對我的貸款成本有什麼影響?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  隨著物價上漲,固定還款會變得越來越輕。應用程式把您的還款額、利率和最後一期還款換算成今天的錢,讓您看到貸款的真實成本。通膨率是您自己設定的假設,不妨試試更高和更低的數值。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  我的財務資料是私密的嗎?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  您的數字只留在電腦上。沒有帳號、登入和廣告,不上傳任何內容,所有計算都可離線進行。應用程式只會連線到 Microsoft Store,用於核對 Pro 購買。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  可以匯出到 Excel 或 PDF 嗎?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  完整還款計畫可免費匯出為 CSV,圖表可儲存為圖片,一頁 PDF 預覽也免費。完整 PDF 決策報告和含即時公式的 Excel 活頁簿屬於 Pro。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  它適用於哪些國家和貨幣?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  任何國家都適用,因為利率和條件由您自己輸入。它提供 23 種語言和 28 種貨幣。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  我在應用程式免費之前購買過。現在怎麼辦?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  您付費得到的依然屬於您:早期購買者可免費使用 Pro 功能,已儲存的方案也會自動移轉。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  執行它需要什麼?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse" aria-labelledby="faq13Heading" data-bs-parent="#mortgageFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  x86、x64 或 ARM64 上的 Windows 10 版本 1809 或更新版本,或 Windows 11。從 Microsoft Store 安裝即可,不需帳號。結果是用於規劃的估算,不構成財務建議,最終數字請向您的貸款機構確認。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(19,80,158,0.32) 0%, rgba(34,197,94,0.1) 100%);">
+        <div class="ml-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights icon" class="w-100 h-100 object-fit-contain rounded-4" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">看清貸款的真實成本。 提前數年還清。</h2>
+          <p class="text-secondary fs-5 mb-4">適用於 Windows 的免費房貸與貸款計算機。查看還款額、完整還款計畫、圖表，以及額外還款能省下多少。核心計算機永久免費，無需帳號，沒有廣告。您的資料保留在您的電腦上。</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">取得自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="ml-price mt-3 mb-0 justify-content-center"><a class="ml-price-tag" href="#pricing"><i class="bi bi-unlock-fill me-1" aria-hidden="true"></i>核心計算機永久免費</a><span>還款計畫 · 圖表 · 工具 · 無需帳號 · 沒有廣告</span></p>
+          <p class="extra-small text-secondary mt-4 mb-0">結果僅為規劃和學習用途的估算，不構成財務建議。請與您的貸款機構確認最終數字。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link text-primary fw-semibold"><i class="bi bi-calculator me-1" aria-hidden="true"></i> Mortgage EMI Pro</a></li>
+            <li><a href="/steptell/" class="footer-link"><i class="bi bi-record-circle me-1" aria-hidden="true"></i> Steptell Steps Recorder</a></li>
+            <li><a href="/smart-photos/" class="footer-link"><i class="bi bi-images me-1" aria-hidden="true"></i> Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link"><i class="bi bi-intersect me-1" aria-hidden="true"></i> KeepOne Duplicate Finder</a></li>
+            <li><a href="/nudge/" class="footer-link"><i class="bi bi-journal-bookmark-fill me-1" aria-hidden="true"></i> Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link"><i class="bi bi-folder-symlink me-1" aria-hidden="true"></i> Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link"><i class="bi bi-microsoft text-primary me-1" aria-hidden="true"></i> GlowCompare for Windows</a></li>
+            <li><a href="/glowcompare/" class="footer-link"><i class="bi bi-sparkles text-danger me-1" aria-hidden="true"></i> GlowCompare for Android</a></li>
+            <li><a href="/slouch-guard/" class="footer-link"><i class="bi bi-person-workspace text-info me-1" aria-hidden="true"></i> Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link"><i class="bi bi-shield-lock text-warning me-1" aria-hidden="true"></i> Notelock Secure Notes</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link"><i class="bi bi-calendar2-check text-success me-1" aria-hidden="true"></i> Milk Monthly Calendar</a></li>
+            <li><a href="/aes-vault/" class="footer-link"><i class="bi bi-safe2 text-danger me-1" aria-hidden="true"></i> AES Vault Encryption</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/mortgage-loan-emi-pro/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>Mortgage EMI Pro Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+  <script src="/assets/js/mortgage-calc.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Mortgage Loan EMI Pro Insights">
+  <img src="/assets/images/mortgage-emi-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Mortgage Loan EMI Pro Insights</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9PFS2J56BJXR?ocid=dhinovatech_mortgage-loan-emi-pro&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">安装</a>
+</div>
+<button type="button" class="to-top" aria-label="返回顶部" title="返回顶部">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

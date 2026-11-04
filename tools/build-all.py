@@ -32,6 +32,7 @@ STEPS = [
     ("build-nudge.py",               "regenerate the Nudge offline journal tree"),
     ("build-keepone.py",             "regenerate the KeepOne duplicate finder tree"),
     ("build-steptell.py",            "regenerate the Steptell steps recorder tree"),
+    ("build-mortgage.py",            "regenerate the Mortgage Loan EMI Pro tree"),
     ("build-privacy.py",             "regenerate policy pages"),
     # 2. section injectors
     ("build-ai-chat-section.py",     "GlowCompare AI chat section"),

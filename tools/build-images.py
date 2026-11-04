@@ -97,6 +97,8 @@ SPEC = {
     "keepone-og.png":                     dict(max_dim=1200, webp=False),
     # Drawn by tools/build-steptell-shots.py, for the same reason.
     "steptell-og.png":                    dict(max_dim=1200, webp=False),
+    # Drawn by tools/build-mortgage-shots.py, for the same reason.
+    "mortgage-emi-og.png":                dict(max_dim=1200, webp=False),
 
     # store screenshots render at roughly 300 CSS px wide
     "glowcompare-screenshot-1.png":       dict(max_dim=592,  webp=True,  q=86, keep=False),
