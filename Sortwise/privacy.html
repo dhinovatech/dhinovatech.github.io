@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Sortwise: Photo &amp; File Organizer</title>
+  <meta name="description" content="Sortwise runs on your PC with no account, analytics, ads or tracking. What it indexes, where that is stored, the three times it goes online, and how face data is kept.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/css/legal.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <!-- BEGIN generated SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/Sortwise/privacy.html">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Privacy Policy | Sortwise: Photo &amp; File Organizer">
+  <meta property="og:description" content="Sortwise runs on your PC with no account, analytics, ads or tracking. What it indexes, where that is stored, the three times it goes online, and how face data is kept.">
+  <meta property="og:url" content="https://www.dhinovatech.com/Sortwise/privacy.html">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/dhinovatech-hero.jpg">
+  <meta property="og:image:width" content="1376">
+  <meta property="og:image:height" content="768">
+  <meta property="og:image:alt" content="Dhinovatech privacy-first apps for Android and Windows">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy | Sortwise: Photo &amp; File Organizer">
+  <meta name="twitter:description" content="Sortwise runs on your PC with no account, analytics, ads or tracking. What it indexes, where that is stored, the three times it goes online, and how face data is kept.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/dhinovatech-hero.jpg">
+  <meta name="twitter:image:alt" content="Dhinovatech privacy-first apps for Android and Windows">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Sortwise Privacy Policy","item":"https://www.dhinovatech.com/Sortwise/privacy.html"}]}]}
+  </script>
+  <!-- END generated SEO block -->
+  <!-- BEGIN generated resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END generated resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<main id="main" class="page">
+
+    <header class="header">
+      <a href="/">&larr; Dhinova Tech</a>
+      <h1>Privacy Policy: Sortwise: Photo &amp; File Organizer</h1>
+      <p class="subtitle">Applies to Sortwise: Photo &amp; File Organizer for Windows, all versions. Developed and maintained by Dhinovatech, <a href="https://www.dhinovatech.com">www.dhinovatech.com</a>.</p>
+      <span class="effective-date">Last updated: 12 November 2026</span>
+    </header>
+
+    <div class="callout highlight">
+      <p><strong>The short version.</strong> Sortwise runs on your PC. It has no account, no analytics, no ads and no tracking. It does not send your files, photos, file names, searches, face data or locations to us or to anyone else. We, the developer, receive no data from this app at all, and we have no server that could receive it.</p>
+      <p>Sortwise works without the internet. Apart from Windows asking the Microsoft Store whether this PC has Pro, it goes online in only three cases, each one started by you: downloading an on-device pack, looking up a place name (off by default), and buying Pro. Sections 3 and 6 describe them.</p>
+    </div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#files">What Sortwise does with your files</a></li>
+        <li><a href="#storage">Where that data is stored</a></li>
+        <li><a href="#internet">When Sortwise uses the internet</a></li>
+        <li><a href="#faces">Face data</a></li>
+        <li><a href="#ai">On-device AI</a></li>
+        <li><a href="#pro">Buying Pro, rating and sharing</a></li>
+        <li><a href="#notifications">Notifications</a></li>
+        <li><a href="#log">Problem log</a></li>
+        <li><a href="#permissions">Permissions Sortwise asks for</a></li>
+        <li><a href="#control">Your control over your data</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#sharing">Data sharing and sale</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="files">
+      <h2>1. What Sortwise does with your files</h2>
+      <p>Sortwise reads the folders you give it ("places") and keeps a private index so it can sort, rename, find copies and search your files. Depending on the features you use, the index can hold:</p>
+      <ul>
+        <li>File names, paths, sizes, types and dates</li>
+        <li>Photo details (EXIF), such as the camera, the date taken and any GPS location saved in the photo, and music tags such as artist and album</li>
+        <li>Thumbnails and small previews</li>
+        <li>Text read from documents and PDFs, if you turn on <em>Read the text inside documents</em></li>
+        <li>Image "fingerprints" (embeddings), numbers used to search photos by what is in them and to spot look-alikes</li>
+        <li>Content hashes, used to find identical files</li>
+        <li>Faces found in photos, small face crops and face templates, if you turn on <em>Find the people in photos</em>, plus the names you give people</li>
+        <li>Your rules and tags, and a history of the changes Sortwise made, so they can be undone</li>
+        <li>How many file changes you have used this month on the free plan</li>
+      </ul>
+      <p>All of this is produced on your PC, by code running on your PC, and stays on your PC.</p>
+    </section>
+
+    <section class="section" id="storage">
+      <h2>2. Where that data is stored</h2>
+      <p>Everything Sortwise creates is kept on your own machine, in <code>%LOCALAPPDATA%\Sortwise</code>:</p>
+      <ul>
+        <li><code>index.db</code>: one local SQLite database holding everything listed in section 1</li>
+        <li><code>facecache\</code>: small face crops, if you turned on finding people</li>
+        <li><code>models\</code>: the on-device packs, if you downloaded any</li>
+        <li><code>logs\</code>: a plain-text problem log</li>
+        <li><code>health_history.json</code>: a small file of counts, such as how many copies were found over time</li>
+      </ul>
+      <p>This folder is deliberately outside cloud-synced folders such as OneDrive, so Windows backup and file sync do not copy your index, including face data, to the cloud.</p>
+      <p>Nothing in this folder is sent anywhere. Sortwise has no cloud backup, no sync and no remote copy of your index. (Its own Backup feature copies your files only to a folder or drive you choose.)</p>
+    </section>
+
+    <section class="section" id="internet">
+      <h2>3. When Sortwise uses the internet</h2>
+
+      <h3>3.1 Downloading on-device packs (optional, once each)</h3>
+      <p>Three features need model files that are not part of the app:</p>
+      <ul>
+        <li><strong>Photo understanding:</strong> searching photos by what is in them, and spotting look-alikes</li>
+        <li><strong>Faces:</strong> finding and grouping the people in your photos</li>
+        <li><strong>Language:</strong> turning a description in your own words into rules</li>
+      </ul>
+      <p>The first time you use one of these, Sortwise tells you how big the pack is and asks before downloading it. The files come from Hugging Face (<code>huggingface.co</code>), and each one is checked against a fixed SHA-256 checksum. A file that does not match is thrown away.</p>
+      <p>This is a plain file download. Nothing about you, your files or your library is sent. As with any web request, Hugging Face and its content network see your IP address and the request itself, under their own privacy policy. Once a pack is on your PC, the feature it powers runs offline. You can remove any pack in <strong>Settings &rarr; On-device packs</strong>.</p>
+      <p>You can skip packs entirely. Tidying, finding copies, renaming, cleaning up and undo all work without them.</p>
+
+      <h3>3.2 Looking up place names (optional, off by default)</h3>
+      <p>If you turn on <strong>Settings &rarr; Look up place names online</strong>, typing a place name on the map sends only the words you typed to OpenStreetMap's Nominatim service (<code>nominatim.openstreetmap.org</code>), which turns them into coordinates. The request carries a standard app identifier ("Sortwise") in its User-Agent header.</p>
+      <p>Sortwise never sends your file names, your photos, the locations saved in your photos, your index or anything else from your library.</p>
+      <p>The setting is off until you turn it on. With it off, or with no network at all, Sortwise still places your photos on the map from the GPS data already inside them, entirely offline.</p>
+      <p>Nominatim is run by the OpenStreetMap Foundation, and their privacy policy covers your request.</p>
+    </section>
+
+    <section class="section" id="faces">
+      <h2>4. Face data</h2>
+      <p>If you turn on <em>Find the people in photos</em>, Sortwise finds faces in your photos and makes face templates (numbers) so it can group photos of the same person.</p>
+      <ul>
+        <li>Finding and matching faces runs entirely on your PC.</li>
+        <li>Face templates and face crops are kept only in the local database and cache described in section 2.</li>
+        <li>Face data is never uploaded, never shared, never used for advertising and never used to identify anyone outside your own photos. Sortwise does not know who anyone is. It only groups similar faces until you choose to name a group.</li>
+        <li>Face data is deliberately kept out of cloud-synced locations.</li>
+        <li>The problem log never contains face data.</li>
+        <li>You can delete all of it at any time in <strong>Settings &rarr; Delete all face data</strong>. This permanently erases every face, group and name and the cached face crops, compacts the database file so the deleted data is not left inside it, and turns finding people off.</li>
+      </ul>
+      <p>Sortwise looks only at photos in the places you gave it, and only after you turn the feature on.</p>
+    </section>
+
+    <section class="section" id="ai">
+      <h2>5. On-device AI</h2>
+      <p>Sortwise's AI features (searching photos by what is in them, spotting look-alikes, grouping photos by face, and turning your own words into rules) run entirely on your PC, using the packs stored in the folder described in section 2. No prompt, image, embedding or file name is sent anywhere to be processed. There is no AI service behind this app.</p>
+      <p>Sortwise does not use the AI models built into Windows, and it sends nothing to Microsoft for processing.</p>
+    </section>
+
+    <section class="section" id="pro">
+      <h2>6. Buying Pro, rating and sharing</h2>
+      <p><strong>Pro add-ons.</strong> Sortwise is free. The optional add-ons ("Pro for 24 hours" and "Pro forever") are sold through the Microsoft Store. The Store, not Sortwise, handles the payment, and Microsoft's privacy statement (<a href="https://privacy.microsoft.com/privacystatement">privacy.microsoft.com</a>) covers it. We never see your payment details, your name or your Microsoft account. Sortwise only asks the Store whether this PC has the add-on. The count of free file changes you have used is kept on your PC (section 1) and is never sent anywhere.</p>
+      <p><strong>Rating.</strong> <em>Rate Sortwise</em> opens the Microsoft Store's own rating window. Anything you write there goes to Microsoft under their terms, not to the app.</p>
+      <p><strong>Telling a friend.</strong> <em>Refer a friend</em> opens the Windows share panel with a short message and the Sortwise Store link. It sends nothing itself. Only the app you choose in the share panel receives that message, and only if you send it.</p>
+    </section>
+
+    <section class="section" id="notifications">
+      <h2>7. Notifications</h2>
+      <p>If you turn on <strong>Settings &rarr; Tell me when new files arrive</strong>, Sortwise shows a Windows notification about new files in watched folders, at most once a week. The notification is made on your PC and sent to no one.</p>
+    </section>
+
+    <section class="section" id="log">
+      <h2>8. Problem log</h2>
+      <p>Sortwise writes problem and crash details to a plain-text file in the <code>logs</code> folder on your PC. This log is never sent anywhere. There is no crash-reporting service, no telemetry and no usage analytics in this app. The log is yours: you can open it from <strong>Settings &rarr; Problem log</strong>, attach it to an email to us if you choose, or delete it.</p>
+    </section>
+
+    <section class="section" id="permissions">
+      <h2>9. Permissions Sortwise asks for</h2>
+      <ul>
+        <li><strong>Full file system access (<code>runFullTrust</code>):</strong> so Sortwise can read, move, rename and recycle files in the places you pick, including places outside its own sandbox. Sortwise changes files only in your places. If you turn on <em>Measure whole drives</em>, the Disk view also adds up the sizes of other folders on a drive, but nothing outside your places is ever changed.</li>
+      </ul>
+    </section>
+
+    <section class="section" id="control">
+      <h2>10. Your control over your data</h2>
+      <ul>
+        <li><strong>Forget what Sortwise has read:</strong> <strong>Settings &rarr; Forget what Sortwise has read</strong> clears the index. Your files, places and undo history are kept.</li>
+        <li><strong>Forget a place:</strong> <strong>Settings &rarr; Places Sortwise knows</strong> removes a place from the index without touching its files.</li>
+        <li><strong>Turn features off:</strong> reading document text, reading photo dates and music tags, finding people, online place lookup, background reading and notifications each have their own switch in Settings.</li>
+        <li><strong>Delete face data:</strong> as described in section 4.</li>
+        <li><strong>Remove a pack:</strong> <strong>Settings &rarr; On-device packs</strong>.</li>
+        <li><strong>Delete everything:</strong> uninstall Sortwise and delete the <code>%LOCALAPPDATA%\Sortwise</code> folder. That removes the index, the packs and the log. Your own photos and documents are not touched, because they are yours and Sortwise never deletes them behind your back.</li>
+        <li><strong>Undo:</strong> every change Sortwise makes is recorded on your PC so you can reverse it from the Timeline. Deleted files go to the Windows Recycle Bin, and Sortwise refuses to delete where there is no Recycle Bin to catch them.</li>
+      </ul>
+      <p>Because we never receive your data, there is nothing for us to delete for you and no account for you to close.</p>
+    </section>
+
+    <section class="section" id="children">
+      <h2>11. Children</h2>
+      <p>Sortwise is a general-purpose file tool. It is not directed to children under 13 and does not knowingly collect information from them, or from anyone else.</p>
+    </section>
+
+    <section class="section" id="sharing">
+      <h2>12. Data sharing and sale</h2>
+      <p>We do not sell, rent, trade or share your data, because we never have it. The app contains no third-party advertising, tracking or profiling code.</p>
+    </section>
+
+    <section class="section" id="changes">
+      <h2>13. Changes to this policy</h2>
+      <p>If this policy changes, the new version will be published at this address and the "Last updated" date above will change. Changes to how the app uses the network will also be described in the app's release notes.</p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>14. Contact</h2>
+      <p>Questions about this policy or about privacy in Sortwise: <a href="mailto:dhinovatech@gmail.com">dhinovatech@gmail.com</a></p>
+      <p>Developed and maintained by Dhinovatech, <a href="https://www.dhinovatech.com">www.dhinovatech.com</a>.</p>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 Dhinova Tech. All rights reserved.</p>
+      <p>
+        <a href="/">Home</a> &middot;
+        <a href="/privacy.html">Website privacy</a> &middot;
+        <a href="/terms.html">Terms</a> &middot;
+        <a href="mailto:dhinovatech@gmail.com">Contact</a>
+      </p>
+    </footer>
+
+  </main>
+<!-- BEGIN generated UX block -->
+<button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>
