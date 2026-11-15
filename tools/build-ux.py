@@ -54,6 +54,9 @@ APPS = {
     store="https://apps.microsoft.com/detail/9PP2PKFG978L", kind='ms'),
  'steptell': dict(name="Steptell", icon="/assets/images/steptell-icon.png",
     store="https://apps.microsoft.com/detail/9MWWT8XPVF5K", kind='ms'),
+ # Mixed case for the same reason as KeepOne: /Sortwise/privacy.html came first.
+ 'Sortwise': dict(name="Sortwise", icon="/assets/images/sortwise-icon.png",
+    store="https://apps.microsoft.com/detail/9NSTWXHBQBJ0", kind='ms'),
  'aes-vault': dict(name="AES Vault", icon="/assets/images/aes-vault-icon.png",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ", kind='ms'),
 }

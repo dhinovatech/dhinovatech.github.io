@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sortwise: organizador de fotos y archivos con IA gratis para Windows</title>
+  <meta name="description" content="Ordena Descargas, Escritorio y fotos en un minuto, encuentra archivos duplicados y deshazlo todo. Todas las funciones gratis, 1000 cambios de archivos al mes. Sin conexión.">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #2ed39b;
+      --dhin-border-glow: rgba(46, 211, 155, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(46, 211, 155, 0.18);
+      --dhin-gradient-primary: linear-gradient(135deg, #2ed39b 0%, #0e8b63 100%);
+      --sw-green: #2ed39b;
+      --sw-deep: #0e8b63;
+      --sw-amber: #ffd366;
+      --sw-ink: #032c1f;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 46, 211, 155;
+      --bs-primary-bg-subtle: rgba(46, 211, 155, 0.12);
+      --bs-primary-border-subtle: rgba(46, 211, 155, 0.32);
+      --bs-primary-text-emphasis: #9cf0d0;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #b8f5df 0%, #2ed39b 55%, #ffd366 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(46, 211, 155, 0.24); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(46, 211, 155, 0.38); }
+    .btn-dhin-outline:hover { background: rgba(46, 211, 155, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(14, 139, 99, 0.34) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-green { box-shadow: 0 0 45px rgba(14, 139, 99, 0.35); }
+    .sw-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(46,211,155,0.16), rgba(255,211,102,0.12));
+      color: var(--sw-green); border: 1px solid rgba(46,211,155,0.3);
+    }
+    .sw-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .sw-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .sw-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(46,211,155,0.16); color: var(--sw-green);
+      border: 1px solid rgba(46,211,155,0.4);
+    }
+
+    /* Hero */
+    .sw-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .sw-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sw-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .sw-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #9cf0d0; margin-top: .6rem;
+    }
+    .sw-cta-strip .sw-price { margin: 0; }
+    .sw-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .sw-price-tag {
+      background: var(--sw-amber); color: var(--sw-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 211, 102, .3);
+    }
+    .sw-price-tag:hover { color: var(--sw-ink); background: #ffe08f; }
+    .sw-window {
+      border-radius: 14px; overflow: hidden; background: #06402f;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .sw-window img { display: block; width: 100%; height: auto; }
+
+    .sw-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .sw-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .sw-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .sw-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .sw-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--sw-green); font-weight: 700; margin-bottom: .3rem; }
+    .sw-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Screenshot gallery */
+    .sw-shot { overflow: hidden; margin: 0; }
+    .sw-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sw-shot figcaption { padding: 1rem 1.1rem 1.1rem; }
+    .sw-shot-kicker { font-size: .72rem; letter-spacing: .08em; font-weight: 700; color: var(--sw-green); text-transform: uppercase; }
+    .sw-shot-title { font-size: 1.02rem; font-weight: 700; color: #fff; margin: .25rem 0 .6rem; }
+    .sw-shot ul { margin: 0; padding: 0; list-style: none; }
+    .sw-shot li { font-size: .86rem; color: #cbd5e1; display: flex; gap: .5rem; margin-bottom: .25rem; }
+    .sw-shot li i { color: var(--sw-green); flex-shrink: 0; }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--sw-green) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--sw-green) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(46, 211, 155, 0.1); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(46, 211, 155, 0.4) !important; }
+    .sw-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .sw-check-list li i { color: var(--sw-green); flex-shrink: 0; margin-top: .1rem; }
+    .sw-detail-head { font-size: .78rem; letter-spacing: .07em; font-weight: 700; color: var(--sw-amber); text-transform: uppercase; }
+    .sw-oneapp { background: rgba(255, 211, 102, .07); border: 1px solid rgba(255, 211, 102, .28) !important; }
+
+    /* Sortwise vs by hand */
+    .peer-table { font-size: .9rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; min-width: 150px; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; }
+    .peer-table th.sw-col, .peer-table td.sw-col { background: rgba(46, 211, 155, .07); border-left: 1px solid rgba(46,211,155,.25); border-right: 1px solid rgba(46,211,155,.25); }
+    .peer-table thead th.sw-col { color: var(--sw-green); border-top: 2px solid var(--sw-green); }
+    .peer-table tbody th { min-width: 170px; font-weight: 600; }
+    .peer-cell { display: flex; gap: .45rem; align-items: flex-start; }
+    .peer-cell i { flex-shrink: 0; margin-top: .15rem; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--sw-amber); }
+    .peer-n { color: #f87171; }
+
+    /* Pricing */
+    .sw-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .sw-plan-free { border: 2px solid var(--sw-green) !important; box-shadow: 0 0 40px rgba(46, 211, 155, .14); }
+    .sw-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--sw-green); }
+    .sw-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .sw-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .sw-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 211, 102, .1); border: 1px solid rgba(255, 211, 102, .38);
+    }
+    .sw-quota-num { font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--sw-amber); flex-shrink: 0; }
+    .sw-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .sw-quota-pro { background: rgba(46, 211, 155, .1); border-color: rgba(46, 211, 155, .38); }
+    .sw-quota-pro .sw-quota-num { color: var(--sw-green); }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(46, 211, 155, 0.08); color: var(--sw-green); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(46, 211, 155, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/Sortwise/es/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/Sortwise/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/Sortwise/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/Sortwise/es/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/Sortwise/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/Sortwise/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/Sortwise/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/Sortwise/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/Sortwise/cs/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/Sortwise/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/Sortwise/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/Sortwise/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/Sortwise/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/Sortwise/fi/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/Sortwise/ru/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/Sortwise/uk/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/Sortwise/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/Sortwise/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/Sortwise/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/Sortwise/zh/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/Sortwise/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/Sortwise/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/Sortwise/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Sortwise: organizador de fotos y archivos con IA gratis para Windows">
+  <meta property="og:description" content="Ordena Descargas, Escritorio y fotos en un minuto, encuentra archivos duplicados y deshazlo todo. Todas las funciones gratis, 1000 cambios de archivos al mes. Sin conexión.">
+  <meta property="og:url" content="https://www.dhinovatech.com/Sortwise/es/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sortwise: organizador de fotos y archivos con IA gratis para Windows">
+  <meta name="twitter:description" content="Ordena Descargas, Escritorio y fotos en un minuto, encuentra archivos duplicados y deshazlo todo. Todas las funciones gratis, 1000 cambios de archivos al mes. Sin conexión.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta name="twitter:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/Sortwise/#software","name":"Sortwise","alternateName":"Sortwise: organizador de fotos y archivos con IA","operatingSystem":"Windows 10 version 2004 (build 19041) and later, Windows 11","applicationCategory":"UtilitiesApplication","applicationSubCategory":"File organizer, photo organizer and duplicate file finder","description":"Ordena Descargas, Escritorio y fotos en un minuto, encuentra archivos duplicados y deshazlo todo. Todas las funciones gratis, 1000 cambios de archivos al mes. Sin conexión.","abstract":"Sortwise es la solución definitiva para organizar archivos: todo lo que necesita para ordenar sus archivos y fotos, en una sola app. Todas las funciones son gratis: mueva, copie, cambie de nombre o elimine hasta 1000 archivos cada mes natural, sin periodo de prueba ni límite de tiempo. Analizar, buscar, encontrar duplicados y deshacer nunca cuentan. ¿Necesita más para una gran limpieza? Pro durante 24 horas o Pro para siempre elimina el límite.","url":"https://www.dhinovatech.com/Sortwise/es/","inLanguage":["en","de","fr","es","it","pt-BR","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/sortwise-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","installUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","featureList":["Todas las funciones gratis: mueva, copie, cambie de nombre o elimine hasta 1000 archivos cada mes natural. Sin prueba ni límite de tiempo. Buscar y deshacer nunca cuentan.","Vea exactamente qué va a pasar antes de que se mueva un solo archivo. Cada organización empieza como una vista previa que puede leer, editar línea a línea y cancelar.","Deshaga lo que sea. Cada cambio queda registrado, así que un clic devuelve cada archivo exactamente a donde estaba. Nunca se borra nada de forma definitiva.","Ordena Descargas, Escritorio, Documentos e Imágenes en pocos clics","Encuentre fotos por lo que aparece en ellas. Busque «playa», «mi perro» o «recibos» y obtenga resultados aunque los nombres no le digan nada.","Agrupe fotos de una misma cara para nombrar personas y archivar por persona, y vea sus imágenes en un mapa. Desactivado de fábrica y borrable.","Encuentra archivos duplicados por contenido y libera espacio","Fotos que no son copias exactas pero se ven iguales: la reducida, la que se volvió a guardar, dos tomas con un segundo de diferencia. Sortwise se queda con la mejor de cada serie.","Describa lo que quiere en su idioma — «poner las facturas en Documentos por año» — y un modelo de lenguaje local lo convierte en reglas que usted revisa.","Ordene una carpeta en un clic con recetas listas para usar, o deje que Sortwise lea el sistema de archivo que ya construyó y escriba reglas que lo continúen.","Renombre cientos de archivos a la vez: sustituir texto, numerarlos, añadir un prefijo o un sufijo, corregir mayúsculas. La misma vista previa, el mismo deshacer.","Busque dentro de sus documentos, PDF incluidos, para encontrar un archivo por una frase que recuerda en lugar de por un nombre que no recuerda.","Busca por nombre, tipo, tamaño o antigüedad","Las facturas, extractos y escaneos se nombran según lo que realmente dicen — remitente, tipo y fecha — en lugar de un número de código que se inventó un escáner.","Copias de seguridad incrementales entre sus carpetas, con restauración y verificación: existe una segunda copia antes de que mueva nada.","Mueva una carpeta grande a otra unidad y deje un enlace en su lugar, para que todo lo que apunte al lugar antiguo siga funcionando.","Las copias sobrantes van a la Papelera, nunca se borran del todo","Más de 100 formas de ordenar, del tipo de archivo a los originales de cámara","Funciona sin conexión: tras una descarga única de los modelos de IA, no necesita internet. Sin cuenta, sin anuncios, sin telemetría. Sus archivos, fotos y caras nunca salen de su PC.","En 23 idiomas, modo claro y oscuro"],"isAccessibleForFree":true,"processorRequirements":"x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0"},"screenshot":["https://www.dhinovatech.com/assets/images/sortwise/es/ai-photo-file-organizer.webp","https://www.dhinovatech.com/assets/images/sortwise/es/ai-photo-search.webp","https://www.dhinovatech.com/assets/images/sortwise/es/sort-files-by-type-or-date.webp","https://www.dhinovatech.com/assets/images/sortwise/es/preview-every-move.webp","https://www.dhinovatech.com/assets/images/sortwise/es/duplicate-file-finder.webp","https://www.dhinovatech.com/assets/images/sortwise/es/find-files.webp","https://www.dhinovatech.com/assets/images/sortwise/es/tidy-downloads-folder.webp","https://www.dhinovatech.com/assets/images/sortwise/es/undo-timeline.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/Sortwise/es/#webpage","url":"https://www.dhinovatech.com/Sortwise/es/","name":"Sortwise: organizador de fotos y archivos con IA gratis para Windows","description":"Ordena Descargas, Escritorio y fotos en un minuto, encuentra archivos duplicados y deshazlo todo. Todas las funciones gratis, 1000 cambios de archivos al mes. Sin conexión.","inLanguage":"es","dateModified":"2026-11-15","about":{"@id":"https://www.dhinovatech.com/Sortwise/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/Sortwise/#software"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Sortwise","item":"https://www.dhinovatech.com/Sortwise/"},{"@type":"ListItem","position":3,"name":"Sortwise (es)","item":"https://www.dhinovatech.com/Sortwise/es/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/Sortwise/es/#faq","inLanguage":"es","mainEntity":[{"@type":"Question","name":"¿Sortwise es realmente gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí. Sortwise es gratis e incluye todas las funciones, sin prueba ni límite de tiempo. Cada mes natural puedes mover, copiar, renombrar o eliminar hasta 1000 archivos sin pagar. Si una gran limpieza necesita más, Pro durante 24 horas o Pro para siempre quita el límite."}},{"@type":"Question","name":"¿Qué cuenta como cambio de archivo?","acceptedAnswer":{"@type":"Answer","text":"Cada archivo que Sortwise mueve, copia, renombra o envía a la Papelera de reciclaje. Analizar, explorar, buscar, la vista previa, encontrar duplicados, las copias de seguridad y deshacer nunca cuentan, y deshacer un orden devuelve esos archivos al cupo del mes."}},{"@type":"Question","name":"¿Qué pasa si llego a 1000 en un mes?","acceptedAnswer":{"@type":"Answer","text":"Sortwise te avisa antes de que empiece un orden, nunca a mitad. Puedes usar los archivos gratis que te quedan, esperar al día 1, cuando el contador vuelve a empezar, o elegir Pro. Lo que ya ordenaste sigue ordenado y deshacer siempre funciona."}},{"@type":"Question","name":"¿Qué diferencia hay entre Pro durante 24 horas y Pro para siempre?","acceptedAnswer":{"@type":"Answer","text":"Los dos quitan el límite mensual y no cambian nada más, porque todas las funciones ya son gratis. Pro durante 24 horas dura un día desde la compra, para una sola gran limpieza, y todo lo que empieces antes de que acabe terminará. Pro para siempre es una compra única, sin límite y para siempre. Ambos se compran en Microsoft Store, que muestra el precio de tu país."}},{"@type":"Question","name":"¿Cómo ordeno automáticamente mi carpeta Descargas?","acceptedAnswer":{"@type":"Answer","text":"Abre Sortwise y elige «Ordenar mis Descargas», o selecciona la carpeta en «Lugares». Elige un estilo, como por tipo de archivo o por fecha, lee el plan y pulsa «Ordenar». Las carpetas vigiladas también detectan lo que llega nuevo y lo preparan para que lo revises; nunca mueven nada por su cuenta."}},{"@type":"Question","name":"¿Sortwise puede ordenar fotos en carpetas por fecha de captura?","acceptedAnswer":{"@type":"Answer","text":"Sí. Lee la fecha en que se tomó cada foto desde el propio archivo y archiva las fotos por año, o por año y mes. Un archivo RAW y su JPG, o un vídeo y su archivo complementario, siempre se mueven juntos."}},{"@type":"Question","name":"¿Sortwise borra mis archivos?","acceptedAnswer":{"@type":"Answer","text":"No sin preguntar. Ordenar solo mueve archivos a carpetas y nunca sobrescribe nada. Los duplicados y la basura que decides quitar van a la Papelera de reciclaje de Windows, y Sortwise se niega a borrar donde no hay Papelera que los recoja. Cualquier cambio se puede deshacer desde el historial."}},{"@type":"Question","name":"¿Cómo encuentra Sortwise los archivos duplicados?","acceptedAnswer":{"@type":"Answer","text":"Compara los archivos por su contenido, no por su nombre, así que encuentra las copias se llamen como se llamen. Conserva la mejor copia de cada grupo y te ofrece enviar el resto a la Papelera. Las fotos parecidas (redimensionadas, guardadas de nuevo o tomadas con un segundo de diferencia), las ráfagas y las borrosas se detectan aparte."}},{"@type":"Question","name":"¿Puedo deshacer un orden días después?","acceptedAnswer":{"@type":"Answer","text":"Sí. Cada cambio se registra en tu PC y el historial muestra cada orden con un botón «Deshacer», del más reciente al más antiguo. Deshacer devuelve cada archivo a su sitio y quita las carpetas que quedan vacías. Deshacer es gratis y nunca tiene límite."}},{"@type":"Question","name":"¿Puedo ordenar archivos con mis propias reglas?","acceptedAnswer":{"@type":"Answer","text":"Sí. Describe lo que quieres con tus palabras, por ejemplo «poner las facturas en Documentos por año», y el paquete de idioma de tu equipo redacta reglas para que las revises. También hay un editor de reglas completo (extensión, nombre, tamaño, fechas, cámara, persona, lugar y más), y Sortwise puede aprender de las carpetas que ya creaste y continuarlas."}},{"@type":"Question","name":"¿Cómo funciona la búsqueda de fotos con IA? ¿Necesito una GPU?","acceptedAnswer":{"@type":"Answer","text":"Escribe lo que buscas, como «playa», «perro» o «tiques», y Sortwise encuentra las fotos que lo muestran, aunque todos los archivos se llamen IMG_4471. Entiende tu idioma y se ejecuta en el procesador de tu PC, así que no hace falta GPU ni hardware especial. El paquete de fotos se descarga una vez, en la primera búsqueda, después de que Sortwise te indique su tamaño."}},{"@type":"Question","name":"¿Sortwise sube mis archivos o necesita una cuenta?","acceptedAnswer":{"@type":"Answer","text":"No. Funciona sin conexión, sin cuenta, sin anuncios y sin telemetría. Internet solo se usa cuando lo pides: para descargar una vez un paquete de IA local, para buscar un nombre de lugar en el mapa (desactivado por defecto) o para comprar Pro en Microsoft Store."}},{"@type":"Question","name":"¿Es seguro usarlo en todo mi PC?","acceptedAnswer":{"@type":"Answer","text":"Sortwise solo cambia archivos en los lugares que le indicas y rechaza de plano las ubicaciones protegidas del sistema. Nada se mueve hasta que has visto el plan, los archivos que van juntos siguen juntos y cualquier cambio se puede deshacer."}},{"@type":"Question","name":"¿Cuáles son los requisitos del sistema?","acceptedAnswer":{"@type":"Answer","text":"Windows 10 versión 2004 o posterior, o Windows 11, en un PC x64 o ARM64. Sortwise se instala desde Microsoft Store, está en 23 idiomas con tema claro y oscuro, y usa automáticamente el idioma de Windows."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/sortwise/es/ai-photo-file-organizer.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Saltar al contenido principal</a>
+<!-- Navigation Bar (independent Sortwise tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - Sortwise owns its own language tree; build-nav-apps.py
+               adds Smart Photos, KeepOne, Steptell and Mortgage above it -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <!-- BEGIN KeepOne menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nb/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END KeepOne menu -->
+              <!-- BEGIN Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/steptell/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh-tw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Steptell menu -->
+              <!-- BEGIN Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/mortgage-loan-emi-pro/">
+                  <span><img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Mortgage EMI Pro</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                </ul>
+              </li>
+              <!-- END Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/Sortwise/">
+                  <span><img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Sortwise File Organizer</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/es/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - Sortwise only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Español (Spanish)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/es/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Obtener gratis
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="sw-hero-icon">
+              <img src="/assets/images/sortwise-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block sw-hero-kind">organizador de fotos y archivos con IA</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">Sortwise</span> <span class="d-block sw-hero-tagline">La solución definitiva para organizar archivos</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">Sortwise es un organizador de fotos y archivos con IA y buscador de duplicados que funciona sin conexión y con total privacidad en su propio PC. Ordene años de fotos por fecha, encuentre fotos y archivos duplicados, organice Descargas y el escritorio y recupere espacio en disco — con una vista previa de cada movimiento y deshacer con un clic.</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Disponible en</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> Ver capturas
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todas las funciones gratis</a><span>Análisis ilimitados &middot; 1000 cambios de archivos al mes</span></p>
+
+          <div class="sw-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-lightning-charge text-warning me-1" aria-hidden="true"></i> Ordena archivos y fotos en un minuto</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-eye text-info me-1" aria-hidden="true"></i> Ve cada cambio antes y deshaz cuando quieras</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-success me-1" aria-hidden="true"></i> En tu PC, sin cuenta y sin anuncios</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-green" aria-hidden="true"></div>
+            <div class="sw-window position-relative">
+              <img src="/assets/images/sortwise/es/ai-photo-file-organizer.webp" alt="Sortwise, el organizador de fotos y archivos con IA. Todas las funciones gratis." decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>Sortwise de un vistazo</h2>
+          <p class="sw-glance-def mb-4">Sortwise es la solución definitiva para organizar archivos: todo lo que necesita para ordenar sus archivos y fotos, en una sola app. Todas las funciones son gratis: mueva, copie, cambie de nombre o elimine hasta 1000 archivos cada mes natural, sin periodo de prueba ni límite de tiempo. Analizar, buscar, encontrar duplicados y deshacer nunca cuentan. ¿Necesita más para una gran limpieza? Pro durante 24 horas o Pro para siempre elimina el límite.</p>
+          <dl class="sw-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="sw-fact"><dt>Qué es</dt><dd>Un organizador de archivos y fotos para Windows 10 y 11, con buscador de duplicados, cambio de nombre por lotes y búsqueda de fotos con IA</dd></div>
+            <div class="sw-fact"><dt>Precio</dt><dd>Gratis, con todas las funciones y 1000 cambios de archivos al mes. Pro durante 24 horas o Pro para siempre quita el límite</dd></div>
+            <div class="sw-fact"><dt>Nunca cuenta</dt><dd>Analizar, buscar, encontrar duplicados, copias de seguridad y deshacer, tantas veces como quieras</dd></div>
+            <div class="sw-fact"><dt>Ordena por</dt><dd>Tipo de archivo, año y mes, fecha de captura, cámara o tus propias reglas escritas con palabras sencillas</dd></div>
+            <div class="sw-fact"><dt>Limpia</dt><dd>Archivos duplicados, fotos parecidas y borrosas, ráfagas, instaladores antiguos y descargas incompletas</dd></div>
+            <div class="sw-fact"><dt>Seguridad</dt><dd>Muestra el plan antes de mover nada, nunca sobrescribe, envía lo eliminado a la Papelera de reciclaje y deshace cualquier cambio</dd></div>
+            <div class="sw-fact"><dt>IA</dt><dd>Búsqueda de fotos, fotos parecidas, agrupación de caras y reglas a partir de tus palabras se ejecutan en tu PC. Sin GPU</dd></div>
+            <div class="sw-fact"><dt>Privacidad</dt><dd>Funciona sin conexión. Sin cuenta, sin anuncios, sin telemetría, nada se sube</dd></div>
+            <div class="sw-fact"><dt>Funciona en</dt><dd>Windows 10 versión 2004 o posterior y Windows 11, x64 y ARM64, en 23 idiomas</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i> TODO EN UNA APP</span>
+        <h2 class="display-5 fw-bold text-white">Todo lo que necesitas para organizar archivos y fotos</h2>
+        <p class="text-secondary fs-5 mb-0">Todo en uno para ordenar sus archivos y fotos</p>
+      </div>
+      <div class="sw-narrow mx-auto mb-5">
+        <p class="text-secondary">Su carpeta de Descargas tiene cuatro mil cosas dentro. Su carpeta de Imágenes guarda tres teléfonos, dos cámaras y diez años de capturas de pantalla. Sortwise lo pone todo en orden — íntegramente en su propio PC, sin conexión — y no mueve ni un archivo hasta que usted haya leído la lista y dado el visto bueno.</p>
+        <p class="text-secondary mb-0">Señale una carpeta, elija cómo quiere ordenarla y Sortwise le mostrará en lenguaje claro una vista previa de cada movimiento antes de que ocurra nada. Léala, borre las líneas que no le convenzan y ejecútela. Si se arrepiente cinco minutos o cinco días después, un clic lo devuelve todo exactamente a donde estaba. Nunca se borra nada de forma definitiva: lo retirado va a la Papelera de reciclaje.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder2-open" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Ordena cualquier carpeta</h3>
+            </div>
+            <p class="text-secondary small mb-0">Descargas, Escritorio, Documentos e Imágenes</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search-heart" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Búsqueda de fotos con IA</h3>
+            </div>
+            <p class="text-secondary small mb-0">Encuentra fotos por lo que muestran</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-files" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Buscador de duplicados</h3>
+            </div>
+            <p class="text-secondary small mb-0">Copias por contenido, no por nombre</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-images" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Fotos parecidas</h3>
+            </div>
+            <p class="text-secondary small mb-0">Ráfagas y borrosas: quédate con la mejor</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-stars" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Reglas con tus palabras</h3>
+            </div>
+            <p class="text-secondary small mb-0">Una IA local convierte una frase en reglas</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Renombrar en lote</h3>
+            </div>
+            <p class="text-secondary small mb-0">Cientos de archivos, con vista previa</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Deshaz lo que sea</h3>
+            </div>
+            <p class="text-secondary small mb-0">Cada orden queda en el historial</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Privado</h3>
+            </div>
+            <p class="text-secondary small mb-0">En tu PC, nada se sube</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass sw-oneapp p-4 mt-4">
+        <h3 class="sw-detail-head mb-2">UNA SOLA APP PARA ORGANIZAR TODOS SUS ARCHIVOS Y FOTOS</h3>
+        <p class="text-secondary mb-0">Organizador de archivos y carpetas, gestor de fotos e imágenes, buscador de fotos y archivos duplicados, limpieza de fotos parecidas y borrosas, analizador de espacio en disco, cambio de nombre por lotes, búsqueda de fotos sin conexión, agrupación de caras en el propio PC, organizador de música, buscador de vídeos duplicados, copia de seguridad de carpetas, importación desde la tarjeta de la cámara y organizador de facturas y recibos: todo en una app privada, con todas las funciones gratis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> Ver capturas</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise en acción</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/ai-photo-search.webp" alt="Todas sus fotos en un solo lugar, las más recientes primero, con una búsqueda IA que funciona en su propio PC." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search-heart me-1" aria-hidden="true"></i>BÚSQUEDA DE FOTOS IA</div>
+              <h3 class="sw-shot-title">Encuentra fotos por lo que muestran</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Escribe «playa», «perro» o «recibo»</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Funciona en tu idioma</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>En tu PC, ninguna foto se sube</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/sort-files-by-type-or-date.webp" alt="Recetas de un clic: ordene por tipo de archivo, por fecha o las fotos por el día en que se tomaron." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-ui-checks-grid me-1" aria-hidden="true"></i>RECETAS DE UN CLIC</div>
+              <h3 class="sw-shot-title">Elige cómo ordenarlo</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Por tipo, por fecha o por el día de la foto</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Más de 100 formas de ordenar</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>O descríbelo con tus palabras</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/preview-every-move.webp" alt="Vea cada movimiento antes de que ocurra. Nada cambia hasta que usted diga que sí." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-list-check me-1" aria-hidden="true"></i>SIN SORPRESAS</div>
+              <h3 class="sw-shot-title">Mira el plan antes de que se mueva nada</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Cada carpeta nueva y cada movimiento, antes</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Desmarca lo que quieras dejar igual</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Nada se borra ni se sobrescribe</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/duplicate-file-finder.webp" alt="Encuentre archivos duplicados por su contenido, conserve la mejor copia y recupere espacio en disco." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-files me-1" aria-hidden="true"></i>DUPLICADOS</div>
+              <h3 class="sw-shot-title">Encuentra copias que no necesitas</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Comparados por contenido, no por nombre</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Se conserva la mejor copia</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Las sobrantes van a la Papelera</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/find-files.webp" alt="Vuelva a encontrar cualquier archivo por nombre, tipo, tamaño o antigüedad." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search me-1" aria-hidden="true"></i>ENCUÉNTRALO TODO</div>
+              <h3 class="sw-shot-title">Encuentra todo lo que guardas</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Por nombre, tipo, tamaño o antigüedad</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Busca dentro de PDF y documentos</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Mueve, etiqueta o renombra lo que encuentres</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/tidy-downloads-folder.webp" alt="¿Ha cambiado de opinión? Un clic devuelve cada archivo exactamente a su sitio." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>LISTO EN UN MINUTO</div>
+              <h3 class="sw-shot-title">Listo. Y todo se puede deshacer</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Tus archivos en carpetas claras</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Abre la carpeta o deshaz al instante</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Ordena el siguiente lugar con un clic</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/es/undo-timeline.webp" alt="Un historial completo de cada cambio, y todos se pueden deshacer." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i>DESHACER</div>
+              <h3 class="sw-shot-title">Deshaz lo que quieras, cuando quieras</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Cada orden queda en el historial</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Un clic devuelve cada archivo</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Deshacer siempre es gratis</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Disponible en</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todas las funciones gratis</a><span>Análisis ilimitados &middot; 1000 cambios de archivos al mes</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-gift me-1" aria-hidden="true"></i> Precios</span>
+        <h2 class="display-5 fw-bold text-white">Todas las funciones son gratis</h2>
+        <p class="text-secondary fs-5 mb-0">Sin prueba, sin límite de tiempo, sin anuncios. El plan gratuito tiene todas las funciones; solo tiene límite el número de archivos que se cambian cada mes.</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan sw-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Free</h3>
+            <p class="sw-plan-price mb-3">Gratis</p>
+            <div class="sw-quota mb-4">
+              <span class="sw-quota-num">1000</span>
+              <span class="sw-quota-label">cambios de archivos cada mes, con todas las funciones</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ordenar, renombrar, duplicados, búsqueda de fotos con IA, caras, copias de seguridad: todo incluido</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Cada archivo movido, copiado, renombrado o eliminado cuenta como un cambio</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Analizar, buscar, encontrar duplicados, las copias de seguridad y deshacer nunca cuentan</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Deshacer un orden devuelve esos archivos al cupo del mes</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>El contador vuelve a empezar el día 1 de cada mes</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Disponible en</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Pro <span class="badge rounded-pill sw-plan-opt align-middle ms-1">Opcional</span></h3>
+            <p class="sw-plan-price sw-plan-price-sm mb-3">Pro durante 24 horas o Pro para siempre</p>
+            <div class="sw-quota sw-quota-pro mb-4">
+              <span class="sw-quota-num"><i class="bi bi-infinity" aria-hidden="true"></i></span>
+              <span class="sw-quota-label">Sin límite de cambios de archivos</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro durante 24 horas: cambios ilimitados para una gran limpieza</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro para siempre: ilimitado y para siempre, con una sola compra</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Todo lo que empieces antes de que acaben las 24 horas terminará</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Se compra en Microsoft Store. Sin suscripción ni cuenta con nosotros</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 sw-narrow">Los precios se fijan por mercado y Microsoft Store los muestra antes de comprar. ¿Has llegado al límite? Sortwise te avisa antes de empezar, te ofrece usar los archivos gratis que te quedan y nunca se detiene a mitad.</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i> Cómo funciona</span>
+        <h2 class="display-5 fw-bold text-white">Una carpeta ordenada en tres pasos</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">Elige un lugar</h3>
+            </div>
+            <p class="text-secondary small mb-0">Descargas, Escritorio, Documentos, Imágenes o cualquier carpeta. Sortwise la lee y te dice cuántos archivos hay sueltos.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">Elige un estilo</h3>
+            </div>
+            <p class="text-secondary small mb-0">Por tipo de archivo, por fecha, fotos por el día en que se tomaron o cualquiera de las más de 100 formas de ordenar. O descríbelo con tus palabras.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">Revisa el plan y ordena</h3>
+            </div>
+            <p class="text-secondary small mb-0">Cada carpeta nueva y cada movimiento aparecen primero en la lista. Desmarca lo que quieras dejar como está y ordena. Un clic en el historial lo devuelve todo.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Disponible en</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todas las funciones gratis</a><span>Análisis ilimitados &middot; 1000 cambios de archivos al mes</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sortwise or by hand -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="compare">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i> Por qué Sortwise</span>
+        <h2 class="display-5 fw-bold text-white">¿Sortwise u ordenar a mano?</h2>
+        <p class="text-secondary fs-5 mb-0">El Explorador de archivos mueve archivos tanda a tanda. Sortwise ordena la carpeta entera, te enseña antes el plan y puede devolverlo todo a su sitio.</p>
+      </div>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Tarea</th>
+                <th scope="col" class="sw-col">Sortwise</th>
+                <th scope="col">A mano en el Explorador</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row" class="text-white">Ordenar una carpeta desordenada en Imágenes, Documentos, Vídeos y más</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Un clic, con recetas ya preparadas</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Seleccionar y arrastrar, tanda a tanda</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Archivar fotos por fecha de captura</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Lee la fecha guardada en cada foto</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">La fecha de captura es solo una columna; las mueves tú</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Encontrar archivos duplicados</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Comparados por contenido, se llamen como se llamen</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">No tiene buscador de duplicados</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Encontrar fotos por lo que aparece en ellas</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Escribe «playa» o «perro»</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Solo nombres y propiedades del archivo en la mayoría de PC</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Renombrar cientos de archivos</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Reemplazar, numerar, prefijo, sufijo, con vista previa</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Solo nombres numerados, como Foto (1)</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Ver cada cambio antes de que ocurra</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Un plan completo; desmarca lo que quieras</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">Cada movimiento ocurre al arrastrar</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Deshacer una limpieza entera días después</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Cada orden queda en el historial</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Ctrl+Z para tus últimas acciones</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Precio</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Gratis, 1000 cambios de archivos al mes</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">Gratis</span></span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it tidies -->
+  <section class="py-5" id="use-cases">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> Qué ordena</span>
+        <h2 class="display-5 fw-bold text-white">Una sola app para cada tipo de desorden</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-download" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">La carpeta Descargas</h3>
+            <p class="text-secondary small mb-0">Instaladores, PDF, ZIP e imágenes ordenados en carpetas por tipo, con los instaladores viejos apartados.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-display" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Un escritorio abarrotado</h3>
+            <p class="text-secondary small mb-0">Despeja el escritorio de una vez sin perder nada de vista: el historial muestra adónde fue cada archivo.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-camera" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Años de fotos</h3>
+            <p class="text-secondary small mb-0">Fotos de móviles y cámaras archivadas por año y mes según la fecha de cada foto, con RAW y JPG siempre juntos.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Duplicados y espacio en disco</h3>
+            <p class="text-secondary small mb-0">Copias encontradas por contenido, fotos parecidas, ráfagas y borrosas, descargas incompletas. Lo sobrante va a la Papelera.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Facturas y papeles</h3>
+            <p class="text-secondary small mb-0">Extractos y facturas escaneados renombrados según lo que dicen: fecha, remitente y tipo de documento, y archivados por año.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-music-note-beamed" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Música y vídeos</h3>
+            <p class="text-secondary small mb-0">Canciones ordenadas por sus etiquetas de artista y álbum, y vídeos duplicados encontrados aunque tengan nombres distintos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In detail -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features-in-detail">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-list-stars me-1" aria-hidden="true"></i> Todas las funciones</span>
+        <h2 class="display-5 fw-bold text-white">Todo lo que hace Sortwise, en detalle</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder-check" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">ORGANIZAR ARCHIVOS Y FOTOS</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Recetas listas para usar, en un clic: por tipo de archivo, por año y mes, por año, por tipo y luego año, por cámara, o para apartar las capturas de pantalla.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Continúe el sistema de archivo que ya tiene. Sortwise lee las carpetas que usted creó hace años y escribe reglas que siguen justo donde lo dejó.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Describa lo que quiere con sus propias palabras — «poner las facturas en Documentos por año» — y un modelo de lenguaje local redacta las reglas para que usted las revise.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Un editor de reglas completo: extensión, nombre, ruta, tamaño, fechas, tamaño de imagen, cámara, persona, lugar, etiqueta y parecido visual.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Guarde cualquier conjunto de reglas como receta y vuelva a ejecutarlo cuando quiera.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Las carpetas vigiladas detectan lo que llega nuevo y lo dejan preparado para su revisión. Nunca mueven nada por su cuenta.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Lo que va junto sigue junto: un RAW y su JPG, un vídeo y su archivo acompañante, nunca se separan.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Las ubicaciones protegidas del sistema se rechazan de plano.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">RENOMBRAR POR LOTES</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Sustituir texto, numerar archivos en orden, añadir un prefijo o un sufijo, corregir mayúsculas y minúsculas o quitar texto — en cientos de archivos a la vez, con la misma vista previa y el mismo deshacer de un clic.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">VOLVER A ENCONTRARLO TODO</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Busque archivos por nombre, tipo, tamaño, fecha o sus propias etiquetas.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Busque fotos por lo que aparece realmente en ellas — «playa», «mi perro», «recibos» — aunque todos los archivos se llamen IMG_4471.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Busque dentro de sus documentos, PDF incluidos.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-camera" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">FOTOS</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Personas: Sortwise agrupa las fotos de una misma cara para que pueda ponerle nombre a un grupo y archivar las imágenes por persona. Desactivado de fábrica, se activa a voluntad y se puede borrar en cualquier momento. Nunca adivina quién es nadie.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Lugares: vea dónde se tomaron sus fotos, agrupadas por viajes y ubicaciones, a partir de la posición que su cámara o su teléfono guardó dentro de la imagen.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ráfagas: veinticuatro tomas del mismo instante, con la más nítida ya localizada para usted.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">DUPLICADOS Y ESPACIO EN DISCO</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Archivos idénticos en cualquier punto de sus unidades, se llamen como se llamen.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Fotos casi idénticas, detectadas incluso después de redimensionarlas, recomprimirlas o compartirlas.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Restos: descargas interrumpidas, archivos temporales de editores, archivos vacíos, instaladores antiguos y comprimidos ya descomprimidos al lado.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Archive en un .zip, justo al lado, una carpeta que no ha tocado en meses — comprobada archivo por archivo antes de retirar nada.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">PAPELEO</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Las facturas, extractos y escaneos llegan con nombres como Extracto_08472204_20240314.pdf. Sortwise relee el texto ya guardado para la búsqueda y propone quién lo envió, qué tipo de documento es y de cuándo es — suficiente para renombrarlo «2024-03-14 - Banco - Extracto.pdf» y archivarlo por año. La prueba se muestra junto a cada sugerencia, y todo pasa por la misma vista previa que el resto.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd-stack" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">EXPLORAR, RESPALDAR, REPARAR</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Un explorador de carpetas integrado: recorra su biblioteca carpeta por carpeta, ordene por tamaño y mueva, renombre, etiquete o envíe a la papelera sin salir de la aplicación.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Mueva una carpeta grande a otra unidad y deje un enlace en su lugar, para que accesos directos, proyectos y cualquier otra cosa que apunte al lugar antiguo sigan funcionando.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Trabajos de copia de seguridad incrementales entre sus carpetas, con restauración y verificación.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Compare dos carpetas y vea exactamente qué falta, qué ha cambiado y qué está duplicado.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Arregle los nombres que dan problemas: rutas de más de 260 caracteres, espacios al final, caracteres que el almacenamiento en la nube rechaza.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Historial completo: todo lo que Sortwise ha hecho alguna vez, lo más reciente primero, y todo ello reversible.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private by design -->
+  <section class="py-5" id="privacy">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i> Privado por diseño</span>
+        <h2 class="display-5 fw-bold text-white">Tus archivos se quedan en tu PC</h2>
+        <p class="text-secondary fs-5 mb-0">Sortwise no tiene ningún servidor al que enviar nada. Lo que aprende de tus archivos se guarda en una base de datos local en tu propio disco.</p>
+      </div>
+      <div class="card card-glass p-4 p-md-5 invariant-card">
+        <p class="text-white mb-4">Sortwise funciona sin conexión. No hay cuenta, ni inicio de sesión, ni anuncios, ni analítica, ni telemetría. Sus archivos, sus fotos, sus agrupaciones de caras y sus búsquedas se quedan en su máquina: el índice es una base de datos local en su propia unidad y nunca se envía a ninguna parte.</p>
+        <p class="text-secondary mb-2">Dos cosas usan Internet, ambas opcionales y solo cuando usted lo pide:</p>
+        <ul class="list-unstyled sw-check-list mb-4">
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Una descarga única de los archivos del modelo de IA que Sortwise ejecuta después en su propio hardware.</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>La búsqueda de nombres de lugares mediante OpenStreetMap, desactivada de fábrica, que solo envía las palabras que usted escribe.</span></li>
+        </ul>
+        <p class="text-secondary mb-4">Los datos de caras nunca salen de su PC, se mantienen fuera de las carpetas sincronizadas con la nube y se pueden borrar por completo desde los Ajustes en cualquier momento. Si prefiere que Sortwise no mire nunca dentro de un archivo, un único ajuste lo limita a los nombres y las ubicaciones.</p>
+        <a class="small" href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Política de privacidad</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built for Windows, in your language -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="windows">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-windows" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">HECHO PARA WINDOWS</h2>
+            </div>
+            <p class="text-secondary small mb-0">Una aplicación nativa de Windows con una interfaz clara y cómoda con el teclado, temas claro y oscuro, y compatibilidad con rutas muy largas. La IA se ejecuta localmente en su CPU: no hace falta hardware especial.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-translate" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">EN SU PROPIO IDIOMA</h2>
+            </div>
+            <p class="text-secondary small mb-0">Sortwise está totalmente traducido a 23 idiomas — English, العربية, 简体中文, Čeština, Dansk, Nederlands, Suomi, Français, Deutsch, עברית, Magyar, Italiano, 日本語, 한국어, Norsk bokmål, Polski, Português, Русский, Español, Svenska, ไทย, Türkçe, Українська. Adopta por su cuenta el idioma de Windows, o puede elegir otro en los Ajustes, y las disposiciones de derecha a izquierda se reflejan correctamente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every feature -->
+  <section class="py-5" id="features">
+    <div class="container py-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h2 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>Lista de funciones</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Todas las funciones gratis: mueva, copie, cambie de nombre o elimine hasta 1000 archivos cada mes natural. Sin prueba ni límite de tiempo. Buscar y deshacer nunca cuentan.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Vea exactamente qué va a pasar antes de que se mueva un solo archivo. Cada organización empieza como una vista previa que puede leer, editar línea a línea y cancelar.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Deshaga lo que sea. Cada cambio queda registrado, así que un clic devuelve cada archivo exactamente a donde estaba. Nunca se borra nada de forma definitiva.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ordena Descargas, Escritorio, Documentos e Imágenes en pocos clics</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Encuentre fotos por lo que aparece en ellas. Busque «playa», «mi perro» o «recibos» y obtenga resultados aunque los nombres no le digan nada.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Agrupe fotos de una misma cara para nombrar personas y archivar por persona, y vea sus imágenes en un mapa. Desactivado de fábrica y borrable.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Encuentra archivos duplicados por contenido y libera espacio</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Fotos que no son copias exactas pero se ven iguales: la reducida, la que se volvió a guardar, dos tomas con un segundo de diferencia. Sortwise se queda con la mejor de cada serie.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Describa lo que quiere en su idioma — «poner las facturas en Documentos por año» — y un modelo de lenguaje local lo convierte en reglas que usted revisa.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ordene una carpeta en un clic con recetas listas para usar, o deje que Sortwise lea el sistema de archivo que ya construyó y escriba reglas que lo continúen.</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Renombre cientos de archivos a la vez: sustituir texto, numerarlos, añadir un prefijo o un sufijo, corregir mayúsculas. La misma vista previa, el mismo deshacer.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Busque dentro de sus documentos, PDF incluidos, para encontrar un archivo por una frase que recuerda en lugar de por un nombre que no recuerda.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Busca por nombre, tipo, tamaño o antigüedad</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Las facturas, extractos y escaneos se nombran según lo que realmente dicen — remitente, tipo y fecha — en lugar de un número de código que se inventó un escáner.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Copias de seguridad incrementales entre sus carpetas, con restauración y verificación: existe una segunda copia antes de que mueva nada.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Mueva una carpeta grande a otra unidad y deje un enlace en su lugar, para que todo lo que apunte al lugar antiguo siga funcionando.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Las copias sobrantes van a la Papelera, nunca se borran del todo</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Más de 100 formas de ordenar, del tipo de archivo a los originales de cámara</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Funciona sin conexión: tras una descarga única de los modelos de IA, no necesita internet. Sin cuenta, sin anuncios, sin telemetría. Sus archivos, fotos y caras nunca salen de su PC.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>En 23 idiomas, modo claro y oscuro</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> Preguntas frecuentes</span>
+        <h2 class="display-5 fw-bold text-white">Preguntas frecuentes</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="sortwiseFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  ¿Sortwise es realmente gratis?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sí. Sortwise es gratis e incluye todas las funciones, sin prueba ni límite de tiempo. Cada mes natural puedes mover, copiar, renombrar o eliminar hasta 1000 archivos sin pagar. Si una gran limpieza necesita más, Pro durante 24 horas o Pro para siempre quita el límite.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  ¿Qué cuenta como cambio de archivo?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Cada archivo que Sortwise mueve, copia, renombra o envía a la Papelera de reciclaje. Analizar, explorar, buscar, la vista previa, encontrar duplicados, las copias de seguridad y deshacer nunca cuentan, y deshacer un orden devuelve esos archivos al cupo del mes.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  ¿Qué pasa si llego a 1000 en un mes?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise te avisa antes de que empiece un orden, nunca a mitad. Puedes usar los archivos gratis que te quedan, esperar al día 1, cuando el contador vuelve a empezar, o elegir Pro. Lo que ya ordenaste sigue ordenado y deshacer siempre funciona.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  ¿Qué diferencia hay entre Pro durante 24 horas y Pro para siempre?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Los dos quitan el límite mensual y no cambian nada más, porque todas las funciones ya son gratis. Pro durante 24 horas dura un día desde la compra, para una sola gran limpieza, y todo lo que empieces antes de que acabe terminará. Pro para siempre es una compra única, sin límite y para siempre. Ambos se compran en Microsoft Store, que muestra el precio de tu país.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  ¿Cómo ordeno automáticamente mi carpeta Descargas?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Abre Sortwise y elige «Ordenar mis Descargas», o selecciona la carpeta en «Lugares». Elige un estilo, como por tipo de archivo o por fecha, lee el plan y pulsa «Ordenar». Las carpetas vigiladas también detectan lo que llega nuevo y lo preparan para que lo revises; nunca mueven nada por su cuenta.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  ¿Sortwise puede ordenar fotos en carpetas por fecha de captura?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sí. Lee la fecha en que se tomó cada foto desde el propio archivo y archiva las fotos por año, o por año y mes. Un archivo RAW y su JPG, o un vídeo y su archivo complementario, siempre se mueven juntos.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  ¿Sortwise borra mis archivos?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  No sin preguntar. Ordenar solo mueve archivos a carpetas y nunca sobrescribe nada. Los duplicados y la basura que decides quitar van a la Papelera de reciclaje de Windows, y Sortwise se niega a borrar donde no hay Papelera que los recoja. Cualquier cambio se puede deshacer desde el historial.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  ¿Cómo encuentra Sortwise los archivos duplicados?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Compara los archivos por su contenido, no por su nombre, así que encuentra las copias se llamen como se llamen. Conserva la mejor copia de cada grupo y te ofrece enviar el resto a la Papelera. Las fotos parecidas (redimensionadas, guardadas de nuevo o tomadas con un segundo de diferencia), las ráfagas y las borrosas se detectan aparte.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  ¿Puedo deshacer un orden días después?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sí. Cada cambio se registra en tu PC y el historial muestra cada orden con un botón «Deshacer», del más reciente al más antiguo. Deshacer devuelve cada archivo a su sitio y quita las carpetas que quedan vacías. Deshacer es gratis y nunca tiene límite.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  ¿Puedo ordenar archivos con mis propias reglas?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sí. Describe lo que quieres con tus palabras, por ejemplo «poner las facturas en Documentos por año», y el paquete de idioma de tu equipo redacta reglas para que las revises. También hay un editor de reglas completo (extensión, nombre, tamaño, fechas, cámara, persona, lugar y más), y Sortwise puede aprender de las carpetas que ya creaste y continuarlas.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  ¿Cómo funciona la búsqueda de fotos con IA? ¿Necesito una GPU?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Escribe lo que buscas, como «playa», «perro» o «tiques», y Sortwise encuentra las fotos que lo muestran, aunque todos los archivos se llamen IMG_4471. Entiende tu idioma y se ejecuta en el procesador de tu PC, así que no hace falta GPU ni hardware especial. El paquete de fotos se descarga una vez, en la primera búsqueda, después de que Sortwise te indique su tamaño.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  ¿Sortwise sube mis archivos o necesita una cuenta?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  No. Funciona sin conexión, sin cuenta, sin anuncios y sin telemetría. Internet solo se usa cuando lo pides: para descargar una vez un paquete de IA local, para buscar un nombre de lugar en el mapa (desactivado por defecto) o para comprar Pro en Microsoft Store.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  ¿Es seguro usarlo en todo mi PC?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse" aria-labelledby="faq13Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise solo cambia archivos en los lugares que le indicas y rechaza de plano las ubicaciones protegidas del sistema. Nada se mueve hasta que has visto el plan, los archivos que van juntos siguen juntos y cualquier cambio se puede deshacer.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  ¿Cuáles son los requisitos del sistema?
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse" aria-labelledby="faq14Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Windows 10 versión 2004 o posterior, o Windows 11, en un PC x64 o ARM64. Sortwise se instala desde Microsoft Store, está en 23 idiomas con tema claro y oscuro, y usa automáticamente el idioma de Windows.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(14,139,99,0.22) 0%, rgba(255,211,102,0.08) 100%);">
+        <div class="sw-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" class="w-100 h-100 object-fit-contain" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">La solución definitiva para organizar archivos</h2>
+          <p class="text-secondary fs-5 mb-2">Sortwise no envía sus archivos a ningún sitio. No necesita una cuenta. Le enseña lo que va a hacer — y siempre puede echarse atrás.</p>
+          <p class="text-white fs-5 mb-4">Todas las funciones son gratis. Abra su carpeta más desordenada con Sortwise y vea el plan en un minuto.</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Disponible en</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0 justify-content-center"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todas las funciones gratis</a><span>Análisis ilimitados &middot; 1000 cambios de archivos al mes</span></p>
+          <p class="small mt-4 mb-0"><a href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Política de privacidad</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link">Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link">KeepOne Duplicate Finder</a></li>
+            <li><a href="/steptell/" class="footer-link">Steptell Steps Recorder</a></li>
+            <li><a href="/Sortwise/" class="footer-link text-primary fw-semibold">Sortwise File Organizer</a></li>
+            <li><a href="/nudge/" class="footer-link">Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link">Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare/" class="footer-link">GlowCompare</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link">GlowCompare for Windows</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link">Milk Calendar</a></li>
+            <li><a href="/slouch-guard/" class="footer-link">Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link">Notelock</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link">Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link">AES Vault</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/Sortwise/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>Sortwise Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Sortwise">
+  <img src="/assets/images/sortwise-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Sortwise</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Instalar</a>
+</div>
+<button type="button" class="to-top" aria-label="Volver arriba" title="Volver arriba">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Consentimiento de cookies" hidden>
+  <p class="consent-bar-text">Google Analytics nos muestra cómo se usa este sitio; las etiquetas publicitarias de Google y Microsoft miden si nuestros anuncios funcionan. Ambas pueden instalar cookies para ello — si rechazas, se detienen. Ninguna crea un perfil publicitario. <a href="/privacy.html" class="consent-bar-link">Política de privacidad</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Rechazar</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Aceptar</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

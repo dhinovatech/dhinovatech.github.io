@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="nl" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sortwise: gratis AI foto- en bestandsbeheer voor Windows</title>
+  <meta name="description" content="Ruim Downloads, bureaublad en foto’s op in een minuut, vind dubbele bestanden en maak alles ongedaan. Alle functies gratis, 1.000 bestandswijzigingen per maand. Offline.">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #2ed39b;
+      --dhin-border-glow: rgba(46, 211, 155, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(46, 211, 155, 0.18);
+      --dhin-gradient-primary: linear-gradient(135deg, #2ed39b 0%, #0e8b63 100%);
+      --sw-green: #2ed39b;
+      --sw-deep: #0e8b63;
+      --sw-amber: #ffd366;
+      --sw-ink: #032c1f;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 46, 211, 155;
+      --bs-primary-bg-subtle: rgba(46, 211, 155, 0.12);
+      --bs-primary-border-subtle: rgba(46, 211, 155, 0.32);
+      --bs-primary-text-emphasis: #9cf0d0;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #b8f5df 0%, #2ed39b 55%, #ffd366 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(46, 211, 155, 0.24); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(46, 211, 155, 0.38); }
+    .btn-dhin-outline:hover { background: rgba(46, 211, 155, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(14, 139, 99, 0.34) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-green { box-shadow: 0 0 45px rgba(14, 139, 99, 0.35); }
+    .sw-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(46,211,155,0.16), rgba(255,211,102,0.12));
+      color: var(--sw-green); border: 1px solid rgba(46,211,155,0.3);
+    }
+    .sw-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .sw-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .sw-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(46,211,155,0.16); color: var(--sw-green);
+      border: 1px solid rgba(46,211,155,0.4);
+    }
+
+    /* Hero */
+    .sw-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .sw-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sw-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .sw-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #9cf0d0; margin-top: .6rem;
+    }
+    .sw-cta-strip .sw-price { margin: 0; }
+    .sw-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .sw-price-tag {
+      background: var(--sw-amber); color: var(--sw-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 211, 102, .3);
+    }
+    .sw-price-tag:hover { color: var(--sw-ink); background: #ffe08f; }
+    .sw-window {
+      border-radius: 14px; overflow: hidden; background: #06402f;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .sw-window img { display: block; width: 100%; height: auto; }
+
+    .sw-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .sw-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .sw-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .sw-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .sw-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--sw-green); font-weight: 700; margin-bottom: .3rem; }
+    .sw-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Screenshot gallery */
+    .sw-shot { overflow: hidden; margin: 0; }
+    .sw-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sw-shot figcaption { padding: 1rem 1.1rem 1.1rem; }
+    .sw-shot-kicker { font-size: .72rem; letter-spacing: .08em; font-weight: 700; color: var(--sw-green); text-transform: uppercase; }
+    .sw-shot-title { font-size: 1.02rem; font-weight: 700; color: #fff; margin: .25rem 0 .6rem; }
+    .sw-shot ul { margin: 0; padding: 0; list-style: none; }
+    .sw-shot li { font-size: .86rem; color: #cbd5e1; display: flex; gap: .5rem; margin-bottom: .25rem; }
+    .sw-shot li i { color: var(--sw-green); flex-shrink: 0; }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--sw-green) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--sw-green) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(46, 211, 155, 0.1); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(46, 211, 155, 0.4) !important; }
+    .sw-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .sw-check-list li i { color: var(--sw-green); flex-shrink: 0; margin-top: .1rem; }
+    .sw-detail-head { font-size: .78rem; letter-spacing: .07em; font-weight: 700; color: var(--sw-amber); text-transform: uppercase; }
+    .sw-oneapp { background: rgba(255, 211, 102, .07); border: 1px solid rgba(255, 211, 102, .28) !important; }
+
+    /* Sortwise vs by hand */
+    .peer-table { font-size: .9rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; min-width: 150px; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; }
+    .peer-table th.sw-col, .peer-table td.sw-col { background: rgba(46, 211, 155, .07); border-left: 1px solid rgba(46,211,155,.25); border-right: 1px solid rgba(46,211,155,.25); }
+    .peer-table thead th.sw-col { color: var(--sw-green); border-top: 2px solid var(--sw-green); }
+    .peer-table tbody th { min-width: 170px; font-weight: 600; }
+    .peer-cell { display: flex; gap: .45rem; align-items: flex-start; }
+    .peer-cell i { flex-shrink: 0; margin-top: .15rem; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--sw-amber); }
+    .peer-n { color: #f87171; }
+
+    /* Pricing */
+    .sw-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .sw-plan-free { border: 2px solid var(--sw-green) !important; box-shadow: 0 0 40px rgba(46, 211, 155, .14); }
+    .sw-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--sw-green); }
+    .sw-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .sw-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .sw-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 211, 102, .1); border: 1px solid rgba(255, 211, 102, .38);
+    }
+    .sw-quota-num { font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--sw-amber); flex-shrink: 0; }
+    .sw-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .sw-quota-pro { background: rgba(46, 211, 155, .1); border-color: rgba(46, 211, 155, .38); }
+    .sw-quota-pro .sw-quota-num { color: var(--sw-green); }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(46, 211, 155, 0.08); color: var(--sw-green); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(46, 211, 155, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/Sortwise/nl/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/Sortwise/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/Sortwise/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/Sortwise/es/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/Sortwise/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/Sortwise/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/Sortwise/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/Sortwise/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/Sortwise/cs/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/Sortwise/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/Sortwise/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/Sortwise/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/Sortwise/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/Sortwise/fi/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/Sortwise/ru/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/Sortwise/uk/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/Sortwise/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/Sortwise/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/Sortwise/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/Sortwise/zh/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/Sortwise/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/Sortwise/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/Sortwise/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Sortwise: gratis AI foto- en bestandsbeheer voor Windows">
+  <meta property="og:description" content="Ruim Downloads, bureaublad en foto’s op in een minuut, vind dubbele bestanden en maak alles ongedaan. Alle functies gratis, 1.000 bestandswijzigingen per maand. Offline.">
+  <meta property="og:url" content="https://www.dhinovatech.com/Sortwise/nl/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sortwise: gratis AI foto- en bestandsbeheer voor Windows">
+  <meta name="twitter:description" content="Ruim Downloads, bureaublad en foto’s op in een minuut, vind dubbele bestanden en maak alles ongedaan. Alle functies gratis, 1.000 bestandswijzigingen per maand. Offline.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta name="twitter:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/Sortwise/#software","name":"Sortwise","alternateName":"Sortwise: AI foto- en bestandsbeheer","operatingSystem":"Windows 10 version 2004 (build 19041) and later, Windows 11","applicationCategory":"UtilitiesApplication","applicationSubCategory":"File organizer, photo organizer and duplicate file finder","description":"Ruim Downloads, bureaublad en foto’s op in een minuut, vind dubbele bestanden en maak alles ongedaan. Alle functies gratis, 1.000 bestandswijzigingen per maand. Offline.","abstract":"Sortwise is de ultieme oplossing om bestanden te ordenen: alles in één app voor het ordenen van je bestanden en foto's. Alle functies zijn gratis: verplaats, kopieer, hernoem of verwijder elke kalendermaand tot 1.000 bestanden, zonder proefperiode en zonder tijdslimiet. Scannen, zoeken, duplicaten vinden en ongedaan maken tellen nooit mee. Meer nodig voor een grote opruimbeurt? Pro voor 24 uur of Pro voor altijd heft de limiet op.","url":"https://www.dhinovatech.com/Sortwise/nl/","inLanguage":["en","de","fr","es","it","pt-BR","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/sortwise-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","installUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","featureList":["Alle functies gratis: verplaats, kopieer, hernoem of verwijder elke kalendermaand tot 1.000 bestanden. Geen proefperiode, geen tijdslimiet. Zoeken en ongedaan maken tellen nooit mee.","Zie precies wat er gaat gebeuren voordat er één bestand beweegt. Elk opruimen begint als een voorbeeld dat u kunt lezen, regel voor regel bijwerken en annuleren.","Maak alles ongedaan. Elke wijziging wordt vastgelegd, dus één klik zet elk bestand precies terug waar het stond. Er wordt nooit iets definitief gewist.","Ruim Downloads, Bureaublad, Documenten en Afbeeldingen op in een paar klikken","Vind foto's op wat erop staat. Zoek \"strand\", \"mijn hond\" of \"bonnetjes\" en krijg resultaten, ook als de bestandsnamen u niets vertellen.","Groepeer foto's van hetzelfde gezicht om personen te benoemen en per persoon op te bergen, en zie uw foto's op een kaart. Standaard uit, altijd te wissen.","Vind dubbele bestanden op inhoud en maak ruimte vrij","Foto’s die geen exacte kopie zijn maar er hetzelfde uitzien: de verkleinde, de opnieuw opgeslagen, twee opnamen een seconde na elkaar. Sortwise houdt de beste van elke set.","Beschrijf wat u wilt in gewone taal — \"facturen per jaar in Documenten\" — en een lokaal taalmodel maakt er regels van die u kunt nakijken.","Ruim een map met één klik op met kant-en-klare recepten — of laat Sortwise het ordeningssysteem lezen dat u al hebt en regels schrijven die het voortzetten.","Hernoem honderden bestanden tegelijk: tekst vervangen, nummeren, een voor- of achtervoegsel toevoegen, hoofdletters rechtzetten. Zelfde voorbeeld, zelfde ongedaan maken.","Zoek in uw documenten, pdf's inbegrepen, zodat u een bestand terugvindt via een zin die u zich herinnert in plaats van een naam die u vergeten bent.","Zoek op naam, soort, grootte of leeftijd","Rekeningen, afschriften en scans krijgen een naam op basis van wat erin staat — afzender, soort en datum — in plaats van een nummer dat een scanner heeft verzonnen.","Incrementele back-ups tussen uw mappen, met terugzetten en verifiëren: er is een tweede kopie voordat u iets verplaatst.","Verplaats een grote map naar een andere schijf en laat een koppeling achter, zodat alles wat naar de oude plek verwijst blijft werken.","Overbodige kopieën gaan naar de Prullenbak, nooit definitief weg","Meer dan 100 manieren om te sorteren, van bestandstype tot camera-originelen","Werkt offline: na één keer de AI-modellen downloaden is geen internet nodig. Geen account, geen advertenties, geen telemetrie. Uw bestanden, foto's en gezichtsgegevens blijven op uw pc.","In 23 talen, licht en donker"],"isAccessibleForFree":true,"processorRequirements":"x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0"},"screenshot":["https://www.dhinovatech.com/assets/images/sortwise/nl/ai-photo-file-organizer.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/ai-photo-search.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/sort-files-by-type-or-date.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/preview-every-move.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/duplicate-file-finder.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/find-files.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/tidy-downloads-folder.webp","https://www.dhinovatech.com/assets/images/sortwise/nl/undo-timeline.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/Sortwise/nl/#webpage","url":"https://www.dhinovatech.com/Sortwise/nl/","name":"Sortwise: gratis AI foto- en bestandsbeheer voor Windows","description":"Ruim Downloads, bureaublad en foto’s op in een minuut, vind dubbele bestanden en maak alles ongedaan. Alle functies gratis, 1.000 bestandswijzigingen per maand. Offline.","inLanguage":"nl","dateModified":"2026-11-15","about":{"@id":"https://www.dhinovatech.com/Sortwise/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/Sortwise/#software"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Sortwise","item":"https://www.dhinovatech.com/Sortwise/"},{"@type":"ListItem","position":3,"name":"Sortwise (nl)","item":"https://www.dhinovatech.com/Sortwise/nl/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/Sortwise/nl/#faq","inLanguage":"nl","mainEntity":[{"@type":"Question","name":"Is Sortwise echt gratis?","acceptedAnswer":{"@type":"Answer","text":"Ja. Sortwise is gratis en bevat elke functie, zonder proefperiode en zonder tijdslimiet. Elke kalendermaand kunt u tot 1.000 bestanden gratis verplaatsen, kopiëren, hernoemen of verwijderen. Heeft een grote opruimbeurt meer nodig, dan heft Pro voor 24 uur of Pro voor altijd de limiet op."}},{"@type":"Question","name":"Wat telt als bestandswijziging?","acceptedAnswer":{"@type":"Answer","text":"Elk bestand dat Sortwise verplaatst, kopieert, hernoemt of naar de Prullenbak stuurt. Scannen, bladeren, zoeken, voorbeelden bekijken, dubbele bestanden vinden, back-ups en ongedaan maken tellen nooit mee, en een opruimbeurt ongedaan maken geeft die bestanden terug aan het tegoed van de maand."}},{"@type":"Question","name":"Wat gebeurt er als ik in een maand op 1.000 kom?","acceptedAnswer":{"@type":"Answer","text":"Sortwise meldt het voordat een opruimbeurt begint, nooit halverwege. U kunt de gratis bestanden gebruiken die u nog hebt, wachten tot de 1e van de maand, als de telling opnieuw begint, of Pro kiezen. Wat al is opgeruimd blijft opgeruimd, en ongedaan maken werkt altijd."}},{"@type":"Question","name":"Wat is het verschil tussen Pro voor 24 uur en Pro voor altijd?","acceptedAnswer":{"@type":"Answer","text":"Beide heffen de maandlimiet op en verder verandert er niets, want elke functie is al gratis. Pro voor 24 uur geldt één dag vanaf de aankoop, voor één grote opruimbeurt, en wat u daarvoor start maakt het af. Pro voor altijd is een eenmalige aankoop zonder limiet, voorgoed. Beide koopt u in de Microsoft Store, die de prijs voor uw land toont."}},{"@type":"Question","name":"Hoe ruim ik mijn map Downloads automatisch op?","acceptedAnswer":{"@type":"Answer","text":"Open Sortwise en kies ‘Mijn Downloads opruimen’, of kies de map onder ‘Plekken’. Kies een stijl, zoals op bestandstype of op datum, lees het plan en klik op ‘Opruimen’. Bewaakte mappen merken ook nieuwe bestanden op en zetten ze klaar voor uw controle; ze verplaatsen nooit iets uit zichzelf."}},{"@type":"Question","name":"Kan Sortwise foto’s op opnamedatum in mappen sorteren?","acceptedAnswer":{"@type":"Answer","text":"Ja. Het leest de opnamedatum uit elk fotobestand en bergt foto’s op per jaar, of per jaar en maand. Een RAW-bestand en zijn JPG, of een video en zijn bijbehorende bestand, worden altijd samen verplaatst."}},{"@type":"Question","name":"Verwijdert Sortwise mijn bestanden?","acceptedAnswer":{"@type":"Answer","text":"Niet zonder te vragen. Opruimen verplaatst bestanden alleen naar mappen en overschrijft nooit iets. Dubbele bestanden en rommel die u kiest te verwijderen gaan naar de Prullenbak van Windows, en Sortwise weigert te verwijderen waar geen Prullenbak is om ze op te vangen. Elke wijziging is ongedaan te maken vanuit de tijdlijn."}},{"@type":"Question","name":"Hoe vindt Sortwise dubbele bestanden?","acceptedAnswer":{"@type":"Answer","text":"Het vergelijkt bestanden op inhoud, niet op naam, en vindt kopieën dus hoe ze ook heten. Het bewaart de beste kopie van elke groep en biedt de rest aan voor de Prullenbak. Gelijkende foto’s (verkleind, opnieuw opgeslagen of een seconde later genomen), series en wazige opnamen worden apart gevonden."}},{"@type":"Question","name":"Kan ik een opruimbeurt dagen later ongedaan maken?","acceptedAnswer":{"@type":"Answer","text":"Ja. Elke wijziging wordt op uw pc vastgelegd, en de tijdlijn toont elke opruimbeurt met een knop ‘Ongedaan maken’, de nieuwste eerst. Ongedaan maken zet elk bestand terug en verwijdert mappen die leeg zijn gebleven. Ongedaan maken is gratis en nooit beperkt."}},{"@type":"Question","name":"Kan ik bestanden met eigen regels ordenen?","acceptedAnswer":{"@type":"Answer","text":"Ja. Beschrijf in gewone woorden wat u wilt, zoals ‘zet facturen per jaar in Documenten’, en het taalpakket op uw pc stelt regels op die u kunt controleren. Er is ook een volledige regelbouwer (extensie, naam, grootte, datums, camera, persoon, plaats en meer), en Sortwise kan leren van de mappen die u al hebt gemaakt en daarop voortbouwen."}},{"@type":"Question","name":"Hoe werkt AI-fotozoeken? Heb ik een GPU nodig?","acceptedAnswer":{"@type":"Answer","text":"Typ wat u zoekt, zoals ‘strand’, ‘hond’ of ‘bonnetjes’, en Sortwise vindt foto’s waarop het te zien is, ook als elk bestand IMG_4471 heet. Het begrijpt uw taal en draait op de processor van uw pc, dus een GPU of speciale hardware is niet nodig. Het fotopakket wordt één keer gedownload, bij de eerste zoekopdracht, nadat Sortwise de grootte heeft gemeld."}},{"@type":"Question","name":"Uploadt Sortwise mijn bestanden of is er een account nodig?","acceptedAnswer":{"@type":"Answer","text":"Nee. Het werkt offline, zonder account, zonder advertenties en zonder telemetrie. Internet wordt alleen gebruikt als u erom vraagt: om eenmalig een lokaal AI-pakket te downloaden, om een plaatsnaam op de kaart op te zoeken (standaard uit) of om Pro te kopen in de Microsoft Store."}},{"@type":"Question","name":"Is het veilig om op mijn hele pc te gebruiken?","acceptedAnswer":{"@type":"Answer","text":"Sortwise wijzigt alleen bestanden op de plekken die u opgeeft en weigert beveiligde systeemlocaties zonder meer. Er wordt niets verplaatst voordat u het plan hebt gezien, bestanden die bij elkaar horen blijven bij elkaar, en elke wijziging is ongedaan te maken."}},{"@type":"Question","name":"Wat zijn de systeemvereisten?","acceptedAnswer":{"@type":"Answer","text":"Windows 10 versie 2004 of later, of Windows 11, op een pc met x64 of ARM64. Sortwise wordt geïnstalleerd via de Microsoft Store, is er in 23 talen met een licht en donker thema, en neemt automatisch uw Windows-taal over."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/sortwise/nl/ai-photo-file-organizer.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Ga naar hoofdinhoud</a>
+<!-- Navigation Bar (independent Sortwise tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - Sortwise owns its own language tree; build-nav-apps.py
+               adds Smart Photos, KeepOne, Steptell and Mortgage above it -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <!-- BEGIN KeepOne menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nb/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END KeepOne menu -->
+              <!-- BEGIN Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/steptell/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh-tw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Steptell menu -->
+              <!-- BEGIN Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/mortgage-loan-emi-pro/">
+                  <span><img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Mortgage EMI Pro</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                </ul>
+              </li>
+              <!-- END Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/Sortwise/">
+                  <span><img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Sortwise File Organizer</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/nl/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - Sortwise only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Nederlands (Dutch)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/nl/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Gratis downloaden
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="sw-hero-icon">
+              <img src="/assets/images/sortwise-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block sw-hero-kind">AI foto- en bestandsbeheer</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">Sortwise</span> <span class="d-block sw-hero-tagline">De ultieme oplossing om bestanden te ordenen</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">Sortwise is een privé AI-app voor foto- en bestandsbeheer met een duplicatenzoeker, die offline op uw eigen pc werkt. Sorteer jaren aan foto&#x27;s op datum, vind dubbele foto&#x27;s en bestanden, ruim Downloads en het bureaublad op en win schijfruimte terug — met een voorbeeld van elke verplaatsing en ongedaan maken met één klik.</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Download in de</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> Bekijk screenshots
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Alle functies gratis</a><span>Onbeperkt scannen &middot; 1.000 bestandswijzigingen per maand</span></p>
+
+          <div class="sw-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-lightning-charge text-warning me-1" aria-hidden="true"></i> Bestanden en foto&#x27;s in een minuut geordend</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-eye text-info me-1" aria-hidden="true"></i> Alles vooraf zien, altijd ongedaan te maken</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-success me-1" aria-hidden="true"></i> Op je eigen pc, geen account, geen advertenties</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-green" aria-hidden="true"></div>
+            <div class="sw-window position-relative">
+              <img src="/assets/images/sortwise/nl/ai-photo-file-organizer.webp" alt="Sortwise, de AI foto- en bestandsordenaar. Alle functies gratis." decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>Sortwise in het kort</h2>
+          <p class="sw-glance-def mb-4">Sortwise is de ultieme oplossing om bestanden te ordenen: alles in één app voor het ordenen van je bestanden en foto&#x27;s. Alle functies zijn gratis: verplaats, kopieer, hernoem of verwijder elke kalendermaand tot 1.000 bestanden, zonder proefperiode en zonder tijdslimiet. Scannen, zoeken, duplicaten vinden en ongedaan maken tellen nooit mee. Meer nodig voor een grote opruimbeurt? Pro voor 24 uur of Pro voor altijd heft de limiet op.</p>
+          <dl class="sw-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="sw-fact"><dt>Wat het is</dt><dd>Een bestands- en foto-organizer voor Windows 10 en 11, met dubbele-bestandenzoeker, batch-hernoemen en AI-fotozoeken</dd></div>
+            <div class="sw-fact"><dt>Prijs</dt><dd>Gratis, met alle functies en 1.000 bestandswijzigingen per maand. Pro voor 24 uur of Pro voor altijd heft de limiet op</dd></div>
+            <div class="sw-fact"><dt>Telt nooit mee</dt><dd>Scannen, zoeken, dubbele bestanden vinden, back-ups en ongedaan maken, zo vaak u wilt</dd></div>
+            <div class="sw-fact"><dt>Sorteert op</dt><dd>Bestandstype, jaar en maand, opnamedatum, camera of uw eigen regels in gewone woorden</dd></div>
+            <div class="sw-fact"><dt>Ruimt op</dt><dd>Dubbele bestanden, gelijkende en wazige foto’s, series, oude installatieprogramma’s en onvoltooide downloads</dd></div>
+            <div class="sw-fact"><dt>Veiligheid</dt><dd>Toont het plan voordat er iets verplaatst wordt, overschrijft nooit, stuurt verwijderingen naar de Prullenbak, maakt elke wijziging ongedaan</dd></div>
+            <div class="sw-fact"><dt>AI</dt><dd>Foto’s zoeken, gelijkende foto’s, gezichten groeperen en regels uit uw woorden draaien op uw pc. Geen GPU nodig</dd></div>
+            <div class="sw-fact"><dt>Privacy</dt><dd>Werkt offline. Geen account, geen advertenties, geen telemetrie, niets wordt geüpload</dd></div>
+            <div class="sw-fact"><dt>Draait op</dt><dd>Windows 10 versie 2004 of later en Windows 11, x64 en ARM64, in 23 talen</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i> ALLES IN ÉÉN APP</span>
+        <h2 class="display-5 fw-bold text-white">Alles om je bestanden en foto&#x27;s te ordenen</h2>
+        <p class="text-secondary fs-5 mb-0">Alles in één voor het ordenen van je bestanden en foto&#x27;s</p>
+      </div>
+      <div class="sw-narrow mx-auto mb-5">
+        <p class="text-secondary">In uw map Downloads staan vierduizend dingen. In uw map Afbeeldingen zitten drie telefoons, twee camera&#x27;s en tien jaar aan schermafbeeldingen. Sortwise brengt dat allemaal op orde — volledig op uw eigen pc, offline — en verplaatst geen enkel bestand voordat u de lijst hebt gelezen en ja hebt gezegd.</p>
+        <p class="text-secondary mb-0">Wijs Sortwise een map aan, kies hoe u die geordend wilt hebben, en Sortwise toont u in gewone taal een voorbeeld van elke afzonderlijke verplaatsing voordat er iets gebeurt. Lees het door, verwijder de regels die u niet bevallen, en voer het dan uit. Als u er vijf minuten of vijf dagen later spijt van krijgt, zet één klik alles precies terug waar het stond. Er wordt nooit iets definitief gewist: wat weg moet, gaat naar de Prullenbak.</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder2-open" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Elke map opruimen</h3>
+            </div>
+            <p class="text-secondary small mb-0">Downloads, Bureaublad, Documenten, Afbeeldingen</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search-heart" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">AI-fotozoeken</h3>
+            </div>
+            <p class="text-secondary small mb-0">Vind foto&#x27;s op wat erop staat</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-files" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Duplicaten zoeken</h3>
+            </div>
+            <p class="text-secondary small mb-0">Kopieën op inhoud, niet op naam</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-images" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Gelijkende foto&#x27;s</h3>
+            </div>
+            <p class="text-secondary small mb-0">Reeksen en onscherpe: houd de beste</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-stars" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Regels in je eigen woorden</h3>
+            </div>
+            <p class="text-secondary small mb-0">Een lokale AI maakt van een zin regels</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Bulk hernoemen</h3>
+            </div>
+            <p class="text-secondary small mb-0">Honderden bestanden, eerst als voorbeeld</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Alles ongedaan maken</h3>
+            </div>
+            <p class="text-secondary small mb-0">Elke opruimbeurt blijft in de tijdlijn</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Privé</h3>
+            </div>
+            <p class="text-secondary small mb-0">Op je pc, er wordt niets geüpload</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass sw-oneapp p-4 mt-4">
+        <h3 class="sw-detail-head mb-2">ÉÉN APP VOOR AL JE BESTANDEN EN FOTO&#x27;S</h3>
+        <p class="text-secondary mb-0">Bestanden- en mappenordenaar, foto- en afbeeldingenbeheer, dubbele foto&#x27;s en bestanden zoeken, gelijkende en onscherpe foto&#x27;s opruimen, schijfruimte-analyse, bestanden in bulk hernoemen, offline foto&#x27;s zoeken, gezichten groeperen op je eigen pc, muziek ordenen, dubbele video&#x27;s vinden, mappen back-uppen, importeren van de camerakaart en facturen en rekeningen ordenen: alles in één privé-app, met alle functies gratis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> Bekijk screenshots</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise aan het werk</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/ai-photo-search.webp" alt="Al je foto&#x27;s op één plek, nieuwste eerst, met een AI-zoekfunctie die op je eigen pc draait." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search-heart me-1" aria-hidden="true"></i>AI-FOTOZOEKEN</div>
+              <h3 class="sw-shot-title">Vind foto&#x27;s op wat erop staat</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Typ ‘strand’, ‘hond’ of ‘bonnetje’</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Werkt in je eigen taal</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Op je pc, geen foto wordt geüpload</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/sort-files-by-type-or-date.webp" alt="Recepten met één klik: sorteer op bestandstype, op datum, of foto&#x27;s op de dag dat ze zijn gemaakt." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-ui-checks-grid me-1" aria-hidden="true"></i>RECEPTEN MET ÉÉN KLIK</div>
+              <h3 class="sw-shot-title">Kies hoe er gesorteerd wordt</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Op type, op datum of op de dag van de foto</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Meer dan 100 manieren om te sorteren</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Of beschrijf het in je eigen woorden</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/preview-every-move.webp" alt="Zie elke verplaatsing voordat die gebeurt. Er verandert niets tot je ja zegt." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-list-check me-1" aria-hidden="true"></i>GEEN VERRASSINGEN</div>
+              <h3 class="sw-shot-title">Zie het plan voordat er iets verplaatst</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Elke nieuwe map en elke verplaatsing vooraf</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Vink uit wat moet blijven staan</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Niets wordt verwijderd of overschreven</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/duplicate-file-finder.webp" alt="Vind dubbele bestanden op hun inhoud, houd de beste kopie en win schijfruimte terug." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-files me-1" aria-hidden="true"></i>DUPLICATEN</div>
+              <h3 class="sw-shot-title">Vind kopieën die je niet nodig hebt</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Vergeleken op inhoud, niet op naam</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>De beste kopie blijft bewaard</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Extra&#x27;s gaan naar de Prullenbak</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/find-files.webp" alt="Vind elk bestand terug op naam, soort, grootte of leeftijd." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search me-1" aria-hidden="true"></i>ALLES TERUGVINDEN</div>
+              <h3 class="sw-shot-title">Vind alles wat je bewaart</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Op naam, type, grootte of leeftijd</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Zoek in pdf&#x27;s en documenten</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Verplaats, tag of hernoem wat je vindt</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/tidy-downloads-folder.webp" alt="Toch anders besloten? Eén klik zet elk bestand terug precies waar het stond." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>KLAAR IN EEN MINUUT</div>
+              <h3 class="sw-shot-title">Klaar. En alles is ongedaan te maken</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Je bestanden in duidelijke mappen</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Open de map of maak direct ongedaan</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Ruim de volgende plek op met één klik</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/nl/undo-timeline.webp" alt="Een volledige geschiedenis van elke wijziging, en elke wijziging kan ongedaan worden gemaakt." loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i>ONGEDAAN MAKEN</div>
+              <h3 class="sw-shot-title">Alles ongedaan maken, altijd</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Elke opruimbeurt blijft in de tijdlijn</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Eén klik zet elk bestand terug</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Ongedaan maken is altijd gratis</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Download in de</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Alle functies gratis</a><span>Onbeperkt scannen &middot; 1.000 bestandswijzigingen per maand</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-gift me-1" aria-hidden="true"></i> Prijzen</span>
+        <h2 class="display-5 fw-bold text-white">Alle functies zijn gratis</h2>
+        <p class="text-secondary fs-5 mb-0">Geen proefperiode, geen tijdslimiet, geen advertenties. Het gratis abonnement heeft elke functie; alleen het aantal gewijzigde bestanden per maand is beperkt.</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan sw-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Free</h3>
+            <p class="sw-plan-price mb-3">Gratis</p>
+            <div class="sw-quota mb-4">
+              <span class="sw-quota-num">1.000</span>
+              <span class="sw-quota-label">bestandswijzigingen per maand, met alle functies</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Opruimen, hernoemen, dubbele bestanden, AI-fotozoeken, gezichten, back-up: alles inbegrepen</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Elk verplaatst, gekopieerd, hernoemd of verwijderd bestand telt als één wijziging</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Scannen, zoeken, dubbele bestanden vinden, back-ups en ongedaan maken tellen nooit mee</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Een opruimbeurt ongedaan maken geeft die bestanden terug aan het tegoed van de maand</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>De telling begint op de 1e van elke maand opnieuw</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Download in de</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Pro <span class="badge rounded-pill sw-plan-opt align-middle ms-1">Optioneel</span></h3>
+            <p class="sw-plan-price sw-plan-price-sm mb-3">Pro voor 24 uur of Pro voor altijd</p>
+            <div class="sw-quota sw-quota-pro mb-4">
+              <span class="sw-quota-num"><i class="bi bi-infinity" aria-hidden="true"></i></span>
+              <span class="sw-quota-label">Geen limiet op bestandswijzigingen</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro voor 24 uur: onbeperkt wijzigen voor één grote opruimbeurt</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro voor altijd: onbeperkt en voorgoed, met één aankoop</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Wat u start voordat de 24 uur voorbij zijn, maakt het af</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Gekocht in de Microsoft Store. Geen abonnement, geen account bij ons</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 sw-narrow">Prijzen worden per markt vastgesteld en in de Microsoft Store getoond voordat u koopt. Over de limiet? Sortwise vraagt het voordat het begint, biedt de gratis bestanden aan die u nog hebt en stopt nooit halverwege.</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i> Zo werkt het</span>
+        <h2 class="display-5 fw-bold text-white">Een opgeruimde map in drie stappen</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">Kies een plek</h3>
+            </div>
+            <p class="text-secondary small mb-0">Downloads, bureaublad, Documenten, Afbeeldingen of welke map dan ook. Sortwise leest hem in en toont hoeveel bestanden er los rondslingeren.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">Kies een stijl</h3>
+            </div>
+            <p class="text-secondary small mb-0">Op bestandstype, op datum, foto’s op de dag van opname of een van de meer dan 100 manieren om te sorteren. Of beschrijf het in uw eigen woorden.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">Controleer het plan en ruim op</h3>
+            </div>
+            <p class="text-secondary small mb-0">Elke nieuwe map en elke verplaatsing staat eerst in de lijst. Vink uit wat moet blijven staan en ruim op. Eén klik in de tijdlijn zet alles terug.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Download in de</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Alle functies gratis</a><span>Onbeperkt scannen &middot; 1.000 bestandswijzigingen per maand</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sortwise or by hand -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="compare">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i> Waarom Sortwise</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise of met de hand opruimen?</h2>
+        <p class="text-secondary fs-5 mb-0">Verkenner verplaatst bestanden stapel voor stapel. Sortwise doet de hele map, laat eerst het plan zien en kan alles terugzetten.</p>
+      </div>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">Taak</th>
+                <th scope="col" class="sw-col">Sortwise</th>
+                <th scope="col">Met de hand in Verkenner</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row" class="text-white">Een rommelige map sorteren in Afbeeldingen, Documenten, Video’s en meer</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Eén klik, met kant-en-klare recepten</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Selecteren en slepen, stapel voor stapel</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Foto’s opbergen op opnamedatum</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Leest de datum uit elke foto</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Opnamedatum is alleen een kolom; verplaatsen doet u zelf</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Dubbele bestanden vinden</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Vergeleken op inhoud, hoe ze ook heten</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">Geen dubbele-bestandenzoeker</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Foto’s vinden op wat erop staat</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Typ ‘strand’ of ‘hond’</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Op de meeste pc’s alleen namen en bestandsgegevens</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Honderden bestanden hernoemen</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Vervangen, nummeren, voor- en achtervoegsel, met voorbeeld</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Alleen genummerde namen, zoals Foto (1)</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Elke wijziging vooraf zien</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Een volledig plan; vink uit wat u wilt</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">Elke verplaatsing gebeurt tijdens het slepen</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Een hele opruimbeurt dagen later terugdraaien</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Elke opruimbeurt in de tijdlijn</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Ctrl+Z voor uw laatste acties</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Prijs</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Gratis, 1.000 bestandswijzigingen per maand</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">Gratis</span></span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it tidies -->
+  <section class="py-5" id="use-cases">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> Wat het opruimt</span>
+        <h2 class="display-5 fw-bold text-white">Eén app voor elke soort rommel</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-download" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">De map Downloads</h3>
+            <p class="text-secondary small mb-0">Installatieprogramma’s, pdf’s, zips en afbeeldingen per type in mappen gesorteerd, oude installers uit de weg.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-display" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Een vol bureaublad</h3>
+            <p class="text-secondary small mb-0">Maak het bureaublad in één keer leeg zonder iets kwijt te raken: de tijdlijn toont waar elk bestand heen ging.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-camera" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Jaren aan foto’s</h3>
+            <p class="text-secondary small mb-0">Foto’s van telefoons en camera’s opgeborgen per jaar en maand op basis van de datum in elke foto, RAW en JPG altijd samen.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Dubbele bestanden en schijfruimte</h3>
+            <p class="text-secondary small mb-0">Kopieën gevonden op inhoud, gelijkende foto’s, series en wazige opnamen, onvoltooide downloads. Het overschot gaat naar de Prullenbak.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Rekeningen en papierwerk</h3>
+            <p class="text-secondary small mb-0">Gescande afschriften en facturen hernoemd naar wat erin staat: datum, afzender en soort document, en per jaar opgeborgen.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-music-note-beamed" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Muziek en video’s</h3>
+            <p class="text-secondary small mb-0">Nummers gesorteerd op hun artiest- en albumtags, en dubbele video’s gevonden, ook als de namen verschillen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In detail -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features-in-detail">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-list-stars me-1" aria-hidden="true"></i> Alle functies</span>
+        <h2 class="display-5 fw-bold text-white">Alles wat Sortwise doet, in detail</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder-check" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">BESTANDEN EN FOTO&#x27;S ORDENEN</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Kant-en-klare recepten, met één klik: op bestandstype, op jaar en maand, op jaar, op type en dan jaar, op camera, of om schermafbeeldingen apart te zetten.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zet het ordeningssysteem voort dat u al hebt. Sortwise leest de mappen die u jaren geleden hebt aangelegd en schrijft regels die verdergaan waar u gebleven was.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Beschrijf in uw eigen woorden wat u wilt — &quot;facturen per jaar in Documenten&quot; — en een lokaal taalmodel stelt de regels op die u alleen nog hoeft na te kijken.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Een volwaardige regelbouwer: extensie, naam, pad, grootte, datums, afbeeldingsformaat, camera, persoon, plaats, label en visuele gelijkenis.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Bewaar elke set regels als recept en voer die opnieuw uit wanneer u maar wilt.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Bewaakte mappen merken nieuwe binnenkomers op en zetten ze klaar ter beoordeling. Ze verplaatsen uit zichzelf nooit iets.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Wat bij elkaar hoort, blijft bij elkaar: een RAW en de bijbehorende JPG, een video en het bijbehorende bestand, worden nooit uit elkaar gehaald.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Beschermde systeemlocaties worden botweg geweigerd.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">BATCHGEWIJS HERNOEMEN</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Tekst vervangen, bestanden op volgorde nummeren, een voorvoegsel of achtervoegsel toevoegen, hoofdletters rechtzetten of tekst weghalen — over honderden bestanden tegelijk, met hetzelfde voorbeeld en hetzelfde ongedaan maken met één klik.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">ALLES TERUGVINDEN</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zoek bestanden op naam, type, grootte, datum of uw eigen labels.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zoek foto&#x27;s op wat er werkelijk op staat — &quot;strand&quot;, &quot;mijn hond&quot;, &quot;bonnetjes&quot; — ook als elk bestand IMG_4471 heet.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zoek in uw documenten, pdf&#x27;s inbegrepen.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-camera" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">FOTO&#x27;S</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Personen: Sortwise groepeert foto&#x27;s van hetzelfde gezicht, zodat u een groep een naam kunt geven en foto&#x27;s per persoon kunt opbergen. Standaard uit, zelf aan te zetten en op elk moment te wissen. Sortwise raadt nooit wie iemand is.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Plaatsen: zie waar uw foto&#x27;s genomen zijn, gegroepeerd per reis en per locatie, aan de hand van de positie die uw camera of telefoon in de foto heeft opgeslagen.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Reeksen: vierentwintig opnamen van hetzelfde moment, met de scherpste er al voor u uitgehaald.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">DUBBELE BESTANDEN EN SCHIJFRUIMTE</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Identieke bestanden overal op uw schijven, hoe ze ook heten.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Bijna identieke foto&#x27;s, ook herkend nadat ze verkleind, opnieuw gecomprimeerd of rondgestuurd zijn.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Restanten: afgebroken downloads, tijdelijke bestanden van editors, lege bestanden, oude installatieprogramma&#x27;s en archieven die er al uitgepakt naast staan.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Archiveer een map die u al maanden niet hebt aangeraakt als .zip ernaast — bestand voor bestand gecontroleerd voordat er iets wordt weggehaald.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">PAPIERWERK</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Rekeningen, afschriften en scans komen binnen als dingen als Afschrift_08472204_20240314.pdf. Sortwise leest de tekst die al is opgeslagen voor het zoeken en stelt voor wie het verstuurd heeft, wat voor document het is en van wanneer — genoeg om het te hernoemen naar “2024-03-14 - Bank - Afschrift.pdf” en het per jaar op te bergen. Het bewijs staat steeds naast de suggestie, en alles doorloopt dezelfde voorbeeldweergave als de rest.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd-stack" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">BLADEREN, BACK-UPPEN, REPAREREN</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Een ingebouwde mappenverkenner: werk uw bibliotheek map voor map door, sorteer op grootte en verplaats, hernoem, label of gooi weg zonder de app te verlaten.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Verplaats een grote map naar een andere schijf en laat een koppeling achter, zodat snelkoppelingen, projecten en al het andere dat naar de oude plek verwijst, blijft werken.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Incrementele back-uptaken tussen uw mappen, met terugzetten en verifiëren.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Vergelijk twee mappen en zie precies wat ontbreekt, wat veranderd is en wat dubbel staat.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zet namen recht die problemen geven: paden boven de 260 tekens, spaties aan het eind, tekens die cloudopslag weigert.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Volledige geschiedenis: alles wat Sortwise ooit heeft gedaan, het nieuwste eerst, en alles ongedaan te maken.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private by design -->
+  <section class="py-5" id="privacy">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i> Privé vanaf het ontwerp</span>
+        <h2 class="display-5 fw-bold text-white">Uw bestanden blijven op uw pc</h2>
+        <p class="text-secondary fs-5 mb-0">Sortwise heeft geen server om iets naartoe te sturen. Wat het over uw bestanden leert, staat in een lokale database op uw eigen schijf.</p>
+      </div>
+      <div class="card card-glass p-4 p-md-5 invariant-card">
+        <p class="text-white mb-4">Sortwise werkt offline. Geen account, geen aanmelding, geen advertenties, geen analyse en geen telemetrie. Uw bestanden, uw foto&#x27;s, uw gezichtsgroepen en uw zoekopdrachten blijven op uw eigen machine: de index is een lokale database op uw eigen schijf en wordt nooit geüpload.</p>
+        <p class="text-secondary mb-2">Twee dingen gebruiken het internet, allebei optioneel en allebei alleen als u erom vraagt:</p>
+        <ul class="list-unstyled sw-check-list mb-4">
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Een eenmalige download van de AI-modelbestanden die Sortwise daarna op uw eigen hardware uitvoert.</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Het opzoeken van plaatsnamen via OpenStreetMap, standaard uit, dat alleen de woorden verstuurt die u intikt.</span></li>
+        </ul>
+        <p class="text-secondary mb-4">Gezichtsgegevens verlaten uw pc nooit, worden buiten met de cloud gesynchroniseerde mappen gehouden en kunnen op elk moment volledig worden gewist bij Instellingen. Wilt u liever dat Sortwise nooit in een bestand kijkt, dan beperkt één instelling het tot bestandsnamen en locaties.</p>
+        <a class="small" href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Privacybeleid</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built for Windows, in your language -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="windows">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-windows" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">GEBOUWD VOOR WINDOWS</h2>
+            </div>
+            <p class="text-secondary small mb-0">Een native Windows-app met een overzichtelijke, toetsenbordvriendelijke interface, een licht en een donker thema, en ondersteuning voor heel lange paden. De AI draait lokaal op uw processor — speciale hardware is niet nodig.</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-translate" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">IN UW EIGEN TAAL</h2>
+            </div>
+            <p class="text-secondary small mb-0">Sortwise is volledig vertaald in 23 talen — English, العربية, 简体中文, Čeština, Dansk, Nederlands, Suomi, Français, Deutsch, עברית, Magyar, Italiano, 日本語, 한국어, Norsk bokmål, Polski, Português, Русский, Español, Svenska, ไทย, Türkçe, Українська. De app neemt vanzelf uw Windows-taal over, of u kiest er bij Instellingen een andere, en indelingen van rechts naar links worden netjes gespiegeld.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every feature -->
+  <section class="py-5" id="features">
+    <div class="container py-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h2 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>Lijst met functies</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Alle functies gratis: verplaats, kopieer, hernoem of verwijder elke kalendermaand tot 1.000 bestanden. Geen proefperiode, geen tijdslimiet. Zoeken en ongedaan maken tellen nooit mee.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zie precies wat er gaat gebeuren voordat er één bestand beweegt. Elk opruimen begint als een voorbeeld dat u kunt lezen, regel voor regel bijwerken en annuleren.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Maak alles ongedaan. Elke wijziging wordt vastgelegd, dus één klik zet elk bestand precies terug waar het stond. Er wordt nooit iets definitief gewist.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ruim Downloads, Bureaublad, Documenten en Afbeeldingen op in een paar klikken</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Vind foto&#x27;s op wat erop staat. Zoek &quot;strand&quot;, &quot;mijn hond&quot; of &quot;bonnetjes&quot; en krijg resultaten, ook als de bestandsnamen u niets vertellen.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Groepeer foto&#x27;s van hetzelfde gezicht om personen te benoemen en per persoon op te bergen, en zie uw foto&#x27;s op een kaart. Standaard uit, altijd te wissen.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Vind dubbele bestanden op inhoud en maak ruimte vrij</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Foto’s die geen exacte kopie zijn maar er hetzelfde uitzien: de verkleinde, de opnieuw opgeslagen, twee opnamen een seconde na elkaar. Sortwise houdt de beste van elke set.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Beschrijf wat u wilt in gewone taal — &quot;facturen per jaar in Documenten&quot; — en een lokaal taalmodel maakt er regels van die u kunt nakijken.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Ruim een map met één klik op met kant-en-klare recepten — of laat Sortwise het ordeningssysteem lezen dat u al hebt en regels schrijven die het voortzetten.</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Hernoem honderden bestanden tegelijk: tekst vervangen, nummeren, een voor- of achtervoegsel toevoegen, hoofdletters rechtzetten. Zelfde voorbeeld, zelfde ongedaan maken.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zoek in uw documenten, pdf&#x27;s inbegrepen, zodat u een bestand terugvindt via een zin die u zich herinnert in plaats van een naam die u vergeten bent.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Zoek op naam, soort, grootte of leeftijd</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Rekeningen, afschriften en scans krijgen een naam op basis van wat erin staat — afzender, soort en datum — in plaats van een nummer dat een scanner heeft verzonnen.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Incrementele back-ups tussen uw mappen, met terugzetten en verifiëren: er is een tweede kopie voordat u iets verplaatst.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Verplaats een grote map naar een andere schijf en laat een koppeling achter, zodat alles wat naar de oude plek verwijst blijft werken.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Overbodige kopieën gaan naar de Prullenbak, nooit definitief weg</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Meer dan 100 manieren om te sorteren, van bestandstype tot camera-originelen</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Werkt offline: na één keer de AI-modellen downloaden is geen internet nodig. Geen account, geen advertenties, geen telemetrie. Uw bestanden, foto&#x27;s en gezichtsgegevens blijven op uw pc.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>In 23 talen, licht en donker</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> Veelgestelde vragen</span>
+        <h2 class="display-5 fw-bold text-white">Veelgestelde vragen</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="sortwiseFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Is Sortwise echt gratis?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Sortwise is gratis en bevat elke functie, zonder proefperiode en zonder tijdslimiet. Elke kalendermaand kunt u tot 1.000 bestanden gratis verplaatsen, kopiëren, hernoemen of verwijderen. Heeft een grote opruimbeurt meer nodig, dan heft Pro voor 24 uur of Pro voor altijd de limiet op.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  Wat telt als bestandswijziging?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Elk bestand dat Sortwise verplaatst, kopieert, hernoemt of naar de Prullenbak stuurt. Scannen, bladeren, zoeken, voorbeelden bekijken, dubbele bestanden vinden, back-ups en ongedaan maken tellen nooit mee, en een opruimbeurt ongedaan maken geeft die bestanden terug aan het tegoed van de maand.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  Wat gebeurt er als ik in een maand op 1.000 kom?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise meldt het voordat een opruimbeurt begint, nooit halverwege. U kunt de gratis bestanden gebruiken die u nog hebt, wachten tot de 1e van de maand, als de telling opnieuw begint, of Pro kiezen. Wat al is opgeruimd blijft opgeruimd, en ongedaan maken werkt altijd.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  Wat is het verschil tussen Pro voor 24 uur en Pro voor altijd?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Beide heffen de maandlimiet op en verder verandert er niets, want elke functie is al gratis. Pro voor 24 uur geldt één dag vanaf de aankoop, voor één grote opruimbeurt, en wat u daarvoor start maakt het af. Pro voor altijd is een eenmalige aankoop zonder limiet, voorgoed. Beide koopt u in de Microsoft Store, die de prijs voor uw land toont.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Hoe ruim ik mijn map Downloads automatisch op?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Open Sortwise en kies ‘Mijn Downloads opruimen’, of kies de map onder ‘Plekken’. Kies een stijl, zoals op bestandstype of op datum, lees het plan en klik op ‘Opruimen’. Bewaakte mappen merken ook nieuwe bestanden op en zetten ze klaar voor uw controle; ze verplaatsen nooit iets uit zichzelf.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Kan Sortwise foto’s op opnamedatum in mappen sorteren?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Het leest de opnamedatum uit elk fotobestand en bergt foto’s op per jaar, of per jaar en maand. Een RAW-bestand en zijn JPG, of een video en zijn bijbehorende bestand, worden altijd samen verplaatst.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Verwijdert Sortwise mijn bestanden?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Niet zonder te vragen. Opruimen verplaatst bestanden alleen naar mappen en overschrijft nooit iets. Dubbele bestanden en rommel die u kiest te verwijderen gaan naar de Prullenbak van Windows, en Sortwise weigert te verwijderen waar geen Prullenbak is om ze op te vangen. Elke wijziging is ongedaan te maken vanuit de tijdlijn.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Hoe vindt Sortwise dubbele bestanden?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Het vergelijkt bestanden op inhoud, niet op naam, en vindt kopieën dus hoe ze ook heten. Het bewaart de beste kopie van elke groep en biedt de rest aan voor de Prullenbak. Gelijkende foto’s (verkleind, opnieuw opgeslagen of een seconde later genomen), series en wazige opnamen worden apart gevonden.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  Kan ik een opruimbeurt dagen later ongedaan maken?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Elke wijziging wordt op uw pc vastgelegd, en de tijdlijn toont elke opruimbeurt met een knop ‘Ongedaan maken’, de nieuwste eerst. Ongedaan maken zet elk bestand terug en verwijdert mappen die leeg zijn gebleven. Ongedaan maken is gratis en nooit beperkt.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Kan ik bestanden met eigen regels ordenen?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ja. Beschrijf in gewone woorden wat u wilt, zoals ‘zet facturen per jaar in Documenten’, en het taalpakket op uw pc stelt regels op die u kunt controleren. Er is ook een volledige regelbouwer (extensie, naam, grootte, datums, camera, persoon, plaats en meer), en Sortwise kan leren van de mappen die u al hebt gemaakt en daarop voortbouwen.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Hoe werkt AI-fotozoeken? Heb ik een GPU nodig?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Typ wat u zoekt, zoals ‘strand’, ‘hond’ of ‘bonnetjes’, en Sortwise vindt foto’s waarop het te zien is, ook als elk bestand IMG_4471 heet. Het begrijpt uw taal en draait op de processor van uw pc, dus een GPU of speciale hardware is niet nodig. Het fotopakket wordt één keer gedownload, bij de eerste zoekopdracht, nadat Sortwise de grootte heeft gemeld.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Uploadt Sortwise mijn bestanden of is er een account nodig?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Nee. Het werkt offline, zonder account, zonder advertenties en zonder telemetrie. Internet wordt alleen gebruikt als u erom vraagt: om eenmalig een lokaal AI-pakket te downloaden, om een plaatsnaam op de kaart op te zoeken (standaard uit) of om Pro te kopen in de Microsoft Store.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Is het veilig om op mijn hele pc te gebruiken?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse" aria-labelledby="faq13Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise wijzigt alleen bestanden op de plekken die u opgeeft en weigert beveiligde systeemlocaties zonder meer. Er wordt niets verplaatst voordat u het plan hebt gezien, bestanden die bij elkaar horen blijven bij elkaar, en elke wijziging is ongedaan te maken.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  Wat zijn de systeemvereisten?
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse" aria-labelledby="faq14Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Windows 10 versie 2004 of later, of Windows 11, op een pc met x64 of ARM64. Sortwise wordt geïnstalleerd via de Microsoft Store, is er in 23 talen met een licht en donker thema, en neemt automatisch uw Windows-taal over.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(14,139,99,0.22) 0%, rgba(255,211,102,0.08) 100%);">
+        <div class="sw-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" class="w-100 h-100 object-fit-contain" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">De ultieme oplossing om bestanden te ordenen</h2>
+          <p class="text-secondary fs-5 mb-2">Sortwise uploadt uw bestanden niet. Het heeft geen account nodig. Het laat u zien wat het gaat doen — en het kan het altijd terugdraaien.</p>
+          <p class="text-white fs-5 mb-4">Alle functies zijn gratis. Laat Sortwise los op je rommeligste map en zie het plan binnen een minuut.</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Download in de</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0 justify-content-center"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Alle functies gratis</a><span>Onbeperkt scannen &middot; 1.000 bestandswijzigingen per maand</span></p>
+          <p class="small mt-4 mb-0"><a href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Privacybeleid</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link">Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link">KeepOne Duplicate Finder</a></li>
+            <li><a href="/steptell/" class="footer-link">Steptell Steps Recorder</a></li>
+            <li><a href="/Sortwise/" class="footer-link text-primary fw-semibold">Sortwise File Organizer</a></li>
+            <li><a href="/nudge/" class="footer-link">Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link">Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare/" class="footer-link">GlowCompare</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link">GlowCompare for Windows</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link">Milk Calendar</a></li>
+            <li><a href="/slouch-guard/" class="footer-link">Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link">Notelock</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link">Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link">AES Vault</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/Sortwise/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>Sortwise Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Sortwise">
+  <img src="/assets/images/sortwise-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Sortwise</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Installeren</a>
+</div>
+<button type="button" class="to-top" aria-label="Terug naar boven" title="Terug naar boven">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookietoestemming" hidden>
+  <p class="consent-bar-text">Google Analytics laat zien hoe deze site wordt gebruikt; advertentietags van Google en Microsoft meten of onze advertenties werken. Beide kunnen daarvoor cookies plaatsen — bij weigeren stopt dat. Geen van beide bouwt een advertentieprofiel. <a href="/privacy.html" class="consent-bar-link">Privacybeleid</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Weigeren</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accepteren</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

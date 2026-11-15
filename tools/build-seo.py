@@ -117,6 +117,13 @@ APPS = {
     icon="/assets/images/steptell-icon.png",
     og="/assets/images/steptell-og.png", ogw=1200, ogh=630,
     ogalt="Steptell - steps recorder and how-to guide maker for Windows", large=True),
+ # Mixed-case folder, like KeepOne: /Sortwise/privacy.html was published first.
+ 'Sortwise': dict(
+    name="Sortwise: AI Photo & File Organizer", os="Windows", cat="UtilitiesApplication",
+    store="https://apps.microsoft.com/detail/9NSTWXHBQBJ0",
+    icon="/assets/images/sortwise-icon.png",
+    og="/assets/images/sortwise-og.png", ogw=1200, ogh=630,
+    ogalt="Sortwise - free AI photo and file organizer for Windows", large=True),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",
@@ -305,8 +312,10 @@ def seo_block(p, locales, skip=frozenset()):
     is_app_page = app is not None and parts[-1] == 'index.html'
 
     src = open(p, encoding='utf-8').read()
-    title = re.search(r'<title>(.*?)</title>', src, re.S).group(1).strip()
-    desc = re.search(r'<meta\s+name="description"\s+content="(.*?)"', src, re.S | re.I).group(1).strip()
+    # Both come out of the markup already HTML-escaped; unescape them so the
+    # esc() below does not turn "&amp;" into "&amp;amp;" in og/twitter tags.
+    title = html.unescape(re.search(r'<title>(.*?)</title>', src, re.S).group(1).strip())
+    desc = html.unescape(re.search(r'<meta\s+name="description"\s+content="(.*?)"', src, re.S | re.I).group(1).strip())
     lang = re.search(r'<html[^>]*\slang="([^"]+)"', src, re.I).group(1)
     url = SITE + url_of(p)
 

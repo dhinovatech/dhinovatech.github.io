@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sortwise：免费的 Windows AI 照片与文件整理工具</title>
+  <meta name="description" content="一分钟整理下载、桌面和照片，查找重复文件，一切都能撤销。所有功能免费，每月 1,000 次文件更改。离线运行，无需账户。">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #2ed39b;
+      --dhin-border-glow: rgba(46, 211, 155, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(46, 211, 155, 0.18);
+      --dhin-gradient-primary: linear-gradient(135deg, #2ed39b 0%, #0e8b63 100%);
+      --sw-green: #2ed39b;
+      --sw-deep: #0e8b63;
+      --sw-amber: #ffd366;
+      --sw-ink: #032c1f;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 46, 211, 155;
+      --bs-primary-bg-subtle: rgba(46, 211, 155, 0.12);
+      --bs-primary-border-subtle: rgba(46, 211, 155, 0.32);
+      --bs-primary-text-emphasis: #9cf0d0;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #b8f5df 0%, #2ed39b 55%, #ffd366 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(46, 211, 155, 0.24); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(46, 211, 155, 0.38); }
+    .btn-dhin-outline:hover { background: rgba(46, 211, 155, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(14, 139, 99, 0.34) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-green { box-shadow: 0 0 45px rgba(14, 139, 99, 0.35); }
+    .sw-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(46,211,155,0.16), rgba(255,211,102,0.12));
+      color: var(--sw-green); border: 1px solid rgba(46,211,155,0.3);
+    }
+    .sw-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .sw-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .sw-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(46,211,155,0.16); color: var(--sw-green);
+      border: 1px solid rgba(46,211,155,0.4);
+    }
+
+    /* Hero */
+    .sw-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .sw-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sw-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .sw-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #9cf0d0; margin-top: .6rem;
+    }
+    .sw-cta-strip .sw-price { margin: 0; }
+    .sw-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .sw-price-tag {
+      background: var(--sw-amber); color: var(--sw-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 211, 102, .3);
+    }
+    .sw-price-tag:hover { color: var(--sw-ink); background: #ffe08f; }
+    .sw-window {
+      border-radius: 14px; overflow: hidden; background: #06402f;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .sw-window img { display: block; width: 100%; height: auto; }
+
+    .sw-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .sw-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .sw-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .sw-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .sw-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--sw-green); font-weight: 700; margin-bottom: .3rem; }
+    .sw-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Screenshot gallery */
+    .sw-shot { overflow: hidden; margin: 0; }
+    .sw-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sw-shot figcaption { padding: 1rem 1.1rem 1.1rem; }
+    .sw-shot-kicker { font-size: .72rem; letter-spacing: .08em; font-weight: 700; color: var(--sw-green); text-transform: uppercase; }
+    .sw-shot-title { font-size: 1.02rem; font-weight: 700; color: #fff; margin: .25rem 0 .6rem; }
+    .sw-shot ul { margin: 0; padding: 0; list-style: none; }
+    .sw-shot li { font-size: .86rem; color: #cbd5e1; display: flex; gap: .5rem; margin-bottom: .25rem; }
+    .sw-shot li i { color: var(--sw-green); flex-shrink: 0; }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--sw-green) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--sw-green) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(46, 211, 155, 0.1); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(46, 211, 155, 0.4) !important; }
+    .sw-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .sw-check-list li i { color: var(--sw-green); flex-shrink: 0; margin-top: .1rem; }
+    .sw-detail-head { font-size: .78rem; letter-spacing: .07em; font-weight: 700; color: var(--sw-amber); text-transform: uppercase; }
+    .sw-oneapp { background: rgba(255, 211, 102, .07); border: 1px solid rgba(255, 211, 102, .28) !important; }
+
+    /* Sortwise vs by hand */
+    .peer-table { font-size: .9rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; min-width: 150px; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; }
+    .peer-table th.sw-col, .peer-table td.sw-col { background: rgba(46, 211, 155, .07); border-left: 1px solid rgba(46,211,155,.25); border-right: 1px solid rgba(46,211,155,.25); }
+    .peer-table thead th.sw-col { color: var(--sw-green); border-top: 2px solid var(--sw-green); }
+    .peer-table tbody th { min-width: 170px; font-weight: 600; }
+    .peer-cell { display: flex; gap: .45rem; align-items: flex-start; }
+    .peer-cell i { flex-shrink: 0; margin-top: .15rem; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--sw-amber); }
+    .peer-n { color: #f87171; }
+
+    /* Pricing */
+    .sw-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .sw-plan-free { border: 2px solid var(--sw-green) !important; box-shadow: 0 0 40px rgba(46, 211, 155, .14); }
+    .sw-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--sw-green); }
+    .sw-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .sw-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .sw-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 211, 102, .1); border: 1px solid rgba(255, 211, 102, .38);
+    }
+    .sw-quota-num { font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--sw-amber); flex-shrink: 0; }
+    .sw-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .sw-quota-pro { background: rgba(46, 211, 155, .1); border-color: rgba(46, 211, 155, .38); }
+    .sw-quota-pro .sw-quota-num { color: var(--sw-green); }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(46, 211, 155, 0.08); color: var(--sw-green); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(46, 211, 155, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/Sortwise/zh/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/Sortwise/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/Sortwise/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/Sortwise/es/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/Sortwise/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/Sortwise/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/Sortwise/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/Sortwise/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/Sortwise/cs/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/Sortwise/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/Sortwise/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/Sortwise/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/Sortwise/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/Sortwise/fi/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/Sortwise/ru/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/Sortwise/uk/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/Sortwise/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/Sortwise/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/Sortwise/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/Sortwise/zh/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/Sortwise/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/Sortwise/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/Sortwise/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Sortwise：免费的 Windows AI 照片与文件整理工具">
+  <meta property="og:description" content="一分钟整理下载、桌面和照片，查找重复文件，一切都能撤销。所有功能免费，每月 1,000 次文件更改。离线运行，无需账户。">
+  <meta property="og:url" content="https://www.dhinovatech.com/Sortwise/zh/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sortwise：免费的 Windows AI 照片与文件整理工具">
+  <meta name="twitter:description" content="一分钟整理下载、桌面和照片，查找重复文件，一切都能撤销。所有功能免费，每月 1,000 次文件更改。离线运行，无需账户。">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta name="twitter:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/Sortwise/#software","name":"Sortwise","alternateName":"Sortwise：AI 照片与文件整理工具","operatingSystem":"Windows 10 version 2004 (build 19041) and later, Windows 11","applicationCategory":"UtilitiesApplication","applicationSubCategory":"File organizer, photo organizer and duplicate file finder","description":"一分钟整理下载、桌面和照片，查找重复文件，一切都能撤销。所有功能免费，每月 1,000 次文件更改。离线运行，无需账户。","abstract":"Sortwise 是终极文件整理方案：文件和照片整理所需的一切，一个应用一站搞定。所有功能免费：每个自然月可移动、复制、重命名或删除最多 1,000 个文件，没有试用期，也没有时间限制。扫描、搜索、查找重复和撤销从不计入。大扫除需要更多？24 小时 Pro 或永久 Pro 可取消限制。","url":"https://www.dhinovatech.com/Sortwise/zh/","inLanguage":["en","de","fr","es","it","pt-BR","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/sortwise-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","installUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","featureList":["所有功能免费：每个自然月可移动、复制、重命名或删除最多 1,000 个文件。没有试用期，没有时间限制。扫描、搜索和撤销从不计入。","在任何一个文件移动之前，先看清会发生什么。每一次整理都从一份预览开始，你可以读、可以逐行修改、也可以取消。","什么都能撤销。每一处改动都记入日志，一次点击就能把每个文件放回原处。什么都不会被永久删除。","几次点击即可整理下载、桌面、文档和图片","按照片里的内容来找照片。搜索“海滩”“我的狗”或“收据”，哪怕文件名什么都说明不了，也能找到。","把同一张脸的照片归到一起，给人物起名、按人归档，还能在地图上查看。默认关闭，随时可以清除。","按内容查找重复文件，释放空间","不是完全相同的副本，但看起来一样的照片：缩小过的、重新保存的、相隔一秒拍的两张。每组保留最好的一张。","用你自己的话说出想要什么——“把发票按年份放进文档”——本地语言模型会把它变成你可以过目确认的规则。","用现成的配方一键收拾一个文件夹——或者让 Sortwise 读出你已经建好的归档习惯，写出接着往下做的规则。","一次重命名几百个文件：替换文字、按顺序编号、加前缀或后缀、统一大小写。配同样的预览和同样的一键撤销。","在文档内部搜索，包括 PDF——用你记得的一句话找回文件，而不是用你想不起来的文件名。","按名称、类型、大小或时间搜索","账单、对账单和扫描件会根据它们真正写了什么来命名——寄件人、种类和日期——而不是扫描仪随手编的一串编号。","文件夹之间的增量备份，支持还原和校验：在你动手挪动之前，第二份副本就已经存在。","把一个大文件夹移到另一块硬盘上，并在原处留下一个链接，这样任何指向旧位置的东西都能继续正常使用。","多余副本进入回收站，绝不永久删除","从文件类型到相机原片，100 多种整理方式","离线运行：AI 模型只需下载一次，之后无需联网。无需账户，没有广告，没有遥测。你的文件、照片和人脸数据永不离开电脑。","支持 23 种语言，浅色和深色主题"],"isAccessibleForFree":true,"processorRequirements":"x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0"},"screenshot":["https://www.dhinovatech.com/assets/images/sortwise/zh/ai-photo-file-organizer.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/ai-photo-search.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/sort-files-by-type-or-date.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/preview-every-move.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/duplicate-file-finder.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/find-files.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/tidy-downloads-folder.webp","https://www.dhinovatech.com/assets/images/sortwise/zh/undo-timeline.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/Sortwise/zh/#webpage","url":"https://www.dhinovatech.com/Sortwise/zh/","name":"Sortwise：免费的 Windows AI 照片与文件整理工具","description":"一分钟整理下载、桌面和照片，查找重复文件，一切都能撤销。所有功能免费，每月 1,000 次文件更改。离线运行，无需账户。","inLanguage":"zh-Hans","dateModified":"2026-11-15","about":{"@id":"https://www.dhinovatech.com/Sortwise/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/Sortwise/#software"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Sortwise","item":"https://www.dhinovatech.com/Sortwise/"},{"@type":"ListItem","position":3,"name":"Sortwise (zh)","item":"https://www.dhinovatech.com/Sortwise/zh/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/Sortwise/zh/#faq","inLanguage":"zh-Hans","mainEntity":[{"@type":"Question","name":"Sortwise 真的免费吗？","acceptedAnswer":{"@type":"Answer","text":"是的。Sortwise 免费提供所有功能，没有试用期，也没有时间限制。每个自然月你都可以免费移动、复制、重命名或删除最多 1,000 个文件。如果一次大扫除需要更多，24 小时 Pro 或永久 Pro 可以取消上限。"}},{"@type":"Question","name":"什么算作一次文件更改？","acceptedAnswer":{"@type":"Answer","text":"Sortwise 移动、复制、重命名或送入回收站的每一个文件。扫描、浏览、搜索、预览、查找重复项、备份和撤销从不计数，撤销一次整理还会把这些文件退回本月额度。"}},{"@type":"Question","name":"一个月用满 1,000 次会怎样？","acceptedAnswer":{"@type":"Answer","text":"Sortwise 会在整理开始前告诉你，绝不会中途停止。你可以使用剩余的免费额度，等到下月 1 日重新计数，或者选择 Pro。已经整理好的保持不变，撤销始终可用。"}},{"@type":"Question","name":"24 小时 Pro 和永久 Pro 有什么区别？","acceptedAnswer":{"@type":"Answer","text":"两者都只取消每月上限，其他一切不变，因为所有功能本来就免费。24 小时 Pro 从购买时起有效一天，适合一次大扫除，结束前开始的任务都会完成。永久 Pro 是一次性购买，永久不设上限。两者都在 Microsoft Store 购买，商店会显示你所在国家或地区的价格。"}},{"@type":"Question","name":"如何自动整理下载文件夹？","acceptedAnswer":{"@type":"Answer","text":"打开 Sortwise，选择“整理我的下载”，或在“位置”中选择该文件夹。选择一种方式，例如按文件类型或按日期，阅读计划后点击“整理”。受监视的文件夹也会发现新到的文件并排好等你确认，它们从不自行移动任何东西。"}},{"@type":"Question","name":"Sortwise 能按拍摄日期把照片分到文件夹吗？","acceptedAnswer":{"@type":"Answer","text":"能。它会从每个照片文件内部读取拍摄日期，按年或按年和月归档照片。RAW 文件和它的 JPG、视频和它的附属文件总是一起移动。"}},{"@type":"Question","name":"Sortwise 会删除我的文件吗？","acceptedAnswer":{"@type":"Answer","text":"不会擅自删除。整理只是把文件移入文件夹，从不覆盖任何内容。你选择删除的重复文件和垃圾文件会进入 Windows 回收站，在没有回收站的位置，Sortwise 会拒绝删除。任何更改都可以在记录中撤销。"}},{"@type":"Question","name":"Sortwise 如何查找重复文件？","acceptedAnswer":{"@type":"Answer","text":"它按内容而不是名称比较文件，所以无论文件叫什么都能找到副本。每组保留最好的一份，其余的建议送入回收站。相似照片（缩小、重新保存或相隔一秒拍摄的）、连拍和模糊照片会单独查找。"}},{"@type":"Question","name":"几天后还能撤销整理吗？","acceptedAnswer":{"@type":"Answer","text":"可以。每次更改都记录在你的电脑上，记录中按时间倒序列出每次整理，并带有“撤销”按钮。撤销会把每个文件放回原处，并删除变空的文件夹。撤销免费，且不受任何限制。"}},{"@type":"Question","name":"可以用自己的规则整理文件吗？","acceptedAnswer":{"@type":"Answer","text":"可以。用日常语言描述你想要的，例如“把发票按年份放进文档”，电脑上的语言包会生成规则供你检查。还有完整的规则编辑器（扩展名、名称、大小、日期、相机、人物、地点等），Sortwise 也能学习你已有的文件夹结构并延续下去。"}},{"@type":"Question","name":"AI 照片搜索如何工作？需要 GPU 吗？","acceptedAnswer":{"@type":"Answer","text":"输入你要找的内容，例如“海滩”“狗”或“收据”，即使每个文件都叫 IMG_4471，Sortwise 也能找到相应的照片。它理解中文，在电脑处理器上运行，不需要 GPU 或特殊硬件。照片包会在第一次搜索时、Sortwise 告知大小后下载一次。"}},{"@type":"Question","name":"Sortwise 会上传我的文件或要求账户吗？","acceptedAnswer":{"@type":"Answer","text":"不会。它离线运行，没有账户、广告和遥测。只有在你需要时才会联网：一次性下载本地 AI 包、在地图上查找地名（默认关闭），或在 Microsoft Store 购买 Pro。"}},{"@type":"Question","name":"在整台电脑上使用安全吗？","acceptedAnswer":{"@type":"Answer","text":"Sortwise 只更改你指定位置中的文件，并直接拒绝受保护的系统位置。在你看到计划之前什么都不会移动，相关联的文件会保持在一起，任何更改都可以撤销。"}},{"@type":"Question","name":"系统要求是什么？","acceptedAnswer":{"@type":"Answer","text":"x64 或 ARM64 电脑上的 Windows 10 2004 版或更高版本，或 Windows 11。Sortwise 从 Microsoft Store 安装，支持 23 种语言和浅色、深色主题，并会自动使用 Windows 的语言。"}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/sortwise/zh/ai-photo-file-organizer.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要内容</a>
+<!-- Navigation Bar (independent Sortwise tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - Sortwise owns its own language tree; build-nav-apps.py
+               adds Smart Photos, KeepOne, Steptell and Mortgage above it -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <!-- BEGIN KeepOne menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nb/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END KeepOne menu -->
+              <!-- BEGIN Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/steptell/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh-tw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Steptell menu -->
+              <!-- BEGIN Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/mortgage-loan-emi-pro/">
+                  <span><img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Mortgage EMI Pro</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                </ul>
+              </li>
+              <!-- END Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/Sortwise/">
+                  <span><img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Sortwise File Organizer</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/zh/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - Sortwise only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>简体中文 (Simplified Chinese)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/zh/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 免费获取
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="sw-hero-icon">
+              <img src="/assets/images/sortwise-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block sw-hero-kind">AI 照片与文件整理工具</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">Sortwise</span> <span class="d-block sw-hero-tagline">终极文件整理方案</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">Sortwise 是一款注重隐私的 AI 照片整理、文件整理和重复文件查找工具，离线运行在你自己的电脑上。按日期整理多年的照片，找出重复照片和重复文件，清理下载文件夹和桌面，腾出磁盘空间——每次移动都先预览，一键即可撤销。</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">获取自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> 查看截图
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>所有功能免费</a><span>扫描不限次数 &middot; 每月 1,000 次文件更改</span></p>
+
+          <div class="sw-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-lightning-charge text-warning me-1" aria-hidden="true"></i> 一分钟整理好文件和照片</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-eye text-info me-1" aria-hidden="true"></i> 移动前先看清，随时可撤销</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-success me-1" aria-hidden="true"></i> 在你的电脑上运行，无需账户，没有广告</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-green" aria-hidden="true"></div>
+            <div class="sw-window position-relative">
+              <img src="/assets/images/sortwise/zh/ai-photo-file-organizer.webp" alt="Sortwise，AI 照片与文件整理工具。所有功能免费。" decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>Sortwise 一览</h2>
+          <p class="sw-glance-def mb-4">Sortwise 是终极文件整理方案：文件和照片整理所需的一切，一个应用一站搞定。所有功能免费：每个自然月可移动、复制、重命名或删除最多 1,000 个文件，没有试用期，也没有时间限制。扫描、搜索、查找重复和撤销从不计入。大扫除需要更多？24 小时 Pro 或永久 Pro 可取消限制。</p>
+          <dl class="sw-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="sw-fact"><dt>是什么</dt><dd>适用于 Windows 10 和 11 的文件与照片整理工具，带重复文件查找、批量重命名和 AI 照片搜索</dd></div>
+            <div class="sw-fact"><dt>价格</dt><dd>免费，包含所有功能和每月 1,000 次文件更改。24 小时 Pro 或永久 Pro 可取消上限</dd></div>
+            <div class="sw-fact"><dt>从不计数</dt><dd>扫描、搜索、查找重复项、备份和撤销，次数不限</dd></div>
+            <div class="sw-fact"><dt>整理依据</dt><dd>文件类型、年和月、拍摄日期、相机，或用日常语言写下的自定义规则</dd></div>
+            <div class="sw-fact"><dt>清理对象</dt><dd>重复文件、相似和模糊的照片、连拍、旧安装包和未完成的下载</dd></div>
+            <div class="sw-fact"><dt>安全</dt><dd>移动前先展示计划，从不覆盖，删除的文件进入回收站，任何更改都可撤销</dd></div>
+            <div class="sw-fact"><dt>AI</dt><dd>照片搜索、相似照片、人脸分组和按描述生成规则都在你的电脑上运行。无需 GPU</dd></div>
+            <div class="sw-fact"><dt>隐私</dt><dd>离线运行。无账户、无广告、无遥测，不上传任何内容</dd></div>
+            <div class="sw-fact"><dt>运行环境</dt><dd>Windows 10 2004 版或更高版本及 Windows 11，x64 和 ARM64，支持 23 种语言</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i> 一个应用全搞定</span>
+        <h2 class="display-5 fw-bold text-white">整理文件和照片所需的一切</h2>
+        <p class="text-secondary fs-5 mb-0">文件和照片整理，一站搞定</p>
+      </div>
+      <div class="sw-narrow mx-auto mb-5">
+        <p class="text-secondary">你的“下载”文件夹里堆着四千样东西。“图片”文件夹里挤着三部手机、两台相机和十年的屏幕截图。Sortwise 把这一切都收拾干净——全部在你自己的电脑上、离线完成——而且在你读完清单并点头之前，它一个文件都不会动。</p>
+        <p class="text-secondary mb-0">给它指一个文件夹，选好你想怎么整理，在任何事情发生之前，Sortwise 会用大白话把每一次移动逐条预览给你看。读一遍，删掉你不喜欢的行，然后再运行。五分钟后或者五天后后悔了，一次点击就能把一切原封不动地放回原处。什么都不会被永久删除——移除的东西进回收站。</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder2-open" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">整理任意文件夹</h3>
+            </div>
+            <p class="text-secondary small mb-0">下载、桌面、文档和图片</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search-heart" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">AI 照片搜索</h3>
+            </div>
+            <p class="text-secondary small mb-0">按照片内容找照片</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-files" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">重复文件查找</h3>
+            </div>
+            <p class="text-secondary small mb-0">按内容而非名称找出副本</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-images" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">相似照片</h3>
+            </div>
+            <p class="text-secondary small mb-0">连拍和模糊照片，只留最好的</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-stars" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">用你的话写规则</h3>
+            </div>
+            <p class="text-secondary small mb-0">本地 AI 把一句话变成规则</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">批量重命名</h3>
+            </div>
+            <p class="text-secondary small mb-0">数百个文件，先预览再改</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">一切都能撤销</h3>
+            </div>
+            <p class="text-secondary small mb-0">每次整理都留在记录里</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">注重隐私</h3>
+            </div>
+            <p class="text-secondary small mb-0">在你的电脑上运行，不上传任何内容</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass sw-oneapp p-4 mt-4">
+        <h3 class="sw-detail-head mb-2">一个应用，满足所有文件和照片整理需求</h3>
+        <p class="text-secondary mb-0">文件和文件夹整理、照片和图片管理、重复照片和文件查找、相似和模糊照片清理、磁盘空间分析、批量重命名、离线照片搜索、本地人脸分组、音乐整理、重复视频查找、文件夹备份、从相机存储卡导入，以及发票和账单整理——全部集于一个注重隐私的应用，所有功能免费。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> 查看截图</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise 实际界面</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/ai-photo-search.webp" alt="所有照片集中一处，最新的在前，AI 搜索在你自己的电脑上运行。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search-heart me-1" aria-hidden="true"></i>AI 照片搜索</div>
+              <h3 class="sw-shot-title">按照片内容找照片</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>输入“海滩”“狗”或“收据”</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>用你的语言搜索</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>在你的电脑上运行，照片不上传</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/sort-files-by-type-or-date.webp" alt="一键方案：按文件类型、按日期，或按拍摄日期整理照片。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-ui-checks-grid me-1" aria-hidden="true"></i>一键方案</div>
+              <h3 class="sw-shot-title">选择整理方式</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>按文件类型、日期或拍摄日期整理</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>超过 100 种整理方式</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>也可以用你自己的话描述</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/preview-every-move.webp" alt="每次移动发生之前都能看到。你说可以之前，什么都不会改变。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-list-check me-1" aria-hidden="true"></i>没有意外</div>
+              <h3 class="sw-shot-title">移动前先看计划</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>每个新文件夹和每次移动都先列出</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>想保留原样的，取消勾选即可</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>不删除，也不覆盖</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/duplicate-file-finder.webp" alt="按内容查找重复文件，保留最好的副本，腾出磁盘空间。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-files me-1" aria-hidden="true"></i>重复文件</div>
+              <h3 class="sw-shot-title">找出不需要的副本</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>按内容比较，而非名称</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>保留最好的副本</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>多余的移到回收站</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/find-files.webp" alt="按名称、类型、大小或时间找回任何文件。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search me-1" aria-hidden="true"></i>找到一切</div>
+              <h3 class="sw-shot-title">找到你保存的一切</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>按名称、类型、大小或时间</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>可搜索 PDF 和文档内容</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>移动、标记或重命名找到的文件</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/tidy-downloads-folder.webp" alt="改主意了？一键就能把每个文件放回原处。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>一分钟完成</div>
+              <h3 class="sw-shot-title">完成，所有更改都可撤销</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>文件归入清晰的文件夹</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>打开文件夹或立即撤销</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>一键整理下一个位置</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/zh/undo-timeline.webp" alt="每次更改的完整历史，每一项都可以撤销。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i>撤销</div>
+              <h3 class="sw-shot-title">随时撤销任何操作</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>每次整理都留在记录里</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>一键把每个文件放回原处</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>撤销永远免费</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">获取自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>所有功能免费</a><span>扫描不限次数 &middot; 每月 1,000 次文件更改</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-gift me-1" aria-hidden="true"></i> 价格</span>
+        <h2 class="display-5 fw-bold text-white">所有功能均免费</h2>
+        <p class="text-secondary fs-5 mb-0">没有试用期，没有时间限制，没有广告。免费版包含所有功能，仅每月更改的文件数量有上限。</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan sw-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise 免费版</h3>
+            <p class="sw-plan-price mb-3">免费</p>
+            <div class="sw-quota mb-4">
+              <span class="sw-quota-num">1,000</span>
+              <span class="sw-quota-label">次文件更改每月可用，包含所有功能</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>整理、重命名、重复项、AI 照片搜索、人脸、备份：全部包含</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每移动、复制、重命名或删除一个文件，计为一次更改</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>扫描、搜索、查找重复项、备份和撤销从不计数</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>撤销一次整理，会把这些文件退回本月额度</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>每月 1 日重新开始计数</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">获取自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Pro <span class="badge rounded-pill sw-plan-opt align-middle ms-1">可选</span></h3>
+            <p class="sw-plan-price sw-plan-price-sm mb-3">24 小时 Pro 或永久 Pro</p>
+            <div class="sw-quota sw-quota-pro mb-4">
+              <span class="sw-quota-num"><i class="bi bi-infinity" aria-hidden="true"></i></span>
+              <span class="sw-quota-label">文件更改不设上限</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>24 小时 Pro：一次大扫除，更改不限量</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>永久 Pro：一次购买，永久不限量</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>在 24 小时结束前开始的任务都会完成</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>在 Microsoft Store 购买。无订阅，无需在我们这里注册账户</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 sw-narrow">价格按市场设定，并在购买前显示在 Microsoft Store 中。达到上限了？Sortwise 会在整理开始前告诉你，让你使用剩余的免费额度，并且绝不会中途停止。</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i> 使用方法</span>
+        <h2 class="display-5 fw-bold text-white">三步整理好一个文件夹</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">选择位置</h3>
+            </div>
+            <p class="text-secondary small mb-0">下载、桌面、文档、图片或任何文件夹。Sortwise 读取后会显示有多少文件散落其中。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">选择方式</h3>
+            </div>
+            <p class="text-secondary small mb-0">按文件类型、按日期、照片按拍摄日期，或从 100 多种排序方式中任选。也可以用自己的话描述。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">确认计划后整理</h3>
+            </div>
+            <p class="text-secondary small mb-0">每个新文件夹和每次移动都会先列出来。取消勾选想保留原样的项目，然后整理。在记录中点一下即可全部还原。</p>
+          </div>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">获取自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>所有功能免费</a><span>扫描不限次数 &middot; 每月 1,000 次文件更改</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sortwise or by hand -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="compare">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i> 为什么选 Sortwise</span>
+        <h2 class="display-5 fw-bold text-white">用 Sortwise，还是手动整理？</h2>
+        <p class="text-secondary fs-5 mb-0">文件资源管理器只能一批一批地移动文件。Sortwise 一次处理整个文件夹，先给你看计划，还能把一切还原。</p>
+      </div>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">任务</th>
+                <th scope="col" class="sw-col">Sortwise</th>
+                <th scope="col">在文件资源管理器中手动</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row" class="text-white">把杂乱的文件夹分到图片、文档、视频等</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">一键完成，带现成方案</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">选中再拖动，一批一批来</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">按拍摄日期归档照片</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">读取每张照片里记录的日期</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">拍摄日期只是一列，需要自己移动</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">查找重复文件</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">按内容比较，不管叫什么名字</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">没有重复文件查找</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">按照片内容查找照片</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">输入“海滩”或“狗”</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">大多数电脑上只能按名称和文件属性</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">重命名数百个文件</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">替换、编号、前缀、后缀，带预览</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">只有“照片 (1)”这样的编号名</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">在更改发生前看到每一项</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">完整计划，可取消勾选任意项</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">拖动时立即移动</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">几天后撤销整次清理</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">每次整理都留在记录中</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">仅能用 Ctrl+Z 撤销最近操作</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">价格</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">免费，每月 1,000 次文件更改</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">免费</span></span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it tidies -->
+  <section class="py-5" id="use-cases">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> 能整理什么</span>
+        <h2 class="display-5 fw-bold text-white">一个应用，应对各种杂乱</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-download" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">下载文件夹</h3>
+            <p class="text-secondary small mb-0">安装包、PDF、压缩包和图片按类型归入文件夹，旧安装包移到一边。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-display" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">杂乱的桌面</h3>
+            <p class="text-secondary small mb-0">一次清空桌面，什么都不会找不到：记录会显示每个文件去了哪里。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-camera" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">多年的照片</h3>
+            <p class="text-secondary small mb-0">手机和相机的照片按照片内的日期归入年和月，RAW 与 JPG 始终在一起。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">重复文件与磁盘空间</h3>
+            <p class="text-secondary small mb-0">按内容找到的副本、相似照片、连拍和模糊照片、未完成的下载。多余的进入回收站。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">账单与文件资料</h3>
+            <p class="text-secondary small mb-0">扫描的对账单和发票按内容命名：日期、发件方和文件类型，再按年份归档。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-music-note-beamed" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">音乐与视频</h3>
+            <p class="text-secondary small mb-0">按艺术家和专辑标签整理歌曲，即使名称不同也能找到重复视频。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In detail -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features-in-detail">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-list-stars me-1" aria-hidden="true"></i> 全部功能</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise 的全部功能详解</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder-check" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">整理文件和照片</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>一键即用的现成配方：按文件类型、按年月、按年份、先按类型再按年份、按相机，或者把屏幕截图挪到一边。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>接着你已有的归档习惯往下做。Sortwise 会读出你几年前搭好的文件夹结构，写出从你停下的地方继续的规则。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>用你自己的话说出想要什么——“把发票按年份放进文档”——本地运行的语言模型会拟好规则，你只需过目确认。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完整的规则编辑器：扩展名、名称、路径、大小、日期、图像尺寸、相机、人物、地点、标签和视觉相似度。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>把任何一组规则存成配方，想什么时候再跑就什么时候再跑。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>受监视的文件夹会注意到新到的文件，并把它们备好等你过目。它们从不自作主张移动任何东西。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>该待在一起的文件不会被拆散——RAW 和它的 JPG、视频和它的附属文件，永远不会分开。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>受保护的系统位置一律拒绝。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">批量重命名</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>替换文字、按顺序编号、加前缀、加后缀、统一大小写、删掉某段文字——一次处理几百个文件，配同样的预览和同样的一键撤销。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">把东西重新找回来</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>按名称、类型、大小、日期或你自己的标签搜索文件。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>按照片里实际拍到的内容来搜索——“海滩”“我的狗”“收据”——哪怕每个文件都叫 IMG_4471。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>在文档内部搜索，包括 PDF。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-camera" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">照片</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>人物：Sortwise 把同一张脸的照片归到一起，你就能给一组照片起个名字，按人归档。默认关闭，由你自己打开，随时可以彻底清除。它从不猜测谁是谁。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>地点：根据相机或手机存在照片里的位置，按行程和地点分组，看看你的照片是在哪儿拍的。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>连拍：同一瞬间的二十四张，最清楚的那张已经替你挑好了。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">重复文件与磁盘空间</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>磁盘上任何位置内容完全相同的文件，不管它们叫什么名字。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>几乎相同的照片，即使经过缩放、重新压缩或转发也能找出来。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>残留物：中断的下载、编辑器的临时文件、空文件、旧的安装程序，以及旁边已经解压过的压缩包。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>把几个月没碰过的文件夹打包成 .zip 放在它旁边——在移除任何东西之前，逐个文件核对过。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">单据文件</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>账单、对账单和扫描件的文件名往往是“对账单_08472204_20240314.pdf”这种样子。Sortwise 读取已经为搜索存好的文字内容，推断出是谁寄来的、是哪一类文件、日期是什么——足以把它重命名为“2024-03-14 - 某银行 - 对账单.pdf”，并按年份归档。每一条建议旁边都会写明依据，整个过程也会经过和其他操作一样的预览。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd-stack" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">浏览、备份、修复</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>内置文件夹浏览器：一个文件夹一个文件夹地走过你的库，按大小排序，不离开应用就能移动、重命名、贴标签或丢进回收站。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>把一个大文件夹移到另一块硬盘上，并在原处留下一个链接，这样快捷方式、项目和任何指向旧位置的东西都能继续正常使用。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>文件夹之间的增量备份任务，支持还原和校验。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>比较两个文件夹，准确看出少了什么、变了什么、重了什么。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>修正会惹麻烦的名称：超过 260 个字符的路径、结尾的空格、云存储不接受的字符。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完整历史：Sortwise 做过的每一件事，最新的在前，而且每一件都能撤销。</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private by design -->
+  <section class="py-5" id="privacy">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i> 隐私至上的设计</span>
+        <h2 class="display-5 fw-bold text-white">你的文件留在你的电脑上</h2>
+        <p class="text-secondary fs-5 mb-0">Sortwise 没有任何可以发送数据的服务器。它对你文件的了解都保存在你自己硬盘上的本地数据库中。</p>
+      </div>
+      <div class="card card-glass p-4 p-md-5 invariant-card">
+        <p class="text-white mb-4">Sortwise 离线工作。没有账户、没有登录、没有广告、没有分析、没有遥测。你的文件、照片、人脸分组和搜索都留在你自己的机器上——索引是你自己硬盘上的一个本地数据库，从不上传。</p>
+        <p class="text-secondary mb-2">只有两件事会用到互联网，两者都是可选的，而且都只在你要求时才发生：</p>
+        <ul class="list-unstyled sw-check-list mb-4">
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>一次性下载 AI 模型文件，之后 Sortwise 就在你自己的硬件上运行它们。</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>通过 OpenStreetMap 查询地名，默认关闭，只发送你键入的词。</span></li>
+        </ul>
+        <p class="text-secondary mb-4">人脸数据从不离开你的电脑，会被排除在云同步文件夹之外，并且可以随时在设置里彻底抹除。如果你宁愿 Sortwise 根本不去看文件内部，一个设置就能把它限制在文件名和位置上。</p>
+        <a class="small" href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>隐私政策</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built for Windows, in your language -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="windows">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-windows" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">为 Windows 而生</h2>
+            </div>
+            <p class="text-secondary small mb-0">一个原生 Windows 应用，界面干净、对键盘友好，有浅色和深色主题，并支持超长路径。AI 在你的 CPU 上本地运行——不需要特别的硬件。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-translate" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">用你自己的语言</h2>
+            </div>
+            <p class="text-secondary small mb-0">Sortwise 已完整翻译成 23 种语言——English, العربية, 简体中文, Čeština, Dansk, Nederlands, Suomi, Français, Deutsch, עברית, Magyar, Italiano, 日本語, 한국어, Norsk bokmål, Polski, Português, Русский, Español, Svenska, ไทย, Türkçe, Українська。它会自动跟随你的 Windows 语言设置，你也可以在设置里另选一种，从右到左的版式会被正确镜像。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every feature -->
+  <section class="py-5" id="features">
+    <div class="container py-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h2 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>功能列表</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>所有功能免费：每个自然月可移动、复制、重命名或删除最多 1,000 个文件。没有试用期，没有时间限制。扫描、搜索和撤销从不计入。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>在任何一个文件移动之前，先看清会发生什么。每一次整理都从一份预览开始，你可以读、可以逐行修改、也可以取消。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>什么都能撤销。每一处改动都记入日志，一次点击就能把每个文件放回原处。什么都不会被永久删除。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>几次点击即可整理下载、桌面、文档和图片</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>按照片里的内容来找照片。搜索“海滩”“我的狗”或“收据”，哪怕文件名什么都说明不了，也能找到。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>把同一张脸的照片归到一起，给人物起名、按人归档，还能在地图上查看。默认关闭，随时可以清除。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>按内容查找重复文件，释放空间</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>不是完全相同的副本，但看起来一样的照片：缩小过的、重新保存的、相隔一秒拍的两张。每组保留最好的一张。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>用你自己的话说出想要什么——“把发票按年份放进文档”——本地语言模型会把它变成你可以过目确认的规则。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>用现成的配方一键收拾一个文件夹——或者让 Sortwise 读出你已经建好的归档习惯，写出接着往下做的规则。</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>一次重命名几百个文件：替换文字、按顺序编号、加前缀或后缀、统一大小写。配同样的预览和同样的一键撤销。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>在文档内部搜索，包括 PDF——用你记得的一句话找回文件，而不是用你想不起来的文件名。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>按名称、类型、大小或时间搜索</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>账单、对账单和扫描件会根据它们真正写了什么来命名——寄件人、种类和日期——而不是扫描仪随手编的一串编号。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>文件夹之间的增量备份，支持还原和校验：在你动手挪动之前，第二份副本就已经存在。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>把一个大文件夹移到另一块硬盘上，并在原处留下一个链接，这样任何指向旧位置的东西都能继续正常使用。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>多余副本进入回收站，绝不永久删除</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>从文件类型到相机原片，100 多种整理方式</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>离线运行：AI 模型只需下载一次，之后无需联网。无需账户，没有广告，没有遥测。你的文件、照片和人脸数据永不离开电脑。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>支持 23 种语言，浅色和深色主题</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> 常见问题</span>
+        <h2 class="display-5 fw-bold text-white">常见问题</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="sortwiseFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Sortwise 真的免费吗？
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  是的。Sortwise 免费提供所有功能，没有试用期，也没有时间限制。每个自然月你都可以免费移动、复制、重命名或删除最多 1,000 个文件。如果一次大扫除需要更多，24 小时 Pro 或永久 Pro 可以取消上限。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  什么算作一次文件更改？
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise 移动、复制、重命名或送入回收站的每一个文件。扫描、浏览、搜索、预览、查找重复项、备份和撤销从不计数，撤销一次整理还会把这些文件退回本月额度。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  一个月用满 1,000 次会怎样？
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise 会在整理开始前告诉你，绝不会中途停止。你可以使用剩余的免费额度，等到下月 1 日重新计数，或者选择 Pro。已经整理好的保持不变，撤销始终可用。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  24 小时 Pro 和永久 Pro 有什么区别？
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  两者都只取消每月上限，其他一切不变，因为所有功能本来就免费。24 小时 Pro 从购买时起有效一天，适合一次大扫除，结束前开始的任务都会完成。永久 Pro 是一次性购买，永久不设上限。两者都在 Microsoft Store 购买，商店会显示你所在国家或地区的价格。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  如何自动整理下载文件夹？
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  打开 Sortwise，选择“整理我的下载”，或在“位置”中选择该文件夹。选择一种方式，例如按文件类型或按日期，阅读计划后点击“整理”。受监视的文件夹也会发现新到的文件并排好等你确认，它们从不自行移动任何东西。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  Sortwise 能按拍摄日期把照片分到文件夹吗？
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  能。它会从每个照片文件内部读取拍摄日期，按年或按年和月归档照片。RAW 文件和它的 JPG、视频和它的附属文件总是一起移动。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Sortwise 会删除我的文件吗？
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  不会擅自删除。整理只是把文件移入文件夹，从不覆盖任何内容。你选择删除的重复文件和垃圾文件会进入 Windows 回收站，在没有回收站的位置，Sortwise 会拒绝删除。任何更改都可以在记录中撤销。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Sortwise 如何查找重复文件？
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  它按内容而不是名称比较文件，所以无论文件叫什么都能找到副本。每组保留最好的一份，其余的建议送入回收站。相似照片（缩小、重新保存或相隔一秒拍摄的）、连拍和模糊照片会单独查找。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  几天后还能撤销整理吗？
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  可以。每次更改都记录在你的电脑上，记录中按时间倒序列出每次整理，并带有“撤销”按钮。撤销会把每个文件放回原处，并删除变空的文件夹。撤销免费，且不受任何限制。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  可以用自己的规则整理文件吗？
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  可以。用日常语言描述你想要的，例如“把发票按年份放进文档”，电脑上的语言包会生成规则供你检查。还有完整的规则编辑器（扩展名、名称、大小、日期、相机、人物、地点等），Sortwise 也能学习你已有的文件夹结构并延续下去。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  AI 照片搜索如何工作？需要 GPU 吗？
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  输入你要找的内容，例如“海滩”“狗”或“收据”，即使每个文件都叫 IMG_4471，Sortwise 也能找到相应的照片。它理解中文，在电脑处理器上运行，不需要 GPU 或特殊硬件。照片包会在第一次搜索时、Sortwise 告知大小后下载一次。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  Sortwise 会上传我的文件或要求账户吗？
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  不会。它离线运行，没有账户、广告和遥测。只有在你需要时才会联网：一次性下载本地 AI 包、在地图上查找地名（默认关闭），或在 Microsoft Store 购买 Pro。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  在整台电脑上使用安全吗？
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse" aria-labelledby="faq13Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise 只更改你指定位置中的文件，并直接拒绝受保护的系统位置。在你看到计划之前什么都不会移动，相关联的文件会保持在一起，任何更改都可以撤销。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  系统要求是什么？
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse" aria-labelledby="faq14Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  x64 或 ARM64 电脑上的 Windows 10 2004 版或更高版本，或 Windows 11。Sortwise 从 Microsoft Store 安装，支持 23 种语言和浅色、深色主题，并会自动使用 Windows 的语言。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(14,139,99,0.22) 0%, rgba(255,211,102,0.08) 100%);">
+        <div class="sw-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" class="w-100 h-100 object-fit-contain" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">终极文件整理方案</h2>
+          <p class="text-secondary fs-5 mb-2">Sortwise 不上传你的文件。它不需要账户。它会先告诉你它打算做什么——而且随时都能收回。</p>
+          <p class="text-white fs-5 mb-4">所有功能免费。用 Sortwise 打开最乱的文件夹，一分钟就能看到整理计划。</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">获取自</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0 justify-content-center"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>所有功能免费</a><span>扫描不限次数 &middot; 每月 1,000 次文件更改</span></p>
+          <p class="small mt-4 mb-0"><a href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>隐私政策</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link">Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link">KeepOne Duplicate Finder</a></li>
+            <li><a href="/steptell/" class="footer-link">Steptell Steps Recorder</a></li>
+            <li><a href="/Sortwise/" class="footer-link text-primary fw-semibold">Sortwise File Organizer</a></li>
+            <li><a href="/nudge/" class="footer-link">Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link">Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare/" class="footer-link">GlowCompare</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link">GlowCompare for Windows</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link">Milk Calendar</a></li>
+            <li><a href="/slouch-guard/" class="footer-link">Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link">Notelock</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link">Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link">AES Vault</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/Sortwise/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>Sortwise Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Sortwise">
+  <img src="/assets/images/sortwise-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Sortwise</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">安装</a>
+</div>
+<button type="button" class="to-top" aria-label="返回顶部" title="返回顶部">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie 同意" hidden>
+  <p class="consent-bar-text">Google Analytics 了解本站的使用情况，Google 和 Microsoft 的广告代码衡量广告是否有效。两者可能为此设置 Cookie——拒绝即停止。都不会用来建立广告画像。 <a href="/privacy.html" class="consent-bar-link">隐私政策</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">拒绝</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">接受</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

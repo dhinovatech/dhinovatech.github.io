@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sortwise: Windows 用の無料 AI 写真・ファイル整理アプリ</title>
+  <meta name="description" content="ダウンロード、デスクトップ、写真を 1 分で整理し、重複ファイルを見つけ、すべて元に戻せます。全機能無料、ファイルの変更は毎月 1,000 件まで。オフライン、アカウント不要。">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #2ed39b;
+      --dhin-border-glow: rgba(46, 211, 155, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(46, 211, 155, 0.18);
+      --dhin-gradient-primary: linear-gradient(135deg, #2ed39b 0%, #0e8b63 100%);
+      --sw-green: #2ed39b;
+      --sw-deep: #0e8b63;
+      --sw-amber: #ffd366;
+      --sw-ink: #032c1f;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 46, 211, 155;
+      --bs-primary-bg-subtle: rgba(46, 211, 155, 0.12);
+      --bs-primary-border-subtle: rgba(46, 211, 155, 0.32);
+      --bs-primary-text-emphasis: #9cf0d0;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #b8f5df 0%, #2ed39b 55%, #ffd366 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(46, 211, 155, 0.24); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(46, 211, 155, 0.38); }
+    .btn-dhin-outline:hover { background: rgba(46, 211, 155, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(14, 139, 99, 0.34) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-green { box-shadow: 0 0 45px rgba(14, 139, 99, 0.35); }
+    .sw-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(46,211,155,0.16), rgba(255,211,102,0.12));
+      color: var(--sw-green); border: 1px solid rgba(46,211,155,0.3);
+    }
+    .sw-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .sw-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .sw-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(46,211,155,0.16); color: var(--sw-green);
+      border: 1px solid rgba(46,211,155,0.4);
+    }
+
+    /* Hero */
+    .sw-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .sw-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .sw-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .sw-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #9cf0d0; margin-top: .6rem;
+    }
+    .sw-cta-strip .sw-price { margin: 0; }
+    .sw-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .sw-price-tag {
+      background: var(--sw-amber); color: var(--sw-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 211, 102, .3);
+    }
+    .sw-price-tag:hover { color: var(--sw-ink); background: #ffe08f; }
+    .sw-window {
+      border-radius: 14px; overflow: hidden; background: #06402f;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .sw-window img { display: block; width: 100%; height: auto; }
+
+    .sw-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .sw-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .sw-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .sw-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .sw-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--sw-green); font-weight: 700; margin-bottom: .3rem; }
+    .sw-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Screenshot gallery */
+    .sw-shot { overflow: hidden; margin: 0; }
+    .sw-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .sw-shot figcaption { padding: 1rem 1.1rem 1.1rem; }
+    .sw-shot-kicker { font-size: .72rem; letter-spacing: .08em; font-weight: 700; color: var(--sw-green); text-transform: uppercase; }
+    .sw-shot-title { font-size: 1.02rem; font-weight: 700; color: #fff; margin: .25rem 0 .6rem; }
+    .sw-shot ul { margin: 0; padding: 0; list-style: none; }
+    .sw-shot li { font-size: .86rem; color: #cbd5e1; display: flex; gap: .5rem; margin-bottom: .25rem; }
+    .sw-shot li i { color: var(--sw-green); flex-shrink: 0; }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--sw-green) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--sw-green) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(46, 211, 155, 0.1); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(46, 211, 155, 0.4) !important; }
+    .sw-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .sw-check-list li i { color: var(--sw-green); flex-shrink: 0; margin-top: .1rem; }
+    .sw-detail-head { font-size: .78rem; letter-spacing: .07em; font-weight: 700; color: var(--sw-amber); text-transform: uppercase; }
+    .sw-oneapp { background: rgba(255, 211, 102, .07); border: 1px solid rgba(255, 211, 102, .28) !important; }
+
+    /* Sortwise vs by hand */
+    .peer-table { font-size: .9rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; min-width: 150px; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; }
+    .peer-table th.sw-col, .peer-table td.sw-col { background: rgba(46, 211, 155, .07); border-left: 1px solid rgba(46,211,155,.25); border-right: 1px solid rgba(46,211,155,.25); }
+    .peer-table thead th.sw-col { color: var(--sw-green); border-top: 2px solid var(--sw-green); }
+    .peer-table tbody th { min-width: 170px; font-weight: 600; }
+    .peer-cell { display: flex; gap: .45rem; align-items: flex-start; }
+    .peer-cell i { flex-shrink: 0; margin-top: .15rem; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--sw-amber); }
+    .peer-n { color: #f87171; }
+
+    /* Pricing */
+    .sw-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .sw-plan-free { border: 2px solid var(--sw-green) !important; box-shadow: 0 0 40px rgba(46, 211, 155, .14); }
+    .sw-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--sw-green); }
+    .sw-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .sw-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .sw-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 211, 102, .1); border: 1px solid rgba(255, 211, 102, .38);
+    }
+    .sw-quota-num { font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--sw-amber); flex-shrink: 0; }
+    .sw-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .sw-quota-pro { background: rgba(46, 211, 155, .1); border-color: rgba(46, 211, 155, .38); }
+    .sw-quota-pro .sw-quota-num { color: var(--sw-green); }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(46, 211, 155, 0.08); color: var(--sw-green); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(46, 211, 155, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/Sortwise/ja/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/Sortwise/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/Sortwise/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/Sortwise/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/Sortwise/es/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/Sortwise/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/Sortwise/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/Sortwise/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/Sortwise/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/Sortwise/cs/">
+  <link rel="alternate" hreflang="hu" href="https://www.dhinovatech.com/Sortwise/hu/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/Sortwise/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/Sortwise/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/Sortwise/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/Sortwise/fi/">
+  <link rel="alternate" hreflang="ru" href="https://www.dhinovatech.com/Sortwise/ru/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/Sortwise/uk/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/Sortwise/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/Sortwise/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/Sortwise/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/Sortwise/zh/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/Sortwise/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/Sortwise/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/Sortwise/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Sortwise: Windows 用の無料 AI 写真・ファイル整理アプリ">
+  <meta property="og:description" content="ダウンロード、デスクトップ、写真を 1 分で整理し、重複ファイルを見つけ、すべて元に戻せます。全機能無料、ファイルの変更は毎月 1,000 件まで。オフライン、アカウント不要。">
+  <meta property="og:url" content="https://www.dhinovatech.com/Sortwise/ja/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="hu_HU">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="ru_RU">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sortwise: Windows 用の無料 AI 写真・ファイル整理アプリ">
+  <meta name="twitter:description" content="ダウンロード、デスクトップ、写真を 1 分で整理し、重複ファイルを見つけ、すべて元に戻せます。全機能無料、ファイルの変更は毎月 1,000 件まで。オフライン、アカウント不要。">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/sortwise-og.png">
+  <meta name="twitter:image:alt" content="Sortwise - free AI photo and file organizer for Windows: tidy Downloads, find duplicates, undo anything">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/Sortwise/#software","name":"Sortwise","alternateName":"Sortwise: AI 写真とファイルの整理","operatingSystem":"Windows 10 version 2004 (build 19041) and later, Windows 11","applicationCategory":"UtilitiesApplication","applicationSubCategory":"File organizer, photo organizer and duplicate file finder","description":"ダウンロード、デスクトップ、写真を 1 分で整理し、重複ファイルを見つけ、すべて元に戻せます。全機能無料、ファイルの変更は毎月 1,000 件まで。オフライン、アカウント不要。","abstract":"Sortwise はファイル整理の決定版。ファイルと写真の整理に必要なすべてが、これひとつでそろいます。すべての機能が無料です。暦月ごとに最大 1,000 ファイルまで移動・コピー・名前の変更・削除ができ、試用期間も期限もありません。スキャン、検索、重複の検出、元に戻す操作は回数に含まれません。大掃除でもっと必要なときは、24 時間 Pro または永久 Pro で上限がなくなります。","url":"https://www.dhinovatech.com/Sortwise/ja/","inLanguage":["en","de","fr","es","it","pt-BR","nl","pl","cs","hu","da","sv","nb","fi","ru","uk","tr","ja","ko","zh-Hans","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/sortwise-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","installUrl":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0","featureList":["全機能無料：暦月ごとに最大 1,000 ファイルまで移動・コピー・名前の変更・削除が可能。試用期間も期限もありません。スキャン、検索、元に戻す操作は数えません。","1つのファイルも動く前に、何が起きるかを正確に確認。すべての整理はプレビューから始まり、読んで、行ごとに編集して、取りやめることができます。","何でも取り消せます。すべての変更は記録されるので、ワンクリックですべてのファイルが元の場所へ戻ります。完全に削除されるものはありません。","ダウンロード、デスクトップ、ドキュメント、ピクチャを数クリックで整理","写真は写っている内容で見つかります。「ビーチ」「うちの犬」「レシート」で検索すれば、ファイル名が何も語らなくても結果が出ます。","同じ顔の写真をまとめて人物名を付け、人物ごとに整理。地図上でも確認できます。既定ではオフで、いつでも消去できます。","中身で重複ファイルを見つけて空き容量を確保","完全なコピーではないけれど同じに見える写真: 縮小したもの、保存し直したもの、1 秒違いの 2 枚。各組で一番よい 1 枚を残します。","やりたいことを自分の言葉で。「請求書は年ごとにドキュメントへ」——ローカルの言語モデルが、確認できるルールに変換します。","すぐ使えるレシピでワンクリック整理。あるいは、すでに作ってある整理のしかたを Sortwise に読み取らせ、それを引き継ぐルールを書かせることもできます。","何百ものファイルを一度にリネーム: 文字列の置換、連番付け、接頭辞・接尾辞の追加、大文字小文字の統一。同じプレビュー、同じワンクリックの取り消し付きです。","PDF を含め、書類の中身も検索。思い出せないファイル名ではなく、覚えている一節からその書類を見つけ出せます。","名前、種類、サイズ、古さで検索","請求書、明細書、スキャンした書類は、スキャナーが勝手につけた番号ではなく、実際に書かれている差出人・種類・日付から名前が付けられます。","フォルダー間の増分バックアップ。復元と検証に対応し、何かを動かす前に二つ目の複製が用意されます。","大きなフォルダーを別のドライブへ移し、元の場所にはリンクを残します。旧位置を指すものはすべて動き続けます。","余分なコピーはごみ箱へ。完全には削除しません","ファイルの種類からカメラの元データまで 100 以上の整理方法","オフラインで動作：AIモデルを一度ダウンロードすれば、インターネットは不要です。アカウント、広告、テレメトリーなし。ファイル・写真・顔のデータがPCから出ることはありません。","23 言語、ライト/ダーク テーマ対応"],"isAccessibleForFree":true,"processorRequirements":"x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9NSTWXHBQBJ0"},"screenshot":["https://www.dhinovatech.com/assets/images/sortwise/ja/ai-photo-file-organizer.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/ai-photo-search.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/sort-files-by-type-or-date.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/preview-every-move.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/duplicate-file-finder.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/find-files.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/tidy-downloads-folder.webp","https://www.dhinovatech.com/assets/images/sortwise/ja/undo-timeline.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/Sortwise/ja/#webpage","url":"https://www.dhinovatech.com/Sortwise/ja/","name":"Sortwise: Windows 用の無料 AI 写真・ファイル整理アプリ","description":"ダウンロード、デスクトップ、写真を 1 分で整理し、重複ファイルを見つけ、すべて元に戻せます。全機能無料、ファイルの変更は毎月 1,000 件まで。オフライン、アカウント不要。","inLanguage":"ja","dateModified":"2026-11-15","about":{"@id":"https://www.dhinovatech.com/Sortwise/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/Sortwise/#software"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Sortwise","item":"https://www.dhinovatech.com/Sortwise/"},{"@type":"ListItem","position":3,"name":"Sortwise (ja)","item":"https://www.dhinovatech.com/Sortwise/ja/"}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/Sortwise/ja/#faq","inLanguage":"ja","mainEntity":[{"@type":"Question","name":"Sortwise は本当に無料ですか？","acceptedAnswer":{"@type":"Answer","text":"はい。Sortwise は無料ですべての機能が使え、試用期間も期限もありません。毎月、最大 1,000 件のファイルを無料で移動、コピー、名前変更、削除できます。大掃除でそれ以上必要なら、24 時間 Pro または永久版 Pro で上限がなくなります。"}},{"@type":"Question","name":"何がファイルの変更として数えられますか？","acceptedAnswer":{"@type":"Answer","text":"Sortwise が移動、コピー、名前変更、またはごみ箱へ送ったファイル 1 件ごとです。スキャン、閲覧、検索、プレビュー、重複の検出、バックアップ、元に戻す操作は一切カウントされず、整理を元に戻すとそのファイル数が今月の枠に戻ります。"}},{"@type":"Question","name":"1 か月で 1,000 件に達したらどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"Sortwise は整理を始める前にお知らせし、途中で止めることはありません。残りの無料分を使う、カウントがリセットされる翌月 1 日まで待つ、または Pro を選ぶことができます。整理済みのものはそのままで、元に戻す操作はいつでも使えます。"}},{"@type":"Question","name":"24 時間 Pro と永久版 Pro の違いは？","acceptedAnswer":{"@type":"Answer","text":"どちらも月間の上限をなくすだけで、ほかは何も変わりません。すべての機能はもともと無料だからです。24 時間 Pro は購入時から 1 日有効で、1 回の大掃除向けです。終了前に始めた処理は最後まで完了します。永久版 Pro は 1 回の購入でずっと無制限です。どちらも Microsoft Store で購入でき、お住まいの国の価格が表示されます。"}},{"@type":"Question","name":"ダウンロード フォルダーを自動で整理するには？","acceptedAnswer":{"@type":"Answer","text":"Sortwise を開いて「ダウンロードを整理」を選ぶか、「場所」からフォルダーを選びます。ファイルの種類別や日付別などの整理方法を選び、計画を確認して「整理」を押します。監視フォルダーは新しく届いたファイルにも気づき、確認用に並べてくれます。勝手に移動することはありません。"}},{"@type":"Question","name":"写真を撮影日ごとのフォルダーに分けられますか？","acceptedAnswer":{"@type":"Answer","text":"はい。各写真ファイルの中から撮影日を読み取り、年別、または年と月別に整理します。RAW ファイルとその JPG、動画とその付属ファイルは常に一緒に移動します。"}},{"@type":"Question","name":"Sortwise はファイルを削除しますか？","acceptedAnswer":{"@type":"Answer","text":"確認なしには削除しません。整理はファイルをフォルダーへ移動するだけで、何も上書きしません。削除を選んだ重複や不要ファイルは Windows のごみ箱へ送られ、ごみ箱のない場所では削除を拒否します。どの変更も履歴から元に戻せます。"}},{"@type":"Question","name":"重複ファイルはどうやって見つけるのですか？","acceptedAnswer":{"@type":"Answer","text":"名前ではなく中身でファイルを比較するので、どんな名前でもコピーを見つけます。各グループで最良のコピーを残し、残りをごみ箱へ送るよう提案します。似た写真（縮小、再保存、1 秒違いで撮影したもの）、連写、ぼやけた写真は別に検出します。"}},{"@type":"Question","name":"数日後に整理を元に戻せますか？","acceptedAnswer":{"@type":"Answer","text":"はい。すべての変更は PC に記録され、履歴には新しい順に各整理が「元に戻す」ボタン付きで表示されます。元に戻すと各ファイルが元の場所に戻り、空になったフォルダーは削除されます。元に戻す操作は無料で、回数の制限もありません。"}},{"@type":"Question","name":"自分のルールでファイルを整理できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。「請求書を年別にドキュメントへ」のように普段の言葉で説明すると、PC 上の言語パックが確認用のルールを作成します。拡張子、名前、サイズ、日付、カメラ、人物、場所などを使える本格的なルール エディターもあり、既存のフォルダー構成から学んで続けることもできます。"}},{"@type":"Question","name":"AI 写真検索の仕組みは？ GPU は必要ですか？","acceptedAnswer":{"@type":"Answer","text":"「海」「犬」「レシート」など探したいものを入力すると、すべてのファイル名が IMG_4471 でも、それが写った写真を見つけます。日本語にも対応し、PC のプロセッサーで動くため、GPU や特別なハードウェアは不要です。写真パックは最初の検索時に、Sortwise がサイズを伝えたうえで 1 回だけダウンロードされます。"}},{"@type":"Question","name":"ファイルをアップロードしたり、アカウントが必要だったりしますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。オフラインで動作し、アカウント、広告、テレメトリはありません。インターネットを使うのはご依頼時だけです。ローカル AI パックの初回ダウンロード、地図での地名検索（既定ではオフ）、Microsoft Store での Pro の購入です。"}},{"@type":"Question","name":"PC 全体で使っても安全ですか？","acceptedAnswer":{"@type":"Answer","text":"Sortwise は指定された場所のファイルだけを変更し、保護されたシステムの場所は最初から拒否します。計画を確認するまで何も動かず、関連するファイルは一緒に保たれ、どの変更も元に戻せます。"}},{"@type":"Question","name":"動作環境は？","acceptedAnswer":{"@type":"Answer","text":"x64 または ARM64 の PC で、Windows 10 バージョン 2004 以降または Windows 11。Microsoft Store からインストールでき、23 言語、ライト／ダーク テーマに対応し、Windows の言語を自動で使います。"}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/sortwise/ja/ai-photo-file-organizer.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">メインコンテンツへスキップ</a>
+<!-- Navigation Bar (independent Sortwise tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - Sortwise owns its own language tree; build-nav-apps.py
+               adds Smart Photos, KeepOne, Steptell and Mortgage above it -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <!-- BEGIN KeepOne menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nb/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END KeepOne menu -->
+              <!-- BEGIN Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/steptell/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh-tw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Steptell menu -->
+              <!-- BEGIN Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/mortgage-loan-emi-pro/">
+                  <span><img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Mortgage EMI Pro</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                </ul>
+              </li>
+              <!-- END Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/Sortwise/">
+                  <span><img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Sortwise File Organizer</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/ja/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - Sortwise only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>日本語 (Japanese)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/Sortwise/ja/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> 無料で入手
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="sw-hero-icon">
+              <img src="/assets/images/sortwise-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block sw-hero-kind">AI 写真とファイルの整理</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">Sortwise</span> <span class="d-block sw-hero-tagline">ファイル整理の決定版</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">Sortwise は、お使いの PC 上でオフラインで動く、プライバシー重視の AI 写真整理・ファイル整理・重複ファイル検索アプリです。何年分もの写真を日付順に整理し、重複した写真やファイルを見つけ、ダウンロードとデスクトップを片づけて、ディスク容量を取り戻しましょう。すべての移動は事前にプレビューでき、ワンクリックで元に戻せます。</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">入手先</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> スクリーンショットを見る
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>全機能無料</a><span>スキャンは無制限 &middot; ファイルの変更は毎月 1,000 件まで</span></p>
+
+          <div class="sw-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-lightning-charge text-warning me-1" aria-hidden="true"></i> ファイルと写真を1分で整理</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-eye text-info me-1" aria-hidden="true"></i> 動かす前に確認、いつでも元に戻せる</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-success me-1" aria-hidden="true"></i> PC 内で動作、アカウントも広告もなし</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-green" aria-hidden="true"></div>
+            <div class="sw-window position-relative">
+              <img src="/assets/images/sortwise/ja/ai-photo-file-organizer.webp" alt="AI 写真とファイルの整理アプリ Sortwise。全機能無料。" decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>Sortwise の概要</h2>
+          <p class="sw-glance-def mb-4">Sortwise はファイル整理の決定版。ファイルと写真の整理に必要なすべてが、これひとつでそろいます。すべての機能が無料です。暦月ごとに最大 1,000 ファイルまで移動・コピー・名前の変更・削除ができ、試用期間も期限もありません。スキャン、検索、重複の検出、元に戻す操作は回数に含まれません。大掃除でもっと必要なときは、24 時間 Pro または永久 Pro で上限がなくなります。</p>
+          <dl class="sw-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="sw-fact"><dt>どんなアプリ</dt><dd>Windows 10/11 用のファイル・写真整理アプリ。重複ファイル検索、一括リネーム、AI 写真検索付き</dd></div>
+            <div class="sw-fact"><dt>料金</dt><dd>無料。全機能と毎月 1,000 件のファイル変更。24 時間 Pro または永久版 Pro で上限がなくなります</dd></div>
+            <div class="sw-fact"><dt>カウントされないもの</dt><dd>スキャン、検索、重複の検出、バックアップ、元に戻す操作は何度でも</dd></div>
+            <div class="sw-fact"><dt>整理の基準</dt><dd>ファイルの種類、年と月、撮影日、カメラ、または普段の言葉で書いた自分のルール</dd></div>
+            <div class="sw-fact"><dt>片付けるもの</dt><dd>重複ファイル、似た写真やぼやけた写真、連写、古いインストーラー、途中で止まったダウンロード</dd></div>
+            <div class="sw-fact"><dt>安全性</dt><dd>移動の前に計画を表示し、上書きはせず、削除はごみ箱へ。どの変更も元に戻せます</dd></div>
+            <div class="sw-fact"><dt>AI</dt><dd>写真検索、似た写真、顔のグループ化、言葉からのルール作成はすべて PC 上で動作。GPU は不要</dd></div>
+            <div class="sw-fact"><dt>プライバシー</dt><dd>オフラインで動作。アカウントなし、広告なし、テレメトリなし、アップロードなし</dd></div>
+            <div class="sw-fact"><dt>動作環境</dt><dd>Windows 10 バージョン 2004 以降と Windows 11、x64 と ARM64、23 言語</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i> これひとつで</span>
+        <h2 class="display-5 fw-bold text-white">ファイルと写真の整理に必要なすべて</h2>
+        <p class="text-secondary fs-5 mb-0">ファイルと写真の整理が、これひとつで</p>
+      </div>
+      <div class="sw-narrow mx-auto mb-5">
+        <p class="text-secondary">ダウンロードフォルダーには四千個のものが放り込まれています。ピクチャフォルダーには、三台の電話、二台のカメラ、そして十年分のスクリーンショットが同居しています。Sortwise はそれをすべて片づけます。しかも、すべてお使いのPCの中だけ、オフラインで。そして、あなたが一覧に目を通して同意するまで、ファイルを一つも動かしません。</p>
+        <p class="text-secondary mb-0">フォルダーを指定し、どう並べ替えたいかを選ぶだけ。何かが起きる前に、Sortwise は一件ごとの移動をわかりやすい言葉でプレビュー表示します。目を通して、気に入らない行を消して、それから実行してください。5分後でも5日後でも、後悔したらワンクリックですべてが元あった場所にそのまま戻ります。完全に削除されるものは何もありません。取り除いたものはごみ箱へ移動します。</p>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder2-open" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">どのフォルダーも整理</h3>
+            </div>
+            <p class="text-secondary small mb-0">ダウンロード、デスクトップ、ドキュメント、ピクチャ</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search-heart" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">AI 写真検索</h3>
+            </div>
+            <p class="text-secondary small mb-0">写っているもので写真を探す</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-files" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">重複ファイル検索</h3>
+            </div>
+            <p class="text-secondary small mb-0">名前ではなく中身でコピーを発見</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-images" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">似た写真</h3>
+            </div>
+            <p class="text-secondary small mb-0">連写やブレた写真から最良の 1 枚を</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-stars" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">言葉でルール作成</h3>
+            </div>
+            <p class="text-secondary small mb-0">ローカル AI が文章をルールに</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">一括リネーム</h3>
+            </div>
+            <p class="text-secondary small mb-0">数百のファイルもプレビューしてから</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">何でも元に戻せる</h3>
+            </div>
+            <p class="text-secondary small mb-0">すべての整理を履歴に保存</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">プライバシー重視</h3>
+            </div>
+            <p class="text-secondary small mb-0">PC 内で動作、何もアップロードしない</p>
+          </div>
+        </div>
+      </div>
+      <div class="card card-glass sw-oneapp p-4 mt-4">
+        <h3 class="sw-detail-head mb-2">ファイルと写真の整理が、これひとつで</h3>
+        <p class="text-secondary mb-0">ファイル・フォルダーの整理、写真・画像の管理、重複写真・重複ファイルの検索、似た写真やブレた写真の整理、ディスク容量の分析、一括リネーム、オフラインの写真検索、PC 内での顔のグループ化、音楽の整理、重複動画の検索、フォルダーのバックアップ、カメラのカードからの取り込み、請求書や明細書の整理。すべてをひとつのプライベートなアプリで、全機能無料で使えます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> スクリーンショットを見る</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise の画面</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/ai-photo-search.webp" alt="すべての写真をひとつの場所に新しい順で。AI 検索はあなたの PC 上で動きます。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search-heart me-1" aria-hidden="true"></i>AI 写真検索</div>
+              <h3 class="sw-shot-title">写っているもので写真を探す</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>「ビーチ」「犬」「レシート」と入力</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>あなたの言語で使える</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>PC 内で動作、写真はアップロードされない</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/sort-files-by-type-or-date.webp" alt="ワンクリックのレシピ：ファイルの種類、日付、写真なら撮影日で整理。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-ui-checks-grid me-1" aria-hidden="true"></i>ワンクリックのレシピ</div>
+              <h3 class="sw-shot-title">整理方法を選ぶ</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>種類別、日付別、撮影日別に整理</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>100 通り以上の整理方法</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>自分の言葉で指示することも</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/preview-every-move.webp" alt="移動する前に、すべての動きを確認できます。あなたが「はい」と言うまで何も変わりません。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-list-check me-1" aria-hidden="true"></i>予想外のことは起きない</div>
+              <h3 class="sw-shot-title">動かす前にプランを確認</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>新しいフォルダーと移動をすべて事前に表示</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>残したいものはチェックを外すだけ</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>削除も上書きもしない</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/duplicate-file-finder.webp" alt="中身で重複ファイルを見つけ、いちばん良いコピーを残してディスク容量を取り戻します。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-files me-1" aria-hidden="true"></i>重複ファイル</div>
+              <h3 class="sw-shot-title">要らないコピーを見つける</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>名前ではなく中身で比較</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>いちばん良いコピーを残す</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>余分なものはごみ箱へ</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/find-files.webp" alt="名前、種類、サイズ、古さで、どのファイルもすぐに見つかります。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-search me-1" aria-hidden="true"></i>何でも見つかる</div>
+              <h3 class="sw-shot-title">保存したものをすぐ検索</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>名前、種類、サイズ、古さで</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>PDF や文書の中身も検索</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>見つけたものを移動・タグ付け・リネーム</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/tidy-downloads-folder.webp" alt="気が変わったら？ワンクリックで、すべてのファイルが元の場所に戻ります。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-check2-circle me-1" aria-hidden="true"></i>1 分で完了</div>
+              <h3 class="sw-shot-title">完了。すべて元に戻せます</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>ファイルはわかりやすいフォルダーに</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>フォルダーを開くか、すぐに元に戻す</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>次の場所もワンクリックで整理</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass sw-shot h-100">
+            <img src="/assets/images/sortwise/ja/undo-timeline.webp" alt="すべての変更の完全な履歴。どれでも元に戻せます。" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="sw-shot-kicker"><i class="bi bi-arrow-counterclockwise me-1" aria-hidden="true"></i>元に戻す</div>
+              <h3 class="sw-shot-title">いつでも何でも元に戻せる</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>すべての整理を履歴に保存</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>ワンクリックで元の場所へ</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>元に戻すのはいつでも無料</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">入手先</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>全機能無料</a><span>スキャンは無制限 &middot; ファイルの変更は毎月 1,000 件まで</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-gift me-1" aria-hidden="true"></i> 料金</span>
+        <h2 class="display-5 fw-bold text-white">すべての機能が無料</h2>
+        <p class="text-secondary fs-5 mb-0">試用期間も期限も広告もありません。無料プランですべての機能を使え、上限があるのは毎月変更するファイルの数だけです。</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan sw-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Free</h3>
+            <p class="sw-plan-price mb-3">無料</p>
+            <div class="sw-quota mb-4">
+              <span class="sw-quota-num">1,000</span>
+              <span class="sw-quota-label">件のファイル変更を毎月、全機能付きで</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>整理、リネーム、重複検出、AI 写真検索、顔、バックアップ：すべて含まれます</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>移動・コピー・名前変更・削除したファイル 1 件につき 1 回の変更</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>スキャン、検索、重複の検出、バックアップ、元に戻す操作はカウントされません</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>整理を元に戻すと、そのファイル数が今月の枠に戻ります</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>カウントは毎月 1 日にリセットされます</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">入手先</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 sw-plan">
+            <h3 class="h5 text-white fw-bold mb-1">Sortwise Pro <span class="badge rounded-pill sw-plan-opt align-middle ms-1">任意</span></h3>
+            <p class="sw-plan-price sw-plan-price-sm mb-3">24 時間 Pro または永久版 Pro</p>
+            <div class="sw-quota sw-quota-pro mb-4">
+              <span class="sw-quota-num"><i class="bi bi-infinity" aria-hidden="true"></i></span>
+              <span class="sw-quota-label">ファイル変更の上限なし</span>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>24 時間 Pro：大掃除 1 回分、変更数が無制限に</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>永久版 Pro：1 回の購入で、ずっと無制限</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>24 時間が終わる前に始めた処理は最後まで完了します</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Microsoft Store で購入。サブスクリプションなし、当社のアカウントも不要</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-0 sw-narrow">価格は市場ごとに設定され、購入前に Microsoft Store に表示されます。上限に達したら？ Sortwise は整理を始める前に知らせ、残りの無料分を使うか選べるようにし、途中で止まることはありません。</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-5" id="how-it-works">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-signpost-split me-1" aria-hidden="true"></i> 使い方</span>
+        <h2 class="display-5 fw-bold text-white">3 ステップでフォルダーがすっきり</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">場所を選ぶ</h3>
+            </div>
+            <p class="text-secondary small mb-0">ダウンロード、デスクトップ、ドキュメント、ピクチャ、または任意のフォルダー。Sortwise が読み込み、散らばっているファイルの数を表示します。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">整理方法を選ぶ</h3>
+            </div>
+            <p class="text-secondary small mb-0">ファイルの種類別、日付別、写真の撮影日別、または 100 以上ある並べ方から。自分の言葉で説明することもできます。</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="sw-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">計画を確認して整理</h3>
+            </div>
+            <p class="text-secondary small mb-0">新しいフォルダーとすべての移動が先に一覧表示されます。そのままにしたいものはチェックを外して整理。履歴からワンクリックですべて元に戻せます。</p>
+          </div>
+        </div>
+      </div>
+      <div class="sw-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">入手先</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="sw-price mb-0"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>全機能無料</a><span>スキャンは無制限 &middot; ファイルの変更は毎月 1,000 件まで</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sortwise or by hand -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="compare">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i> Sortwise を選ぶ理由</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise か、手作業か</h2>
+        <p class="text-secondary fs-5 mb-0">エクスプローラーではファイルを少しずつ移動します。Sortwise はフォルダー全体をまとめて整理し、先に計画を見せ、すべて元に戻すこともできます。</p>
+      </div>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">作業</th>
+                <th scope="col" class="sw-col">Sortwise</th>
+                <th scope="col">エクスプローラーで手作業</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row" class="text-white">散らかったフォルダーをピクチャ、ドキュメント、ビデオなどに仕分ける</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">ワンクリック、用意されたレシピで</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">選んでドラッグ、少しずつ</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">写真を撮影日ごとに整理する</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">各写真に記録された日付を読み取る</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">撮影日は列に表示されるだけで、移動は自分で</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">重複ファイルを探す</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">名前に関係なく中身で比較</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">重複ファイル検索はなし</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">写った内容で写真を探す</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">「海」や「犬」と入力</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">多くの PC では名前とファイル情報のみ</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">数百のファイル名を変更する</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">置換、連番、接頭辞、接尾辞、プレビュー付き</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">「写真 (1)」のような連番のみ</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">変更前にすべての変更を確認する</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">完全な計画、どれでもチェックを外せる</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">ドラッグした時点で移動される</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">数日後に大掃除をまるごと元に戻す</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">すべての整理が履歴に残る</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">直前の操作だけ Ctrl+Z</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">料金</th>
+                  <td class="sw-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">無料、毎月 1,000 件のファイル変更</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">無料</span></span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it tidies -->
+  <section class="py-5" id="use-cases">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> 整理できるもの</span>
+        <h2 class="display-5 fw-bold text-white">どんな散らかりもひとつのアプリで</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-download" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">ダウンロード フォルダー</h3>
+            <p class="text-secondary small mb-0">インストーラー、PDF、ZIP、画像を種類別のフォルダーに仕分け、古いインストーラーは別の場所へ。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-display" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">ごちゃごちゃのデスクトップ</h3>
+            <p class="text-secondary small mb-0">デスクトップを一度に片付けても見失いません。各ファイルの移動先は履歴でわかります。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-camera" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">何年分もの写真</h3>
+            <p class="text-secondary small mb-0">スマホやカメラの写真を、写真内の日付をもとに年と月で整理。RAW と JPG は常に一緒です。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">重複とディスク容量</h3>
+            <p class="text-secondary small mb-0">中身で見つけたコピー、似た写真、連写、ぼやけた写真、途中で止まったダウンロード。不要分はごみ箱へ。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">請求書と書類</h3>
+            <p class="text-secondary small mb-0">スキャンした明細書や請求書を、内容（日付、差出人、書類の種類）から名前を付けて年別に整理。</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="sw-icon-box mb-3"><i class="bi bi-music-note-beamed" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">音楽と動画</h3>
+            <p class="text-secondary small mb-0">曲をアーティストとアルバムのタグで整理し、名前が違っても重複した動画を見つけます。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In detail -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features-in-detail">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-list-stars me-1" aria-hidden="true"></i> 全機能</span>
+        <h2 class="display-5 fw-bold text-white">Sortwise でできること、詳しく</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-folder-check" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">ファイルと写真を整理する</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>すぐ使えるレシピをワンクリックで: ファイル種類別、年月別、年別、種類→年の順、カメラ別、スクリーンショットの隔離。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>すでにある整理のしかたを引き継ぐ。Sortwise は何年も前にあなたが作ったフォルダー構成を読み取り、中断したところから続けるルールを書き起こします。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>やりたいことを自分の言葉で説明するだけ。「請求書は年ごとにドキュメントへ」——ローカルで動く言語モデルがルール案を下書きし、あなたは確認するだけです。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>本格的なルールビルダー: 拡張子、名前、パス、サイズ、日付、画像サイズ、カメラ、人物、場所、ラベル、見た目の類似度。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>どんなルールセットもレシピとして保存し、好きなときに何度でも実行できます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>監視フォルダーは新しく届いたファイルに気づき、確認待ちとして用意します。自分から勝手に移動することは決してありません。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>ひとまとまりのファイルは離れません。RAW とその JPG、動画とそのサイドカーファイルが切り離されることはありません。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>保護されたシステムの場所は一切受け付けません。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-input-cursor-text" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">一括リネーム</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>文字列の置換、連番付け、接頭辞・接尾辞の追加、大文字小文字の統一、文字列の削除——何百ものファイルを一度に、同じプレビューと同じワンクリックの取り消し付きで。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-search" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">もう一度見つけ出す</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>名前、種類、サイズ、日付、自分で付けたラベルでファイルを検索。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>写真は「ビーチ」「うちの犬」「レシート」など、実際に写っている内容で検索。ファイル名がすべて IMG_4471 でも大丈夫です。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>PDF を含め、書類の中身も検索できます。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-camera" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">写真</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>人物: Sortwise は同じ顔の写真をまとめるので、グループに名前を付けて人物ごとに整理できます。既定ではオフ、有効にするのはあなた、いつでも消去できます。誰が誰かを推測することは決してありません。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>場所: カメラや電話が写真の中に記録した位置情報をもとに、旅行や地点ごとにまとめて撮影場所を表示します。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>連写: 同じ瞬間の24コマから、いちばんピントの合った一枚をあらかじめ選び出します。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">重複とディスク容量</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>名前が何であれ、ドライブのどこにあっても中身が同一のファイル。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>ほぼ同一の写真。リサイズ、再圧縮、共有を経ていても見つけ出します。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>残骸: 中断したダウンロード、エディターの一時ファイル、空のファイル、古いインストーラー、隣にすでに展開済みの書庫。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>何か月も触れていないフォルダーを、その隣に .zip として保存。何かを取り除く前に、ファイル一つずつ照合します。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">書類仕事</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>請求書や明細書、スキャンした書類は「明細書_08472204_20240314.pdf」のような名前でやってきます。Sortwise は検索用にすでに保存されている文字を読み取り、差出人、書類の種類、日付を推測します——それだけあれば「2024-03-14 - 〇〇銀行 - 明細書.pdf」と名前を変え、年ごとに整理するのに十分です。根拠は提案の一つひとつに添えて示され、すべては他の操作と同じプレビューを経ます。</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-hdd-stack" aria-hidden="true"></i></span>
+              <h3 class="sw-detail-head mb-0">見て回る・バックアップする・直す</h3>
+            </div>
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>内蔵のフォルダービューアー: ライブラリーをフォルダーごとにたどり、サイズで並べ替え、アプリを離れずに移動・名前変更・ラベル付け・ごみ箱送りができます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>大きなフォルダーを別のドライブへ移し、元の場所にはリンクを残します。ショートカットやプロジェクトなど、旧位置を指すものはすべて動き続けます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>フォルダー間の増分バックアップ。復元と検証にも対応します。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>二つのフォルダーを比較し、何が足りず、何が変わり、何が重複しているかを正確に表示します。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>面倒を起こす名前を直す: 260文字を超えるパス、末尾の空白、クラウドストレージが受け付けない文字。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完全な履歴: Sortwise がこれまでに行ったすべてを新しい順に。そのどれもが取り消せます。</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private by design -->
+  <section class="py-5" id="privacy">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i> プライバシー重視の設計</span>
+        <h2 class="display-5 fw-bold text-white">ファイルは PC の中に</h2>
+        <p class="text-secondary fs-5 mb-0">Sortwise には何かを送るサーバーがありません。ファイルについて得た情報は、あなた自身のドライブ上のローカル データベースに保存されます。</p>
+      </div>
+      <div class="card card-glass p-4 p-md-5 invariant-card">
+        <p class="text-white mb-4">Sortwise はオフラインで動きます。アカウントも、サインインも、広告も、分析も、テレメトリーもありません。ファイルも写真も顔のグループ分けも検索も、あなたのマシンから出ません。索引はご自分のドライブ上のローカルデータベースで、アップロードされることは一切ありません。</p>
+        <p class="text-secondary mb-2">インターネットを使うのは二つだけ。どちらも任意で、どちらもあなたが求めたときだけです。</p>
+        <ul class="list-unstyled sw-check-list mb-4">
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Sortwise がその後ご自分のハードウェアで動かす AI モデルファイルの、一度きりのダウンロード。</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>OpenStreetMap による地名検索。既定ではオフで、入力した語句だけを送信します。</span></li>
+        </ul>
+        <p class="text-secondary mb-4">顔データがPCから出ることはなく、クラウド同期フォルダーの外に保管され、設定からいつでも完全に消去できます。そもそもファイルの中を見られたくなければ、設定を一つ変えるだけで、ファイル名と場所だけに制限できます。</p>
+        <a class="small" href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>プライバシーポリシー</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Built for Windows, in your language -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="windows">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-windows" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">Windows のために作られています</h2>
+            </div>
+            <p class="text-secondary small mb-0">すっきりしてキーボードで扱いやすいインターフェイス、ライトとダークのテーマ、非常に長いパスへの対応を備えたネイティブの Windows アプリです。AI はお使いの CPU 上でローカルに動作し、特別なハードウェアは要りません。</p>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="sw-icon-box sw-icon-box-sm"><i class="bi bi-translate" aria-hidden="true"></i></span>
+              <h2 class="sw-detail-head mb-0">あなたの言語で</h2>
+            </div>
+            <p class="text-secondary small mb-0">Sortwise は23言語に完全対応しています——English, العربية, 简体中文, Čeština, Dansk, Nederlands, Suomi, Français, Deutsch, עברית, Magyar, Italiano, 日本語, 한국어, Norsk bokmål, Polski, Português, Русский, Español, Svenska, ไทย, Türkçe, Українська。Windows の言語設定に自動で従い、設定から別の言語を選ぶこともできます。右から左に書く言語のレイアウトも正しく反転します。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every feature -->
+  <section class="py-5" id="features">
+    <div class="container py-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h2 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>機能一覧</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>全機能無料：暦月ごとに最大 1,000 ファイルまで移動・コピー・名前の変更・削除が可能。試用期間も期限もありません。スキャン、検索、元に戻す操作は数えません。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>1つのファイルも動く前に、何が起きるかを正確に確認。すべての整理はプレビューから始まり、読んで、行ごとに編集して、取りやめることができます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>何でも取り消せます。すべての変更は記録されるので、ワンクリックですべてのファイルが元の場所へ戻ります。完全に削除されるものはありません。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>ダウンロード、デスクトップ、ドキュメント、ピクチャを数クリックで整理</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>写真は写っている内容で見つかります。「ビーチ」「うちの犬」「レシート」で検索すれば、ファイル名が何も語らなくても結果が出ます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>同じ顔の写真をまとめて人物名を付け、人物ごとに整理。地図上でも確認できます。既定ではオフで、いつでも消去できます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>中身で重複ファイルを見つけて空き容量を確保</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>完全なコピーではないけれど同じに見える写真: 縮小したもの、保存し直したもの、1 秒違いの 2 枚。各組で一番よい 1 枚を残します。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>やりたいことを自分の言葉で。「請求書は年ごとにドキュメントへ」——ローカルの言語モデルが、確認できるルールに変換します。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>すぐ使えるレシピでワンクリック整理。あるいは、すでに作ってある整理のしかたを Sortwise に読み取らせ、それを引き継ぐルールを書かせることもできます。</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled sw-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>何百ものファイルを一度にリネーム: 文字列の置換、連番付け、接頭辞・接尾辞の追加、大文字小文字の統一。同じプレビュー、同じワンクリックの取り消し付きです。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>PDF を含め、書類の中身も検索。思い出せないファイル名ではなく、覚えている一節からその書類を見つけ出せます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>名前、種類、サイズ、古さで検索</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>請求書、明細書、スキャンした書類は、スキャナーが勝手につけた番号ではなく、実際に書かれている差出人・種類・日付から名前が付けられます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>フォルダー間の増分バックアップ。復元と検証に対応し、何かを動かす前に二つ目の複製が用意されます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>大きなフォルダーを別のドライブへ移し、元の場所にはリンクを残します。旧位置を指すものはすべて動き続けます。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>余分なコピーはごみ箱へ。完全には削除しません</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>ファイルの種類からカメラの元データまで 100 以上の整理方法</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>オフラインで動作：AIモデルを一度ダウンロードすれば、インターネットは不要です。アカウント、広告、テレメトリーなし。ファイル・写真・顔のデータがPCから出ることはありません。</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>23 言語、ライト/ダーク テーマ対応</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 sw-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> よくある質問</span>
+        <h2 class="display-5 fw-bold text-white">よくある質問</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="sortwiseFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Sortwise は本当に無料ですか？
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  はい。Sortwise は無料ですべての機能が使え、試用期間も期限もありません。毎月、最大 1,000 件のファイルを無料で移動、コピー、名前変更、削除できます。大掃除でそれ以上必要なら、24 時間 Pro または永久版 Pro で上限がなくなります。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  何がファイルの変更として数えられますか？
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise が移動、コピー、名前変更、またはごみ箱へ送ったファイル 1 件ごとです。スキャン、閲覧、検索、プレビュー、重複の検出、バックアップ、元に戻す操作は一切カウントされず、整理を元に戻すとそのファイル数が今月の枠に戻ります。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  1 か月で 1,000 件に達したらどうなりますか？
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise は整理を始める前にお知らせし、途中で止めることはありません。残りの無料分を使う、カウントがリセットされる翌月 1 日まで待つ、または Pro を選ぶことができます。整理済みのものはそのままで、元に戻す操作はいつでも使えます。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  24 時間 Pro と永久版 Pro の違いは？
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  どちらも月間の上限をなくすだけで、ほかは何も変わりません。すべての機能はもともと無料だからです。24 時間 Pro は購入時から 1 日有効で、1 回の大掃除向けです。終了前に始めた処理は最後まで完了します。永久版 Pro は 1 回の購入でずっと無制限です。どちらも Microsoft Store で購入でき、お住まいの国の価格が表示されます。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  ダウンロード フォルダーを自動で整理するには？
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise を開いて「ダウンロードを整理」を選ぶか、「場所」からフォルダーを選びます。ファイルの種類別や日付別などの整理方法を選び、計画を確認して「整理」を押します。監視フォルダーは新しく届いたファイルにも気づき、確認用に並べてくれます。勝手に移動することはありません。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  写真を撮影日ごとのフォルダーに分けられますか？
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  はい。各写真ファイルの中から撮影日を読み取り、年別、または年と月別に整理します。RAW ファイルとその JPG、動画とその付属ファイルは常に一緒に移動します。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  Sortwise はファイルを削除しますか？
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  確認なしには削除しません。整理はファイルをフォルダーへ移動するだけで、何も上書きしません。削除を選んだ重複や不要ファイルは Windows のごみ箱へ送られ、ごみ箱のない場所では削除を拒否します。どの変更も履歴から元に戻せます。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  重複ファイルはどうやって見つけるのですか？
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  名前ではなく中身でファイルを比較するので、どんな名前でもコピーを見つけます。各グループで最良のコピーを残し、残りをごみ箱へ送るよう提案します。似た写真（縮小、再保存、1 秒違いで撮影したもの）、連写、ぼやけた写真は別に検出します。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  数日後に整理を元に戻せますか？
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  はい。すべての変更は PC に記録され、履歴には新しい順に各整理が「元に戻す」ボタン付きで表示されます。元に戻すと各ファイルが元の場所に戻り、空になったフォルダーは削除されます。元に戻す操作は無料で、回数の制限もありません。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  自分のルールでファイルを整理できますか？
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  はい。「請求書を年別にドキュメントへ」のように普段の言葉で説明すると、PC 上の言語パックが確認用のルールを作成します。拡張子、名前、サイズ、日付、カメラ、人物、場所などを使える本格的なルール エディターもあり、既存のフォルダー構成から学んで続けることもできます。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  AI 写真検索の仕組みは？ GPU は必要ですか？
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  「海」「犬」「レシート」など探したいものを入力すると、すべてのファイル名が IMG_4471 でも、それが写った写真を見つけます。日本語にも対応し、PC のプロセッサーで動くため、GPU や特別なハードウェアは不要です。写真パックは最初の検索時に、Sortwise がサイズを伝えたうえで 1 回だけダウンロードされます。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  ファイルをアップロードしたり、アカウントが必要だったりしますか？
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  いいえ。オフラインで動作し、アカウント、広告、テレメトリはありません。インターネットを使うのはご依頼時だけです。ローカル AI パックの初回ダウンロード、地図での地名検索（既定ではオフ）、Microsoft Store での Pro の購入です。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  PC 全体で使っても安全ですか？
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse" aria-labelledby="faq13Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sortwise は指定された場所のファイルだけを変更し、保護されたシステムの場所は最初から拒否します。計画を確認するまで何も動かず、関連するファイルは一緒に保たれ、どの変更も元に戻せます。
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq14Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq14" aria-expanded="false" aria-controls="faq14">
+                  動作環境は？
+                </button>
+              </h3>
+              <div id="faq14" class="accordion-collapse collapse" aria-labelledby="faq14Heading" data-bs-parent="#sortwiseFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  x64 または ARM64 の PC で、Windows 10 バージョン 2004 以降または Windows 11。Microsoft Store からインストールでき、23 言語、ライト／ダーク テーマに対応し、Windows の言語を自動で使います。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(14,139,99,0.22) 0%, rgba(255,211,102,0.08) 100%);">
+        <div class="sw-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" class="w-100 h-100 object-fit-contain" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">ファイル整理の決定版</h2>
+          <p class="text-secondary fs-5 mb-2">Sortwise はあなたのファイルをアップロードしません。アカウントも要りません。これから何をするかを見せ、そしていつでも取り消せます。</p>
+          <p class="text-white fs-5 mb-4">すべての機能が無料。いちばん散らかったフォルダーを Sortwise で開けば、1 分で整理プランが見られます。</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">入手先</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="sw-price mt-3 mb-0 justify-content-center"><a class="sw-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>全機能無料</a><span>スキャンは無制限 &middot; ファイルの変更は毎月 1,000 件まで</span></p>
+          <p class="small mt-4 mb-0"><a href="/Sortwise/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>プライバシーポリシー</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link">Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link">KeepOne Duplicate Finder</a></li>
+            <li><a href="/steptell/" class="footer-link">Steptell Steps Recorder</a></li>
+            <li><a href="/Sortwise/" class="footer-link text-primary fw-semibold">Sortwise File Organizer</a></li>
+            <li><a href="/nudge/" class="footer-link">Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link">Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare/" class="footer-link">GlowCompare</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link">GlowCompare for Windows</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link">Milk Calendar</a></li>
+            <li><a href="/slouch-guard/" class="footer-link">Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link">Notelock</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link">Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link">AES Vault</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/Sortwise/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>Sortwise Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="Sortwise">
+  <img src="/assets/images/sortwise-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">Sortwise</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9NSTWXHBQBJ0?ocid=dhinovatech_Sortwise&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">インストール</a>
+</div>
+<button type="button" class="to-top" aria-label="トップへ戻る" title="トップへ戻る">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie の同意" hidden>
+  <p class="consent-bar-text">Google Analytics はこのサイトの利用状況を、Google と Microsoft の広告タグは広告の効果を測定します。どちらもそのために Cookie を使うことがあります（拒否すると停止します）。広告プロファイルの作成には使いません。 <a href="/privacy.html" class="consent-bar-link">プライバシーポリシー</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">拒否する</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">同意する</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

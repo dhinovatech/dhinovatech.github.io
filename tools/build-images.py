@@ -75,6 +75,9 @@ SPEC = {
     # Steptell's icon (transparent corners), copied from the app repo by
     # tools/build-steptell-shots.py; the largest render is the 90px final CTA.
     "steptell-icon.png":                  dict(max_dim=256,  webp=True,  q=90, keep=True),
+    # Sortwise's unplated icon (rounded, transparent corners), copied from the
+    # app package by tools/build-sortwise-shots.py; largest render is 90px.
+    "sortwise-icon.png":                  dict(max_dim=256,  webp=True,  q=90, keep=True),
 
     # hero / preview art. og:image wants >=1200px on the long edge, so the
     # JPEG fallback is not downscaled below that.
@@ -99,6 +102,8 @@ SPEC = {
     "steptell-og.png":                    dict(max_dim=1200, webp=False),
     # Drawn by tools/build-mortgage-shots.py, for the same reason.
     "mortgage-emi-og.png":                dict(max_dim=1200, webp=False),
+    # Drawn by tools/build-sortwise-shots.py, for the same reason.
+    "sortwise-og.png":                    dict(max_dim=1200, webp=False),
 
     # store screenshots render at roughly 300 CSS px wide
     "glowcompare-screenshot-1.png":       dict(max_dim=592,  webp=True,  q=86, keep=False),

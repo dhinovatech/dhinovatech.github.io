@@ -31,6 +31,7 @@ APP_ORDER = [
     ("/smart-photos/",                    "Smart Photos"),
     ("/KeepOne/",                         "KeepOne Duplicate Finder"),
     ("/steptell/",                        "Steptell Steps Recorder"),
+    ("/Sortwise/",                        "Sortwise File Organizer"),
     ("/nudge/",                           "Nudge Offline Journal & AI"),
     ("/stow/",                            "Stow Photo & File Organizer"),
     ("/glowcompare/",                     "GlowCompare"),
