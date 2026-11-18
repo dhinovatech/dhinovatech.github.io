@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | PubMaker: Pub File Editor &amp; Desktop Publishing</title>
+  <meta name="description" content="PubMaker works offline with no account, analytics, ads or tracking, and it never connects to the internet. What it keeps on your PC, where, and how to remove it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/assets/css/legal.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <!-- BEGIN generated SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/pubmaker/privacy.html">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="Privacy Policy | PubMaker: Pub File Editor &amp; Desktop Publishing">
+  <meta property="og:description" content="PubMaker works offline with no account, analytics, ads or tracking, and it never connects to the internet. What it keeps on your PC, where, and how to remove it.">
+  <meta property="og:url" content="https://www.dhinovatech.com/pubmaker/privacy.html">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/dhinovatech-hero.jpg">
+  <meta property="og:image:width" content="1376">
+  <meta property="og:image:height" content="768">
+  <meta property="og:image:alt" content="Dhinovatech privacy-first apps for Android and Windows">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy Policy | PubMaker: Pub File Editor &amp; Desktop Publishing">
+  <meta name="twitter:description" content="PubMaker works offline with no account, analytics, ads or tracking, and it never connects to the internet. What it keeps on your PC, where, and how to remove it.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/dhinovatech-hero.jpg">
+  <meta name="twitter:image:alt" content="Dhinovatech privacy-first apps for Android and Windows">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"Privacy Policy","item":"https://www.dhinovatech.com/pubmaker/privacy.html"}]}]}
+  </script>
+  <!-- END generated SEO block -->
+  <!-- BEGIN generated resource hints -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END generated resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<main id="main" class="page">
+
+    <header class="header">
+      <a href="/">&larr; Dhinova Tech</a>
+      <h1>Privacy Policy: PubMaker: Pub File Editor &amp; Desktop Publishing</h1>
+      <p class="subtitle">Applies to PubMaker for Windows, all versions, including its command-line tool. Developed and maintained by Dhinovatech, <a href="https://www.dhinovatech.com">www.dhinovatech.com</a>.</p>
+      <span class="effective-date">Last updated: 18 November 2026</span>
+    </header>
+
+    <div class="callout highlight">
+      <p><strong>The short version.</strong> PubMaker collects nothing. It has no account, no analytics, no ads and no tracking, and it does not send your documents, pictures, mail-merge lists or anything else to us or to anyone else. We, the developer, receive no data from this app at all, and we have no server that could receive it.</p>
+      <p>PubMaker never connects to the internet. Its app package does not declare the internet capability, so Windows does not let it. Your documents leave your PC only when you export, print, email or share them yourself.</p>
+    </div>
+
+    <nav class="toc" aria-label="Table of contents">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#documents">Your documents</a></li>
+        <li><a href="#storage">What PubMaker keeps on your PC</a></li>
+        <li><a href="#internet">No internet connection</a></li>
+        <li><a href="#pub">Opening .pub and other files</a></li>
+        <li><a href="#merge">Mail merge</a></li>
+        <li><a href="#exports">Exports, prints and the free label</a></li>
+        <li><a href="#pro">Buying Pro, volume licences and rating</a></li>
+        <li><a href="#feedback">Sending feedback</a></li>
+        <li><a href="#reminders">Reminders</a></li>
+        <li><a href="#log">App log</a></li>
+        <li><a href="#permissions">Permissions PubMaker asks for</a></li>
+        <li><a href="#control">Your control over your data</a></li>
+        <li><a href="#children">Children</a></li>
+        <li><a href="#sharing">Data sharing and sale</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="documents">
+      <h2>1. Your documents</h2>
+      <p>Everything you make in PubMaker (flyers, newsletters, cards, calendars and the rest) is saved where you choose. New documents go to <code>Documents\PubMaker</code> unless you pick another folder. They are ordinary files on your PC, and only you decide where copies of them go.</p>
+      <p>PubMaker does not upload, sync or back up your documents anywhere. Its templates, artwork and colour schemes are built into the app, so using them involves no download.</p>
+    </section>
+
+    <section class="section" id="storage">
+      <h2>2. What PubMaker keeps on your PC</h2>
+      <p>To work, PubMaker keeps a few files of its own in its app data folder on your PC (<code>%LOCALAPPDATA%\PubMaker</code>, which Windows keeps inside PubMaker's own package data):</p>
+      <ul>
+        <li><code>settings.json</code>: your preferences, such as language, paper size, units and any reminders you set</li>
+        <li><code>viewstate.json</code>: the page, zoom and selection you last had in each document, so it reopens where you left off</li>
+        <li><code>library.db</code>: a local search index of the PubMaker documents in your library folders, holding their file paths, names, titles, dates, sizes, page counts, small thumbnails, their text (so you can search inside them), and your favourites, pins and recently opened list</li>
+        <li><code>Recovery\</code>: a recovery copy of open documents, so your work survives a crash or power cut</li>
+        <li><code>Snapshots\</code>: earlier versions of your documents, so you can go back to them</li>
+        <li><code>Templates\</code>: templates you save yourself</li>
+        <li><code>Logs\</code>: a plain-text log of app events and errors (section 10)</li>
+      </ul>
+      <p>All of this is produced on your PC, by code running on your PC, and stays on your PC. None of it is sent anywhere. Windows removes this folder when you uninstall PubMaker. Your documents in your own folders are not touched.</p>
+    </section>
+
+    <section class="section" id="internet">
+      <h2>3. No internet connection</h2>
+      <p>PubMaker makes no network connections of any kind. There is no telemetry, no crash reporting service, no usage analytics, no advertising code, no update check of its own and no sign-in. Updates come through the Microsoft Store, like any other Store app.</p>
+      <p>This is enforced by Windows, not only promised: the PubMaker package does not declare the <code>internetClient</code> capability, so Windows does not give it network access.</p>
+      <p>A few buttons hand something over to another app on your PC: <em>Rate PubMaker</em> opens the Microsoft Store, <em>Send feedback</em> opens your email app, and a link you add to a document opens in your browser when you click it. Whatever those apps do is under their own privacy terms. PubMaker itself sends nothing.</p>
+    </section>
+
+    <section class="section" id="pub">
+      <h2>4. Opening .pub and other files</h2>
+      <p>When you open a Publisher (.pub) file, PubMaker reads it in a separate, locked-down helper process on your PC, with time and memory limits, so a damaged or hostile file cannot harm the app or your other documents. The file is converted on your PC and is never sent anywhere to be converted. The same is true of PDFs, pictures, SVG, Word, RTF, text and spreadsheet files you import.</p>
+      <p>PubMaker never writes .pub files, so your original Publisher files are left exactly as they were.</p>
+    </section>
+
+    <section class="section" id="merge">
+      <h2>5. Mail merge</h2>
+      <p>Names, addresses and other details you merge stay in your own spreadsheet or CSV file. PubMaker reads that file when you merge and keeps no separate copy of it. A list you type directly into PubMaker is saved inside that document and nowhere else.</p>
+    </section>
+
+    <section class="section" id="exports">
+      <h2>6. Exports, prints and the free label</h2>
+      <p>Exported PDFs, pictures and Word files carry only what you put in them, plus the document title and "PubMaker" with its version number as the creating app. PubMaker adds no hidden identifier, tracking code or information about you or your PC.</p>
+      <p>In the free version, each exported or printed page carries a small printed label, "PubMaker &middot; dhinovatech.com". It is plain text on the page, the same for everyone, and it reports nothing to us. Pro removes it (section 7).</p>
+    </section>
+
+    <section class="section" id="pro">
+      <h2>7. Buying Pro, volume licences and rating</h2>
+      <p><strong>Pro and the 24-hour pass.</strong> Every feature of PubMaker is free. The optional Pro add-on and the 24-hour pass remove the label, and both are sold through the Microsoft Store. The Store, not PubMaker, handles the payment, and Microsoft's privacy statement (<a href="https://privacy.microsoft.com/privacystatement">privacy.microsoft.com</a>) covers it. We never see your payment details, your name or your Microsoft account. PubMaker only asks Windows whether this PC has Pro, and Windows answers from the Store licence it keeps.</p>
+      <p><strong>Volume licences.</strong> Schools and companies can use a signed <code>.pubmaker-license</code> file instead. PubMaker checks its signature on your PC with a key built into the app. There is no licence server, and nothing is sent when it is checked.</p>
+      <p><strong>Rating.</strong> PubMaker may occasionally ask whether you would like to rate it. <em>Rate PubMaker</em> opens the Microsoft Store's own rating window, and anything you write there goes to Microsoft under their terms, not to the app. PubMaker remembers on your PC only when it last asked and whether you rated, so it does not keep asking.</p>
+    </section>
+
+    <section class="section" id="feedback">
+      <h2>8. Sending feedback</h2>
+      <p><em>Send feedback</em> opens a new email in your own email app, addressed to Dhinovatech support. It is filled in with your message, the PubMaker version, the Windows version and, if you are reporting a problem, a short description of it. You can read and change all of it before sending. Nothing is sent unless you send that email yourself, and you choose whether to attach anything.</p>
+      <p>If you do email us, we use your message and email address only to reply to you.</p>
+    </section>
+
+    <section class="section" id="reminders">
+      <h2>9. Reminders</h2>
+      <p>If you set a reminder to make the next edition of a document, PubMaker shows a Windows notification at the time you chose. The reminder and the document it opens are saved in your settings on your PC. The notification is made on your PC and sent to no one. Reminders are off unless you add one.</p>
+    </section>
+
+    <section class="section" id="log">
+      <h2>10. App log</h2>
+      <p>PubMaker writes app events and errors to a plain-text file in the <code>Logs</code> folder on your PC. The log never holds document content. It is never sent anywhere. It is yours to open, attach to an email to us if you choose, or delete.</p>
+    </section>
+
+    <section class="section" id="permissions">
+      <h2>11. Permissions PubMaker asks for</h2>
+      <ul>
+        <li><strong>Full trust (<code>runFullTrust</code>):</strong> PubMaker is a desktop app. It needs this to print, to open files you choose anywhere on your PC, to run the separate helper process that reads .pub files, to open .pub and .pubmaker files when you double-click them, and to provide the <code>pubmaker</code> command-line tool. It does not need or ask for administrator rights.</li>
+      </ul>
+      <p>PubMaker does not ask for internet access, your location, camera, microphone, contacts or account details.</p>
+    </section>
+
+    <section class="section" id="control">
+      <h2>12. Your control over your data</h2>
+      <ul>
+        <li><strong>Your documents:</strong> they are ordinary files in your folders. Move, copy or delete them as you would any other file.</li>
+        <li><strong>The library:</strong> remove a folder from your library to take its documents out of the search index. The documents themselves are not touched.</li>
+        <li><strong>Reminders:</strong> turn any reminder off or remove it.</li>
+        <li><strong>Delete everything:</strong> uninstall PubMaker. Windows removes its app data folder, including the settings, library index, recovery copies, snapshots, saved templates and log. Your own documents are not touched, because they are yours.</li>
+      </ul>
+      <p>Because we never receive your data, there is nothing for us to delete for you and no account for you to close.</p>
+    </section>
+
+    <section class="section" id="children">
+      <h2>13. Children</h2>
+      <p>PubMaker is a general-purpose desktop publishing tool. It is not directed to children under 13 and does not knowingly collect information from them, or from anyone else.</p>
+    </section>
+
+    <section class="section" id="sharing">
+      <h2>14. Data sharing and sale</h2>
+      <p>We do not sell, rent, trade or share your data, because we never have it. The app contains no third-party advertising, tracking or profiling code.</p>
+    </section>
+
+    <section class="section" id="changes">
+      <h2>15. Changes to this policy</h2>
+      <p>If this policy changes, the new version will be published at this address and the "Last updated" date above will change. If PubMaker ever needed the internet, that would be a change to this policy, and it would also be described in the app's release notes.</p>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>16. Contact</h2>
+      <p>Questions about this policy or about privacy in PubMaker: <a href="mailto:dhinovatech@gmail.com">dhinovatech@gmail.com</a></p>
+      <p>Developed and maintained by Dhinovatech, <a href="https://www.dhinovatech.com">www.dhinovatech.com</a>.</p>
+      <p>PubMaker is not affiliated with Microsoft. Publisher is a trademark of Microsoft Corporation.</p>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 Dhinova Tech. All rights reserved.</p>
+      <p>
+        <a href="/">Home</a> &middot;
+        <a href="/privacy.html">Website privacy</a> &middot;
+        <a href="/terms.html">Terms</a> &middot;
+        <a href="mailto:dhinovatech@gmail.com">Contact</a>
+      </p>
+    </footer>
+
+  </main>
+<!-- BEGIN generated UX block -->
+<button type="button" class="to-top" aria-label="Back to top" title="Back to top">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Cookie consent" hidden>
+  <p class="consent-bar-text">Google Analytics tells us how this site is used; Google and Microsoft ad tags measure whether our ads work. Both may set cookies to do it — decline and they stop. Neither is used to build an advertising profile. <a href="/privacy.html" class="consent-bar-link">Privacy Policy</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Decline</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Accept</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>
