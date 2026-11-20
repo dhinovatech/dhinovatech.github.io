@@ -396,6 +396,7 @@ FOOTER = """  <footer class="footer-dhin">
             <li><a href="/KeepOne/" class="footer-link">KeepOne Duplicate Finder</a></li>
             <li><a href="/steptell/" class="footer-link">Steptell Steps Recorder</a></li>
             <li><a href="/Sortwise/" class="footer-link text-primary fw-semibold">Sortwise File Organizer</a></li>
+            <li><a href="/pubmaker/" class="footer-link">PubMaker Pub File Editor</a></li>
             <li><a href="/nudge/" class="footer-link">Nudge Offline Journal &amp; AI</a></li>
             <li><a href="/stow/" class="footer-link">Stow Photo &amp; File Organizer</a></li>
             <li><a href="/glowcompare/" class="footer-link">GlowCompare</a></li>

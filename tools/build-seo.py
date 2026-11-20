@@ -124,6 +124,12 @@ APPS = {
     icon="/assets/images/sortwise-icon.png",
     og="/assets/images/sortwise-og.png", ogw=1200, ogh=630,
     ogalt="Sortwise - free AI photo and file organizer for Windows", large=True),
+ 'pubmaker': dict(
+    name="PubMaker: Pub File Editor & Desktop Publishing", os="Windows", cat="DesignApplication",
+    store="https://apps.microsoft.com/detail/9NXH5KK1JGTW",
+    icon="/assets/images/pubmaker-icon.png",
+    og="/assets/images/pubmaker-og.png", ogw=1200, ogh=630,
+    ogalt="PubMaker - free pub file editor and desktop publishing for Windows", large=True),
  'aes-vault': dict(
     name="AES Vault", os="Windows", cat="SecurityApplication",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ",

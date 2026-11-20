@@ -57,6 +57,8 @@ APPS = {
  # Mixed case for the same reason as KeepOne: /Sortwise/privacy.html came first.
  'Sortwise': dict(name="Sortwise", icon="/assets/images/sortwise-icon.png",
     store="https://apps.microsoft.com/detail/9NSTWXHBQBJ0", kind='ms'),
+ 'pubmaker': dict(name="PubMaker", icon="/assets/images/pubmaker-icon.png",
+    store="https://apps.microsoft.com/detail/9NXH5KK1JGTW", kind='ms'),
  'aes-vault': dict(name="AES Vault", icon="/assets/images/aes-vault-icon.png",
     store="https://apps.microsoft.com/detail/9N8XWF00VRNJ", kind='ms'),
 }

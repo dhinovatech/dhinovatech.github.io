@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="pt-BR" dir="ltr" data-bs-theme="dark">
+<head>
+  <!-- BEGIN generated analytics + consent block -->
+  <!-- Google tag (gtag.js), gated by Consent Mode v2. -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T0S5ZW1QGM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    /* Which version of the consent notice this page is showing.
+       assets/js/consent.js draws the banner again when a reader's stored
+       answer was given against an older one, and the block further down
+       refuses to read an older acceptance as consent to advertising. It is
+       declared here rather than in consent.js because the head block needs it
+       before consent.js has loaded, and one value beats two that can drift. */
+    window.DHIN_NOTICE = '2026-09-09b';
+
+    /* Two defaults. Order between them does not matter: Consent Mode applies
+       the most specific region match, and the call without a region key is the
+       catch-all for everyone the first one does not name.
+
+       Google resolves which one applies on its own side, from the request.
+       Nothing here reads, derives or stores a location, and the page itself
+       never learns where the reader is - which is why the banner below is
+       drawn for everyone rather than being hidden by region.
+
+       EEA/UK/CH: everything denied until the reader accepts. This runs before
+       gtag.js has loaded, so there is no window in which anything is granted
+       by default, and it holds even if the banner script never runs at all.
+       wait_for_update gives a returning reader's stored answer time to land
+       before the first hit is sent. */
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'region': [
+        'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+        'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+        'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+        'GB', 'CH'
+      ],
+      'wait_for_update': 500
+    });
+    /* Everywhere else the notice is an opt-out rather than a gate, and that
+       now covers ad measurement as well as analytics. Section 2 of
+       /privacy.html says so in as many words.
+
+       ad_personalization stays denied in every region, accepted or not. It is
+       the one that builds remarketing audiences and personalises ads, and
+       none of the campaigns need it: what they need is to know whether a
+       click became a visit to a store listing, which is ad_storage and
+       ad_user_data. Denying the third costs nothing and is the difference
+       between measuring an ad and profiling a reader. */
+    gtag('consent', 'default', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
+    });
+    /* A stored answer overrides the default in either direction. 'denied' has
+       to be re-applied and not just skipped: a reader outside the EEA who
+       declined would otherwise be granted again by the catch-all on their
+       next visit.
+
+       An acceptance only reaches advertising if it was given against the
+       notice currently on the page. Readers who accepted the previous one
+       agreed to analytics at a time when the notice promised no advertising
+       cookie was set; treating that as agreement to advertising would be
+       helping ourselves to consent that was never given. They keep analytics
+       and are asked again. A refusal carries in full either way - nobody who
+       declined meant "except for ads". */
+    (function () {
+      try {
+        var answered = localStorage.getItem('dhin-consent');
+        if (answered !== 'granted' && answered !== 'denied') return;
+        var update = {'analytics_storage': answered};
+        if (answered === 'denied') {
+          update.ad_storage = 'denied';
+          update.ad_user_data = 'denied';
+        } else if (localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          update.ad_storage = 'granted';
+          update.ad_user_data = 'granted';
+        }
+        gtag('consent', 'update', update);
+      } catch (e) { /* storage blocked - the defaults above stand */ }
+    })();
+    gtag('js', new Date());
+    gtag('config', 'G-T0S5ZW1QGM');
+    gtag('config', 'AW-18122344867');
+  </script>
+  <!-- Microsoft Advertising UET. -->
+  <script>
+    /* UET reads window.uetq as it initialises, so the default is queued
+       before the tag is inserted, exactly as the gtag defaults above are
+       armed before gtag.js loads.
+
+       Denied here for everyone, in every region, which is stricter than the
+       Google side above - not by preference but because UET has no region
+       parameter. Google resolves the reader's region on its own side, so a
+       default can be scoped to the EEA; Microsoft's consent call takes
+       ad_storage and nothing else, and this site deliberately never works out
+       where anyone is. Denying by default everywhere and granting on
+       acceptance is the only version of that which is correct in the EEA, so
+       it is the version everyone gets.
+
+       Microsoft's own guidance is that the tag must load before the reader
+       answers, with the default denied, and be updated to granted once they
+       accept - which is what the block below does on a return visit and
+       consent.js does on the click itself. */
+    window.uetq = window.uetq || [];
+    window.uetq.push('consent', 'default', {'ad_storage': 'denied'});
+    (function () {
+      try {
+        if (localStorage.getItem('dhin-consent') === 'granted' &&
+            localStorage.getItem('dhin-consent-notice') === window.DHIN_NOTICE) {
+          window.uetq.push('consent', 'update', {'ad_storage': 'granted'});
+        }
+      } catch (e) { /* storage blocked - denied stands */ }
+    })();
+  </script>
+  <script>(function(w, d, t, u, o) {w[u] = w[u] || [], o.ts = (new Date).getTime();var n = d.createElement(t);n.src = "https://bat.bing.net/bat.js?ti=" + o.ti + ("uetq" != u ? "&q=" + u : ""),n.async = 1, n.onload = n.onreadystatechange = function() {var s = this.readyState;s && "loaded" !== s && "complete" !== s ||(o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad"),n.onload = n.onreadystatechange = null)};var i = d.getElementsByTagName(t)[0];i.parentNode.insertBefore(n, i);})(window, document, "script", "uetq", {ti:"97267869",enableAutoSpaTracking: true});</script>
+  <!-- END generated analytics + consent block -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PubMaker: abrir arquivo .pub, alternativa grátis ao Publisher para Windows</title>
+  <meta name="description" content="Abra e edite arquivos .pub agora que o Microsoft Publisher não tem mais suporte. Crie panfletos, informativos, cartões e etiquetas com 200+ modelos. Tudo grátis, offline.">
+
+  <!-- Bootstrap 5.3 CDN & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/custom.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --dhin-accent-blue: #5ad8bd;
+      --dhin-border-glow: rgba(90, 216, 189, 0.32);
+      --dhin-shadow-glow: 0 0 25px rgba(90, 216, 189, 0.18);
+      --dhin-gradient-primary: linear-gradient(135deg, #5ad8bd 0%, #1d6372 100%);
+      --pm-mint: #5ad8bd;
+      --pm-teal: #1d6372;
+      --pm-gold: #ffcf5a;
+      --pm-coral: #ff6a55;
+      --pm-ink: #082129;
+    }
+    :root, [data-bs-theme="dark"] {
+      --bs-primary-rgb: 90, 216, 189;
+      --bs-primary-bg-subtle: rgba(90, 216, 189, 0.12);
+      --bs-primary-border-subtle: rgba(90, 216, 189, 0.32);
+      --bs-primary-text-emphasis: #a8f0df;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #c6f6ea 0%, #5ad8bd 55%, #ffcf5a 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-dhin-primary { box-shadow: 0 4px 15px rgba(90, 216, 189, 0.24); }
+    .btn-dhin-primary:hover { box-shadow: 0 8px 25px rgba(90, 216, 189, 0.38); }
+    .btn-dhin-outline:hover { background: rgba(90, 216, 189, 0.1); }
+    .hero-section {
+      padding: 56px 0 64px;
+      background: radial-gradient(circle at 22% 18%, rgba(29, 99, 114, 0.45) 0%, rgba(8, 12, 20, 0) 62%);
+    }
+    @media (max-width: 991.98px) { .hero-section { padding: 32px 0 48px; } }
+    .hero-title { overflow-wrap: anywhere; }
+
+    .glow-aura-teal { box-shadow: 0 0 45px rgba(29, 99, 114, 0.45); }
+    .pm-icon-box {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      background: linear-gradient(135deg, rgba(90,216,189,0.16), rgba(255,207,90,0.12));
+      color: var(--pm-mint); border: 1px solid rgba(90,216,189,0.3);
+    }
+    .pm-icon-box-sm { width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px; }
+    .pm-badge-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .pm-step {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+      background: rgba(90,216,189,0.16); color: var(--pm-mint);
+      border: 1px solid rgba(90,216,189,0.4);
+    }
+
+    /* Hero */
+    .pm-hero-icon { width: 60px; height: 60px; flex-shrink: 0; }
+    .pm-hero-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .pm-hero-kind { font-weight: 600; color: #e2e8f0; font-size: .95rem; line-height: 1.3; }
+    .pm-hero-tagline {
+      font-size: clamp(1.15rem, 1rem + 0.8vw, 1.6rem); font-weight: 500;
+      line-height: 1.35; letter-spacing: 0; color: #a8f0df; margin-top: .6rem;
+    }
+    .pm-cta-strip .pm-price { margin: 0; }
+    .pm-price {
+      display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-size: .92rem; color: #cbd5e1;
+    }
+    .pm-price-tag {
+      background: var(--pm-gold); color: var(--pm-ink);
+      border-radius: 20px; padding: 3px 14px; font-size: .95rem; font-weight: 800;
+      white-space: nowrap; text-decoration: none;
+      box-shadow: 0 0 18px rgba(255, 207, 90, .3);
+    }
+    .pm-price-tag:hover { color: var(--pm-ink); background: #ffdd8a; }
+    .pm-window {
+      border-radius: 14px; overflow: hidden; background: #0d3a44;
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 30px 70px -25px rgba(0,0,0,.9);
+    }
+    .pm-window img { display: block; width: 100%; height: auto; }
+
+    .pm-narrow { max-width: 760px; }
+
+    /* At a glance */
+    .pm-glance-def { font-size: 1.1rem; color: #e2e8f0; line-height: 1.6; }
+    .pm-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin: 0; }
+    .pm-fact { padding: 1rem 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .pm-fact dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--pm-mint); font-weight: 700; margin-bottom: .3rem; }
+    .pm-fact dd { margin: 0; font-size: .92rem; color: #cbd5e1; }
+
+    /* Publisher notice */
+    .pm-notice { background: rgba(255, 106, 85, .07); border: 1px solid rgba(255, 106, 85, .3) !important; }
+    .pm-notice-head { color: #ffb4a8; }
+
+    /* Screenshot gallery */
+    .pm-shot { overflow: hidden; margin: 0; }
+    .pm-shot img { display: block; width: 100%; height: auto; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .pm-shot figcaption { padding: 1rem 1.1rem 1.1rem; }
+    .pm-shot-kicker { font-size: .72rem; letter-spacing: .08em; font-weight: 700; color: var(--pm-mint); text-transform: uppercase; }
+    .pm-shot-title { font-size: 1.02rem; font-weight: 700; color: #fff; margin: .25rem 0 .6rem; }
+    .pm-shot ul { margin: 0; padding: 0; list-style: none; }
+    .pm-shot li { font-size: .86rem; color: #cbd5e1; display: flex; gap: .5rem; margin-bottom: .25rem; }
+    .pm-shot li i { color: var(--pm-mint); flex-shrink: 0; }
+
+    /* Cards */
+    .invariant-card { border-left: 3px solid var(--pm-mint) !important; transition: transform .2s ease, box-shadow .2s ease; }
+    [dir="rtl"] .invariant-card { border-left: 0 !important; border-right: 3px solid var(--pm-mint) !important; }
+    .invariant-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(90, 216, 189, 0.1); }
+    .pillar-card { transition: transform .2s ease, border-color .2s ease; }
+    .pillar-card:hover { transform: translateY(-3px); border-color: rgba(90, 216, 189, 0.4) !important; }
+    .pm-check-list li { display: flex; gap: .6rem; margin-bottom: .6rem; font-size: .9rem; color: #cbd5e1; }
+    .pm-check-list li i { color: var(--pm-mint); flex-shrink: 0; margin-top: .1rem; }
+    .pm-detail-head { font-size: .78rem; letter-spacing: .07em; font-weight: 700; color: var(--pm-gold); text-transform: uppercase; }
+
+    /* Comparison */
+    .peer-table { font-size: .9rem; border-collapse: separate; border-spacing: 0; }
+    .peer-table th, .peer-table td { padding: .8rem .85rem; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; min-width: 150px; }
+    .peer-table thead th { background: rgba(17, 24, 39, .95); color: #94a3b8; font-weight: 600; }
+    .peer-table th.pm-col, .peer-table td.pm-col { background: rgba(90, 216, 189, .07); border-left: 1px solid rgba(90,216,189,.25); border-right: 1px solid rgba(90,216,189,.25); }
+    .peer-table thead th.pm-col { color: var(--pm-mint); border-top: 2px solid var(--pm-mint); }
+    .peer-table tbody th { min-width: 170px; font-weight: 600; }
+    .peer-cell { display: flex; gap: .45rem; align-items: flex-start; }
+    .peer-cell i { flex-shrink: 0; margin-top: .15rem; }
+    .peer-y { color: #34d399; }
+    .peer-p { color: var(--pm-gold); }
+    .peer-n { color: #f87171; }
+
+    /* Pricing */
+    .pm-plan { display: flex; flex-direction: column; border: 1px solid rgba(255,255,255,.1) !important; }
+    .pm-plan-free { border: 2px solid var(--pm-mint) !important; box-shadow: 0 0 40px rgba(90, 216, 189, .14); }
+    .pm-plan-price { font-size: 2.6rem; font-weight: 800; line-height: 1.1; color: var(--pm-mint); }
+    .pm-plan-price-sm { font-size: 1.15rem; font-weight: 600; color: #e2e8f0; line-height: 1.4; min-height: 2.6rem; display: flex; align-items: center; }
+    .pm-plan-opt { background: rgba(255,255,255,.08); color: #cbd5e1; font-size: .72rem; font-weight: 600; }
+    .pm-quota {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 1.1rem; border-radius: 14px;
+      background: rgba(255, 207, 90, .1); border: 1px solid rgba(255, 207, 90, .38);
+    }
+    .pm-quota-num { font-size: 2.2rem; font-weight: 800; line-height: 1; color: var(--pm-gold); flex-shrink: 0; }
+    .pm-quota-label { font-weight: 700; color: #fff; line-height: 1.3; }
+    .pm-quota-pro { background: rgba(90, 216, 189, .1); border-color: rgba(90, 216, 189, .38); }
+    .pm-quota-pro .pm-quota-num { color: var(--pm-mint); }
+    .pm-label-sample {
+      display: inline-block; background: #fff; color: #111; border: 1px solid #b4b4b4;
+      border-radius: 999px; padding: .1rem .7rem; font-size: .78rem; font-weight: 500;
+      white-space: nowrap; font-family: "Noto Sans", "Segoe UI", sans-serif;
+    }
+
+    /* FAQ */
+    .accordion-button:not(.collapsed) { background: rgba(90, 216, 189, 0.08); color: var(--pm-mint); box-shadow: none; }
+    .accordion-button:focus { box-shadow: 0 0 0 0.2rem rgba(90, 216, 189, 0.25); }
+    .accordion-button::after { filter: invert(1) grayscale(100%) brightness(200%); }
+    [dir="rtl"] .accordion-button::after { margin-left: 0; margin-right: auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .invariant-card, .pillar-card { transition: none; }
+    }
+  </style>
+
+  <!-- BEGIN SEO block (canonical/hreflang/social/schema) -->
+  <link rel="canonical" href="https://www.dhinovatech.com/pubmaker/pt/">
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  <link rel="alternate" hreflang="x-default" href="https://www.dhinovatech.com/pubmaker/">
+  <link rel="alternate" hreflang="en" href="https://www.dhinovatech.com/pubmaker/">
+  <link rel="alternate" hreflang="de" href="https://www.dhinovatech.com/pubmaker/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.dhinovatech.com/pubmaker/fr/">
+  <link rel="alternate" hreflang="es" href="https://www.dhinovatech.com/pubmaker/es/">
+  <link rel="alternate" hreflang="it" href="https://www.dhinovatech.com/pubmaker/it/">
+  <link rel="alternate" hreflang="pt-BR" href="https://www.dhinovatech.com/pubmaker/pt/">
+  <link rel="alternate" hreflang="nl" href="https://www.dhinovatech.com/pubmaker/nl/">
+  <link rel="alternate" hreflang="pl" href="https://www.dhinovatech.com/pubmaker/pl/">
+  <link rel="alternate" hreflang="cs" href="https://www.dhinovatech.com/pubmaker/cs/">
+  <link rel="alternate" hreflang="ro" href="https://www.dhinovatech.com/pubmaker/ro/">
+  <link rel="alternate" hreflang="da" href="https://www.dhinovatech.com/pubmaker/da/">
+  <link rel="alternate" hreflang="sv" href="https://www.dhinovatech.com/pubmaker/sv/">
+  <link rel="alternate" hreflang="nb" href="https://www.dhinovatech.com/pubmaker/nb/">
+  <link rel="alternate" hreflang="fi" href="https://www.dhinovatech.com/pubmaker/fi/">
+  <link rel="alternate" hreflang="uk" href="https://www.dhinovatech.com/pubmaker/uk/">
+  <link rel="alternate" hreflang="tr" href="https://www.dhinovatech.com/pubmaker/tr/">
+  <link rel="alternate" hreflang="ja" href="https://www.dhinovatech.com/pubmaker/ja/">
+  <link rel="alternate" hreflang="ko" href="https://www.dhinovatech.com/pubmaker/ko/">
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.dhinovatech.com/pubmaker/zh/">
+  <link rel="alternate" hreflang="zh-Hant" href="https://www.dhinovatech.com/pubmaker/zh-tw/">
+  <link rel="alternate" hreflang="id" href="https://www.dhinovatech.com/pubmaker/id/">
+  <link rel="alternate" hreflang="vi" href="https://www.dhinovatech.com/pubmaker/vi/">
+  <link rel="alternate" hreflang="th" href="https://www.dhinovatech.com/pubmaker/th/">
+  <link rel="alternate" hreflang="ar" href="https://www.dhinovatech.com/pubmaker/ar/">
+  <link rel="alternate" hreflang="he" href="https://www.dhinovatech.com/pubmaker/he/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Dhinovatech">
+  <meta property="og:title" content="PubMaker: abrir arquivo .pub, alternativa grátis ao Publisher para Windows">
+  <meta property="og:description" content="Abra e edite arquivos .pub agora que o Microsoft Publisher não tem mais suporte. Crie panfletos, informativos, cartões e etiquetas com 200+ modelos. Tudo grátis, offline.">
+  <meta property="og:url" content="https://www.dhinovatech.com/pubmaker/pt/">
+  <meta property="og:image" content="https://www.dhinovatech.com/assets/images/pubmaker-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="PubMaker - free pub file editor and desktop publishing app for Windows: open .pub files, 200+ templates, mail merge">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="it_IT">
+  <meta property="og:locale:alternate" content="nl_NL">
+  <meta property="og:locale:alternate" content="pl_PL">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:locale:alternate" content="ro_RO">
+  <meta property="og:locale:alternate" content="da_DK">
+  <meta property="og:locale:alternate" content="sv_SE">
+  <meta property="og:locale:alternate" content="nb_NO">
+  <meta property="og:locale:alternate" content="fi_FI">
+  <meta property="og:locale:alternate" content="uk_UA">
+  <meta property="og:locale:alternate" content="tr_TR">
+  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:locale:alternate" content="ko_KR">
+  <meta property="og:locale:alternate" content="zh_CN">
+  <meta property="og:locale:alternate" content="zh_TW">
+  <meta property="og:locale:alternate" content="id_ID">
+  <meta property="og:locale:alternate" content="vi_VN">
+  <meta property="og:locale:alternate" content="th_TH">
+  <meta property="og:locale:alternate" content="ar_AR">
+  <meta property="og:locale:alternate" content="he_IL">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PubMaker: abrir arquivo .pub, alternativa grátis ao Publisher para Windows">
+  <meta name="twitter:description" content="Abra e edite arquivos .pub agora que o Microsoft Publisher não tem mais suporte. Crie panfletos, informativos, cartões e etiquetas com 200+ modelos. Tudo grátis, offline.">
+  <meta name="twitter:image" content="https://www.dhinovatech.com/assets/images/pubmaker-og.png">
+  <meta name="twitter:image:alt" content="PubMaker - free pub file editor and desktop publishing app for Windows: open .pub files, 200+ templates, mail merge">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.dhinovatech.com/#organization","name":"Dhinovatech","url":"https://www.dhinovatech.com/"},{"@type":"SoftwareApplication","@id":"https://www.dhinovatech.com/pubmaker/#software","name":"PubMaker","alternateName":"PubMaker: editor de arquivos pub e diagramação","operatingSystem":"Windows 10, Windows 11","applicationCategory":"DesignApplication","applicationSubCategory":"Desktop publishing software and .pub file editor","description":"Abra e edite arquivos .pub agora que o Microsoft Publisher não tem mais suporte. Crie panfletos, informativos, cartões e etiquetas com 200+ modelos. Tudo grátis, offline.","abstract":"PubMaker é um editor de arquivos pub e um programa de editoração para Windows. Abra e edite os arquivos .pub que você criou no Microsoft Publisher, e crie panfletos, boletins, folders, cartões comemorativos, convites, etiquetas, certificados e cartões de visita com mais de 200 modelos. Todos os recursos são grátis, e o PubMaker funciona totalmente offline.","url":"https://www.dhinovatech.com/pubmaker/pt/","inLanguage":["en","de","fr","es","it","pt-BR","nl","pl","cs","ro","da","sv","nb","fi","uk","tr","ja","ko","zh-Hans","zh-Hant","id","vi","th","ar","he"],"image":"https://www.dhinovatech.com/assets/images/pubmaker-icon.png","downloadUrl":"https://apps.microsoft.com/detail/9NXH5KK1JGTW","installUrl":"https://apps.microsoft.com/detail/9NXH5KK1JGTW","featureList":["Abre e edita arquivos .pub criados no Publisher","Converte uma pasta inteira de arquivos .pub em PDF de uma vez","Abre PDFs como documentos editáveis","Mais de 200 modelos grátis com textos em português","Panfletos, boletins, folders, cartões comemorativos e convites","Etiquetas, cartões de visita, certificados, cardápios, calendários e placas","Páginas mestras, caixas de texto vinculadas, colunas e quebra de texto","Esquemas de cores e de fontes com um clique","Kit da marca para seu logotipo, cores e dados da empresa","1.500 ícones e 300 ilustrações, tudo offline","Mala direta do Excel, CSV ou de uma lista digitada","Etiquetas e cartões vários por folha, com marcas de corte","Impressão de livretos dobrados na ordem certa","Cartazes e faixas em várias folhas","Exporta PDF com sangria e marcas de corte, PDF/A, PNG, JPEG e Word","Verificador de design para texto transbordando e imagens desfocadas","Faixa de opções e atalhos de teclado conhecidos","Todos os recursos grátis, sem assinatura","Funciona totalmente offline: sem conta, nenhum dado coletado","25 idiomas, temas claro e escuro"],"isAccessibleForFree":true,"processorRequirements":"x64 or ARM64","offers":{"@type":"Offer","price":"0","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://apps.microsoft.com/detail/9NXH5KK1JGTW"},"screenshot":["https://www.dhinovatech.com/assets/images/pubmaker/pt/pub-file-editor-desktop-publishing.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/free-publishing-templates.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/open-pub-files.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/desktop-publishing-software.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/color-and-font-schemes.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/mail-merge-labels.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/print-business-cards-booklets-posters.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/export-pub-to-pdf.webp","https://www.dhinovatech.com/assets/images/pubmaker/pt/offline-in-25-languages.webp"],"publisher":{"@id":"https://www.dhinovatech.com/#organization"},"author":{"@id":"https://www.dhinovatech.com/#organization"}},{"@type":"WebPage","@id":"https://www.dhinovatech.com/pubmaker/pt/#webpage","url":"https://www.dhinovatech.com/pubmaker/pt/","name":"PubMaker: abrir arquivo .pub, alternativa grátis ao Publisher para Windows","description":"Abra e edite arquivos .pub agora que o Microsoft Publisher não tem mais suporte. Crie panfletos, informativos, cartões e etiquetas com 200+ modelos. Tudo grátis, offline.","inLanguage":"pt-BR","dateModified":"2026-11-20","about":{"@id":"https://www.dhinovatech.com/pubmaker/#software"},"mainEntity":{"@id":"https://www.dhinovatech.com/pubmaker/#software"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dhinovatech.com/"},{"@type":"ListItem","position":2,"name":"PubMaker","item":"https://www.dhinovatech.com/pubmaker/"},{"@type":"ListItem","position":3,"name":"PubMaker (pt)","item":"https://www.dhinovatech.com/pubmaker/pt/"}]},{"@type":"HowTo","@id":"https://www.dhinovatech.com/pubmaker/pt/#how-to","name":"Continue usando seus arquivos .pub em três passos","inLanguage":"pt-BR","step":[{"@type":"HowToStep","position":1,"name":"Instale o PubMaker grátis","text":"Baixe na Microsoft Store. Sem conta, sem cadastro e sem período de teste: todos os recursos funcionam desde o início."},{"@type":"HowToStep","position":2,"name":"Clique duas vezes num arquivo .pub","text":"O PubMaker abre as páginas, textos, imagens, formas e tabelas e avisa tudo o que mudou. Uma pasta inteira? Converta para PDF de uma vez."},{"@type":"HowToStep","position":3,"name":"Edite, imprima ou exporte","text":"Continue trabalhando com uma faixa de opções que você já conhece e imprima ou salve como PDF, PNG, JPEG ou Word. O arquivo .pub original nunca é alterado."}]},{"@type":"FAQPage","@id":"https://www.dhinovatech.com/pubmaker/pt/#faq","inLanguage":"pt-BR","mainEntity":[{"@type":"Question","name":"Como abrir um arquivo .pub sem o Microsoft Publisher?","acceptedAnswer":{"@type":"Answer","text":"Instale o PubMaker pela Microsoft Store e clique duas vezes no arquivo .pub, ou abra-o pela tela Arquivo do PubMaker. Ele abre as páginas, textos, imagens, formas e tabelas como documento editável, e um breve relatório avisa tudo o que mudou. É grátis e não precisa de Publisher, Office nem conta."}},{"@type":"Question","name":"O Microsoft Publisher foi descontinuado. O que acontece com meus arquivos .pub?","acceptedAnswer":{"@type":"Answer","text":"A Microsoft encerrou o suporte ao Publisher em outubro de 2026 e o Microsoft 365 não o inclui mais. Seus arquivos .pub não são apagados, mas você precisa de outro aplicativo para abri-los. O PubMaker os abre e mantém editáveis, e pode converter uma pasta inteira para PDF de uma vez, para continuar trabalhando ou guardar um arquivo."}},{"@type":"Question","name":"O PubMaker é mesmo grátis?","acceptedAnswer":{"@type":"Answer","text":"Sim. Todos os recursos são grátis, sem teste nem limite de tempo: o editor, todos os modelos, a importação de .pub e PDF, a conversão em lote, a mala direta e todas as opções de impressão e exportação. Exportações e impressões grátis levam um pequeno selo \"PubMaker · dhinovatech.com\". O PubMaker Pro, uma compra única, remove o selo de vez, e um passe de 24 horas remove por um dia."}},{"@type":"Question","name":"O que é o selo \"PubMaker · dhinovatech.com\" na minha impressão?","acceptedAnswer":{"@type":"Answer","text":"É o selo que a versão grátis do PubMaker coloca em cada página exportada ou impressa, numa pequena caixa branca arredondada. Você escolhe onde ele fica, e a opção Automática o mantém longe dos textos e imagens. Ele nunca é salvo no documento, então some de todas as exportações assim que você compra o Pro, ou enquanto um passe de 24 horas estiver ativo."}},{"@type":"Question","name":"Qual a diferença entre o PubMaker Pro e o passe de 24 horas?","acceptedAnswer":{"@type":"Answer","text":"Os dois removem o selo e nada mais muda, porque todos os recursos já são grátis. O Pro é uma compra única que remove o selo de vez em todos os seus PCs e deixa você colocar seu próprio logotipo pequeno no lugar. O passe de 24 horas remove o selo por um dia, para um grande trabalho de impressão, e pode ser comprado de novo. Os dois são vendidos na Microsoft Store, que mostra o preço do seu país."}},{"@type":"Question","name":"O PubMaker converte arquivos .pub para PDF?","acceptedAnswer":{"@type":"Answer","text":"Sim. Abra um arquivo .pub e exporte como PDF para gráfica (com sangria e marcas de corte), PDF leve para e-mail ou PDF/A para arquivamento. Para muitos arquivos, escolha uma pasta inteira: o PubMaker converte cada arquivo .pub para PDF ou documento PubMaker de uma vez, com um relatório de cada arquivo."}},{"@type":"Question","name":"O PubMaker salva de volta em .pub?","acceptedAnswer":{"@type":"Answer","text":"Não. O PubMaker abre arquivos .pub mas nunca os grava, então seus originais nunca são alterados. Você salva o trabalho como documento PubMaker ou exporta como PDF, PNG, JPEG ou Word."}},{"@type":"Question","name":"Meu arquivo .pub vai ficar igual no PubMaker?","acceptedAnswer":{"@type":"Answer","text":"Páginas, textos, imagens, formas e tabelas são mantidos, e um breve relatório avisa tudo o que mudou. Antes de imprimir, o verificador de design aponta texto transbordando, imagens borradas e fontes ausentes."}},{"@type":"Question","name":"O PubMaker funciona como o Publisher?","acceptedAnswer":{"@type":"Answer","text":"Ele foi feito para quem conhece o Publisher: uma faixa de opções familiar, os atalhos de teclado de sempre, páginas mestras, caixas de texto vinculadas, colunas, quebra automática de texto e tabelas. Não achou um comando? Digite o nome de que você se lembra e o PubMaker mostra onde ele está."}},{"@type":"Question","name":"Dá para fazer mala direta a partir do Excel?","acceptedAnswer":{"@type":"Answer","text":"Sim. Mescle nomes e endereços de uma pasta de trabalho do Excel, um arquivo CSV ou uma lista digitada em cartas, envelopes, etiquetas de endereço, crachás e certificados, e confira cada registro antes de imprimir."}},{"@type":"Question","name":"Posso imprimir vários cartões de visita e etiquetas por folha?","acceptedAnswer":{"@type":"Answer","text":"Sim. Cartões de visita, etiquetas e cartões-postais são impressos vários por folha com marcas de corte, e uma página de teste de alinhamento confere a impressora antes do lote. Livretos são dobrados na ordem certa, e pôsteres podem ser impressos em várias folhas."}},{"@type":"Question","name":"O PubMaker precisa de internet ou de conta?","acceptedAnswer":{"@type":"Answer","text":"Não. O PubMaker nunca se conecta à internet, não pede conta e não coleta nada. Os modelos, 1.500 ícones e 300 ilustrações ficam no seu PC, então ele funciona igual offline."}},{"@type":"Question","name":"Quais são os requisitos do sistema?","acceptedAnswer":{"@type":"Answer","text":"Windows 10 ou Windows 11 num PC x64 ou ARM64. O PubMaker é instalado pela Microsoft Store e está disponível em 25 idiomas, com tema claro e escuro."}}]}]}
+  </script>
+  <!-- END SEO block -->
+  <!-- BEGIN resource hints -->
+  <link rel="preload" as="image" href="/assets/images/pubmaker/pt/pub-file-editor-desktop-publishing.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#080c14">
+  <meta name="color-scheme" content="dark light">
+  <!-- END resource hints -->
+</head>
+<body>
+<a class="skip-link" href="#main">Ir para o conteúdo principal</a>
+<!-- Navigation Bar (independent PubMaker tree) -->
+  <nav class="navbar navbar-expand-lg navbar-dhin sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech" class="brand-logo-with-text-img" decoding="async" width="512" height="82">
+      </a>
+      <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-2" aria-hidden="true"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/">Home</a>
+          </li>
+
+          <!-- Our Apps - PubMaker owns its own language tree; build-nav-apps.py
+               adds Smart Photos, KeepOne, Steptell, Sortwise and Mortgage above it -->
+          <li class="nav-item dropdown">
+            <a class="nav-link nav-link-custom dropdown-toggle active" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Our Apps
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg mt-2" aria-labelledby="appsDropdown">
+              <!-- BEGIN Smart Photos menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/smart-photos/">
+                  <span><img src="/assets/images/smart-photos-icon.webp" alt="Smart Photos Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Smart Photos</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/zh-tw/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/vi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/id/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/hi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ta/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>தமிழ் (Tamil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/smart-photos/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Smart Photos menu -->
+              <!-- BEGIN KeepOne menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/KeepOne/">
+                  <span><img src="/assets/images/keepone-icon.webp" alt="KeepOne Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">KeepOne Duplicate Finder</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/es/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/de/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/it/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pt/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Português (Portuguese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/pl/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/cs/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/hu/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/da/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/sv/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/nb/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/fi/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ru/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/uk/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/tr/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ja/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ko/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/zh/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/th/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/ar/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/KeepOne/he/"><i class="bi bi-globe text-info me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END KeepOne menu -->
+              <!-- BEGIN Steptell menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/steptell/">
+                  <span><img src="/assets/images/steptell-icon.webp" alt="Steptell Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Steptell Steps Recorder</span>
+                  <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/steptell/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/de/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/es/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/it/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pt/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/pl/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/cs/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ro/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Română (Romanian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/da/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/sv/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/nb/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/fi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/uk/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/tr/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ja/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ko/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/zh-tw/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/th/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/vi/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/id/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/ar/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/steptell/he/"><i class="bi bi-globe text-warning me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Steptell menu -->
+              <!-- BEGIN Sortwise menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/Sortwise/">
+                  <span><img src="/assets/images/sortwise-icon.webp" alt="Sortwise Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">Sortwise File Organizer</span>
+                  <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/de/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/fr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/es/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/it/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/pt/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/nl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/pl/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/cs/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/hu/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Magyar (Hungarian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/da/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/sv/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/nb/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/fi/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/ru/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/uk/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/tr/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/ja/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/ko/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/zh/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/th/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/ar/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/Sortwise/he/"><i class="bi bi-globe text-success me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <!-- END Sortwise menu -->
+              <!-- BEGIN Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/mortgage-loan-emi-pro/">
+                  <span><img src="/assets/images/mortgage-emi-icon.webp" alt="Mortgage Loan EMI Pro Insights Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="256" height="256">Mortgage EMI Pro</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 23 Languages">23 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/hi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>हिन्दी (Hindi)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pt/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Português (Brasil)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ru/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Русский (Russian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li>
+                  <li><a class="dropdown-item py-1 small" href="/mortgage-loan-emi-pro/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li>
+                </ul>
+              </li>
+              <!-- END Mortgage menu -->
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/pubmaker/">
+                  <span><img src="/assets/images/pubmaker-icon.webp" alt="PubMaker Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">PubMaker Pub File Editor</span>
+                  <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View 25 Languages">25 Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+                  <li><a class="dropdown-item py-1 small" href="/pubmaker/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/de/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/fr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/es/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/it/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/pubmaker/pt/" aria-current="true"><i class="bi bi-globe me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/nl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/pl/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/cs/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ro/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/da/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/sv/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/nb/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/fi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/uk/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/tr/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ja/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ko/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/zh/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/zh-tw/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/id/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/vi/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/th/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ar/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/he/"><i class="bi bi-globe text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+                </ul>
+              </li>
+              <li><a class="dropdown-item py-2" href="/nudge/"><img src="/assets/images/nudge-icon.webp" alt="Nudge Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Nudge Offline Journal</a></li>
+              <li><a class="dropdown-item py-2" href="/stow/"><img src="/assets/images/stow-icon.webp" alt="Stow Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: cover;" class="me-2" decoding="async" width="512" height="512">Stow Photo &amp; File Organizer</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare-windows/"><i class="bi bi-microsoft text-primary me-2" aria-hidden="true"></i>GlowCompare for Windows</a></li>
+              <li><a class="dropdown-item py-2" href="/glowcompare/"><i class="bi bi-google-play text-danger me-2" aria-hidden="true"></i>GlowCompare for Android</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item py-2" href="/slouch-guard/"><i class="bi bi-person-workspace text-info me-2" aria-hidden="true"></i>Slouch Guard</a></li>
+              <li><a class="dropdown-item py-2" href="/notelock/"><i class="bi bi-shield-lock text-warning me-2" aria-hidden="true"></i>Notelock Secure Notes</a></li>
+              <li><a class="dropdown-item py-2" href="/milk-monthly-expense-calendar/"><i class="bi bi-calendar2-check text-success me-2" aria-hidden="true"></i>Milk Monthly Expense Calendar</a></li>
+              <li><a class="dropdown-item py-2" href="/aes-vault/"><i class="bi bi-safe2 text-danger me-2" aria-hidden="true"></i>AES Vault Encryption</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/about.html">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/contact.html">Contact Us</a>
+          </li>
+
+          <!-- Language Selector - PubMaker only -->
+          <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-outline-primary dropdown-toggle fw-semibold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2" type="button" id="langSelector" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-translate fs-5" aria-hidden="true"></i> <span>Português (Brasil)</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end border-secondary shadow-lg mt-2 scrollable-menu" style="max-height: 380px; overflow-y: auto;" aria-labelledby="langSelector">
+              <li><a class="dropdown-item py-1 small" href="/pubmaker/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>English</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/de/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Deutsch (German)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/fr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Français (French)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/es/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Español (Spanish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/it/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Italiano (Italian)</a></li><li><a class="dropdown-item py-1 small active fw-bold" href="/pubmaker/pt/" aria-current="true"><i class="bi bi-translate me-2" aria-hidden="true"></i>Português (Brasil)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/nl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Nederlands (Dutch)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/pl/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Polski (Polish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/cs/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Čeština (Czech)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ro/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Română (Romanian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/da/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Dansk (Danish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/sv/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Svenska (Swedish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/nb/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Norsk (Norwegian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/fi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Suomi (Finnish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/uk/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Українська (Ukrainian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/tr/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Türkçe (Turkish)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ja/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>日本語 (Japanese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ko/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>한국어 (Korean)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/zh/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>简体中文 (Simplified Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/zh-tw/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>繁體中文 (Traditional Chinese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/id/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Bahasa Indonesia (Indonesian)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/vi/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>Tiếng Việt (Vietnamese)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/th/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>ไทย (Thai)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/ar/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>العربية (Arabic)</a></li><li><a class="dropdown-item py-1 small" href="/pubmaker/he/"><i class="bi bi-translate text-primary me-2" aria-hidden="true"></i>עברית (Hebrew)</a></li>
+            </ul>
+          </li>
+
+          <!-- Microsoft Store CTA -->
+          <li class="nav-item ms-lg-2 mt-3 mt-lg-0">
+            <a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-primary fw-bold px-3 py-2 rounded-3 shadow d-flex align-items-center gap-2">
+              <i class="bi bi-microsoft fs-5" aria-hidden="true"></i> Baixe grátis
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<main id="main">
+
+  <section class="hero-section position-relative overflow-hidden">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-6">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <span class="pm-hero-icon">
+              <img src="/assets/images/pubmaker-icon.webp" alt="" decoding="async" width="256" height="256">
+            </span>
+            <span>
+              <span class="d-block pm-hero-kind">editor de arquivos pub e diagramação</span>
+              <span class="d-block small text-secondary">
+                <i class="bi bi-microsoft me-1" aria-hidden="true"></i>Microsoft Store &middot; Windows 10 &amp; 11
+              </span>
+            </span>
+          </div>
+
+          <h1 class="hero-title mb-3"><span class="d-block">PubMaker</span> <span class="d-block pm-hero-tagline">Abra seus arquivos .pub. Crie panfletos, cartões e boletins.</span></h1>
+          <p class="lead text-secondary mb-4 pe-lg-4 fs-5">Abra e edite arquivos .pub e crie panfletos, boletins, folders, cartões, etiquetas e certificados com mais de 200 modelos. Mala direta, folhas de etiquetas, livretos e exportação para PDF. Todos os recursos grátis, offline, sem conta e sem assinatura.</p>
+
+          <div class="d-flex flex-wrap gap-3 align-items-center">
+            <a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Baixe na</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+            <a href="#screenshots" class="btn btn-dhin-outline btn-lg rounded-pill px-4">
+              <i class="bi bi-images me-2" aria-hidden="true"></i> Ver capturas de tela
+            </a>
+          </div>
+          <p class="pm-price mt-3 mb-0"><a class="pm-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todos os recursos grátis</a><span>Pequeno selo nas exportações grátis · O Pro remove</span></p>
+
+          <div class="pm-badge-row pt-4 mt-2">
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-grid-1x2 text-info me-1" aria-hidden="true"></i> Mais de 200 modelos em português</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-envelope-paper text-warning me-1" aria-hidden="true"></i> Mala direta, etiquetas e livretos</span>
+            <span class="badge bg-dark border border-secondary text-white-50 px-3 py-2 rounded-pill"><i class="bi bi-cloud-slash text-success me-1" aria-hidden="true"></i> Offline, sem conta, sem assinatura</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="position-relative">
+            <div class="position-absolute top-50 start-50 translate-middle w-100 h-100 rounded-circle bg-primary opacity-25 blur-3xl glow-aura-teal" aria-hidden="true"></div>
+            <div class="pm-window position-relative">
+              <img src="/assets/images/pubmaker/pt/pub-file-editor-desktop-publishing.webp" alt="Abra arquivos .pub e crie panfletos, cartões e boletins. Todos os recursos grátis" decoding="async" fetchpriority="high" width="1200" height="675">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- At a glance -->
+  <section class="py-5 border-top border-secondary-subtle" id="at-a-glance">
+    <div class="container py-3">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h2 class="h3 text-white fw-bold mb-3"><i class="bi bi-info-circle text-primary me-2" aria-hidden="true"></i>PubMaker em resumo</h2>
+          <p class="pm-glance-def mb-4">PubMaker é um editor de arquivos pub e um programa de editoração para Windows. Abra e edite os arquivos .pub que você criou no Microsoft Publisher, e crie panfletos, boletins, folders, cartões comemorativos, convites, etiquetas, certificados e cartões de visita com mais de 200 modelos. Todos os recursos são grátis, e o PubMaker funciona totalmente offline.</p>
+          <dl class="pm-facts card card-glass border border-secondary-subtle overflow-hidden">
+            <div class="pm-fact"><dt>O que é</dt><dd>Um programa de diagramação e editor de arquivos .pub para Windows 10 e 11</dd></div>
+            <div class="pm-fact"><dt>Abre</dt><dd>Arquivos .pub criados no Microsoft Publisher, PDFs, imagens, SVG, arquivos do Word, RTF e texto</dd></div>
+            <div class="pm-fact"><dt>Salva como</dt><dd>Documento PubMaker, PDF (impressão, e-mail, PDF/A), PNG, JPEG e Word. Seus arquivos .pub nunca são alterados</dd></div>
+            <div class="pm-fact"><dt>Modelos</dt><dd>Mais de 200 modelos grátis, com texto de exemplo escrito em português</dd></div>
+            <div class="pm-fact"><dt>Para criar</dt><dd>Panfletos, informativos, folders, cartões, convites, etiquetas, certificados, cardápios e calendários</dd></div>
+            <div class="pm-fact"><dt>Impressão</dt><dd>Mala direta, folhas de etiquetas e cartões com marcas de corte, livretos, pôsteres em várias folhas, frente e verso</dd></div>
+            <div class="pm-fact"><dt>Preço</dt><dd>Grátis, com todos os recursos. Exportações grátis têm um pequeno selo; o Pro ou um passe de 24 horas remove</dd></div>
+            <div class="pm-fact"><dt>Privacidade</dt><dd>Totalmente offline. Sem conta, sem anúncios no app, nada é coletado</dd></div>
+            <div class="pm-fact"><dt>Funciona em</dt><dd>Windows 10 e Windows 11, x64 e ARM64, em 25 idiomas</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publisher is retired: moving in three steps -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="publisher-retired">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-repeat me-1" aria-hidden="true"></i> O Publisher foi descontinuado</span>
+        <h2 class="display-5 fw-bold text-white">Continue usando seus arquivos .pub em três passos</h2>
+        <p class="text-secondary fs-5 mb-0">Sem upload, sem site de conversão, sem Publisher.</p>
+      </div>
+      <div class="card card-glass pm-notice p-4 mb-5 mx-auto pm-narrow">
+        <h3 class="h6 fw-bold pm-notice-head mb-2"><i class="bi bi-info-circle me-2" aria-hidden="true"></i>O Microsoft Publisher não tem mais suporte</h3>
+        <p class="text-light mb-0">A Microsoft encerrou o suporte ao Publisher em outubro de 2026, e o Microsoft 365 não o inclui mais. Seus arquivos .pub não são apagados, mas sem o Publisher o Windows não tem com o que abri-los.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="pm-step">1</div>
+              <h3 class="h6 text-white fw-bold mb-0">Instale o PubMaker grátis</h3>
+            </div>
+            <p class="text-secondary small mb-0">Baixe na Microsoft Store. Sem conta, sem cadastro e sem período de teste: todos os recursos funcionam desde o início.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="pm-step">2</div>
+              <h3 class="h6 text-white fw-bold mb-0">Clique duas vezes num arquivo .pub</h3>
+            </div>
+            <p class="text-secondary small mb-0">O PubMaker abre as páginas, textos, imagens, formas e tabelas e avisa tudo o que mudou. Uma pasta inteira? Converta para PDF de uma vez.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-glass h-100 p-4">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <div class="pm-step">3</div>
+              <h3 class="h6 text-white fw-bold mb-0">Edite, imprima ou exporte</h3>
+            </div>
+            <p class="text-secondary small mb-0">Continue trabalhando com uma faixa de opções que você já conhece e imprima ou salve como PDF, PNG, JPEG ou Word. O arquivo .pub original nunca é alterado.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pm-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Baixe na</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="pm-price mb-0"><a class="pm-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todos os recursos grátis</a><span>Pequeno selo nas exportações grátis · O Pro remove</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="py-5" id="overview">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-grid-3x3-gap me-1" aria-hidden="true"></i> TUDO EM UM APP</span>
+        <h2 class="display-5 fw-bold text-white">Tudo para criar e imprimir. Tudo grátis.</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-file-earmark-richtext" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Abre arquivos .pub</h3>
+            </div>
+            <p class="text-secondary small mb-0">Continue editando seus arquivos do Publisher</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-grid-1x2" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Mais de 200 modelos</h3>
+            </div>
+            <p class="text-secondary small mb-0">Panfletos, cartões, cardápios, certificados</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-envelope-paper" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Mala direta</h3>
+            </div>
+            <p class="text-secondary small mb-0">Do Excel, CSV ou de uma lista</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-tags" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Etiquetas e cartões</h3>
+            </div>
+            <p class="text-secondary small mb-0">Vários por folha, alinhados</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-book" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Livretos e cartazes</h3>
+            </div>
+            <p class="text-secondary small mb-0">Dobrados na ordem, em várias folhas</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-filetype-pdf" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">PDF, PNG, JPEG, Word</h3>
+            </div>
+            <p class="text-secondary small mb-0">PDF pronto para gráfica com sangria</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-palette" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Esquemas e kit da marca</h3>
+            </div>
+            <p class="text-secondary small mb-0">Mude todo o design com um clique</p>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <div class="d-flex align-items-center gap-3 mb-2">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
+              <h3 class="h6 text-white fw-bold mb-0">Funciona offline</h3>
+            </div>
+            <p class="text-secondary small mb-0">Sem conta, nada sai do seu PC</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="screenshots">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-images me-1" aria-hidden="true"></i> Ver capturas de tela</span>
+        <h2 class="display-5 fw-bold text-white">Veja o PubMaker em ação</h2>
+        
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/free-publishing-templates.webp" alt="Mais de 200 modelos grátis com textos em português" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-grid-1x2 me-1" aria-hidden="true"></i>MAIS DE 200 MODELOS GRÁTIS</div>
+              <h3 class="pm-shot-title">Comece com um design, não com uma página em branco</h3>
+              
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/open-pub-files.webp" alt="Abra seus arquivos .pub antigos e continue" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-file-earmark-richtext me-1" aria-hidden="true"></i>ABRA ARQUIVOS .PUB</div>
+              <h3 class="pm-shot-title">Abra seus arquivos .pub antigos e continue</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Páginas, texto, imagens, formas e tabelas são mantidos</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Converta uma pasta inteira de arquivos .pub em PDF</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Seus arquivos originais nunca são alterados</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/desktop-publishing-software.webp" alt="Editoração do jeito que você conhece" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-layout-text-window-reverse me-1" aria-hidden="true"></i>FERRAMENTAS CONHECIDAS</div>
+              <h3 class="pm-shot-title">Editoração do jeito que você conhece</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Faixa de opções, atalhos e páginas mestras de sempre</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Caixas de texto vinculadas, quebra de texto, tabelas e QR</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>1.500 ícones e ilustrações, tudo offline</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/color-and-font-schemes.webp" alt="Mude todo o design com esquemas de cores e fontes" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-palette me-1" aria-hidden="true"></i>DESIGN COM UM CLIQUE</div>
+              <h3 class="pm-shot-title">Mude todo o design com um clique</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Esquemas de cores e esquemas de fontes</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>O kit da marca insere seu logotipo e seus dados</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>O verificador encontra problemas antes de imprimir</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/mail-merge-labels.webp" alt="Mala direta, etiquetas de endereço e envelopes" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-envelope-paper me-1" aria-hidden="true"></i>MALA DIRETA</div>
+              <h3 class="pm-shot-title">Mala direta, etiquetas e envelopes</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Nomes do Excel, CSV ou de uma lista digitada</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Etiquetas de endereço e crachás, vários por folha</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Veja cada registro antes de imprimir</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/print-business-cards-booklets-posters.webp" alt="Imprima cartões de visita, etiquetas, livretos e cartazes" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-printer me-1" aria-hidden="true"></i>IMPRIMA TUDO</div>
+              <h3 class="pm-shot-title">Cartões de visita, livretos e cartazes</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Cartões e etiquetas por folha, com marcas de corte</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Livretos que dobram na ordem certa</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Cartazes em várias folhas, frente e verso em qualquer impressora</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/export-pub-to-pdf.webp" alt="Exporte PDF pronto para gráfica, PNG, JPEG e Word" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-filetype-pdf me-1" aria-hidden="true"></i>EXPORTE E COMPARTILHE</div>
+              <h3 class="pm-shot-title">PDF pronto para gráfica, PNG, JPEG e Word</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>PDF para impressão com sangria e marcas de corte</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>PDFs menores para e-mail, PDF/A para arquivo</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Imagens para redes sociais e sites</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="col-md-6">
+          <figure class="card card-glass pm-shot h-100">
+            <img src="/assets/images/pubmaker/pt/offline-in-25-languages.webp" alt="Offline, em 25 idiomas, sem conta" loading="lazy" decoding="async" width="1200" height="675">
+            <figcaption>
+              <div class="pm-shot-kicker"><i class="bi bi-translate me-1" aria-hidden="true"></i>PRIVADO POR PADRÃO</div>
+              <h3 class="pm-shot-title">Funciona offline, em 25 idiomas</h3>
+              <ul><li><i class="bi bi-check2" aria-hidden="true"></i><span>Sem internet, sem conta, nenhum dado coletado</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Modelos escritos em português</span></li><li><i class="bi bi-check2" aria-hidden="true"></i><span>Todos os recursos grátis, sem assinatura</span></li></ul>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="pm-cta-strip d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-5">
+        <a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Baixe na</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+        <p class="pm-price mb-0"><a class="pm-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todos os recursos grátis</a><span>Pequeno selo nas exportações grátis · O Pro remove</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="py-5" id="pricing">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-gift me-1" aria-hidden="true"></i> Preços</span>
+        <h2 class="display-5 fw-bold text-white">Todos os recursos são grátis</h2>
+        <p class="text-secondary fs-5 mb-0">Sem teste, sem limite de tempo, sem assinatura. Nada é bloqueado; exportações e impressões grátis só levam um pequeno selo.</p>
+      </div>
+      <div class="row justify-content-center g-4">
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 pm-plan pm-plan-free">
+            <h3 class="h5 text-white fw-bold mb-1">PubMaker grátis</h3>
+            <p class="pm-plan-price mb-3">Grátis</p>
+            <div class="pm-quota mb-4">
+              <span class="pm-quota-num">100%</span>
+              <span class="pm-quota-label">dos recursos, sem limite de tempo</span>
+            </div>
+            <ul class="list-unstyled pm-check-list mb-4">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>O editor, todos os mais de 200 modelos e toda a biblioteca de ilustrações</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Importação de .pub e PDF, e conversão em lote de pastas inteiras</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Mala direta, folhas de etiquetas, livretos, pôsteres e todas as opções de impressão</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Exportação para PDF, PNG, JPEG e Word</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Um pequeno selo em cada página exportada ou impressa</span></li>
+            </ul>
+            <div class="mt-auto"><a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Baixe na</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a></div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="card card-glass h-100 p-4 p-lg-5 pm-plan">
+            <h3 class="h5 text-white fw-bold mb-1">PubMaker Pro <span class="badge rounded-pill pm-plan-opt align-middle ms-1">Opcional</span></h3>
+            <p class="pm-plan-price pm-plan-price-sm mb-3">Compra única, ou passe de 24 horas</p>
+            <div class="pm-quota pm-quota-pro mb-4">
+              <span class="pm-quota-num"><i class="bi bi-eraser" aria-hidden="true"></i></span>
+              <span class="pm-quota-label">Sem selo, ou seu próprio logotipo no lugar</span>
+            </div>
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Pro: o selo some de vez, em todos os seus PCs</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Coloque seu próprio logotipo pequeno onde ficava o selo</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Passe de 24 horas: um dia sem selo, para um grande trabalho de impressão</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Comprado na Microsoft Store. Sem assinatura, sem conta conosco</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mx-auto mt-4 mb-2 pm-narrow">Exportações e impressões grátis levam este pequeno selo, no canto que você escolher: <span class="pm-label-sample" dir="ltr">PubMaker · dhinovatech.com</span></p>
+      <p class="text-secondary small text-center mx-auto mb-0 pm-narrow">Os preços são definidos por país e mostrados na Microsoft Store antes da compra. O selo nunca é salvo no documento: depois de comprar o Pro, até documentos antigos são exportados sem ele.</p>
+    </div>
+  </section>
+
+  <!-- Ways to keep your .pub files -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="compare">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-arrow-left-right me-1" aria-hidden="true"></i> Comparação</span>
+        <h2 class="display-5 fw-bold text-white">Quais são suas opções para arquivos .pub agora?</h2>
+        <p class="text-secondary fs-5 mb-0">Três jeitos de manter seu trabalho do Publisher, lado a lado.</p>
+      </div>
+      <div class="card card-glass p-2 p-md-3 border border-secondary-subtle shadow-lg">
+        <div class="table-responsive">
+          <table class="table table-dark table-borderless mb-0 peer-table">
+            <thead>
+              <tr class="border-bottom border-secondary">
+                <th scope="col">O que você precisa</th>
+                <th scope="col" class="pm-col">PubMaker</th>
+                <th scope="col">Salvar como PDF ou Word no Publisher</th>
+                <th scope="col">LibreOffice Draw</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <th scope="row" class="text-white">Funciona sem o Publisher</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Sim</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-x-circle-fill peer-n" aria-hidden="true"></i><span class="text-secondary">Precisa de um Publisher que ainda funcione</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">Sim</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">O layout continua editável</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Textos, imagens, formas e tabelas são mantidos</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">O PDF é fixo; o Word é para texto, não para layouts</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Sim, mas usuários relatam imagens e formatação perdidas</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Converter uma pasta inteira de uma vez</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Conversão em lote para PDF, com relatório</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Um arquivo por vez, ou um script</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Pela linha de comando</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Modelos de panfletos, cartões e informativos</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Mais de 200, com texto em português</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Os modelos do Word</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Poucos incluídos</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Mala direta em folhas de etiquetas e cartões</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Incluída, do Excel, CSV ou de uma lista digitada</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">No Word</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">No Writer, não no Draw</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Livretos e pôsteres</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Dobrados na ordem certa; pôsteres em várias folhas</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">O Word imprime dobra de livro</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">Impressão em brochura e em mosaico</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Faixa de opções e atalhos como no Publisher</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Sim</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">A faixa de opções do Word</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Menus e barras de ferramentas próprios</span></span></td>
+                </tr>
+                <tr>
+                  <th scope="row" class="text-white">Preço</th>
+                  <td class="pm-col"><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-white fw-semibold">Grátis; o Pro remove o pequeno selo</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-dash-circle-fill peer-p" aria-hidden="true"></i><span class="text-secondary">Exige Office ou Microsoft 365</span></span></td>
+                  <td><span class="peer-cell"><i class="bi bi-check-circle-fill peer-y" aria-hidden="true"></i><span class="text-secondary">Grátis e de código aberto</span></span></td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="text-secondary small text-center mt-3 mb-0">O PubMaker não é afiliado à Microsoft. Microsoft Publisher é uma marca registrada da Microsoft Corporation. LibreOffice é uma marca da The Document Foundation.</p>
+    </div>
+  </section>
+
+  <!-- What you can make -->
+  <section class="py-5" id="use-cases">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-stars me-1" aria-hidden="true"></i> O que você pode criar</span>
+        <h2 class="display-5 fw-bold text-white">Feito para tudo o que se imprime</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="pm-icon-box mb-3"><i class="bi bi-megaphone" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Panfletos e cartazes</h3>
+            <p class="text-secondary small mb-0">Bazares, eventos, avisos e promoções, a partir de um modelo ou de uma página em branco, impressos em casa ou enviados à gráfica como PDF com sangria.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="pm-icon-box mb-3"><i class="bi bi-newspaper" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Informativos e boletins</h3>
+            <p class="text-secondary small mb-0">Boletins de igreja, informativos de associações e escolas, com colunas, caixas de texto vinculadas e páginas mestras para o cabeçalho.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="pm-icon-box mb-3"><i class="bi bi-balloon-heart" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Cartões e convites</h3>
+            <p class="text-secondary small mb-0">Cartões de aniversário, casamento e datas festivas e convites, com texto de exemplo já em português.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="pm-icon-box mb-3"><i class="bi bi-person-vcard" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Cartões de visita e etiquetas</h3>
+            <p class="text-secondary small mb-0">Vários por folha com marcas de corte, etiquetas de endereço por mala direta e uma página de teste de alinhamento antes do lote.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="pm-icon-box mb-3"><i class="bi bi-award" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Certificados e diplomas</h3>
+            <p class="text-secondary small mb-0">Preencha cada nome a partir de uma planilha com mala direta e imprima um certificado por pessoa.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-glass h-100 p-4 pillar-card border border-secondary-subtle">
+            <span class="pm-icon-box mb-3"><i class="bi bi-calendar3" aria-hidden="true"></i></span>
+            <h3 class="h6 text-white fw-bold mb-2">Cardápios, programas e calendários</h3>
+            <p class="text-secondary small mb-0">Cardápios de restaurante, programas de eventos e um calendário de qualquer mês ou ano, com novo estilo em um clique pelos esquemas de cores.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In detail -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features-in-detail">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-list-stars me-1" aria-hidden="true"></i> Em detalhes</span>
+        <h2 class="display-5 fw-bold text-white">Tudo o que o PubMaker faz</h2>
+        
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-file-earmark-richtext" aria-hidden="true"></i></span>
+              <h3 class="pm-detail-head mb-0">ABRA SEUS ARQUIVOS .PUB</h3>
+            </div>
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Abre arquivos .pub criados no Publisher e os mantém editáveis.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Converte uma pasta inteira de arquivos .pub em PDF ou documentos do PubMaker de uma vez, com um relatório de cada arquivo.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Também abre PDFs como documentos editáveis.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Seus arquivos .pub originais nunca são alterados. Salve seu trabalho como documento do PubMaker, PDF, PNG, JPEG ou Word.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-grid-1x2" aria-hidden="true"></i></span>
+              <h3 class="pm-detail-head mb-0">MAIS DE 200 MODELOS GRÁTIS</h3>
+            </div>
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Panfletos, cartazes, folders, boletins, cartões comemorativos, convites, certificados, cartões de visita, etiquetas, calendários, cardápios, programas, placas, faixas, cartões-postais, papel timbrado e envelopes.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Textos de exemplo em português e novos modelos sazonais nas atualizações.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Um calendário para qualquer mês ou ano, e seus próprios modelos salvos.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-layout-text-window-reverse" aria-hidden="true"></i></span>
+              <h3 class="pm-detail-head mb-0">EDITORAÇÃO DO JEITO QUE VOCÊ CONHECE</h3>
+            </div>
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Uma faixa de opções conhecida e os atalhos de teclado que você já usa.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Páginas mestras, caixas de texto vinculadas, colunas, quebra de texto, letras capitulares, tabelas e códigos QR.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Esquemas de cores e de fontes mudam todo o design com um clique.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Um kit da marca insere seu logotipo, nome, endereço e cores.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>1.500 ícones e 300 ilustrações, bordas e detalhes, tudo offline.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>O verificador de design encontra texto transbordando, imagens desfocadas e fontes ausentes antes de imprimir.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Digite o nome de um comando de que você se lembra e o PubMaker mostra onde ele está.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card card-glass h-100 p-4 invariant-card">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <span class="pm-icon-box pm-icon-box-sm"><i class="bi bi-printer" aria-hidden="true"></i></span>
+              <h3 class="pm-detail-head mb-0">MALA DIRETA, ETIQUETAS E IMPRESSÃO</h3>
+            </div>
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Mala direta do Excel, CSV ou de uma lista digitada: cartas, envelopes, etiquetas de endereço, crachás e certificados.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Cartões de visita, etiquetas e cartões-postais vários por folha, com marcas de corte e um teste de alinhamento de uma página.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Livretos que dobram na ordem certa, cartazes em várias folhas, impressão frente e verso em qualquer impressora.</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Exporte PDF para gráfica (sangria e marcas de corte), PDF para e-mail, PDF/A, PNG, JPEG e Word.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Private by design -->
+  <section class="py-5" id="privacy">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-shield-lock me-1" aria-hidden="true"></i> Privacidade desde o início</span>
+        <h2 class="display-5 fw-bold text-white">Seus documentos ficam no seu PC</h2>
+        
+      </div>
+      <div class="card card-glass p-4 p-md-5 invariant-card">
+        <p class="text-white mb-4">O PubMaker nunca se conecta à internet, não precisa de conta e não coleta nada. Seus documentos ficam no seu PC.</p>
+        <ul class="list-unstyled pm-check-list mb-4">
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>O PubMaker nunca se conecta à internet</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Sem conta, sem login, sem anúncios no app</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Nada sobre você ou seus documentos é coletado</span></li>
+          <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Seus arquivos .pub originais são abertos, nunca alterados</span></li>
+        </ul>
+        <p class="text-secondary mb-4">Disponível em 25 idiomas, com temas claro e escuro. Para Windows 10 e Windows 11.</p>
+        <a class="small" href="/pubmaker/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Política de privacidade do PubMaker</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Every feature -->
+  <section class="py-5 bg-dark border-top border-bottom border-secondary-subtle" id="features">
+    <div class="container py-4">
+      <div class="card card-glass p-4 p-md-5 border border-primary border-opacity-25">
+        <h2 class="h4 text-white fw-bold mb-4"><i class="bi bi-list-check text-primary me-2" aria-hidden="true"></i>Lista de recursos</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Abre e edita arquivos .pub criados no Publisher</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Converte uma pasta inteira de arquivos .pub em PDF de uma vez</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Abre PDFs como documentos editáveis</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Mais de 200 modelos grátis com textos em português</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Panfletos, boletins, folders, cartões comemorativos e convites</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Etiquetas, cartões de visita, certificados, cardápios, calendários e placas</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Páginas mestras, caixas de texto vinculadas, colunas e quebra de texto</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Esquemas de cores e de fontes com um clique</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Kit da marca para seu logotipo, cores e dados da empresa</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>1.500 ícones e 300 ilustrações, tudo offline</span></li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <ul class="list-unstyled pm-check-list mb-0">
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Mala direta do Excel, CSV ou de uma lista digitada</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Etiquetas e cartões vários por folha, com marcas de corte</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Impressão de livretos dobrados na ordem certa</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Cartazes e faixas em várias folhas</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Exporta PDF com sangria e marcas de corte, PDF/A, PNG, JPEG e Word</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Verificador de design para texto transbordando e imagens desfocadas</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Faixa de opções e atalhos de teclado conhecidos</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Todos os recursos grátis, sem assinatura</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Funciona totalmente offline: sem conta, nenhum dado coletado</span></li>
+              <li><i class="bi bi-check2-circle" aria-hidden="true"></i><span>25 idiomas, temas claro e escuro</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-5" id="faq">
+    <div class="container py-4">
+      <div class="text-center mx-auto mb-5 pm-narrow">
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-semibold mb-2"><i class="bi bi-question-circle me-1" aria-hidden="true"></i> Perguntas</span>
+        <h2 class="display-5 fw-bold text-white">Perguntas frequentes</h2>
+        
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion accordion-flush" id="pubmakerFaqAccordion">
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq1Heading">
+                <button class="accordion-button bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
+                  Como abrir um arquivo .pub sem o Microsoft Publisher?
+                </button>
+              </h3>
+              <div id="faq1" class="accordion-collapse collapse show" aria-labelledby="faq1Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Instale o PubMaker pela Microsoft Store e clique duas vezes no arquivo .pub, ou abra-o pela tela Arquivo do PubMaker. Ele abre as páginas, textos, imagens, formas e tabelas como documento editável, e um breve relatório avisa tudo o que mudou. É grátis e não precisa de Publisher, Office nem conta.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq2Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                  O Microsoft Publisher foi descontinuado. O que acontece com meus arquivos .pub?
+                </button>
+              </h3>
+              <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  A Microsoft encerrou o suporte ao Publisher em outubro de 2026 e o Microsoft 365 não o inclui mais. Seus arquivos .pub não são apagados, mas você precisa de outro aplicativo para abri-los. O PubMaker os abre e mantém editáveis, e pode converter uma pasta inteira para PDF de uma vez, para continuar trabalhando ou guardar um arquivo.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq3Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                  O PubMaker é mesmo grátis?
+                </button>
+              </h3>
+              <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sim. Todos os recursos são grátis, sem teste nem limite de tempo: o editor, todos os modelos, a importação de .pub e PDF, a conversão em lote, a mala direta e todas as opções de impressão e exportação. Exportações e impressões grátis levam um pequeno selo &quot;PubMaker · dhinovatech.com&quot;. O PubMaker Pro, uma compra única, remove o selo de vez, e um passe de 24 horas remove por um dia.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq4Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">
+                  O que é o selo &quot;PubMaker · dhinovatech.com&quot; na minha impressão?
+                </button>
+              </h3>
+              <div id="faq4" class="accordion-collapse collapse" aria-labelledby="faq4Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  É o selo que a versão grátis do PubMaker coloca em cada página exportada ou impressa, numa pequena caixa branca arredondada. Você escolhe onde ele fica, e a opção Automática o mantém longe dos textos e imagens. Ele nunca é salvo no documento, então some de todas as exportações assim que você compra o Pro, ou enquanto um passe de 24 horas estiver ativo.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq5Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">
+                  Qual a diferença entre o PubMaker Pro e o passe de 24 horas?
+                </button>
+              </h3>
+              <div id="faq5" class="accordion-collapse collapse" aria-labelledby="faq5Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Os dois removem o selo e nada mais muda, porque todos os recursos já são grátis. O Pro é uma compra única que remove o selo de vez em todos os seus PCs e deixa você colocar seu próprio logotipo pequeno no lugar. O passe de 24 horas remove o selo por um dia, para um grande trabalho de impressão, e pode ser comprado de novo. Os dois são vendidos na Microsoft Store, que mostra o preço do seu país.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq6Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false" aria-controls="faq6">
+                  O PubMaker converte arquivos .pub para PDF?
+                </button>
+              </h3>
+              <div id="faq6" class="accordion-collapse collapse" aria-labelledby="faq6Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sim. Abra um arquivo .pub e exporte como PDF para gráfica (com sangria e marcas de corte), PDF leve para e-mail ou PDF/A para arquivamento. Para muitos arquivos, escolha uma pasta inteira: o PubMaker converte cada arquivo .pub para PDF ou documento PubMaker de uma vez, com um relatório de cada arquivo.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq7Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq7" aria-expanded="false" aria-controls="faq7">
+                  O PubMaker salva de volta em .pub?
+                </button>
+              </h3>
+              <div id="faq7" class="accordion-collapse collapse" aria-labelledby="faq7Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Não. O PubMaker abre arquivos .pub mas nunca os grava, então seus originais nunca são alterados. Você salva o trabalho como documento PubMaker ou exporta como PDF, PNG, JPEG ou Word.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq8Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false" aria-controls="faq8">
+                  Meu arquivo .pub vai ficar igual no PubMaker?
+                </button>
+              </h3>
+              <div id="faq8" class="accordion-collapse collapse" aria-labelledby="faq8Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Páginas, textos, imagens, formas e tabelas são mantidos, e um breve relatório avisa tudo o que mudou. Antes de imprimir, o verificador de design aponta texto transbordando, imagens borradas e fontes ausentes.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq9Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false" aria-controls="faq9">
+                  O PubMaker funciona como o Publisher?
+                </button>
+              </h3>
+              <div id="faq9" class="accordion-collapse collapse" aria-labelledby="faq9Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Ele foi feito para quem conhece o Publisher: uma faixa de opções familiar, os atalhos de teclado de sempre, páginas mestras, caixas de texto vinculadas, colunas, quebra automática de texto e tabelas. Não achou um comando? Digite o nome de que você se lembra e o PubMaker mostra onde ele está.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq10Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false" aria-controls="faq10">
+                  Dá para fazer mala direta a partir do Excel?
+                </button>
+              </h3>
+              <div id="faq10" class="accordion-collapse collapse" aria-labelledby="faq10Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sim. Mescle nomes e endereços de uma pasta de trabalho do Excel, um arquivo CSV ou uma lista digitada em cartas, envelopes, etiquetas de endereço, crachás e certificados, e confira cada registro antes de imprimir.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq11Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false" aria-controls="faq11">
+                  Posso imprimir vários cartões de visita e etiquetas por folha?
+                </button>
+              </h3>
+              <div id="faq11" class="accordion-collapse collapse" aria-labelledby="faq11Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Sim. Cartões de visita, etiquetas e cartões-postais são impressos vários por folha com marcas de corte, e uma página de teste de alinhamento confere a impressora antes do lote. Livretos são dobrados na ordem certa, e pôsteres podem ser impressos em várias folhas.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq12Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq12" aria-expanded="false" aria-controls="faq12">
+                  O PubMaker precisa de internet ou de conta?
+                </button>
+              </h3>
+              <div id="faq12" class="accordion-collapse collapse" aria-labelledby="faq12Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Não. O PubMaker nunca se conecta à internet, não pede conta e não coleta nada. Os modelos, 1.500 ícones e 300 ilustrações ficam no seu PC, então ele funciona igual offline.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item bg-transparent border-bottom border-secondary">
+              <h3 class="accordion-header" id="faq13Heading">
+                <button class="accordion-button collapsed bg-transparent text-white fw-semibold py-4" type="button" data-bs-toggle="collapse" data-bs-target="#faq13" aria-expanded="false" aria-controls="faq13">
+                  Quais são os requisitos do sistema?
+                </button>
+              </h3>
+              <div id="faq13" class="accordion-collapse collapse" aria-labelledby="faq13Heading" data-bs-parent="#pubmakerFaqAccordion">
+                <div class="accordion-body text-secondary small pb-4">
+                  Windows 10 ou Windows 11 num PC x64 ou ARM64. O PubMaker é instalado pela Microsoft Store e está disponível em 25 idiomas, com tema claro e escuro.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-5">
+    <div class="container py-4">
+      <div class="card card-glass p-5 text-center border-0 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgba(29,99,114,0.32) 0%, rgba(255,207,90,0.08) 100%);">
+        <div class="pm-narrow mx-auto position-relative" style="z-index: 2;">
+          <div class="mx-auto mb-3" style="width: 90px; height: 90px;">
+            <img src="/assets/images/pubmaker-icon.webp" alt="PubMaker Icon" class="w-100 h-100 object-fit-contain" loading="lazy" decoding="async" width="256" height="256">
+          </div>
+          <h2 class="display-6 fw-bold text-white mb-3">Abra seus arquivos .pub. Crie panfletos, cartões e boletins.</h2>
+          <p class="text-secondary fs-5 mb-4">Grátis na Microsoft Store, com todos os recursos. Seus arquivos .pub, panfletos e informativos de volta às suas mãos.</p>
+          <div class="d-flex justify-content-center">
+            <a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener" class="btn btn-store btn-store-ms shadow-lg">
+              <i class="bi bi-microsoft" aria-hidden="true"></i>
+              <span class="btn-store-copy">
+                <span class="btn-store-pre">Baixe na</span>
+                <span class="btn-store-name">Microsoft Store</span>
+              </span>
+            </a>
+          </div>
+          <p class="pm-price mt-3 mb-0 justify-content-center"><a class="pm-price-tag" href="#pricing"><i class="bi bi-gift-fill me-1" aria-hidden="true"></i>Todos os recursos grátis</a><span>Pequeno selo nas exportações grátis · O Pro remove</span></p>
+          <p class="small mt-4 mb-0"><a href="/pubmaker/privacy.html"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Política de privacidade do PubMaker</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+  <footer class="footer-dhin">
+    <div class="container">
+      <div class="row gy-4 mb-5">
+        <div class="col-lg-4">
+          <a class="d-flex align-items-center gap-2 mb-3" href="/">
+            <img src="/assets/images/LogoWithText.webp" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async" width="512" height="82">
+          </a>
+          <p class="text-secondary small pe-lg-4">
+            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+          </p>
+        </div>
+        <div class="col-lg-2 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/" class="footer-link">Home</a></li>
+            <li><a href="/about.html" class="footer-link">About Us</a></li>
+            <li><a href="/contact.html" class="footer-link">Contact Us</a></li>
+            <li><a href="/privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms.html" class="footer-link">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-6">
+          <h4 class="h6 text-white fw-bold mb-3">Our Applications</h4>
+          <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+            <li><a href="/smart-photos/" class="footer-link">Smart Photos</a></li>
+            <li><a href="/KeepOne/" class="footer-link">KeepOne Duplicate Finder</a></li>
+            <li><a href="/steptell/" class="footer-link">Steptell Steps Recorder</a></li>
+            <li><a href="/Sortwise/" class="footer-link">Sortwise File Organizer</a></li>
+            <li><a href="/pubmaker/" class="footer-link text-primary fw-semibold">PubMaker Pub File Editor</a></li>
+            <li><a href="/nudge/" class="footer-link">Nudge Offline Journal &amp; AI</a></li>
+            <li><a href="/stow/" class="footer-link">Stow Photo &amp; File Organizer</a></li>
+            <li><a href="/glowcompare/" class="footer-link">GlowCompare</a></li>
+            <li><a href="/glowcompare-windows/" class="footer-link">GlowCompare for Windows</a></li>
+            <li><a href="/milk-monthly-expense-calendar/" class="footer-link">Milk Calendar</a></li>
+            <li><a href="/slouch-guard/" class="footer-link">Slouch Guard AI</a></li>
+            <li><a href="/notelock/" class="footer-link">Notelock</a></li>
+            <li><a href="/mortgage-loan-emi-pro/" class="footer-link">Mortgage EMI Pro</a></li>
+            <li><a href="/aes-vault/" class="footer-link">AES Vault</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="h6 text-white fw-bold mb-3">Support &amp; Legal</h4>
+          <p class="small text-secondary mb-2"><i class="bi bi-envelope-fill me-2 text-primary" aria-hidden="true"></i>dhinovatech@gmail.com</p>
+          <p class="small text-secondary mb-2"><i class="bi bi-globe me-2 text-primary" aria-hidden="true"></i>www.dhinovatech.com</p>
+          <p class="small mb-0"><a href="/pubmaker/privacy.html" class="footer-link"><i class="bi bi-shield-check me-2 text-primary" aria-hidden="true"></i>PubMaker Privacy Policy</a></p>
+        </div>
+      </div>
+      <div class="pt-4 border-top border-secondary text-center text-secondary small">
+        <p class="mb-0">&copy; 2026 Dhinovatech. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="/assets/js/nav.js"></script>
+
+  <!-- BEGIN generated UX block -->
+<div class="install-bar" role="complementary" aria-label="PubMaker">
+  <img src="/assets/images/pubmaker-icon.png" alt="" width="42" height="42" loading="lazy" decoding="async">
+  <div class="install-bar-text">
+    <div class="install-bar-title">PubMaker</div>
+    <div class="install-bar-sub"><i class="bi bi-microsoft" aria-hidden="true"></i> Microsoft Store</div>
+  </div>
+  <a href="https://apps.microsoft.com/detail/9NXH5KK1JGTW?ocid=dhinovatech_pubmaker&amp;cid=FromDhinoWebsite" target="_blank" rel="noopener"
+     class="btn btn-dhin-primary btn-sm rounded-pill px-3">Instalar</a>
+</div>
+<button type="button" class="to-top" aria-label="Voltar ao topo" title="Voltar ao topo">
+  <i class="bi bi-arrow-up" aria-hidden="true"></i>
+</button>
+<script src="/assets/js/ux.js"></script>
+<!-- END generated UX block -->
+<!-- BEGIN generated consent banner -->
+<div class="consent-bar" id="consentBar" role="region" aria-label="Consentimento de cookies" hidden>
+  <p class="consent-bar-text">O Google Analytics mostra como este site é usado; as tags de publicidade do Google e da Microsoft medem se nossos anúncios funcionam. Ambas podem usar cookies para isso — se recusar, param. Nenhuma cria um perfil publicitário. <a href="/privacy.html" class="consent-bar-link">Política de privacidade</a></p>
+  <div class="consent-bar-actions">
+    <button type="button" class="consent-btn consent-btn-ghost" data-consent="deny">Recusar</button>
+    <button type="button" class="consent-btn consent-btn-solid" data-consent="allow">Aceitar</button>
+  </div>
+</div>
+<script src="/assets/js/consent.js"></script>
+<!-- END generated consent banner -->
+</body>
+</html>

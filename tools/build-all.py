@@ -34,11 +34,12 @@ STEPS = [
     ("build-steptell.py",            "regenerate the Steptell steps recorder tree"),
     ("build-mortgage.py",            "regenerate the Mortgage Loan EMI Pro tree"),
     ("build-sortwise.py",            "regenerate the Sortwise file organizer tree"),
+    ("build-pubmaker.py",            "regenerate the PubMaker pub file editor tree"),
     ("build-privacy.py",             "regenerate policy pages"),
     # 2. section injectors
     ("build-ai-chat-section.py",     "GlowCompare AI chat section"),
     ("build-footer.py",              "footer app + legal columns"),
-    ("build-nav-apps.py",            "Smart Photos, KeepOne, Steptell, Sortwise, Mortgage in Our Apps"),
+    ("build-nav-apps.py",            "Smart Photos, KeepOne, Steptell, Sortwise, PubMaker, Mortgage in Our Apps"),
     ("build-contact.py",             "contact form (off until an endpoint is set)"),
     # 3. cross-cutting
     ("build-images.py",              "optimise images, rewrite <img>"),

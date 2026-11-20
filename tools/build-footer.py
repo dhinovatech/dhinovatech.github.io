@@ -32,6 +32,7 @@ APP_ORDER = [
     ("/KeepOne/",                         "KeepOne Duplicate Finder"),
     ("/steptell/",                        "Steptell Steps Recorder"),
     ("/Sortwise/",                        "Sortwise File Organizer"),
+    ("/pubmaker/",                        "PubMaker Pub File Editor"),
     ("/nudge/",                           "Nudge Offline Journal & AI"),
     ("/stow/",                            "Stow Photo & File Organizer"),
     ("/glowcompare/",                     "GlowCompare"),

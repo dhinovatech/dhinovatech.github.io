@@ -16,7 +16,9 @@ tools/build-keepone.py, and Steptell after KeepOne, from
 tools/build-steptell.py; each tree writes its own entry and is left alone.
 
 Sortwise follows Steptell, from tools/build-sortwise.py; its /Sortwise/ tree
-writes its own entry. Mortgage EMI Pro comes last, from
+writes its own entry. PubMaker follows Sortwise, from tools/build-pubmaker.py;
+its /pubmaker/ tree writes its own entry (the hand-written
+/pubmaker/privacy.html has none). Mortgage EMI Pro comes last, from
 tools/build-mortgage.py, and replaces
 the plain link the older navbars carry; its tree writes its own entry too.
 
@@ -51,6 +53,7 @@ KO = _module("build_keepone", "build-keepone.py")
 ST = _module("build_steptell", "build-steptell.py")
 SW = _module("build_sortwise", "build-sortwise.py")
 MO = _module("build_mortgage", "build-mortgage.py")
+PM = _module("build_pubmaker", "build-pubmaker.py")
 
 BEGIN = "<!-- BEGIN Smart Photos menu -->"
 END = "<!-- END Smart Photos menu -->"
@@ -60,6 +63,8 @@ ST_BEGIN = "<!-- BEGIN Steptell menu -->"
 ST_END = "<!-- END Steptell menu -->"
 SW_BEGIN = "<!-- BEGIN Sortwise menu -->"
 SW_END = "<!-- END Sortwise menu -->"
+PM_BEGIN = "<!-- BEGIN PubMaker menu -->"
+PM_END = "<!-- END PubMaker menu -->"
 MO_BEGIN = "<!-- BEGIN Mortgage menu -->"
 MO_END = "<!-- END Mortgage menu -->"
 
@@ -68,6 +73,7 @@ BLOCK = re.compile(r'\n?[ \t]*' + re.escape(BEGIN) + r'.*?' + re.escape(END), re
 KO_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(KO_BEGIN) + r'.*?' + re.escape(KO_END), re.S)
 ST_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(ST_BEGIN) + r'.*?' + re.escape(ST_END), re.S)
 SW_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(SW_BEGIN) + r'.*?' + re.escape(SW_END), re.S)
+PM_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(PM_BEGIN) + r'.*?' + re.escape(PM_END), re.S)
 MO_BLOCK = re.compile(r'\n?[ \t]*' + re.escape(MO_BEGIN) + r'.*?' + re.escape(MO_END), re.S)
 # The plain one-line entry earlier versions of this script inserted.
 LEGACY = re.compile(r'\n?[ \t]*<li><a class="dropdown-item py-2" href="/smart-photos/">.*?</a></li>')
@@ -159,6 +165,27 @@ def sortwise_entry():
               %s""" % (SW_BEGIN, len(langs), len(langs), items, SW_END)
 
 
+def pubmaker_entry():
+    langs = PM.built_langs()
+    items = "\n".join(
+        '                  <li><a class="dropdown-item py-1 small" href="%s">'
+        '<i class="bi bi-globe text-info me-2" aria-hidden="true"></i>%s</a></li>'
+        % (PM.url_for(code), html.escape(label))
+        for code, label, _d, _hl, _og in langs)
+    return """
+              %s
+              <li class="dropdown-submenu position-relative">
+                <a class="dropdown-item py-2 d-flex align-items-center justify-content-between" href="/pubmaker/">
+                  <span><img src="/assets/images/pubmaker-icon.webp" alt="PubMaker Icon" style="width: 20px; height: 20px; border-radius: 5px; object-fit: contain;" class="me-2" decoding="async" width="256" height="256">PubMaker Pub File Editor</span>
+                  <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill ms-2 extra-small submenu-toggle-btn" role="button" title="View %d Languages">%d Languages <i class="bi bi-chevron-down ms-1" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark border-secondary shadow-lg scrollable-menu" style="max-height: 360px; overflow-y: auto;">
+%s
+                </ul>
+              </li>
+              %s""" % (PM_BEGIN, len(langs), len(langs), items, PM_END)
+
+
 def mortgage_entry():
     langs = MO.built_langs()
     items = "\n".join(
@@ -190,7 +217,7 @@ def html_files():
 
 def main():
     sp_entry, ko_entry, st_entry = entry(), keepone_entry(), steptell_entry()
-    mo_entry, sw_entry = mortgage_entry(), sortwise_entry()
+    mo_entry, sw_entry, pm_entry = mortgage_entry(), sortwise_entry(), pubmaker_entry()
     changed = 0
     for path in html_files():
         top = os.path.relpath(path, ROOT).replace(os.sep, "/").split("/")[0]
@@ -204,6 +231,7 @@ def main():
         rest = KO_BLOCK.sub("", rest, count=1)
         rest = ST_BLOCK.sub("", rest, count=1)
         rest = SW_BLOCK.sub("", rest, count=1)
+        rest = PM_BLOCK.sub("", rest, count=1)
         rest = MO_BLOCK.sub("", rest, count=1)
         rest = LEGACY.sub("", rest, count=1)
         rest = MO_PLAIN.sub("", rest, count=1)
@@ -212,6 +240,7 @@ def main():
                      ("" if top == "KeepOne" else ko_entry) +
                      ("" if top == "steptell" else st_entry) +
                      ("" if top == "Sortwise" else sw_entry) +
+                     ("" if top == "pubmaker" else pm_entry) +
                      ("" if top == "mortgage-loan-emi-pro" else mo_entry))
         out = head + new_entry + rest
         if out != doc:
