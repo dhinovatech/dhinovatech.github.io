@@ -400,8 +400,8 @@ def seo_block(p, locales, skip=frozenset()):
                      "url": SITE + "/assets/images/LogoWithText.png",
                      "width": img_dims("LogoWithText.png", (1096, 176))[0],
                      "height": img_dims("LogoWithText.png", (1096, 176))[1]},
-            "description": "Dhinovatech builds privacy-first, offline-capable "
-                           "applications for Android and Windows."})
+            "description": "Dhinovatech is an independent app studio building "
+                           "privacy-first, offline-capable apps for Android and Windows."})
         graph.append({"@type": "WebSite", "@id": SITE + "/#website", "url": SITE + "/",
                       "name": "Dhinovatech", "publisher": {"@id": ORG}, "inLanguage": "en"})
         graph.append({"@type": "ItemList", "name": "Dhinovatech Applications",

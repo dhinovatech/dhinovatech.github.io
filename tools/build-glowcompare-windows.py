@@ -190,11 +190,11 @@ FOOTER = """  <footer class="footer-dhin">
             <img src="/assets/images/LogoWithText.png" alt="Dhinovatech Logo" class="brand-logo-with-text-img" loading="lazy" decoding="async">
           </a>
           <p class="text-secondary small pe-lg-4">
-            Dhinovatech designs and engineers high-performance, privacy-first mobile &amp; desktop apps available on Google Play and Microsoft Store.
+            Dhinovatech is an independent app studio making privacy-first mobile &amp; desktop apps, available on Google Play and Microsoft Store.
           </p>
         </div>
         <div class="col-lg-2 col-6">
-          <h4 class="h6 text-white fw-bold mb-3">Company</h4>
+          <h4 class="h6 text-white fw-bold mb-3">Studio</h4>
           <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
             <li><a href="/" class="footer-link">Home</a></li>
             <li><a href="/about.html" class="footer-link">About Us</a></li>

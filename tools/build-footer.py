@@ -12,7 +12,7 @@ The list is rebuilt in place: the entries are matched by href, so a page that
 already links an app keeps its own (possibly translated) link text and only the
 missing entries are inserted, in APP_ORDER.
 
-The "Company" column gets the same treatment for the legal pages. Those are
+The "Studio" (formerly "Company") column gets the same treatment for the legal pages. Those are
 only appended if absent - that column's third entry is an anchor into whichever
 page you are on, so it is never rebuilt wholesale.
 

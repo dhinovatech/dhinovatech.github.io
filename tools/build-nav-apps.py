@@ -36,6 +36,7 @@ import importlib.util
 import os
 import re
 import sys
+import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKIP_DIRS = {".git", "tools", "_src"}
@@ -244,10 +245,19 @@ def main():
                      ("" if top == "mortgage-loan-emi-pro" else mo_entry))
         out = head + new_entry + rest
         if out != doc:
-            with open(path, "w", encoding="utf-8", newline="") as fh:
-                fh.write(out)
+            # Windows can briefly lock a page a generator has just written
+            # (Errno 22, usually a virus scan); retry like build-footer.py.
+            for attempt in range(10):
+                try:
+                    with open(path, "w", encoding="utf-8", newline="") as fh:
+                        fh.write(out)
+                    break
+                except OSError:
+                    if attempt == 9:
+                        raise
+                    time.sleep(0.3)
             changed += 1
-    print("Smart Photos, KeepOne, Steptell, Sortwise and Mortgage menus written on %d pages" % changed)
+    print("Smart Photos, KeepOne, Steptell, Sortwise, PubMaker and Mortgage menus written on %d pages" % changed)
     return 0
 
 
